@@ -187,6 +187,18 @@ class AppTextStyles {
     fontStyle: FontStyle.normal,
   );
 
+  static TextStyle style12NormalBlack({
+    Color? color,
+  }) {
+    return TextStyle(
+      color: color ?? AppColors.primaryTextColor,
+      fontSize: 12.0,
+      fontWeight: FontWeight.normal,
+      fontFamily: helveticaNeueRegular,
+      fontStyle: FontStyle.normal,
+    );
+  }
+
   static TextStyle style14NormalBlack({
     Color? color,
   }) {

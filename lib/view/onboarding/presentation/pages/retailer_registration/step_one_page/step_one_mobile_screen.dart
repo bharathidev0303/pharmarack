@@ -1,13 +1,12 @@
 import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
-import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_one/retailer_registration_cubit.dart';
@@ -92,6 +91,8 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           OnboardingDropDownNew(
+                            defaultValue:
+                                '${context.localizedString.select} ${context.localizedString.typeOfBusiness}',
                             labelText: context.localizedString.typeOfBusiness,
                             onChangeCallBack: (value) {
                               reqMap[OnboardingConstants.typeOfBusiness] =
@@ -115,6 +116,8 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                             height: 8,
                           ),
                           OnboardingValidatorInputTextNew(
+                            // hintText:
+                            //     '${context.localizedString.select} ${context.localizedString.nameOfShopFirm}',
                             key: const ValueKey(
                                 OnboardingConstants.nameOfShopFirm),
                             labelText: context.localizedString.nameOfShopFirm,
@@ -131,11 +134,13 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                             },
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(
-                                  RegExp(r'[A-Za-z ]')),
+                                  RegExp(r'[A-Za-z0-9 ]')),
                             ],
                           ),
                           const SizedBox(height: 8),
                           OnboardingValidatorInputTextNew(
+                            // hintText:
+                            //     '${context.localizedString.select} ${context.localizedString.nameOfTheOwner}',
                             key:
                                 const ValueKey(OnboardingConstants.nameOfOwner),
                             labelText: context.localizedString.nameOfTheOwner,
@@ -151,11 +156,13 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                             },
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(
-                                  RegExp(r'[A-Za-z ]')),
+                                  RegExp(r'[A-Za-z0-9 ]')),
                             ],
                           ),
                           const SizedBox(height: 8),
                           OnboardingValidatorInputTextNew(
+                            // hintText:
+                            //     '${context.localizedString.select} ${context.localizedString.shopAddress}',
                             key:
                                 const ValueKey(OnboardingConstants.shopAddress),
                             labelText: context.localizedString.shopAddress,
@@ -173,30 +180,33 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                               return cubit.shopAddressErrorText;
                             },
                             inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'[A-Za-z0-9 -]')),
+                              FilteringTextInputFormatter.allow(RegExp(
+                                  r'[A-Za-z0-9!"#$%&()*+,-./:;<>=?@[\]^`{}|~ ]')),
                             ],
                           ),
                           const SizedBox(height: 8),
                           OnboardingValidatorInputTextNew(
+                            // hintText:
+                            //     '${context.localizedString.select} ${context.localizedString.pinCode}',
                             key: const ValueKey(OnboardingConstants.pincode),
                             labelText: context.localizedString.pinCode,
                             maxLength: 6,
                             textInputType: TextInputType.number,
                             onChangeCallBack: (text) {
                               if (text.trim().length == 6) {
-                                cubit.getAddressByPincode(text);
+                                reqMap[OnboardingConstants.region] = "";
+                                cubit.getAddressByPincode(text, _formKey);
                                 reqMap[OnboardingConstants.pincode] = text;
-                                cubit.softValidateFields(reqMap);
-                                cubit.updateCityValue('');
-                                cubit.checkPinCodeValue(
-                                  text,
-                                  context.localizedString.pincodeError,
-                                  6,
-                                  context.localizedString.pincodeError,
-                                );
-                                _formKey.currentState?.validate();
                               }
+
+                              cubit.softValidateFields(reqMap);
+                              cubit.checkPinCodeValue(
+                                text,
+                                context.localizedString.pincodeError,
+                                6,
+                                context.localizedString.pincodeError,
+                              );
+                              _formKey.currentState?.validate();
                             },
                             validator: (_) {
                               return cubit.pinCodeErrorText;
@@ -215,17 +225,14 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                       state.pincodeData.registrationAreas ?? [],
                                   title: context.localizedString.selectArea,
                                   onValueSelected: (registrationData) {
-                                    cubit.updateAreaValue(
-                                        registrationData.areaName ?? "");
+                                    cubit.onAreaSelected(registrationData);
                                     cubit.softValidateFields(reqMap);
-                                    cubit.checkAreaValue(
-                                        registrationData.areaName ?? "",
-                                        context.localizedString.areaError);
-                                    _formKey.currentState?.validate();
                                   });
                             },
                             child: Stack(children: [
                               OnboardingValidatorInputTextNew(
+                                hintText:
+                                    '${context.localizedString.select} ${context.localizedString.area}',
                                 key: const ValueKey(OnboardingConstants.area),
                                 controller: areaTextController
                                   ..text = state.area,
@@ -243,7 +250,7 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                 },
                                 inputFormatters: [
                                   FilteringTextInputFormatter.allow(
-                                      RegExp(r'[A-Za-z0-9 -]')),
+                                      RegExp(r'[A-Za-z0-9 ]')),
                                 ],
                               ),
                               Positioned(
@@ -254,8 +261,8 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                   child: AppAssets.svg.icDown.svg(
                                     key: const Key(OnboardingConstants
                                         .areaSelectionDialog),
-                                    height: 16,
-                                    width: 16,
+                                    height: 20,
+                                    width: 20,
                                   ),
                                 ),
                               ),
@@ -263,105 +270,58 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                           ),
                           const SizedBox(height: 8),
                           InkWell(
-                            onTap: () async {
-                              CitySelectionDialog.showCityDialog(
-                                  parentContext: context,
-                                  citySuggestions:
-                                      state.pincodeData.registrationCities ??
-                                          [],
-                                  title: context.localizedString.selectCity,
-                                  onValueSelected: (registrationData) {
-                                    cubit.updateCityValue(
-                                        registrationData.cityName ?? '');
-                                    reqMap[OnboardingConstants.city] =
-                                        registrationData.cityName ?? '';
-                                    cubit.softValidateFields(reqMap);
-                                  });
-                            },
-                            child: (state.pincodeData.registrationCities !=
-                                        null &&
-                                    state.pincodeData.registrationCities!
-                                        .isNotEmpty &&
-                                    state.pincodeData.registrationCities?.first
-                                            .cityName !=
-                                        null)
-                                ? AbsorbPointer(
-                                    child: Stack(children: [
-                                      OnboardingValidatorInputTextNew(
-                                        key: const ValueKey(
-                                            OnboardingConstants.city),
-                                        controller: cityTextController
-                                          ..text = state.city,
-                                        labelText: context.localizedString.city,
-                                        validator: (_) {
-                                          return cubit.cityErrorText;
-                                        },
-                                        onChangeCallBack: (value) {
-                                          reqMap[OnboardingConstants.city] =
-                                              value;
-                                          cubit.updateCityValue(value);
-                                          cubit.softValidateFields(reqMap);
-                                          cubit.checkCityValue(
-                                              value,
-                                              context
-                                                  .localizedString.cityError);
-                                          _formKey.currentState?.validate();
-                                        },
-                                        inputFormatters: [
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp(r'[A-Za-z0-9 -]')),
-                                        ],
-                                      ),
-                                      Positioned(
-                                        right: 0,
-                                        top: 24,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: AppAssets.svg.icDown.svg(
-                                            height: 16,
-                                            width: 16,
-                                          ),
-                                        ),
-                                      ),
-                                    ]),
-                                  )
-                                : Stack(children: [
-                                    OnboardingValidatorInputTextNew(
-                                      key: const ValueKey(
-                                          OnboardingConstants.city),
-                                      controller: cityTextController
-                                        ..text = state.city,
-                                      labelText: context.localizedString.city,
-                                      validator: (_) {
-                                        return cubit.cityErrorText;
-                                      },
-                                      onChangeCallBack: (value) {
-                                        reqMap[OnboardingConstants.city] =
-                                            value;
-                                        cubit.updateCityValue(value);
-                                        cubit.softValidateFields(reqMap);
-                                        cubit.checkCityValue(value,
-                                            context.localizedString.cityError);
-                                        _formKey.currentState?.validate();
-                                      },
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp(r'[A-Za-z0-9 -]')),
-                                      ],
+                              onTap: () async {
+                                CitySelectionDialog.showCityDialog(
+                                    parentContext: context,
+                                    citySuggestions:
+                                        state.pincodeData.registrationCities ??
+                                            [],
+                                    title: context.localizedString.selectCity,
+                                    onValueSelected: (registrationData) {
+                                      cubit.updateCityValue(
+                                          registrationData.cityName ?? '');
+                                      reqMap[OnboardingConstants.city] =
+                                          registrationData.cityName ?? '';
+                                      cubit.softValidateFields(reqMap);
+                                    });
+                              },
+                              child: AbsorbPointer(
+                                child: Stack(children: [
+                                  OnboardingValidatorInputTextNew(
+                                    key: const ValueKey(
+                                        OnboardingConstants.city),
+                                    controller: cityTextController
+                                      ..text = state.city,
+                                    labelText: context.localizedString.city,
+                                    hintText:
+                                        '${context.localizedString.select} ${context.localizedString.city}',
+                                    validator: (_) {
+                                      return cubit.cityErrorText;
+                                    },
+                                    onChangeCallBack: (value) {
+                                      reqMap[OnboardingConstants.city] = value;
+                                      cubit.updateCityValue(value);
+                                      cubit.softValidateFields(reqMap);
+                                      cubit.checkCityValue(value,
+                                          context.localizedString.cityError);
+                                      _formKey.currentState?.validate();
+                                    },
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(RegExp(
+                                          r'[A-Za-z0-9!"#$%&()*+,-./:;<>=?@[\]^`{}|~ ]')),
+                                    ],
+                                  ),
+                                  Positioned(
+                                    right: 0,
+                                    top: 24,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: AppAssets.svg.icDown
+                                          .svg(height: 16, width: 16),
                                     ),
-                                    Positioned(
-                                      right: 0,
-                                      top: 24,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: AppAssets.svg.icDown.svg(
-                                          height: 16,
-                                          width: 16,
-                                        ),
-                                      ),
-                                    ),
-                                  ]),
-                          ),
+                                  ),
+                                ]),
+                              )),
                           const SizedBox(height: 8),
                           Visibility(
                             visible:
@@ -380,11 +340,11 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                             [],
                                     title: context.localizedString.selectRegion,
                                     onValueSelected: (registrationData) {
-                                      // cubit.updateRegionValue(
-                                      //     registrationData.regionName ?? '');
-                                      // reqMap[OnboardingConstants.region] =
-                                      //     registrationData.regionName ?? '';
-                                      // cubit.softValidateFields(reqMap);
+                                      cubit.updateRegionValue(
+                                          registrationData.regionName ?? '');
+                                      reqMap[OnboardingConstants.region] =
+                                          registrationData.regionName ?? '';
+                                      cubit.softValidateFields(reqMap);
                                     });
                               },
                               child: AbsorbPointer(
@@ -396,6 +356,8 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                       controller: regionTextController
                                         ..text = state.region,
                                       labelText: context.localizedString.region,
+                                      hintText:
+                                          '${context.localizedString.select} ${context.localizedString.region}',
                                       validator: (value) {
                                         return cubit.regionErrorText;
                                       },
@@ -405,6 +367,7 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                           context.localizedString.regionError,
                                         );
                                         _formKey.currentState?.validate();
+                                        cubit.softValidateFields(reqMap);
                                       },
                                       enable: state.pincodeData
                                               .registrationRegion?.isEmpty ??
@@ -420,8 +383,9 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: AppAssets.svg.icDown.svg(
-                                            height: 16,
-                                            width: 16,
+                                            height: 20,
+                                            width: 20,
+                                            package: "core_flutter",
                                           ),
                                         ),
                                       ),
@@ -437,9 +401,14 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                   RetailerRegistrationState>(
                               builder: (context, state) {
                             return OnboardingDropDownNew(
+                              defaultValue:
+                                  '${context.localizedString.select} ${context.localizedString.state}',
+
                               labelText: context.localizedString.state,
                               onChangeCallBack: (text) {
                                 reqMap[OnboardingConstants.state] = text ?? '';
+                                reqMap[OnboardingConstants.stateId] =
+                                    text ?? '';
                                 cubit.softValidateFields(reqMap);
                                 cubit.checkStateValue(
                                     text, context.localizedString.stateError);
@@ -475,8 +444,16 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                   (state.pincodeData.registrationAreas
                                           ?.isNotEmpty ??
                                       false)) {
+                                if (reqMap[OnboardingConstants.regionId] ==
+                                        null ||
+                                    reqMap[OnboardingConstants.regionId] ==
+                                        "") {
+                                  SetRegionDefaultSate(state);
+                                }
+
                                 cubit.saveUserInputFieldsData(reqMap);
-                                print("sjhshksjkjsk ${reqMap}");
+
+                                print("valuesdata ${reqMap}");
                                 Navigator.pushNamed(context,
                                     RoutePaths.retailerRegistrationStepTwo);
                               }
@@ -520,25 +497,27 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
       CommonDialogs.closeCommonDialog(context: context);
     }
 
-    if (state.pincodeData.registrationCities?.first != null) {
+    if (state.pincodeData.registrationState?.first != null) {
       var stateId =
           state.pincodeData.registrationState?.first.stateId.toString() ?? '';
       var regId =
           state.pincodeData.registrationState?.first.regionId.toString() ?? '';
 
-      // if ((state.pincodeData.registrationCities?.length ?? 0) == 1) {
-      //   cubit.updateCityValue(
-      //       state.pincodeData.registrationCities?.first.cityName ?? '');
-      // }
       reqMap[OnboardingConstants.regionId] = regId;
       reqMap[OnboardingConstants.stateId] = stateId;
 
-      // if (state.area.isNotEmpty) {
-      //   reqMap[OnboardingConstants.area] = state.area;
-      // }
-
       ///set values on UI
       addressStateState.currentState?.didChange(stateId);
+      cubit.softValidateFields(reqMap);
+    }
+  }
+
+  void SetRegionDefaultSate(RetailerRegistrationState state) async {
+    if (state.pincodeData.registrationRegion?.first != null) {
+      var regId =
+          state.pincodeData.registrationRegion?.first.regionId.toString() ?? '';
+      reqMap[OnboardingConstants.regionId] = regId;
+
       cubit.softValidateFields(reqMap);
     }
   }

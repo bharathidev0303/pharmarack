@@ -1,6 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pharmarack/main/navigation/route_paths.dart';
+import 'package:pharmarack/packages/core_flutter/common_model/common_success_dialog_info_model.dart';
+import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/loader_dialog.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
@@ -15,7 +17,6 @@ import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_commo
 import 'package:pharmarack/view/onboarding/presentation/widgets/reset_password_input_text_fields.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
 
-
 class ResetPasswordScreenMobileView extends StatelessWidget {
   final ResetPasswordScreenCubit resetPasswordScreenCubit;
 
@@ -29,35 +30,26 @@ class ResetPasswordScreenMobileView extends StatelessWidget {
       listener: (ctx, state) {
         if (state is ResetPasswordScreenDataState) {
           Navigator.of(context).pop();
-          // if (onboardingDI.isRegistered<CommonSuccessDialogInfoModel>(
-          //     instanceName: OnboardingConstants.showDialogDiConstant)) {
-          //   onboardingDI.unregister<CommonSuccessDialogInfoModel>(
-          //       instanceName: OnboardingConstants.showDialogDiConstant);
-          // }
-          // onboardingDI.registerSingleton<CommonSuccessDialogInfoModel>(
-          //     CommonSuccessDialogInfoModel(
-          //         title: context
-          //             .localizedString.changePasswordSuccessDialogLabelText,
-          //         subtitle:
-          //             context.localizedString.changePasswordSuccessHelperText),
-          //     instanceName: OnboardingConstants.showDialogDiConstant);
-          // Navigator.of(context).pushNamedAndRemoveUntil(
-          //     onboardingDI<OnboardingOuterRoutePaths>().getDashBoardPath(),
-          //     (route) => false);
-          // // Navigator.of(context).pushReplacementNamed(
-          // //     onboardingDI<OnboardingOuterRoutePaths>().getDashBoardPath());
+          if (onboardingDI.isRegistered<CommonSuccessDialogInfoModel>(
+              instanceName: OnboardingConstants.showDialogDiConstant)) {
+            onboardingDI.unregister<CommonSuccessDialogInfoModel>(
+                instanceName: OnboardingConstants.showDialogDiConstant);
+          }
+          onboardingDI.registerSingleton<CommonSuccessDialogInfoModel>(
+              CommonSuccessDialogInfoModel(
+                  title: context
+                      .localizedString.changePasswordSuccessDialogLabelText,
+                  subtitle:
+                      context.localizedString.changePasswordSuccessHelperText),
+              instanceName: OnboardingConstants.showDialogDiConstant);
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              RoutePaths.dashBoardScreen, (route) => false);
         }
         if (state is ResetPasswordScreenLoadingState) {
-          showDialog(
-              context: context,
-              builder: (_) => PopScope(
-                    canPop: false,
-                    child: LoaderDialog(
-                        title:
-                            context.localizedString.onboardingLoginLoadingTitle,
-                        subTitle: context
-                            .localizedString.onboardingLoginLoadingMessage),
-                  ));
+          CommonDialogs.closeCommonDialog(context: context);
+          showProcessingRequestDialog(context,
+              title: context.localizedString.onboardingLoginLoadingTitle,
+              subtitle: context.localizedString.onboardingLoginLoadingMessage);
         }
         if (state is ResetPasswordScreenErrorState) {
           Navigator.of(context).pop();
@@ -95,8 +87,8 @@ class ResetPasswordScreenMobileView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 30.0),
                     child: Center(
-                      child: AppAssets.png.newPrLogo.image(
-                           width: 144, height: 66),
+                      child:
+                          AppAssets.png.newPrLogo.image(width: 144, height: 66),
                     ),
                   ),
                   const SizedBox(

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
@@ -12,6 +11,7 @@ class OnboardingValidatorInputTextNew extends StatefulWidget {
   final TextInputType? textInputType;
   final int? maxLength;
   final String? defaultValue;
+  final String? hintText;
   final List<TextInputFormatter>? inputFormatters;
   final bool textCapitalization;
   final bool enable;
@@ -21,25 +21,27 @@ class OnboardingValidatorInputTextNew extends StatefulWidget {
   final String apiValidationMessage;
   final Color? cursorColor;
   final Key? widgetKey;
+  final String? obscuringCharacter;
 
-  const OnboardingValidatorInputTextNew({
-    super.key,
-    this.widgetKey,
-    required this.labelText,
-    required this.onChangeCallBack,
-    required this.validator,
-    this.inputFormatters,
-    this.textInputType,
-    this.maxLength,
-    this.defaultValue,
-    this.enable = true,
-    this.controller,
-    this.isPasswordField = false,
-    this.infoText,
-    this.textCapitalization = false,
-    this.apiValidationMessage = '',
-    this.cursorColor = Colors.black,
-  });
+  const OnboardingValidatorInputTextNew(
+      {super.key,
+      this.widgetKey,
+      required this.labelText,
+      required this.onChangeCallBack,
+      required this.validator,
+      this.inputFormatters,
+      this.textInputType,
+      this.maxLength,
+      this.defaultValue,
+      this.enable = true,
+      this.controller,
+      this.isPasswordField = false,
+      this.infoText,
+      this.textCapitalization = false,
+      this.apiValidationMessage = '',
+      this.cursorColor = Colors.black,
+      this.obscuringCharacter = '*',
+      this.hintText = ''});
 
   @override
   State<OnboardingValidatorInputTextNew> createState() =>
@@ -76,6 +78,7 @@ class _OnboardingValidatorInputTextNewState
           key: widget.widgetKey,
           controller: widget.controller,
           obscureText: _hideText,
+          obscuringCharacter: widget.obscuringCharacter ?? '*',
           cursorColor: widget.cursorColor,
           style: context.textStyles.header6Regular?.copyWith(
               color: AppColors.blackTextFieldText,
@@ -114,6 +117,10 @@ class _OnboardingValidatorInputTextNewState
           keyboardType: widget.textInputType,
           maxLength: widget.maxLength,
           decoration: InputDecoration(
+            hintStyle: AppTextStyles.style12NormalBlack(
+              color: AppColors.hintTextColor,
+            ),
+            hintText: widget.hintText,
             counter: const SizedBox(),
             fillColor: AppColors.lightGreyTextField,
             filled: true,

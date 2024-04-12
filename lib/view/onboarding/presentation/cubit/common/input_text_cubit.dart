@@ -95,7 +95,7 @@ class NewPasswordFieldCubit extends Cubit<NewPasswordCheckState> {
       emit(state.copyWith(isAtLeastSixLetter: false));
       emit(state.copyWith(isPasswordFulfilledFlag: false));
     }
-    if ((value ?? '').contains(RegExp(r'[A-Za-z]')) &&
+    if ((value ?? '').contains(RegExp(r'[A-Z]')) &&
         (value ?? '').contains(RegExp(r'[a-z]')) &&
         (value ?? '').contains(RegExp(r'[0-9]'))) {
       emit(state.copyWith(isAnNumberAnUpperLowerCase: true));
@@ -109,7 +109,7 @@ class NewPasswordFieldCubit extends Cubit<NewPasswordCheckState> {
     } else {
       emit(state.copyWith(isNoSpaceStartEnd: true));
     }
-    if ((value ?? '').contains(RegExp(r'[-_,.@]'))) {
+    if ((value ?? '').contains(RegExp(r'[!"#$%&()*+,-./:;<>=?@[\]^_`{}|~]'))) {
       emit(state.copyWith(isSpecialChar: true));
     } else {
       emit(state.copyWith(isSpecialChar: false));

@@ -1,4 +1,3 @@
-
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
@@ -57,7 +56,7 @@ class _OnboardingDropDownNewState extends State<OnboardingDropDownNew> {
                 (widget.defaultValue == null)
                     ? context.localizedString.select
                     : widget.defaultValue.toString(),
-                style: AppTextStyles.style14NormalBlack(
+                style: AppTextStyles.style12NormalBlack(
                   color: AppColors.hintTextColor,
                 )),
             // hint: Text(widget.defaultValue.toString()),
@@ -112,13 +111,13 @@ class _OnboardingDropDownNewState extends State<OnboardingDropDownNew> {
               return DropdownMenuItem<String>(
                 value: menuItem.value,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 4.0),
+                  padding: const EdgeInsets.only(left: 0.0),
                   child: Text(
                     menuItem.label,
                     style: const TextStyle(
-                      fontSize: 14.0,
-                      color: AppColors.blackTextFieldText,
-                    ),
+                        fontSize: 14.0,
+                        color: AppColors.blackTextFieldText,
+                        fontWeight: FontWeight.normal),
                   ),
                 ),
               );

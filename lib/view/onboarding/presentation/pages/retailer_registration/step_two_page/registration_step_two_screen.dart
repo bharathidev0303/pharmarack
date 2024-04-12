@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:pharmarack/packages/core_flutter/core/ui/base_view.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';

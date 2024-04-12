@@ -102,18 +102,24 @@ class _StepTwoMobileScreenState extends State<StepTwoMobileScreen> {
                             onChangeCallBack: (text) {
                               cubit.setMobileNumber(text);
                               if (text.trim().length == 10 || text.isEmpty) {
-                                reqMap[OnboardingConstants
-                                    .registrationMobileNumber] = text;
                                 cubit.validateMainMobileNumber();
                               }
+                              reqMap[OnboardingConstants
+                                  .registrationMobileNumber] = text;
+                              cubit.softValidateFields(reqMap);
                               formKey.currentState!.validate();
                             },
                             validator: (value) {
-                              return OnboardingValidators()
-                                  .validateMobileNumber(
-                                value,
-                                context,
-                              );
+                              if ((value ?? '').startsWith(RegExp(r'^[0-4]'))) {
+                                return context
+                                    .localizedString.mobileNumInvalidStartDigit;
+                              } else {
+                                return OnboardingValidators()
+                                    .validateMobileNumber(
+                                  value,
+                                  context,
+                                );
+                              }
                             },
                             inputFormatters: [
                               FilteringTextInputFormatter.deny(
@@ -142,7 +148,7 @@ class _StepTwoMobileScreenState extends State<StepTwoMobileScreen> {
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(50),
                               FilteringTextInputFormatter.allow(
-                                  RegExp(r'[0-9a-zA-Z.@]')),
+                                  RegExp(r'[0-9a-zA-Z@.]')),
                             ],
                           ),
                           const SizedBox(height: 8),
@@ -163,15 +169,17 @@ class _StepTwoMobileScreenState extends State<StepTwoMobileScreen> {
                                         reqMap[OnboardingConstants
                                             .pharmacistName] = value;
                                         cubit.setPharmacistName1(value);
+                                        cubit.checkPharmacistNameValue(
+                                            value, 'Please Enter Valid Name');
                                         formKey.currentState!.validate();
                                       },
                                       validator: (value) {
-                                        return null;
+                                        return cubit.pharmacistNameErrorText;
                                       },
                                       inputFormatters: [
                                         LengthLimitingTextInputFormatter(50),
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp(r'[a-zA-Z ]')),
+                                        FilteringTextInputFormatter.allow(RegExp(
+                                            r'[a-zA-Z0-9!"#$%&()*+,-./:;<>=?@[\]^_`{}|~ ]')),
                                       ],
                                     ),
                                     const SizedBox(height: 8),
@@ -197,14 +205,26 @@ class _StepTwoMobileScreenState extends State<StepTwoMobileScreen> {
                                       validator: (value) {
                                         /// optional field only check
                                         /// if populated
-                                        if (value != null && value.isNotEmpty) {
+                                        if ((value ?? '')
+                                            .startsWith(RegExp(r'^[0-4]'))) {
+                                          return context.localizedString
+                                              .mobileNumInvalidStartDigit;
+                                        } else if (value != null &&
+                                            value.isNotEmpty &&
+                                            value.length < 10) {
                                           return OnboardingValidators()
                                               .validateMobileNumber(
                                             value,
                                             context,
                                           );
+                                        } else if (value ==
+                                                mobileNumberTextController
+                                                    .text &&
+                                            (value ?? '').length == 10) {
+                                          return 'Mobile number should be unique.';
+                                        } else {
+                                          return null;
                                         }
-                                        return null;
                                       },
                                       inputFormatters: [
                                         LengthLimitingTextInputFormatter(10),
@@ -341,16 +361,10 @@ class _StepTwoMobileScreenState extends State<StepTwoMobileScreen> {
                                 .onboardingLoginPasswordHintText,
                             controller: passwordTextController,
                             onChangeCallBack: (value) {
-                              if (state.isAnNumberAnUpperLowerCase &&
-                                  state.isAtLeastSixLetter &&
-                                  state.isNoSpaceStartEnd &&
-                                  state.isSpecialChar) {
-                                reqMap[OnboardingConstants.password] = value;
-                                cubit.setPasswordFulfilledFlag(true);
-                                cubit.softValidateFields(reqMap);
-                                cubit.setPassword(value);
-                              }
+                              reqMap[OnboardingConstants.password] = value;
+                              cubit.setPassword(value);
                               cubit.passwordChecks(value);
+                              cubit.softValidateFields(reqMap);
                             },
                             validator: (_) {
                               return null;
@@ -358,8 +372,8 @@ class _StepTwoMobileScreenState extends State<StepTwoMobileScreen> {
                             isPasswordField: true,
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(32),
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'[A-Za-z0-9@._-]')),
+                              FilteringTextInputFormatter.allow(RegExp(
+                                  r'[A-Za-z0-9!"#$%&()*+,-./:;<>=?@[\]^_`{}|~]')),
                               FilteringTextInputFormatter.deny(' '),
                             ],
                           ),

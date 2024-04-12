@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
+import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/loader_dialog.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
@@ -63,14 +64,12 @@ class ForgotPasswordScreenMobileView extends StatelessWidget {
               },
               listener: (ctx, state) {
                 if (state is ForgotPasswordScreenLoadingState) {
-                  showDialog(
-                    context: context,
-                    builder: (ctx) => LoaderDialog(
-                        title:
-                            context.localizedString.onboardingLoginLoadingTitle,
-                        subTitle: context
-                            .localizedString.onboardingLoginLoadingMessage),
-                  );
+                  CommonDialogs.closeCommonDialog(context: context);
+                  showProcessingRequestDialog(context,
+                      title:
+                          context.localizedString.onboardingLoginLoadingTitle,
+                      subtitle: context
+                          .localizedString.onboardingLoginLoadingMessage);
                 }
                 if (state is ForgotPasswordScreenErrorState) {
                   Navigator.of(context).pop();

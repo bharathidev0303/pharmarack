@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -272,6 +271,48 @@ class RetailerRegistrationStepThreeCubit
     emit(state.copyWith(
       whatsappConsentCheckbox: value,
     ));
+  }
+
+  String? dlNumberErrorText;
+  String? uploadDrupLicenseErrorText;
+  String? panNumberErrorText;
+  String? checkBox1ErrorText;
+
+  void checkDrugLicenseValue(String? value, String errorMessage) {
+    if (value == null || value.isEmpty || value.contains(RegExp(r"^\s* " ""))) {
+      dlNumberErrorText = errorMessage;
+    } else {
+      dlNumberErrorText = null;
+    }
+  }
+
+  void checkUploadDrugLicense(String? value, String errorMessage) {
+    if (value == null || value.isEmpty || value.contains(RegExp(r"^\s* " ""))) {
+      uploadDrupLicenseErrorText = errorMessage;
+    } else {
+      uploadDrupLicenseErrorText = null;
+    }
+  }
+
+  void checkPanNumberValue(String? value, String errorMessage) {
+    RegExp regExp = RegExp(r"^[A-Z]{5}[0-9]{4}[A-Z]{1}$");
+    if (value == null ||
+        value.isEmpty ||
+        value.contains(RegExp(r"^\s* " "")) ||
+        value.length < 10 ||
+        !regExp.hasMatch(value)) {
+      panNumberErrorText = errorMessage;
+    } else {
+      panNumberErrorText = null;
+    }
+  }
+
+  void checkTermsAndCheckBoxValue(bool? value, String errorMessage) {
+    if (value == null || value == false) {
+      checkBox1ErrorText = errorMessage;
+    } else {
+      checkBox1ErrorText = null;
+    }
   }
 
   void softValidateFields() {

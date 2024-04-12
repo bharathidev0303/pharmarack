@@ -143,7 +143,6 @@ void initDependency() {
         requestLoginUseCaseProvider,
         checkPasswordUpdateUseCaseProvider,
         loginScreenTextCubit: onboardingDI<LoginScreenTextCubit>(),
-        // onboardingOuterRoutePaths: onboardingDI<OnboardingOuterRoutePaths>()
       ));
 }
 
@@ -269,18 +268,14 @@ void initChangePasswordDependency(GetIt getIt) {
 }
 
 // void initProfileCubit(GetIt getIt) {
-//   // getIt.registerSingleton<ProfileCubit>(ProfileCubit());
-//   if (onboardingDI.isRegistered<EditProfileCubit>()) {
-//     onboardingDI.unregister<EditProfileCubit>();
-//   }
-
 //   if (!getIt.isRegistered<ProfileCubit>()) {
 //     getIt.registerSingleton<ProfileCubit>(ProfileCubit());
-//     profileScreenCubit = getIt.registerSingleton(ProfileCubit());
 //   }
-//   getIt.registerSingleton<EditProfileCubit>(EditProfileCubit(
-//       UpdateRetailerProfileUsecase(onboardingRepository: onboardingDI()),
-//       UploadDrugLicenceUseCase(onboardingDI())));
+//   if (!getIt.isRegistered<EditProfileCubit>()) {
+//     getIt.registerSingleton<EditProfileCubit>(EditProfileCubit(
+//         UpdateRetailerProfileUsecase(onboardingRepository: onboardingDI()),
+//         UploadDrugLicenceUseCase(onboardingDI())));
+//   }
 // }
 
 /// Common data use case
@@ -386,7 +381,8 @@ unregisterAllRegistrationDI() {
   unregisterIfRegistered<RetailerRegistrationStepTwoCubit>();
   unregisterIfRegistered<RetailerRegistrationStepThreeCubit>();
   unregisterIfRegistered<ReferralTAndCCubit>();
-  unregisterIfRegistered<UpdateRetailerProfileCubit>();
+  unregisterIfRegistered<ProfileCubit>();
+  // unregisterIfRegistered<EditProfileCubit>();
 }
 
 void unregisterIfRegistered<T extends Object>() {

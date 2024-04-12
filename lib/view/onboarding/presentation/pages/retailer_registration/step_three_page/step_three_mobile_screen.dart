@@ -1,15 +1,14 @@
 import 'dart:collection';
-
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/common_entity/login_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_model/common_success_dialog_info_model.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
-import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_three/retailer_registration_step_three_cubit.dart';
@@ -21,7 +20,6 @@ import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_valid
 import 'package:pharmarack/view/onboarding/presentation/widgets/registration_stepper.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
 import 'package:pharmarack/view/onboarding/utils/onboarding_validators.dart';
-
 
 import '../../../cubit/referral_t_and_c_cubit.dart';
 import '../../../cubit/update_retailer_profile_cubit.dart';
@@ -113,18 +111,19 @@ class _StepThreeMobileScreenState extends State<StepThreeMobileScreen> {
                                 context.localizedString.drugLicenseNumber,
                             onChangeCallBack: (text) {
                               cubit.setDrugLicenseNum1(text);
+                              cubit.checkDrugLicenseValue(
+                                  text,
+                                  context
+                                      .localizedString.drugLicenseNumberError);
                               cubit.softValidateFields();
                               reqMap[OnboardingConstants.drugLicenseNum1] =
                                   text;
+                              _formKey.currentState?.validate();
                             },
                             infoText:
                                 context.localizedString.drugLicenseInfoText,
                             validator: (value) {
-                              return OnboardingValidators()
-                                  .validateNotNullOrEmpty(
-                                      value,
-                                      context.localizedString
-                                          .drugLicenseNumberError);
+                              return cubit.dlNumberErrorText;
                             },
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(50),
@@ -137,178 +136,21 @@ class _StepThreeMobileScreenState extends State<StepThreeMobileScreen> {
                             widgetKey:
                                 const Key(OnboardingConstants.drugLicenseFile1),
                             validator: (file) {
-                              return OnboardingValidators()
-                                  .validateImageFormField(
-                                      file,
-                                      context.localizedString
-                                          .drugLicenseFileError);
+                              return cubit.uploadDrupLicenseErrorText;
                             },
                             selectedFile: state.hasDrugLicenseFile1
                                 ? state.drugLicenseFile1
                                 : null,
                             onChanged: (file) {
                               cubit.setDrugLicenseFile1(file);
+                              cubit.checkUploadDrugLicense(file?.path,
+                                  context.localizedString.drugLicenseFileError);
                               cubit.softValidateFields();
+                              _formKey.currentState?.validate();
                             },
                             labelText:
                                 context.localizedString.uploadDrugLicense,
                           ),
-                          const Visibility(
-                              visible: false, child: SizedBox(height: 8)),
-                          if (state.drugLicenseCount >= 2)
-                            Visibility(
-                              visible: false,
-                              child: Column(
-                                children: [
-                                  OnboardingValidatorInputTextNew(
-                                    controller: dlTwoTextController,
-                                    widgetKey: const Key(
-                                        OnboardingConstants.drugLicenseNum2),
-                                    labelText: context
-                                        .localizedString.drugLicenseNumber2,
-                                    onChangeCallBack: (text) {
-                                      cubit.setDrugLicenseNum2(text);
-                                      reqMap[OnboardingConstants
-                                          .drugLicenseNum2] = text;
-                                    },
-                                    validator: (value) {
-                                      if (state.hasDrugLicenseFile2) {
-                                        return OnboardingValidators()
-                                            .validateNotNullOrEmpty(
-                                                value,
-                                                context.localizedString
-                                                    .drugLicenseNumberError);
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                  const SizedBox(height: 8),
-                                  CustomImageFormField(
-                                    widgetKey: const Key(
-                                        OnboardingConstants.drugLicenseFile2),
-                                    validator: (file) {
-                                      if (state.drugLicenseNum2.isNotEmpty) {
-                                        return OnboardingValidators()
-                                            .validateImageFormField(
-                                                file,
-                                                context.localizedString
-                                                    .drugLicenseFileError);
-                                      }
-                                      return null;
-                                    },
-                                    selectedFile: state.hasDrugLicenseFile2
-                                        ? state.drugLicenseFile2
-                                        : null,
-                                    onChanged: (file) {
-                                      cubit.setDrugLicenseFile2(file);
-                                    },
-                                    labelText: context
-                                        .localizedString.uploadDrugLicense2,
-                                  ),
-                                  const SizedBox(height: 8),
-                                ],
-                              ),
-                            ),
-                          if (state.drugLicenseCount >= 3)
-                            Visibility(
-                              visible: false,
-                              child: Column(
-                                children: [
-                                  OnboardingValidatorInputTextNew(
-                                    controller: dlThreeTextController,
-                                    widgetKey: const Key(
-                                        OnboardingConstants.drugLicenseNum3),
-                                    labelText: context
-                                        .localizedString.drugLicenseNumber3,
-                                    onChangeCallBack: (text) {
-                                      cubit.setDrugLicenseNum3(text);
-                                      reqMap[OnboardingConstants
-                                          .drugLicenseNum3] = text;
-                                    },
-                                    validator: (value) {
-                                      if (state.hasDrugLicenseFile3) {
-                                        return OnboardingValidators()
-                                            .validateNotNullOrEmpty(
-                                                value,
-                                                context.localizedString
-                                                    .drugLicenseNumberError);
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                  const SizedBox(height: 8),
-                                  CustomImageFormField(
-                                    widgetKey: const Key(
-                                        OnboardingConstants.drugLicenseFile3),
-                                    validator: (file) {
-                                      if (state.drugLicenseNum3.isNotEmpty) {
-                                        return OnboardingValidators()
-                                            .validateImageFormField(
-                                                file,
-                                                context.localizedString
-                                                    .drugLicenseFileError);
-                                      }
-                                      return null;
-                                    },
-                                    onChanged: (file) {
-                                      cubit.setDrugLicenseFile3(file);
-                                    },
-                                    selectedFile: state.hasDrugLicenseFile3
-                                        ? state.drugLicenseFile3
-                                        : null,
-                                    labelText: context
-                                        .localizedString.uploadDrugLicense3,
-                                  ),
-                                  const SizedBox(height: 8),
-                                ],
-                              ),
-                            ),
-                          if (state.drugLicenseCount != 3)
-                            Visibility(
-                              visible: false,
-                              child: InkWell(
-                                onTap: () {
-                                  cubit.addDrugLicense();
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.add,
-                                      size: 14,
-                                      color: AppColors.blueButtonColor,
-                                    ),
-                                    const SizedBox(
-                                      width: 2,
-                                    ),
-                                    Text(
-                                      context.localizedString.addMoreDrugLicense
-                                          .toUpperCase(),
-                                      style: AppTextStyles.style11RegularBlack(
-                                          color: AppColors.blueButtonColor,
-                                          fontWeight: FontWeight.w500),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          if (state.drugLicenseError != DrugLicenseError.empty)
-                            Center(
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  Text(
-                                    getErrorMessage(state.drugLicenseError),
-                                    style: context.textStyles.header11Medium
-                                        ?.copyWith(
-                                            color: AppColors.redErrorColor,
-                                            overflow: TextOverflow.ellipsis),
-                                  ),
-                                ],
-                              ),
-                            ),
                           const SizedBox(height: 8),
                           OnboardingValidatorInputTextNew(
                             widgetKey:
@@ -349,14 +191,19 @@ class _StepThreeMobileScreenState extends State<StepThreeMobileScreen> {
                             controller: panNumberTextController,
                             labelText: context.localizedString.panNumber,
                             onChangeCallBack: (value) {
+                              panNumberTextController.text =
+                                  value.toUpperCase();
+                              value = value.toUpperCase();
                               reqMap[OnboardingConstants.panNumber] = value;
+                              cubit.checkPanNumberValue(
+                                  value, context.localizedString.panError);
                               cubit.setPanNumber(value);
                               cubit.softValidateFields();
+                              _formKey.currentState?.validate();
                             },
                             textCapitalization: true,
-                            validator: (value) {
-                              return OnboardingValidators()
-                                  .validatePanNumber(value, context);
+                            validator: (_) {
+                              return cubit.panNumberErrorText;
                             },
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(10),
@@ -452,9 +299,7 @@ class _StepThreeMobileScreenState extends State<StepThreeMobileScreen> {
                               ),
                             ),
                             validator: (checked) {
-                              return OnboardingValidators()
-                                  .validateCheckboxChecked(checked,
-                                      context.localizedString.agreementError);
+                              return cubit.checkBox1ErrorText;
                             },
                             onChanged: (value) {
                               reqMap[OnboardingConstants
@@ -462,7 +307,10 @@ class _StepThreeMobileScreenState extends State<StepThreeMobileScreen> {
                                   (value ?? false) ? '1' : '0';
                               cubit.setPrivacyPolicyCheckbox(
                                   (value ?? false) ? '1' : '0');
+                              cubit.checkTermsAndCheckBoxValue(value,
+                                  context.localizedString.agreementError);
                               cubit.softValidateFields();
+                              _formKey.currentState?.validate();
                             },
                           ),
                           const SizedBox(
@@ -560,15 +408,14 @@ class _StepThreeMobileScreenState extends State<StepThreeMobileScreen> {
 
     if (state.registrationStatus) {
       /// Navigate to OTP Screen
-      // onboardingDI.registerSingleton<CommonSuccessDialogInfoModel>(
-      //     CommonSuccessDialogInfoModel(
-      //         title: context.localizedString.registrationSuccessful,
-      //         subtitle: context.localizedString.registrationUnderProcessMsg),
-      //     instanceName: OnboardingConstants.showDialogDiConstant);
-      // unregisterAllRegistrationDI();
-      // Navigator.of(context).pushNamedAndRemoveUntil(
-      //     onboardingDI<OnboardingOuterRoutePaths>().getOtpPath(),
-      //     (route) => false);
+      onboardingDI.registerSingleton<CommonSuccessDialogInfoModel>(
+          CommonSuccessDialogInfoModel(
+              title: context.localizedString.registrationSuccessful,
+              subtitle: context.localizedString.registrationUnderProcessMsg),
+          instanceName: OnboardingConstants.showDialogDiConstant);
+      unregisterAllRegistrationDI();
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(RoutePaths.onBoardingOtp, (route) => false);
     }
 
     if (state.moveToHomePage) {
@@ -580,12 +427,22 @@ class _StepThreeMobileScreenState extends State<StepThreeMobileScreen> {
           username: 'TestUser',
           mobileNumber: '3423123423',
           email: 'testUser@test.com'));
+
+      if (onboardingDI.isRegistered<CommonSuccessDialogInfoModel>(
+          instanceName: OnboardingConstants.showDialogDiConstant)) {
+        onboardingDI.unregister<CommonSuccessDialogInfoModel>(
+            instanceName: OnboardingConstants.showDialogDiConstant);
+      }
+      onboardingDI.registerSingleton<CommonSuccessDialogInfoModel>(
+          CommonSuccessDialogInfoModel(
+              title: context.localizedString.registrationSuccessful,
+              subtitle: context.localizedString.registrationUnderProcessMsg),
+          instanceName: OnboardingConstants.showDialogDiConstant);
+
       Navigator.of(context).pushNamedAndRemoveUntil(
         '/operationsPage',
         (route) => false,
       );
-      // onboardingDI<OnboardingOuterRoutePaths>().getDashBoardPath(),
-      // (route) => false);
     }
   }
 

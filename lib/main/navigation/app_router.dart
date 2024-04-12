@@ -40,6 +40,7 @@ import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/fo
 import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/otp_screen/forgot_password_otp_screen.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/reset_password/reset_password_screen.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/login_screen.dart';
+import 'package:pharmarack/view/onboarding/presentation/pages/ops_screen/operations_page.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/otp_auth/delete_account_otp_screen.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/otp_auth/otp_screen.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/retailer_registration/landing_page/retailer_registration_landing_screen.dart';
@@ -175,10 +176,10 @@ class AppRouter {
       //   return MaterialPageRoute(
       //     builder: (context) => const PrivacyPolicyPage(),
       //   );
-      // case RoutePaths.operationsPage:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const OperationsPage(),
-      //   );
+      case RoutePaths.operationsPage:
+        return MaterialPageRoute(
+          builder: (context) => const OperationsPage(),
+        );
       // case RoutePaths.companyPage:
       //   return MaterialPageRoute(
       //     builder: (context) => const CompanyScreenPage(),

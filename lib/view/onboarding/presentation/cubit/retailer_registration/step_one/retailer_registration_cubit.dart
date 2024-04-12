@@ -6,7 +6,7 @@ import 'package:pharmarack/view/onboarding/domain/usecase/retailer_registration/
 import 'package:pharmarack/view/onboarding/domain/usecase/retailer_registration/get_state_list_use_case.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/retailer_registration/retailer_registration_use_case.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_one/retailer_registration_state.dart';
-
+import 'package:pharmarack/view/onboarding/utils/constants.dart';
 
 class RetailerRegistrationStepOneCubit
     extends Cubit<RetailerRegistrationState> {
@@ -49,19 +49,29 @@ class RetailerRegistrationStepOneCubit
     });
   }
 
-  Future<void> getAddressByPincode(String pincode) async {
-    emit(state.copyWith(isLoading: true));
+  Future<void> getAddressByPincode(
+      String pincode, GlobalKey<FormState> _formKey) async {
+    // emit(state.copyWith(isLoading: true));
     final response = await _getAddressByPincodeUseCase.execute(
         params: PincodeDataParams(pincode: pincode));
 
     response.fold((l) => emit(state.copyWith(hasError: true, isLoading: false)),
         (r) {
+      if (r.registrationAreas!.isEmpty &&
+          r.registrationCities!.isEmpty &&
+          (r.registrationRegion!.isEmpty || r.registrationState!.isEmpty)) {
+        pinCodeErrorText =
+            "Pincode does not match Please enter a valid Pincode.";
+        _formKey.currentState?.validate();
+      }
+
       if (r.registrationState == null ||
-          (r.registrationState?.isEmpty ?? true)) {
+          (r.registrationState?.isEmpty ?? true) ||
+          (r.registrationState?.first.stateName == null)) {
         var stateNameInstance = (r.registrationState?.length == 1)
             ? r.registrationState?.first.stateName
             : '';
-        debugPrint('PR-> $stateNameInstance');
+
         emit(state.copyWith(
             hasError: true,
             isLoading: false,
@@ -77,7 +87,6 @@ class RetailerRegistrationStepOneCubit
         var stateNameInstance = (r.registrationState?.length == 1)
             ? r.registrationState?.first.stateName
             : '';
-
         emit(state.copyWith(
             pincodeData: r,
             isLoading: false,
@@ -115,11 +124,136 @@ class RetailerRegistrationStepOneCubit
   }
 
   void softValidateFields(Map<String, String> reqMap) {
-    if (reqMap.length <= 6) {
-      debugPrint('PR-> reqMap.length${reqMap.length}');
-      emit(state.copyWith(softValidate: false));
-    } else {
+    int count = 0;
+    if ((reqMap[OnboardingConstants.typeOfBusiness] ?? '').isNotEmpty &&
+        reqMap[OnboardingConstants.typeOfBusiness] != null) {
+      count++;
+    }
+    if ((reqMap[OnboardingConstants.nameOfShopFirm] ?? '').isNotEmpty &&
+        reqMap[OnboardingConstants.nameOfShopFirm] != null) {
+      count++;
+    }
+    if ((reqMap[OnboardingConstants.nameOfOwner] ?? '').isNotEmpty &&
+        reqMap[OnboardingConstants.nameOfOwner] != null) {
+      count++;
+    }
+    if ((reqMap[OnboardingConstants.shopAddress] ?? '').isNotEmpty &&
+        reqMap[OnboardingConstants.shopAddress] != null) {
+      count++;
+    }
+    if ((reqMap[OnboardingConstants.pincode] ?? '').isNotEmpty &&
+        reqMap[OnboardingConstants.pincode] != null &&
+        (reqMap[OnboardingConstants.pincode] ?? '').length == 6) {
+      count++;
+    }
+    if ((reqMap[OnboardingConstants.area] ?? '').isNotEmpty &&
+        reqMap[OnboardingConstants.area] != null) {
+      count++;
+    }
+    if ((reqMap[OnboardingConstants.city] ?? '').isNotEmpty &&
+        reqMap[OnboardingConstants.city] != null) {
+      count++;
+    }
+    if ((reqMap[OnboardingConstants.region] ?? '').isNotEmpty &&
+        reqMap[OnboardingConstants.region] != null) {
+      count++;
+    }
+    if ((reqMap[OnboardingConstants.state] ?? '').isNotEmpty &&
+        reqMap[OnboardingConstants.state] != null) {
+      count++;
+    }
+
+    if ((state.stateName ?? '').isNotEmpty &&
+        reqMap[OnboardingConstants.state] != null) {
+      count++;
+    }
+
+    // if (reqMap[OnboardingConstants.region] != null) {
+    //   if (count == 9) {
+    //     debugPrint(
+    //         'PR-> reqMap[OnboardingConstants.region] != null count 9 ${reqMap[OnboardingConstants.region] != null}');
+    //     debugPrint('PR-> true reqMap.length${reqMap.length} and count $count');
+    //     emit(state.copyWith(softValidate: true));
+    //   }
+    // } else if (count >= 8) {
+    //   debugPrint(
+    //       'PR-> reqMap[OnboardingConstants.region] != null count 8 ${reqMap[OnboardingConstants.region] != null}');
+    //
+    //   debugPrint('PR-> true reqMap.length${reqMap.length} and count $count');
+    //   emit(state.copyWith(softValidate: true));
+    // } else {
+    //   debugPrint(
+    //       'PR-> reqMap[OnboardingConstants.region] != null  else  ${reqMap[OnboardingConstants.region] != null}');
+    //   debugPrint('PR-> false reqMap.length${reqMap.length}  and count $count');
+    //   emit(state.copyWith(softValidate: false));
+    // }
+
+    if ((count == 9 &&
+        state.pincodeData.registrationRegion != null &&
+        (state.pincodeData.registrationRegion ?? []).length >= 2)) {
+      debugPrint(
+          'PR-> state.pincodeData.registrationRegion != null ${state.pincodeData.registrationRegion != null}');
+      debugPrint(
+          'PR->state.pincodeData.registrationRegion!.length <= 2  ${(state.pincodeData.registrationRegion ?? []).length >= 2}');
+
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.area] ${reqMap[OnboardingConstants.area]}');
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.city] ${reqMap[OnboardingConstants.city]}');
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.region] ${reqMap[OnboardingConstants.region]}');
+
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.state] ${reqMap[OnboardingConstants.state]}');
+
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.region] != null  if condition  ${reqMap[OnboardingConstants.region] != null}');
+
+      debugPrint(
+          'PR-> true reqMap.length${reqMap.length} and count 9 ka $count');
       emit(state.copyWith(softValidate: true));
+    } else if ((count == 8 &&
+        state.pincodeData.registrationRegion != null &&
+        (state.pincodeData.registrationRegion ?? []).length <= 1)) {
+      debugPrint(
+          'PR-> state.pincodeData.registrationRegion != null ${state.pincodeData.registrationRegion != null}');
+
+      debugPrint(
+          'PR->state.pincodeData.registrationRegion!.length <= 1  ${(state.pincodeData.registrationRegion ?? []).length <= 1}');
+
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.area] ${reqMap[OnboardingConstants.area]}');
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.city] ${reqMap[OnboardingConstants.city]}');
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.region] ${reqMap[OnboardingConstants.region]}');
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.state] ${reqMap[OnboardingConstants.state]}');
+
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.region] != null  if condition  ${reqMap[OnboardingConstants.region] != null}');
+
+      debugPrint(
+          'PR-> true reqMap.length${reqMap.length} and count 8 ka $count');
+      emit(state.copyWith(softValidate: true));
+    } else {
+      debugPrint(
+          'PR-> state.pincodeData.registrationRegion != null ${state.pincodeData.registrationRegion != null}');
+      debugPrint(
+          'PR->state.pincodeData.registrationRegion!.length   ${(state.pincodeData.registrationRegion ?? []).length}');
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.area] ${reqMap[OnboardingConstants.area]}');
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.city] ${reqMap[OnboardingConstants.city]}');
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.region] ${reqMap[OnboardingConstants.region]}');
+
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.state] ${reqMap[OnboardingConstants.state]}');
+      debugPrint(
+          'PR-> reqMap[OnboardingConstants.region] != null  else  ${reqMap[OnboardingConstants.region] != null}');
+      debugPrint('PR-> false reqMap.length${reqMap.length}  and count $count');
+      emit(state.copyWith(softValidate: false));
     }
   }
 
@@ -142,7 +276,7 @@ class RetailerRegistrationStepOneCubit
   }
 
   void checkShopOrFirmValue(String? value, String errorMessage) {
-    if (value == null || value.isEmpty) {
+    if (value == null || value.isEmpty || value.contains(RegExp(r"^\s* " ""))) {
       shopErrorText = errorMessage;
     } else {
       shopErrorText = null;
@@ -150,7 +284,7 @@ class RetailerRegistrationStepOneCubit
   }
 
   void checkOwnerValue(String? value, String errorMessage) {
-    if (value == null || value.isEmpty) {
+    if (value == null || value.isEmpty || value.contains(RegExp(r"^\s* " ""))) {
       ownerErrorText = errorMessage;
     } else {
       ownerErrorText = null;
@@ -159,7 +293,9 @@ class RetailerRegistrationStepOneCubit
 
   void checkShopAddressValue(
       String? value, String errorMessage, int length, String lengthErrorMsg) {
-    if (value == null || value.trim().isEmpty) {
+    if (value == null ||
+        value.trim().isEmpty ||
+        value.contains(RegExp(r"^\s* " ""))) {
       shopAddressErrorText = errorMessage;
     } else if (value.isNotEmpty && value.trim().length < length) {
       shopAddressErrorText = lengthErrorMsg;
@@ -174,6 +310,8 @@ class RetailerRegistrationStepOneCubit
         value.trim().isEmpty ||
         value.contains(RegExp(r"^\s* " ""))) {
       pinCodeErrorText = errorMessage;
+    } else if (value.isNotEmpty && value.startsWith('0')) {
+      pinCodeErrorText = 'Please enter valid Pincode.';
     } else if (value.isNotEmpty && value.trim().length < length) {
       pinCodeErrorText = lengthErrorMsg;
     } else {

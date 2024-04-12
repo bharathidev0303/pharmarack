@@ -72,27 +72,27 @@ class _InputTextFields extends State<ResetPasswordInputTextFields> {
                   widget.resetPasswordScreenCubit.newPasswordFieldCubit
                       .passwordChecks(widget.resetPasswordScreenCubit
                           .newPasswordFieldController.text);
-                  if (widget.resetPasswordScreenCubit.newPasswordFieldCubit
-                      .newPasswordPatternComplete()) {
-                    widget.resetPasswordScreenCubit.validateConfirmNewPassword(
-                        text,
-                        widget.resetPasswordScreenCubit
-                            .confirmNewPasswordFieldController.text);
-                  }
+                  // if (widget.resetPasswordScreenCubit.newPasswordFieldCubit
+                  //     .newPasswordPatternComplete()) {
+                  widget.resetPasswordScreenCubit.validateConfirmNewPassword(
+                      text,
+                      widget.resetPasswordScreenCubit
+                          .confirmNewPasswordFieldController.text);
+                  // }
                 },
                 suffixIcon: InkWell(
                   onTap: toggleShowNewPassword,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 8),
-                    child:
-                        _newPasswordVisibilityIcon.svg(package: 'core_flutter'),
+                    child: _newPasswordVisibilityIcon.svg(),
                   ),
                 ),
                 infoText: "",
                 borderColor: AppColors.lightGreyTextField,
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(32),
-                  FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z0-9@._-]')),
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'[A-Za-z0-9!"#$%&()*+,-./:;<>=?@[\]^_`{}|~]')),
                   FilteringTextInputFormatter.deny(' '),
                 ],
               ),
@@ -142,18 +142,17 @@ class _InputTextFields extends State<ResetPasswordInputTextFields> {
                   onTap: toggleShowConfirmNewPassword,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 8),
-                    child: _confirmNewPasswordVisibilityIcon.svg(
-                        package: 'core_flutter'),
+                    child: _confirmNewPasswordVisibilityIcon.svg(),
                   ),
                 ),
                 onChangeCallBack: (text) {
-                  if (widget.resetPasswordScreenCubit.newPasswordFieldCubit
-                      .newPasswordPatternComplete()) {
-                    widget.resetPasswordScreenCubit.validateConfirmNewPassword(
-                        widget.resetPasswordScreenCubit
-                            .newPasswordFieldController.text,
-                        text);
-                  }
+                  // if (widget.resetPasswordScreenCubit.newPasswordFieldCubit
+                  //     .newPasswordPatternComplete()) {
+                  widget.resetPasswordScreenCubit.validateConfirmNewPassword(
+                      widget.resetPasswordScreenCubit.newPasswordFieldController
+                          .text,
+                      text);
+                  // }
                 },
                 infoText: (state is ConfirmNewPasswordInvalidState)
                     ? context.localizedString
@@ -164,7 +163,8 @@ class _InputTextFields extends State<ResetPasswordInputTextFields> {
                     : AppColors.lightGreyTextField,
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(32),
-                  FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z0-9@._-]')),
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'[A-Za-z0-9!"#$%&()*+,-./:;<>=?@[\]^_`{}|~]')),
                   FilteringTextInputFormatter.deny(' '),
                 ],
               );

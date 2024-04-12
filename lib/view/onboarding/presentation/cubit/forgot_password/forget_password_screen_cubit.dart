@@ -46,6 +46,9 @@ class ForgotPasswordScreenCubit extends Cubit<ForgotPasswordScreenState> {
   }
 
   void validateMobileNumber(String mobileNumber) {
+    if (state is ForgotPasswordScreenErrorState) {
+      emit(ForgotPasswordScreenInitialState());
+    }
     mobileNumberFieldCubit.validateMobileNumber(mobileNumber);
   }
 }

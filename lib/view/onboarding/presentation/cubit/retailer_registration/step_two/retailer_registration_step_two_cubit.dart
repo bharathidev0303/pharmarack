@@ -115,32 +115,45 @@ class RetailerRegistrationStepTwoCubit
     });
   }
 
+  String? pharmacistNameErrorText;
+  void checkPharmacistNameValue(String? value, String errorMessage) {
+    if ((value ?? '').contains(RegExp(r"^\s* " ""))) {
+      pharmacistNameErrorText = errorMessage;
+    } else {
+      pharmacistNameErrorText = null;
+    }
+  }
+
   void passwordChecks(String? value) {
     if ((value ?? '').isNotEmpty && (value ?? '').trim().length >= 8) {
       emit(state.copyWith(isAtLeastSixLetter: true));
     } else {
       emit(state.copyWith(isAtLeastSixLetter: false));
       emit(state.copyWith(softValidate: false));
+      emit(state.copyWith(isPasswordFulfilledFlag: false));
     }
-    if ((value ?? '').contains(RegExp(r'[A-Za-z]')) &&
+    if ((value ?? '').contains(RegExp(r'[A-Z]')) &&
         (value ?? '').contains(RegExp(r'[a-z]')) &&
         (value ?? '').contains(RegExp(r'[0-9]'))) {
       emit(state.copyWith(isAnNumberAnUpperLowerCase: true));
     } else {
       emit(state.copyWith(isAnNumberAnUpperLowerCase: false));
       emit(state.copyWith(softValidate: false));
+      emit(state.copyWith(isPasswordFulfilledFlag: false));
     }
     if ((value ?? '').startsWith(' ') || (value ?? '').endsWith(' ')) {
       emit(state.copyWith(isNoSpaceStartEnd: false));
       emit(state.copyWith(softValidate: false));
+      emit(state.copyWith(isPasswordFulfilledFlag: false));
     } else {
       emit(state.copyWith(isNoSpaceStartEnd: true));
     }
-    if ((value ?? '').contains(RegExp(r'[-_,.@]'))) {
+    if ((value ?? '').contains(RegExp(r'[!"#$%&()*+,-./:;<>=?@[\]^_`{}|~]'))) {
       emit(state.copyWith(isSpecialChar: true));
     } else {
       emit(state.copyWith(isSpecialChar: false));
       emit(state.copyWith(softValidate: false));
+      emit(state.copyWith(isPasswordFulfilledFlag: false));
     }
     if (value == null || value.isEmpty || value == '') {
       emit(state.copyWith(isAtLeastSixLetter: false));
@@ -148,6 +161,7 @@ class RetailerRegistrationStepTwoCubit
       emit(state.copyWith(isNoSpaceStartEnd: false));
       emit(state.copyWith(isSpecialChar: false));
       emit(state.copyWith(softValidate: false));
+      emit(state.copyWith(isPasswordFulfilledFlag: false));
     }
     if (state.isAnNumberAnUpperLowerCase &&
         state.isAtLeastSixLetter &&
@@ -162,7 +176,9 @@ class RetailerRegistrationStepTwoCubit
         reqMap.containsKey(OnboardingConstants.password) &&
         (reqMap[OnboardingConstants.registrationMobileNumber]?.isNotEmpty ??
             false) &&
+        (reqMap[OnboardingConstants.registrationMobileNumber]?.length == 10) &&
         (reqMap[OnboardingConstants.password]?.isNotEmpty ?? false) &&
+        (reqMap[OnboardingConstants.password]!.length >= 6) &&
         state.isPasswordFulfilledFlag) {
       emit(state.copyWith(softValidate: true));
     } else {
