@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +11,6 @@ import 'package:pharmarack/packages/core_flutter/localization/localization_exten
 import 'package:pharmarack/view/onboarding/presentation/cubit/change_password_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/change_password_state.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
-
 
 class ChangePasswordDialogScreen extends StatefulWidget {
   const ChangePasswordDialogScreen({super.key});
@@ -91,7 +89,7 @@ class ChangePasswordDialogCard extends StatelessWidget {
                   onChanged: cubit.passwordChecks,
                   errorText: null),
               const SizedBox(height: 10),
-              passwordCheckItem(state.isAtLeastSixLetter, 'At least 6 letters'),
+              passwordCheckItem(state.isAtLeastSixLetter, 'At least 8 letters'),
               passwordCheckItem(state.isAnNumberAnUpperLowerCase,
                   'At least a number, an uppercase & a lowercase letter'),
               passwordCheckItem(state.isSpecialChar,

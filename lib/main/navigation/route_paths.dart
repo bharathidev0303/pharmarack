@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/side_navigation_legacy/model/legacy_menu.dart';
 import 'package:pharmarack/packages/core_flutter/core/ui/drawer_router_paths.dart';
 import 'package:pharmarack/packages/core_flutter/navigation/core_route_path.dart';
-import 'package:pharmarack/view/onboarding/presentation/navigation/onboarding_outer_route_paths.dart';
 import 'package:pharmarack/view/profile/presentation/constants/my_profile_constants.dart';
 
 class RoutePaths implements DrawerRouterPaths, CoreRoutePaths {
@@ -56,41 +55,6 @@ class RoutePaths implements DrawerRouterPaths, CoreRoutePaths {
   static const String companyPage = "/companyPage";
   static const String browseCompaniesPage = "/browseCompaniesPage";
   static const String bannerPage = "/bannerPage";
-
-  @override
-  String getDashBoardPath() {
-    return dashBoardScreen;
-  }
-
-  @override
-  String getProfileScreenPath() {
-    return profileScreen;
-  }
-
-  @override
-  String getOtpPath() {
-    return onBoardingOtp;
-  }
-
-  @override
-  String getForgotPasswordScreenPath() {
-    return forgotPasswordScreen;
-  }
-
-  @override
-  String getResetPasswordScreenPath() {
-    return resetPasswordScreen;
-  }
-
-  @override
-  String getForgotPasswordOtpScreenPath() {
-    return forgotPasswordOtpScreen;
-  }
-
-  @override
-  String getDeleteAccountOtpScreenPath() {
-    return deleteAccountOtpScreen;
-  }
 
   @override
   String getMyConnectionsDistributors() {
@@ -266,26 +230,6 @@ class RoutePaths implements DrawerRouterPaths, CoreRoutePaths {
   }
 
   @override
-  String getRetailerRegistrationPath() {
-    return retailerRegistration;
-  }
-
-  @override
-  String getRetailerRegistrationStepOnePath() {
-    return retailerRegistrationStepOne;
-  }
-
-  @override
-  String getRetailerRegistrationStepThreePath() {
-    return retailerRegistrationStepThree;
-  }
-
-  @override
-  String getRetailerRegistrationStepTwoPath() {
-    return retailerRegistrationStepTwo;
-  }
-
-  @override
   String getFeedbackRequestDialogPath() {
     return feedbackRequestDialogScreen;
   }
@@ -298,20 +242,5 @@ class RoutePaths implements DrawerRouterPaths, CoreRoutePaths {
   @override
   String getTermsAndConditions() {
     return termsAndConditions;
-  }
-
-  @override
-  String getCompanyPage() {
-    return companyPage;
-  }
-
-  @override
-  String getBrowseCompaniesPage() {
-    return browseCompaniesPage;
-  }
-
-  @override
-  String getBannerPage() {
-    return bannerPage;
   }
 }

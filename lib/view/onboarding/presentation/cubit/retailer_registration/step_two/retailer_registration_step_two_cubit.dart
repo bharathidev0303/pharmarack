@@ -116,7 +116,7 @@ class RetailerRegistrationStepTwoCubit
   }
 
   void passwordChecks(String? value) {
-    if ((value ?? '').isNotEmpty && (value ?? '').trim().length >= 5) {
+    if ((value ?? '').isNotEmpty && (value ?? '').trim().length >= 8) {
       emit(state.copyWith(isAtLeastSixLetter: true));
     } else {
       emit(state.copyWith(isAtLeastSixLetter: false));

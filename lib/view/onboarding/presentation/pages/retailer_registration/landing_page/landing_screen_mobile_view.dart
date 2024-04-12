@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
@@ -6,10 +5,7 @@ import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.d
 import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
-import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
-import 'package:pharmarack/view/onboarding/presentation/navigation/onboarding_outer_route_paths.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_common_button.dart';
-
 
 class LandingScreenMobileView extends StatelessWidget {
   const LandingScreenMobileView({super.key});
@@ -25,8 +21,7 @@ class LandingScreenMobileView extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 30.0),
-                  child: AppAssets.png.prNewLogo
-                      .image(width: 144, height: 66),
+                  child: AppAssets.png.prNewLogo.image(width: 144, height: 66),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -42,10 +37,8 @@ class LandingScreenMobileView extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 24.0),
-                          child:
-                              AppAssets.png.registrationLandingPageImage.image(
-                            
-                          ),
+                          child: AppAssets.png.registrationLandingPageImage
+                              .image(),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
@@ -95,9 +88,7 @@ class LandingScreenMobileView extends StatelessWidget {
                       buttonBackgroundColor: AppColors.blueButtonColor,
                       onPressedCallback: () {
                         Navigator.pushNamed(
-                            context,
-                            onboardingDI<RoutePaths>()
-                                .getRetailerRegistrationStepOnePath());
+                            context, RoutePaths.retailerRegistrationStepOne);
                       }),
                   const SizedBox(height: 4),
                   InkWell(

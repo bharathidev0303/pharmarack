@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
@@ -13,7 +12,6 @@ import 'package:pharmarack/feedback/presentation/cubit/feedback_input_state.dart
 import 'package:pharmarack/feedback/presentation/cubit/feedback_screen_cubit.dart';
 import 'package:pharmarack/feedback/presentation/cubit/feedback_screen_state.dart';
 import 'package:pharmarack/feedback/utils/feedback_constants.dart';
-
 
 class FeedbackRequestDialogScreen extends StatefulWidget {
   const FeedbackRequestDialogScreen({super.key});

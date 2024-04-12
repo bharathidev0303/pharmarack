@@ -1,12 +1,10 @@
 import 'dart:collection';
 
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/packages/core/log_util/log_util.dart';
 import 'package:pharmarack/view/onboarding/domain/repository/invalid_new_password_exception.dart';
 import 'package:pharmarack/view/onboarding/domain/repository/old_password_no_match_exception.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/change_password_state.dart';
-
 
 import '../../domain/usecase/change_password_usecase.dart';
 import '../../domain/usecase/match_saved_password_use_case.dart';
@@ -80,7 +78,7 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
   }
 
   void passwordChecks(String? value) {
-    if ((value ?? '').isNotEmpty && (value ?? '').trim().length >= 6) {
+    if ((value ?? '').isNotEmpty && (value ?? '').trim().length >= 8) {
       emit(state.copyWith(isAtLeastSixLetter: true));
     } else {
       emit(state.copyWith(isAtLeastSixLetter: false));

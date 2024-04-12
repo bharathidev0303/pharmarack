@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +10,6 @@ import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_
 import 'package:pharmarack/view/onboarding/presentation/cubit/forgot_password/change_password_screen/reset_password_screen_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_input_text_new.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
-
 
 class ResetPasswordInputTextFields extends StatefulWidget {
   final ResetPasswordScreenCubit resetPasswordScreenCubit;
@@ -113,7 +110,7 @@ class _InputTextFields extends State<ResetPasswordInputTextFields> {
                     height: 10,
                   ),
                   passwordCheckItem(
-                      state.isAtLeastSixLetter, 'At least 6 letters'),
+                      state.isAtLeastSixLetter, 'At least 8 letters'),
                   passwordCheckItem(state.isAnNumberAnUpperLowerCase,
                       'At least a number, an uppercase & a lowercase letter'),
                   passwordCheckItem(state.isSpecialChar,

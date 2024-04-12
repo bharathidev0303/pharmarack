@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/request_login_usecase.dart';
@@ -12,9 +11,9 @@ import 'package:pharmarack/view/onboarding/domain/usecase/save_success_verify_ot
 import 'package:pharmarack/view/onboarding/domain/usecase/verify_otp_usecase.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/otp_screen/otp_screen_state.dart';
-import 'package:pharmarack/view/onboarding/presentation/navigation/onboarding_outer_route_paths.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
 import 'package:pharmarack/packages/storage_utils/storage_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../domain/usecase/get_retailer_info_usecase.dart';
 
@@ -73,32 +72,35 @@ class OtpScreenCubit extends Cubit<OtpScreenState> {
   }
 
   void validateOtp() {
+    if (state is OtpScreenErrorState || state is OtpVerificationFailedState) {
+      emit(OtpScreenInitialState());
+    }
     otpFieldCubit.validateOtp(otpFieldController.text);
   }
 
   void verifyOtp() async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // String? storedValue = prefs.getString('delete_account_initiated');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? storedValue = prefs.getString('delete_account_initiated');
 
-    // if (storedValue == 'true') {
-    //   emit(OtpVerificationDeleteAccountState());
-    // } else {
-    //   emit(OtpScreenLoadingState());
-    //   final userOtp = otpFieldController.text;
-    //   final userMobileNumber = onboardingDI<String>(
-    //       instanceName: OnboardingConstants.loginMobileNumberDiConstant);
-    //   final verifyOtpResponse = await _verifyOtpUseCase.execute(
-    //       params: VerifyOtpUseCaseParams(
-    //           mobileNumber: userMobileNumber, module: "login", otp: userOtp));
-    //   verifyOtpResponse.fold((l) {
-    //     emit(OtpVerificationFailedState(statusMessage: l.error.message));
-    //   }, (r) {
-    //     if (r.userData?.isAuthorized == 0) {
-    //       emit(OtpPageUnAuthorizedDetectState());
-    //     }
-    //     saveOtpEntity();
-    //   });
-    // }
+    if (storedValue == 'true') {
+      emit(OtpVerificationDeleteAccountState());
+    } else {
+      emit(OtpScreenLoadingState());
+      final userOtp = otpFieldController.text;
+      final userMobileNumber = onboardingDI<String>(
+          instanceName: OnboardingConstants.loginMobileNumberDiConstant);
+      final verifyOtpResponse = await _verifyOtpUseCase.execute(
+          params: VerifyOtpUseCaseParams(
+              mobileNumber: userMobileNumber, module: "login", otp: userOtp));
+      verifyOtpResponse.fold((l) {
+        emit(OtpVerificationFailedState(statusMessage: l.error.message));
+      }, (r) {
+        if (r.userData?.isAuthorized == 0) {
+          emit(OtpPageUnAuthorizedDetectState());
+        }
+        saveOtpEntity();
+      });
+    }
   }
 
   Future<void> getRetailerInfo() async {

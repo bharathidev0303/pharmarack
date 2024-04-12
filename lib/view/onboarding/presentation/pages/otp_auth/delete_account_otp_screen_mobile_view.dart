@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
@@ -48,16 +47,17 @@ class _DeleteAccountOtpScreenMobileViewState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                  child: AppAssets.png.newPrLogo
-                      .image(width: 144, height: 66),
+                  child: AppAssets.png.newPrLogo.image(width: 144, height: 66),
                 ),
                 const SizedBox(
                   height: 24,
                 ),
-                Text(
-                  context.localizedString.otpScreenLabelText,
-                  style: AppTextStyles.style14W500Black(
-                      color: AppColors.mediumGreyText),
+                Center(
+                  child: Text(
+                    context.localizedString.otpScreenLabelText,
+                    style: AppTextStyles.style14W500Black(
+                        color: AppColors.mediumGreyText),
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -108,7 +108,6 @@ class _DeleteAccountOtpScreenMobileViewState
                           Navigator.pop(context);
                         },
                       );
-
                     }
 
                     if (state is DeleteAccountResendOtpErrorState) {

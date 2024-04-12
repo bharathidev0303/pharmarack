@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pharmarack/main/navigation/route_paths.dart';
+import 'package:pharmarack/packages/core_flutter/common_model/common_success_dialog_info_model.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
@@ -39,7 +41,21 @@ class LoginScreenMobileView extends StatelessWidget {
             subtitle: state.statusMessage ?? '',
           );
         }
-
+        if (state is LoginScreenDataState) {
+          CommonDialogs.closeCommonDialog(context: context);
+          if (onboardingDI.isRegistered<CommonSuccessDialogInfoModel>(
+              instanceName: OnboardingConstants.showDialogDiConstant)) {
+            onboardingDI.unregister<CommonSuccessDialogInfoModel>(
+                instanceName: OnboardingConstants.showDialogDiConstant);
+          }
+          onboardingDI.registerSingleton<CommonSuccessDialogInfoModel>(
+              CommonSuccessDialogInfoModel(
+                  title: context.localizedString.loginSuccessDialogTitleText,
+                  subtitle:
+                      context.localizedString.loginSuccessDialogSubtitleText),
+              instanceName: OnboardingConstants.showDialogDiConstant);
+          Navigator.of(context).pushNamed(RoutePaths.onBoardingOtp);
+        }
         if (state is LoginScreenLoadingState) {
           showProcessingRequestDialog(context);
         }

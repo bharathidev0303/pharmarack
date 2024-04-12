@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,13 +10,11 @@ import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_
 import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_state.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/forgot_password/forget_password_screen_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/forgot_password/forgot_password_state.dart';
-import 'package:pharmarack/view/onboarding/presentation/navigation/onboarding_outer_route_paths.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_common_button.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_input_text_new.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
 
 import '../../../../../packages/core_flutter/dls/color/app_colors.dart';
-
 
 class ForgotPasswordScreenMobileView extends StatelessWidget {
   final ForgotPasswordScreenCubit forgotPasswordScreenCubit;
@@ -32,8 +29,7 @@ class ForgotPasswordScreenMobileView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          AppAssets.png.newPrLogo
-              .image(width: 144, height: 66),
+          AppAssets.png.newPrLogo.image(width: 144, height: 66),
           const SizedBox(
             height: 24,
           ),
@@ -84,9 +80,8 @@ class ForgotPasswordScreenMobileView extends StatelessWidget {
                   forgotPasswordScreenCubit.mobileNumberFieldController.text =
                       "";
                   forgotPasswordScreenCubit.validateMobileNumber("");
-                  Navigator.of(context).pushNamed(
-                      onboardingDI<RoutePaths>()
-                          .getForgotPasswordOtpScreenPath());
+                  Navigator.of(context)
+                      .pushNamed(RoutePaths.forgotPasswordOtpScreen);
                 }
               }),
           const Spacer(),

@@ -12,14 +12,12 @@ import 'package:pharmarack/packages/core_flutter/localization/localization_exten
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_one/retailer_registration_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_one/retailer_registration_state.dart';
-import 'package:pharmarack/view/onboarding/presentation/navigation/onboarding_outer_route_paths.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/area_selection_dialog.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_common_button.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_drop_down.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_validator_input_text.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/registration_stepper.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
-
 
 import '../../../widgets/city_selection_dialog.dart';
 import '../../../widgets/region_selection_dialog.dart';
@@ -217,7 +215,13 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                       state.pincodeData.registrationAreas ?? [],
                                   title: context.localizedString.selectArea,
                                   onValueSelected: (registrationData) {
-                                    // cubit.onAreaSelected(registrationData);
+                                    cubit.updateAreaValue(
+                                        registrationData.areaName ?? "");
+                                    cubit.softValidateFields(reqMap);
+                                    cubit.checkAreaValue(
+                                        registrationData.areaName ?? "",
+                                        context.localizedString.areaError);
+                                    _formKey.currentState?.validate();
                                   });
                             },
                             child: Stack(children: [
@@ -252,7 +256,6 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                         .areaSelectionDialog),
                                     height: 16,
                                     width: 16,
-                                    
                                   ),
                                 ),
                               ),
@@ -268,11 +271,11 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                           [],
                                   title: context.localizedString.selectCity,
                                   onValueSelected: (registrationData) {
-                                    // cubit.updateCityValue(
-                                    //     registrationData.cityName ?? '');
-                                    // reqMap[OnboardingConstants.city] =
-                                    //     registrationData.cityName ?? '';
-                                    // cubit.softValidateFields(reqMap);
+                                    cubit.updateCityValue(
+                                        registrationData.cityName ?? '');
+                                    reqMap[OnboardingConstants.city] =
+                                        registrationData.cityName ?? '';
+                                    cubit.softValidateFields(reqMap);
                                   });
                             },
                             child: (state.pincodeData.registrationCities !=
@@ -317,7 +320,6 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                           child: AppAssets.svg.icDown.svg(
                                             height: 16,
                                             width: 16,
-                                            
                                           ),
                                         ),
                                       ),
@@ -355,7 +357,6 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                         child: AppAssets.svg.icDown.svg(
                                           height: 16,
                                           width: 16,
-                                          
                                         ),
                                       ),
                                     ),
@@ -421,7 +422,6 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                           child: AppAssets.svg.icDown.svg(
                                             height: 16,
                                             width: 16,
-                                            
                                           ),
                                         ),
                                       ),
@@ -476,10 +476,9 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                           ?.isNotEmpty ??
                                       false)) {
                                 cubit.saveUserInputFieldsData(reqMap);
-                                Navigator.pushNamed(
-                                    context,
-                                    onboardingDI<RoutePaths>()
-                                        .getRetailerRegistrationStepTwoPath());
+                                print("sjhshksjkjsk ${reqMap}");
+                                Navigator.pushNamed(context,
+                                    RoutePaths.retailerRegistrationStepTwo);
                               }
                             }
                           : null),

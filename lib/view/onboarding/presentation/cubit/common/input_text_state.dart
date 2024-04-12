@@ -79,7 +79,16 @@ class ResendButtonInitState extends ResendButtonState {}
 
 class ResendButtonEnabledState extends ResendButtonState {}
 
-class ResendButtonDisabledState extends ResendButtonState {}
+class ResendButtonDisabledState extends ResendButtonState {
+  final String timer;
+
+  const ResendButtonDisabledState({required this.timer});
+
+  @override
+  List<Object?> get props => [
+        timer,
+      ];
+}
 
 class NewPasswordCheckState extends NewPasswordFieldState {
   final bool isAtLeastSixLetter;

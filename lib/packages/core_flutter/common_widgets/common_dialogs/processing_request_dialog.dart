@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/packages/core_flutter/core/ui/device_detector_widget.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
@@ -79,9 +80,12 @@ class ProcessingRequestWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(
-                    width: 42,
-                    height: 42,
-                    child: CircularProgressIndicator(),
+                    width: 52,
+                    height: 54,
+                    child: SpinKitFadingCircle(
+                      color: AppColors.blueButtonColor,
+                      size: 50.0,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   Text(

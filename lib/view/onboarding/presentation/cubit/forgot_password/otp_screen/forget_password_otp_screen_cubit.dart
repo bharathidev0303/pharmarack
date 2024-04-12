@@ -19,7 +19,6 @@ import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_
 import 'package:pharmarack/view/onboarding/presentation/cubit/forgot_password/otp_screen/forgot_password_otp_screen_state.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
 
-
 import '../../../../domain/usecase/save_success_verify_otp_response_usecase.dart';
 import '../../../../domain/usecase/validate_otp_usecase.dart';
 import '../../../../domain/usecase/verify_otp_usecase.dart';
@@ -206,6 +205,9 @@ class ForgotPasswordOtpScreenCubit extends Cubit<ForgotPasswordOtpScreenState> {
   }
 
   void validateOtp(String otp) {
+    if (state is ForgotPasswordOtpScreenErrorState) {
+      emit(ForgotPasswordOtpScreenIntialState());
+    }
     otpFieldCubit.validateOtp(otp);
   }
 }

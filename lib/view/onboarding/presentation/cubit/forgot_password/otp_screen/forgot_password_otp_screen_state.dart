@@ -13,6 +13,8 @@ class ForgotPasswordOtpScreenInitialState
 class ForgotPasswordOtpScreenLoadingState
     extends ForgotPasswordOtpScreenState {}
 
+class ForgotPasswordOtpScreenIntialState extends ForgotPasswordOtpScreenState {}
+
 class ForgotPasswordOtpScreenErrorState extends ForgotPasswordOtpScreenState {
   final String? statusMessage;
 

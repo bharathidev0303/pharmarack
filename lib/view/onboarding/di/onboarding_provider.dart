@@ -39,7 +39,6 @@ import 'package:pharmarack/view/onboarding/presentation/cubit/otp_screen/otp_scr
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_one/retailer_registration_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_three/retailer_registration_step_three_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_two/retailer_registration_step_two_cubit.dart';
-import 'package:pharmarack/view/onboarding/presentation/navigation/onboarding_outer_route_paths.dart';
 import 'package:pharmarack/view/profile/presentation/cubit/profile_cubit.dart';
 
 import '../domain/repository/change_password_repository.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
+import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/loader_dialog.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
@@ -11,7 +12,6 @@ import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_
 import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_state.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/forgot_password/otp_screen/forget_password_otp_screen_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/forgot_password/otp_screen/forgot_password_otp_screen_state.dart';
-import 'package:pharmarack/view/onboarding/presentation/navigation/onboarding_outer_route_paths.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_common_button.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_common_otp_text_field.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
@@ -35,16 +35,17 @@ class ForgotPasswordOtpScreenMobileView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                  child: AppAssets.png.newPrLogo
-                      .image(width: 144, height: 66),
+                  child: AppAssets.png.newPrLogo.image(width: 144, height: 66),
                 ),
                 const SizedBox(
                   height: 24,
                 ),
-                Text(
-                  context.localizedString.forgotPasswordOtpScreenLabelText,
-                  style: AppTextStyles.style14W500Black(
-                      color: AppColors.mediumGreyText),
+                Center(
+                  child: Text(
+                    context.localizedString.forgotPasswordOtpScreenLabelText,
+                    style: AppTextStyles.style14W500Black(
+                        color: AppColors.mediumGreyText),
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -66,16 +67,12 @@ class ForgotPasswordOtpScreenMobileView extends StatelessWidget {
                     ForgotPasswordOtpScreenState>(
                   listener: (ctx, state) {
                     if (state is ForgotPasswordOtpScreenLoadingState) {
-                      showDialog(
-                          context: context,
-                          builder: (_) => PopScope(
-                                canPop: false,
-                                child: LoaderDialog(
-                                    title: context.localizedString
-                                        .onboardingLoginLoadingTitle,
-                                    subTitle: context.localizedString
-                                        .onboardingLoginLoadingMessage),
-                              ));
+                      CommonDialogs.closeCommonDialog(context: context);
+                      showProcessingRequestDialog(context,
+                          title: context
+                              .localizedString.onboardingLoginLoadingTitle,
+                          subtitle: context
+                              .localizedString.onboardingLoginLoadingMessage);
                     }
                     if (state is ForgotPasswordOtpScreenErrorState) {
                       Navigator.of(context).pop();
@@ -85,8 +82,8 @@ class ForgotPasswordOtpScreenMobileView extends StatelessWidget {
                     }
                     if (state is ForgotPasswordOtpScreenDataState) {
                       // Navigator.of(context).popUntil((route) => route.isFirst);
-                      Navigator.of(context).pushNamed(onboardingDI<RoutePaths>()
-                          .getResetPasswordScreenPath());
+                      Navigator.of(context)
+                          .pushNamed(RoutePaths.resetPasswordScreen);
                     }
                     if (state is ForgotPasswordResendOtpSuccessState) {
                       Navigator.of(context).pop();
@@ -145,23 +142,53 @@ class ForgotPasswordOtpScreenMobileView extends StatelessWidget {
                 BlocBuilder<ResendButtonCubit, ResendButtonState>(
                     bloc: forgotPasswordOtpScreenCubit.resendButtonCubit,
                     builder: (ctx, state) {
-                      return Center(
-                        child: InkWell(
+                      if (state is ResendButtonDisabledState) {
+                        return Center(
+                          child: InkWell(
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
                             key: const Key(OnboardingConstants.resendButton),
-                            onTap: (state is ResendButtonDisabledState)
-                                ? null
-                                : () {
-                                    forgotPasswordOtpScreenCubit.resendOtp();
-                                  },
-                            child: Text(
-                                context.localizedString
-                                    .forgotPasswordOtpScreenResendButtonText,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                                bottom: 20,
+                              ),
+                              child: Text(
+                                "Resend OTP in ${state.timer}",
                                 textAlign: TextAlign.center,
                                 style: AppTextStyles.style11W500MedGrey(
-                                    color: (state is ResendButtonDisabledState)
-                                        ? AppColors.blueButtonDisabledColor
-                                        : AppColors.blueButtonColor))),
-                      );
+                                    color: AppColors.blueButtonDisabledColor),
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Center(
+                          child: InkWell(
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
+                            key: const Key(OnboardingConstants.resendButton),
+                            onTap: () {
+                              forgotPasswordOtpScreenCubit.resendOtp();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                                bottom: 20,
+                              ),
+                              child: Text(
+                                context
+                                    .localizedString.otpScreenResendButtonText,
+                                textAlign: TextAlign.center,
+                                style: AppTextStyles.style11W500MedGrey(
+                                    color: AppColors.blueButtonColor),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
                     }),
                 const Spacer(),
                 BlocBuilder<OtpFieldCubit, OtpTextState>(

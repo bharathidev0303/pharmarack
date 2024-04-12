@@ -7,7 +7,6 @@ import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_
 import 'package:pharmarack/view/onboarding/presentation/cubit/forgot_password/forgot_password_state.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
 
-
 class ForgotPasswordScreenCubit extends Cubit<ForgotPasswordScreenState> {
   final RequestForgetPasswordUseCase _requestForgetPasswordUseCase;
   final MobileNumberFieldCubit mobileNumberFieldCubit;

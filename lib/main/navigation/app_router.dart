@@ -36,9 +36,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
-import 'package:pharmarack/view/onboarding/presentation/login/login_screen.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/forgot_password_screen.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/otp_screen/forgot_password_otp_screen.dart';
+import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/reset_password/reset_password_screen.dart';
+import 'package:pharmarack/view/onboarding/presentation/pages/login_screen.dart';
+import 'package:pharmarack/view/onboarding/presentation/pages/otp_auth/delete_account_otp_screen.dart';
+import 'package:pharmarack/view/onboarding/presentation/pages/otp_auth/otp_screen.dart';
+import 'package:pharmarack/view/onboarding/presentation/pages/retailer_registration/landing_page/retailer_registration_landing_screen.dart';
+import 'package:pharmarack/view/onboarding/presentation/pages/retailer_registration/step_one_page/registration_step_one_screen.dart';
+import 'package:pharmarack/view/onboarding/presentation/pages/retailer_registration/step_three_page/registration_step_three_screen.dart';
+import 'package:pharmarack/view/onboarding/presentation/pages/retailer_registration/step_two_page/registration_step_two_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(
@@ -84,18 +91,18 @@ class AppRouter {
             builder: (context) => const ForgotPasswordOtpScreen(),
             settings:
                 const RouteSettings(name: RoutePaths.forgotPasswordOtpScreen));
-      // case RoutePaths.deleteAccountOtpScreen:
-      //   return MaterialPageRoute(
-      //       builder: (context) => const DeleteAccountOtpScreen(),
-      //       settings:
-      //           const RouteSettings(name: RoutePaths.deleteAccountOtpScreen));
-      // case RoutePaths.onBoardingOtp:
-      //   return MaterialPageRoute(builder: (context) => const OtpScreen());
-      // case RoutePaths.resetPasswordScreen:
-      //   return MaterialPageRoute(
-      //       builder: (context) => const ResetPasswordScreen(),
-      //       settings:
-      //           const RouteSettings(name: RoutePaths.resetPasswordScreen));
+      case RoutePaths.deleteAccountOtpScreen:
+        return MaterialPageRoute(
+            builder: (context) => const DeleteAccountOtpScreen(),
+            settings:
+                const RouteSettings(name: RoutePaths.deleteAccountOtpScreen));
+      case RoutePaths.onBoardingOtp:
+        return MaterialPageRoute(builder: (context) => const OtpScreen());
+      case RoutePaths.resetPasswordScreen:
+        return MaterialPageRoute(
+            builder: (context) => const ResetPasswordScreen(),
+            settings:
+                const RouteSettings(name: RoutePaths.resetPasswordScreen));
       // case RoutePaths.orderHistory:
       //   return MaterialPageRoute(
       //       builder: (context) => const OrderHistoryPage());
@@ -136,22 +143,22 @@ class AppRouter {
       //   return MaterialPageRoute(
       //     builder: (context) => const OrderDetailsPage(),
       //   );
-      // case RoutePaths.retailerRegistration:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const RetailerRegistrationLandingScreen(),
-      //   );
-      // case RoutePaths.retailerRegistrationStepOne:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const RetailerRegistrationStepOneScreen(),
-      //   );
-      // case RoutePaths.retailerRegistrationStepTwo:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const RetailerRegistrationStepTwoScreen(),
-      //   );
-      // case RoutePaths.retailerRegistrationStepThree:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const RetailerRegistrationStepThreeScreen(),
-      //   );
+      case RoutePaths.retailerRegistration:
+        return MaterialPageRoute(
+          builder: (context) => const RetailerRegistrationLandingScreen(),
+        );
+      case RoutePaths.retailerRegistrationStepOne:
+        return MaterialPageRoute(
+          builder: (context) => const RetailerRegistrationStepOneScreen(),
+        );
+      case RoutePaths.retailerRegistrationStepTwo:
+        return MaterialPageRoute(
+          builder: (context) => const RetailerRegistrationStepTwoScreen(),
+        );
+      case RoutePaths.retailerRegistrationStepThree:
+        return MaterialPageRoute(
+          builder: (context) => const RetailerRegistrationStepThreeScreen(),
+        );
       // case RoutePaths.rewards:
       //   return MaterialPageRoute(
       //     builder: (context) => const RewardsPage(),

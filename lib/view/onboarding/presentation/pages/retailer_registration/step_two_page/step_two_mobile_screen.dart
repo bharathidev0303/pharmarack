@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,13 +11,11 @@ import 'package:pharmarack/packages/core_flutter/localization/localization_exten
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_two/retailer_registration_step_two_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_two/retailer_registration_step_two_state.dart';
-import 'package:pharmarack/view/onboarding/presentation/navigation/onboarding_outer_route_paths.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_common_button.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_validator_input_text.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/registration_stepper.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
 import 'package:pharmarack/view/onboarding/utils/onboarding_validators.dart';
-
 
 class StepTwoMobileScreen extends StatefulWidget {
   const StepTwoMobileScreen({super.key});
@@ -376,7 +373,7 @@ class _StepTwoMobileScreenState extends State<StepTwoMobileScreen> {
                             height: 10,
                           ),
                           passwordCheckItem(
-                              state.isAtLeastSixLetter, 'At least 6 letters'),
+                              state.isAtLeastSixLetter, 'At least 8 letters'),
                           passwordCheckItem(state.isAnNumberAnUpperLowerCase,
                               'At least a number, an uppercase & a lowercase letter'),
                           passwordCheckItem(state.isSpecialChar,
@@ -453,10 +450,8 @@ class _StepTwoMobileScreenState extends State<StepTwoMobileScreen> {
                                 if ((formKey.currentState?.validate() ??
                                     false)) {
                                   cubit.saveUserInputFieldsData();
-                                  Navigator.pushNamed(
-                                      context,
-                                      onboardingDI<RoutePaths>()
-                                          .getRetailerRegistrationStepThreePath());
+                                  Navigator.pushNamed(context,
+                                      RoutePaths.retailerRegistrationStepThree);
                                 }
                               }
                             : null),

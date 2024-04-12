@@ -5,10 +5,8 @@ import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
-import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/login_screen_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/login_screen_state.dart';
-import 'package:pharmarack/view/onboarding/presentation/navigation/onboarding_outer_route_paths.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_input_text_new.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
 

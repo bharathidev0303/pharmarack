@@ -62,12 +62,21 @@ class MobileNumberFieldCubit extends Cubit<MobileNumberTextState> {
 class ResendButtonCubit extends Cubit<ResendButtonState> {
   ResendButtonCubit() : super(ResendButtonInitState());
   Timer? _timer;
-
   void startTimer() {
-    emit(ResendButtonDisabledState());
-    _timer = Timer(const Duration(seconds: 15), () {
-      emit(ResendButtonEnabledState());
+    int timeLeft = 30;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (timeLeft > 0) {
+        emit(ResendButtonDisabledState(
+            timer: timeLeft > 9 ? "00:${timeLeft--}" : "00:0${timeLeft--}"));
+      } else {
+        emit(ResendButtonEnabledState());
+        _timer!.cancel(); // Stop the timer when timeLeft reaches 0
+      }
     });
+    // emit(ResendButtonDisabledState());
+    // _timer = Timer(const Duration(seconds: 30), () {
+    //   emit(ResendButtonEnabledState());
+    // });
   }
 
   void stopTimer() {
@@ -80,7 +89,7 @@ class NewPasswordFieldCubit extends Cubit<NewPasswordCheckState> {
   NewPasswordFieldCubit() : super(NewPasswordCheckState.initial());
 
   void passwordChecks(String? value) {
-    if ((value ?? '').isNotEmpty && (value ?? '').trim().length >= 6) {
+    if ((value ?? '').isNotEmpty && (value ?? '').trim().length >= 8) {
       emit(state.copyWith(isAtLeastSixLetter: true));
     } else {
       emit(state.copyWith(isAtLeastSixLetter: false));

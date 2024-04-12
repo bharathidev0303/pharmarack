@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pharmarack/packages/core_flutter/core/ui/base_view.dart';
+import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/forgot_password/forget_password_screen_cubit.dart';
@@ -43,8 +44,14 @@ class ForgotPasswordScreenState extends BaseStatefulPage {
 
   @override
   Widget buildView(BuildContext context) {
-    return ForgotPasswordScreenMobileView(
-      forgotPasswordScreenCubit: _forgotPasswordScreenCubit,
+    return AnnotatedRegion(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: AppColors.appBarColor,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+      child: ForgotPasswordScreenMobileView(
+        forgotPasswordScreenCubit: _forgotPasswordScreenCubit,
+      ),
     );
   }
 }

@@ -1,11 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
+import 'package:pharmarack/packages/core_flutter/utils/extensions.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_state.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/otp_screen/otp_screen_cubit.dart';
@@ -14,7 +15,6 @@ import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_commo
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
 
 import '../../widgets/onboarding_common_button.dart';
-
 
 class OtpScreenMobileView extends StatelessWidget {
   final OtpScreenCubit otpScreenCubit;
@@ -110,14 +110,14 @@ class OtpScreenMobileView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(
-                      child: AppAssets.png.newPrLogo.image(
-                           width: 144, height: 66),
+                      child:
+                          AppAssets.png.newPrLogo.image(width: 144, height: 66),
                     ),
                     const SizedBox(
                       height: 25,
                     ),
                     Align(
-                      alignment: Alignment.topLeft,
+                      alignment: Alignment.center,
                       child: Text(
                         context.localizedString.otpScreenLabelText,
                         style: AppTextStyles.style14W500Black(
@@ -176,34 +176,53 @@ class OtpScreenMobileView extends StatelessWidget {
                     BlocBuilder<ResendButtonCubit, ResendButtonState>(
                       bloc: otpScreenCubit.resendButtonCubit,
                       builder: (ctx, state) {
-                        return Center(
-                          child: InkWell(
-                            highlightColor: Colors.transparent,
-                            splashColor: Colors.transparent,
-                            key: const Key(OnboardingConstants.resendButton),
-                            onTap: (state is ResendButtonDisabledState)
-                                ? null
-                                : () {
-                                    otpScreenCubit.resendOtp();
-                                  },
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                                bottom: 20,
-                              ),
-                              child: Text(
-                                context
-                                    .localizedString.otpScreenResendButtonText,
-                                textAlign: TextAlign.center,
-                                style: AppTextStyles.style11W500MedGrey(
-                                    color: (state is ResendButtonDisabledState)
-                                        ? AppColors.blueButtonDisabledColor
-                                        : AppColors.blueButtonColor),
+                        if (state is ResendButtonDisabledState) {
+                          return Center(
+                            child: InkWell(
+                              highlightColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              key: const Key(OnboardingConstants.resendButton),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 20,
+                                  right: 20,
+                                  bottom: 20,
+                                ),
+                                child: Text(
+                                  "Resend OTP in ${state.timer}",
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyles.style11W500MedGrey(
+                                      color: AppColors.blueButtonDisabledColor),
+                                ),
                               ),
                             ),
-                          ),
-                        );
+                          );
+                        } else {
+                          return Center(
+                            child: InkWell(
+                              highlightColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                              key: const Key(OnboardingConstants.resendButton),
+                              onTap: () {
+                                otpScreenCubit.resendOtp();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 20,
+                                  right: 20,
+                                  bottom: 20,
+                                ),
+                                child: Text(
+                                  context.localizedString
+                                      .otpScreenResendButtonText,
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyles.style11W500MedGrey(
+                                      color: AppColors.blueButtonColor),
+                                ),
+                              ),
+                            ),
+                          );
+                        }
                       },
                     ),
                     Expanded(child: Container()),

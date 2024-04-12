@@ -9,7 +9,6 @@ import 'package:pharmarack/view/onboarding/domain/usecase/request_login_usecase.
 import 'package:pharmarack/view/onboarding/domain/usecase/store_header_use_case.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/login_screen_state.dart';
-import 'package:pharmarack/view/onboarding/presentation/navigation/onboarding_outer_route_paths.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
 
 import '../../di/onboarding_provider.dart';
@@ -96,6 +95,10 @@ class LoginScreenCubit extends Cubit<LoginScreenState> {
   }
 
   void validateUsernameAndPassword() {
+    if (state is LoginScreenPasswordNotValidState ||
+        state is LoginScreenUsernameNotValidState) {
+      emit(LoginScreenInitialState());
+    }
     loginScreenTextCubit.validateTextFields(
         username: userNameController.text, password: passwordController.text);
   }
