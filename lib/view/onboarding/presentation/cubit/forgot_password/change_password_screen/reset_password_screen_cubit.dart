@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pharmarack/packages/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/packages/core/network/interceptor/dio_interceptor.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/packages/core_flutter/utils/app_constants.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/delete_reset_password_data_usecase.dart';
@@ -16,19 +15,11 @@ import 'package:pharmarack/view/onboarding/domain/usecase/request_reset_password
 import 'package:pharmarack/view/onboarding/domain/usecase/store_header_use_case.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/forgot_password/change_password_screen/reset_password_state.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-
-
 import '../../../../data/entities/reset_password_response_entity.dart';
-import '../../../../domain/model/reset_password_model.dart';
 import '../../../../domain/usecase/get_retailer_info_usecase.dart';
 import '../../../../domain/usecase/request_login_usecase.dart';
 import '../../../../domain/usecase/save_reset_password_response_usecase.dart';
-import '../../../../domain/usecase/save_success_verify_otp_response_usecase.dart';
 import '../../../../utils/constants.dart';
-import '../../common/input_text_state.dart';
-import '../../login_screen_state.dart';
 
 class ResetPasswordScreenCubit extends Cubit<ResetPasswordScreenState> {
   final NewPasswordFieldCubit newPasswordFieldCubit;

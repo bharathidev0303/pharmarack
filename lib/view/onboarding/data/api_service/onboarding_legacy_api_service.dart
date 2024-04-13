@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart' hide Headers;
-import 'package:pharmarack/packages/common_entity/login_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/login_entity.dart';
 import 'package:pharmarack/view/onboarding/data/endpoints_constants/onboarding_endpoints.dart';
 
 import 'package:retrofit/retrofit.dart';

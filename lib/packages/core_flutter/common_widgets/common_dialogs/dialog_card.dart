@@ -91,7 +91,6 @@ class DialogCard extends StatelessWidget {
                       ? const SizedBox.shrink()
                       : InkWell(
                           child: AppAssets.svg.icClose.svg(
-                            package: 'core_flutter',
                             semanticsLabel: 'Close',
                           ),
                           onTap: () {

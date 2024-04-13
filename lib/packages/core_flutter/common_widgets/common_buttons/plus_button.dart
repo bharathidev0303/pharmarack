@@ -10,8 +10,7 @@ class PlusButton extends StatelessWidget {
     return Material(
       child: GestureDetector(
         onTap: () => onTap(),
-        child: AppAssets.svg.plusBotton
-            .svg(package: 'core_flutter', height: 32, width: 32),
+        child: AppAssets.svg.plusBotton.svg(height: 32, width: 32),
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/image_picker_dialog.dart';
@@ -82,7 +81,9 @@ class CustomImageFormField extends StatelessWidget {
                         ),
                         if (formFieldState.value == null)
                           AppAssets.svg.uploadIcon.svg(
-                              height: 24, width: 24, package: 'core_flutter'),
+                            height: 24,
+                            width: 24,
+                          ),
                         if (formFieldState.value != null)
                           InkWell(
                             onTap: () {
@@ -91,11 +92,11 @@ class CustomImageFormField extends StatelessWidget {
                               onChanged.call(null);
                             },
                             child: AppAssets.svg.icClose.svg(
-                                key: const Key(
-                                    OnboardingConstants.removeFileButton),
-                                height: 24,
-                                width: 24,
-                                package: 'core_flutter'),
+                              key: const Key(
+                                  OnboardingConstants.removeFileButton),
+                              height: 24,
+                              width: 24,
+                            ),
                           ),
                       ],
                     ),

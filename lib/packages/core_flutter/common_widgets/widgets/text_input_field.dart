@@ -176,7 +176,6 @@ class _TextInputFieldState extends State<TextInputField> {
               // Error and success text
               children: [
                 AppAssets.svg.infoCircle.svg(
-                  package: 'core_flutter',
                   colorFilter: ColorFilter.mode(
                     _getInformationTextColor(),
                     BlendMode.srcIn,

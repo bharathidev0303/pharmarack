@@ -1,6 +1,5 @@
-
 import 'package:dio/dio.dart';
-import 'package:pharmarack/packages/common_entity/common_response_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/common_response_entity.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../endpoints_constants/onboarding_endpoints.dart';

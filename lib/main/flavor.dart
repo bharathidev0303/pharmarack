@@ -4,6 +4,7 @@ class Flavor {
   final String baseUrl;
   final String cmsGatewayBaseUrl;
   final String flyBaseUrl;
+  final String elasticSearchBaseUrl;
   final Env env;
   final String proxyBaseUrl;
 
@@ -13,6 +14,7 @@ class Flavor {
     required this.baseUrl,
     required this.cmsGatewayBaseUrl,
     required this.flyBaseUrl,
+    required this.elasticSearchBaseUrl,
     this.env = Env.dev,
     this.proxyBaseUrl = '',
   }) {

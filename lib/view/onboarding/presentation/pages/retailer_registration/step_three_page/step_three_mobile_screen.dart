@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
-import 'package:pharmarack/packages/common_entity/login_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/login_entity.dart';
 import 'package:pharmarack/packages/core_flutter/common_model/common_success_dialog_info_model.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';

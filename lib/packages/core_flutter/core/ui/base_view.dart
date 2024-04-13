@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/login_entity.dart';
 import 'package:pharmarack/packages/core_flutter/common_local_data_source/local_data_source.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/dashboard/menu_actions.dart';
@@ -9,8 +9,6 @@ import 'package:pharmarack/packages/core_flutter/core/ui/drawer_router_paths.dar
 import 'package:pharmarack/packages/core_flutter/di/core_flutter_provider.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/utils/url_launcher_utils.dart';
-import 'package:pharmarack/packages/common_entity/login_entity.dart';
-
 import '../../constants/app_urls.dart';
 
 abstract class BasePage<T extends BasePageState> extends StatefulWidget {

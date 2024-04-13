@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
@@ -42,7 +41,7 @@ class SearchState extends State<CustomSearchBar> {
           hintStyle: AppTextStyles.searchHintTextStyle15W400Black(),
           prefixIcon: Padding(
               padding: const EdgeInsets.only(left: 10),
-              child: AppAssets.svg.icSearchCustom.svg(package: 'core_flutter')),
+              child: AppAssets.svg.icSearchCustom.svg()),
           prefixIconConstraints:
               const BoxConstraints(minHeight: 30, minWidth: 30),
           focusedBorder: const OutlineInputBorder(

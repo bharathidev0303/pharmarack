@@ -18,6 +18,8 @@ class OtpScreenErrorState extends OtpScreenState {}
 
 class OtpPageUnAuthorizedDetectState extends OtpScreenState {}
 
+class OtpClearState extends OtpScreenState {}
+
 /// Received the OTP
 class OtpScreenDataState extends OtpScreenState {}
 
@@ -41,6 +43,18 @@ class OtpVerificationFailedState extends OtpScreenState {
   final String? statusMessage;
 
   const OtpVerificationFailedState({this.statusMessage});
+
+  @override
+  List<Object?> get props => [
+        statusMessage,
+      ];
+}
+
+/// Verification exceed Attemps
+class OtpVerificationExceedAttempsState extends OtpScreenState {
+  final String? statusMessage;
+
+  OtpVerificationExceedAttempsState({this.statusMessage});
 
   @override
   List<Object?> get props => [

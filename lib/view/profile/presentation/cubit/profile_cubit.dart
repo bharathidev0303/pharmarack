@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pharmarack/packages/common_entity/retailer_info_response_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/profile/presentation/constants/my_profile_constants.dart';
 import 'package:pharmarack/view/profile/presentation/cubit/profile_state.dart';

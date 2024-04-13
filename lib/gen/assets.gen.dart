@@ -11,10 +11,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 
-class $AssetsFontsGen {
-  const $AssetsFontsGen();
-}
-
 class $AssetsPngGen {
   const $AssetsPngGen();
 
@@ -633,7 +629,6 @@ class $AssetsSvgGen {
 class AppAssets {
   AppAssets._();
 
-  static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsPngGen png = $AssetsPngGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();
 }

@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:pharmarack/packages/common_entity/retailer_info_response_entity.dart';
+import 'package:pharmarack/main/navigation/route_paths.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/verify_otp_response_entity.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/request_login_usecase.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/save_success_verify_otp_response_usecase.dart';
@@ -31,14 +33,11 @@ class OtpScreenCubit extends Cubit<OtpScreenState> {
 
   final FlutterSecureStorage _secureStorage;
 
-  // final OnboardingOuterRoutePaths _onboardingOuterRoutePaths;
-
   OtpScreenCubit(
       VerifyOtpUseCase verifyOtpUseCase,
       RequestLoginUseCase requestLoginUseCase,
       SaveSuccessVerifyOtpResponseUseCase saveSuccessVerifyOtpResponseUseCase,
       GetRetailerInfoUseCase getRetailerInfoUseCase,
-      // OnboardingOuterRoutePaths paths,
       this._secureStorage,
       {required this.otpFieldCubit,
       required this.resendButtonCubit})
@@ -47,7 +46,6 @@ class OtpScreenCubit extends Cubit<OtpScreenState> {
         _getRetailerInfoUseCase = getRetailerInfoUseCase,
         _saveSuccessVerifyOtpResponseUseCase =
             saveSuccessVerifyOtpResponseUseCase,
-        // _onboardingOuterRoutePaths = paths,
         super(OtpScreenInitialState());
 
   void resendOtp() async {
@@ -72,8 +70,8 @@ class OtpScreenCubit extends Cubit<OtpScreenState> {
   }
 
   void validateOtp() {
-    if (state is OtpScreenErrorState || state is OtpVerificationFailedState) {
-      emit(OtpScreenInitialState());
+    if (otpFieldController.text == '') {
+      emit(OtpClearState());
     }
     otpFieldCubit.validateOtp(otpFieldController.text);
   }
@@ -93,7 +91,14 @@ class OtpScreenCubit extends Cubit<OtpScreenState> {
           params: VerifyOtpUseCaseParams(
               mobileNumber: userMobileNumber, module: "login", otp: userOtp));
       verifyOtpResponse.fold((l) {
-        emit(OtpVerificationFailedState(statusMessage: l.error.message));
+        if (l.error.message ==
+            'You\'ve exceed the number of attempts for OTP verification. Please try again after 2 mins.') {
+          emit(OtpVerificationExceedAttempsState(
+              statusMessage:
+                  "You've exceed the number of attempts for OTP verification. Please try again after 2 mins."));
+        } else {
+          emit(OtpVerificationFailedState(statusMessage: l.error.message));
+        }
       }, (r) {
         if (r.userData?.isAuthorized == 0) {
           emit(OtpPageUnAuthorizedDetectState());
@@ -121,44 +126,44 @@ class OtpScreenCubit extends Cubit<OtpScreenState> {
   }
 
   void saveOtpEntity() async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // String? storedValue = prefs.getString('delete_account_initiated');
-    // final saveSuccessOtpResponse =
-    //     await _saveSuccessVerifyOtpResponseUseCase.execute(
-    //         params: SaveSuccessVerifyOtpResponseUseCaseParams(
-    //             onboardingDI<VerifyOtpResponseEntity>(
-    //                 instanceName:
-    //                     OnboardingConstants.verifyOtpResponseDiConstant)));
-    // saveSuccessOtpResponse.fold((l) => emit(OtpScreenErrorState()), (r) async {
-    //   try {
-    //     getRetailerInfo();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? storedValue = prefs.getString('delete_account_initiated');
+    final saveSuccessOtpResponse =
+        await _saveSuccessVerifyOtpResponseUseCase.execute(
+            params: SaveSuccessVerifyOtpResponseUseCaseParams(
+                onboardingDI<VerifyOtpResponseEntity>(
+                    instanceName:
+                        OnboardingConstants.verifyOtpResponseDiConstant)));
+    saveSuccessOtpResponse.fold((l) => emit(OtpScreenErrorState()), (r) async {
+      try {
+        getRetailerInfo();
 
-    //     // getRetailerInfo()
-    //   } on Exception catch (_) {
-    //     emit(OtpPageUnAuthorizedDetectState());
-    //   }
-    //   // try {
-    //   //   final getRetailerInfoResponse =
-    //   //   await _getRetailerInfoUseCase.execute(params: GetRetailerInfoParams());
-    //   //   getRetailerInfoResponse.fold((l) {
-    //   //     if (l.error.code == 401) {
-    //   //       emit(OtpPageUnAuthorizedDetectState());
-    //   //     }
-    //   //     emit(OtpScreenErrorState());
-    //   //   }, (r) {
-    //   //     if (onboardingDI.isRegistered<RetailerInfoEntity>()) {
-    //   //       onboardingDI.unregister<RetailerInfoEntity>();
-    //   //     }
-    //   //     onboardingDI.registerSingleton<RetailerInfoEntity>(r);
-    //   //     emit(OtpVerificationSuccessState());
-    //   //   });
-    //   // } on Exception catch (_) {
-    //   //   emit(OtpPageUnAuthorizedDetectState());
-    //   // }
-    //   if (storedValue == 'true') {
-    //     emit(OtpVerificationDeleteAccountState());
-    //   }
-    // });
+        // getRetailerInfo()
+      } on Exception catch (_) {
+        emit(OtpPageUnAuthorizedDetectState());
+      }
+      // try {
+      //   final getRetailerInfoResponse =
+      //   await _getRetailerInfoUseCase.execute(params: GetRetailerInfoParams());
+      //   getRetailerInfoResponse.fold((l) {
+      //     if (l.error.code == 401) {
+      //       emit(OtpPageUnAuthorizedDetectState());
+      //     }
+      //     emit(OtpScreenErrorState());
+      //   }, (r) {
+      //     if (onboardingDI.isRegistered<RetailerInfoEntity>()) {
+      //       onboardingDI.unregister<RetailerInfoEntity>();
+      //     }
+      //     onboardingDI.registerSingleton<RetailerInfoEntity>(r);
+      //     emit(OtpVerificationSuccessState());
+      //   });
+      // } on Exception catch (_) {
+      //   emit(OtpPageUnAuthorizedDetectState());
+      // }
+      if (storedValue == 'true') {
+        emit(OtpVerificationDeleteAccountState());
+      }
+    });
   }
 
   void deleteAccount() async {
@@ -189,15 +194,15 @@ class OtpScreenCubit extends Cubit<OtpScreenState> {
 
   void navigateToDashboard(BuildContext context) {
     Navigator.of(context).pop();
-    // Navigator.of(context).pushNamedAndRemoveUntil(
-    //     _onboardingOuterRoutePaths.getDashBoardPath(), (route) => false);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(RoutePaths.dashBoardScreen, (route) => false);
   }
 
   void navigateToLoginScreen(BuildContext context) {
     Navigator.of(context).pop();
-    // Navigator.pushNamed(
-    //   context,
-    //   RoutePaths.loginScreen,
-    // );
+    Navigator.pushNamed(
+      context,
+      RoutePaths.loginScreen,
+    );
   }
 }

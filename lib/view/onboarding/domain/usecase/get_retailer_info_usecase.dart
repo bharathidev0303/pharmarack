@@ -1,9 +1,8 @@
-
 import 'package:fpdart/fpdart.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/packages/core_flutter/core/base_usecase/base_usecase.dart';
 import 'package:pharmarack/packages/core_flutter/core/base_usecase/params.dart';
 import 'package:pharmarack/packages/core_flutter/error/base_error.dart';
-import 'package:pharmarack/packages/common_entity/retailer_info_response_entity.dart';
 
 import '../repository/onboarding_repository.dart';
 

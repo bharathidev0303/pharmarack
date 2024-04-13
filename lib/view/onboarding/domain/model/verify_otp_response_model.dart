@@ -1,6 +1,4 @@
-
-
-import 'package:pharmarack/packages/common_entity/verify_otp_response_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/verify_otp_response_entity.dart';
 
 class VerifyOtpResponseModel {
   String? token;

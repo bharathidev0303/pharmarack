@@ -11,6 +11,8 @@ void main() {
       cmsGatewayBaseUrl:
           "https://pharmretail-modernization-dev-cmsgateway.pharmarack.com/",
       flyBaseUrl: "https://stage-partner-api.theflyy.com",
+      elasticSearchBaseUrl:
+          'https://pharmretail-modernization-dev-elasticsearch.pharmarack.com/',
       env: Env.qa);
   mainCommon(flavor);
 }

@@ -1,14 +1,12 @@
-
 import 'package:fpdart/fpdart.dart';
-import 'package:pharmarack/packages/common_entity/login_entity.dart';
-import 'package:pharmarack/packages/common_entity/verify_otp_response_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/login_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/verify_otp_response_entity.dart';
 import 'package:pharmarack/packages/core_flutter/error/database_error.dart';
 import 'package:pharmarack/packages/core_flutter/error/local_error.dart';
 import 'package:pharmarack/packages/storage_utils/storage.dart';
 import 'package:pharmarack/packages/storage_utils/storage_constants.dart';
 import 'package:pharmarack/packages/storage_utils/storage_factory.dart';
 
-import '../../../domain/model/reset_password_model.dart';
 import '../../entities/reset_password_response_entity.dart';
 
 class OnboardingLocalDBService {

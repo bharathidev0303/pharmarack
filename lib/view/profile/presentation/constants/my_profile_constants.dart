@@ -1,11 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/side_navigation_legacy/model/legacy_menu.dart';
 import 'package:pharmarack/packages/core_flutter/constants/app_urls.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
-
 
 class MyProfileConstants {
   static String loginId = '';
@@ -61,43 +59,43 @@ class MyProfileConstants {
         //   //   "name": context.localizedString.byDistributor,
         //   //   "route": RoutePaths.dashBoardScreen,
         //   //   "icon": AppAssets.png.byDistributorMenu
-        //   //       .provider(package: "core_flutter"),
+        //   //       .provider(),
         //   // },
         //   // {
         //   //   "name": context.localizedString.byProduct,
         //   //   "route": RoutePaths.searchProduct,
         //   //   "icon":
-        //   //       AppAssets.png.byProductMenu.provider(package: "core_flutter"),
+        //   //       AppAssets.png.byProductMenu.provider(),
         //   // },
         //   // {
         //   //   "name": context.localizedString.bestRate,
         //   //   "route": RoutePaths.byRate,
         //   //   "icon":
-        //   //       AppAssets.png.byBestRateMenu.provider(package: "core_flutter"),
+        //   //       AppAssets.png.byBestRateMenu.provider(),
         //   // },
         //   // {
         //   //   "name": context.localizedString.dealsOfTheDay,
         //   //   "route": RoutePaths.cashbackDeals,
         //   //   "icon": AppAssets.png.dealsOfTheDayMenu
-        //   //       .provider(package: "core_flutter"),
+        //   //       .provider(),
         //   // },
         //   // {
         //   //   "name": context.localizedString.cashbackDeals,
         //   //   "route": RoutePaths.cashbackDeals,
         //   //   "icon":
-        //   //       AppAssets.png.hotDealsMenu.provider(package: "core_flutter"),
+        //   //       AppAssets.png.hotDealsMenu.provider(),
         //   // },
         //   // {
         //   //   "name": context.localizedString.bouncedNav,
         //   //   "route": RoutePaths.getBouncedOrdersScreen,
         //   //   "icon": AppAssets.png.bouncedOrdersMenu
-        //   //       .provider(package: "core_flutter"),
+        //   //       .provider(),
         //   // },
         //   // {
         //   //   "name": context.localizedString.orderHistory,
         //   //   "route": RoutePaths.orderHistory,
         //   //   "icon": AppAssets.png.orderHistoryMenu
-        //   //       .provider(package: "core_flutter"),
+        //   //       .provider(),
         //   // },
         // ]
       },
@@ -106,13 +104,11 @@ class MyProfileConstants {
         "subMenu": [
           {
             "name": context.localizedString.cashbackDeals,
-            "icon": AppAssets.png.byDistributorMenu
-                .provider(package: "core_flutter"),
+            "icon": AppAssets.png.byDistributorMenu.provider(),
           },
           {
             "name": context.localizedString.loyaltyPrograms,
-            "icon": AppAssets.png.loyaltyProgramMenu
-                .provider(package: "core_flutter"),
+            "icon": AppAssets.png.loyaltyProgramMenu.provider(),
           }
         ],
       },
@@ -121,24 +117,20 @@ class MyProfileConstants {
         "subMenu": [
           {
             "name": context.localizedString.byProduct,
-            "icon": AppAssets.png.byProductSeachMenu
-                .provider(package: "core_flutter"),
+            "icon": AppAssets.png.byProductSeachMenu.provider(),
             "route": RoutePaths.searchProduct,
           },
           {
             "name": context.localizedString.byGeneric,
-            "icon": AppAssets.png.byGenericSearchMeun
-                .provider(package: "core_flutter"),
+            "icon": AppAssets.png.byGenericSearchMeun.provider(),
           },
           {
             "name": context.localizedString.byCompany,
-            "icon": AppAssets.png.byCompanySearchMenu
-                .provider(package: "core_flutter"),
+            "icon": AppAssets.png.byCompanySearchMenu.provider(),
           },
           {
             "name": context.localizedString.byDistributor,
-            "icon": AppAssets.png.byDistributorSearchMenu
-                .provider(package: "core_flutter"),
+            "icon": AppAssets.png.byDistributorSearchMenu.provider(),
           },
         ]
       },
@@ -147,13 +139,11 @@ class MyProfileConstants {
         "subMenu": [
           {
             "name": context.localizedString.outstanding,
-            "icon": AppAssets.png.outstandingsMenu
-                .provider(package: "core_flutter"),
+            "icon": AppAssets.png.outstandingsMenu.provider(),
           },
           {
             "name": context.localizedString.history,
-            "icon": AppAssets.png.historyOutStandingsMenu
-                .provider(package: "core_flutter"),
+            "icon": AppAssets.png.historyOutStandingsMenu.provider(),
           },
         ]
       },
@@ -164,13 +154,13 @@ class MyProfileConstants {
         //   //   "name": context.localizedString.distributors,
         //   //   "route": RoutePaths.distributorConnection,
         //   //   "icon": AppAssets.png.distributorsMenu
-        //   //       .provider(package: "core_flutter"),
+        //   //       .provider(),
         //   // },
         //   // {
         //   //   "name": context.localizedString.fulfilmentPartners,
         //   //   "route": RoutePaths.fulfilmentPartner,
         //   //   "icon": AppAssets.png.fulfillmentPatnersMenu
-        //   //       .provider(package: "core_flutter"),
+        //   //       .provider(),
         //   // },
         // ]
       },
@@ -179,13 +169,11 @@ class MyProfileConstants {
         "subMenu": [
           {
             "name": context.localizedString.purchaseReturn,
-            "icon": AppAssets.png.purchaseReturnMenu
-                .provider(package: "core_flutter"),
+            "icon": AppAssets.png.purchaseReturnMenu.provider(),
           },
           {
             "name": "Change Password",
-            "icon": AppAssets.png.icChangePassword
-                .provider(package: "core_flutter"),
+            "icon": AppAssets.png.icChangePassword.provider(),
             "route": RoutePaths.changePasswordDialogScreen
           }
         ]
@@ -196,23 +184,22 @@ class MyProfileConstants {
       // },
       // {
       //   "name": "Contact Us",
-      //   "icon": AppAssets.png.icBrowse.provider(package: "core_flutter"),
+      //   "icon": AppAssets.png.icBrowse.provider(),
       //   "route": RoutePaths.callUs,
       // },
       {
         "name": "Terms & Conditions",
-        "icon": AppAssets.png.icTermsAndConditions
-            .provider(package: "core_flutter"),
+        "icon": AppAssets.png.icTermsAndConditions.provider(),
         "route": AppUrls.termsAndConditionsUrl,
       },
       {
         "name": "Privacy Policy",
-        "icon": AppAssets.png.icPrivacyPolicy.provider(package: "core_flutter"),
+        "icon": AppAssets.png.icPrivacyPolicy.provider(),
         "route": RoutePaths.privacyPolicy,
       },
       {
         "name": "Log out",
-        "icon": AppAssets.png.icLogout.provider(package: "core_flutter"),
+        "icon": AppAssets.png.icLogout.provider(),
         "route": RoutePaths.loginScreen,
       }
     ];
@@ -223,99 +210,96 @@ class MyProfileConstants {
     return [
       {
         "name": context.localizedString.myOrders,
-        "icon": AppAssets.png.icMyOrders.provider(package: "core_flutter"),
+        "icon": AppAssets.png.icMyOrders.provider(),
         "route": RoutePaths.orderHistory,
         // "subMenu": [
         //   // {
         //   //   "name": context.localizedString.byDistributor,
         //   //   "route": RoutePaths.dashBoardScreen,
         //   //   "icon": AppAssets.png.byDistributorMenu
-        //   //       .provider(package: "core_flutter"),
+        //   //       .provider(),
         //   // },
         //   // {
         //   //   "name": context.localizedString.byProduct,
         //   //   "route": RoutePaths.searchProduct,
         //   //   "icon":
-        //   //       AppAssets.png.byProductMenu.provider(package: "core_flutter"),
+        //   //       AppAssets.png.byProductMenu.provider(),
         //   // },
         //   // {
         //   //   "name": context.localizedString.bestRate,
         //   //   "route": RoutePaths.byRate,
         //   //   "icon":
-        //   //       AppAssets.png.byBestRateMenu.provider(package: "core_flutter"),
+        //   //       AppAssets.png.byBestRateMenu.provider(),
         //   // },
         //   // {
         //   //   "name": context.localizedString.dealsOfTheDay,
         //   //   "route": RoutePaths.cashbackDeals,
         //   //   "icon": AppAssets.png.dealsOfTheDayMenu
-        //   //       .provider(package: "core_flutter"),
+        //   //       .provider(),
         //   // },
         //   // {
         //   //   "name": context.localizedString.cashbackDeals,
         //   //   "route": RoutePaths.cashbackDeals,
         //   //   "icon":
-        //   //       AppAssets.png.hotDealsMenu.provider(package: "core_flutter"),
+        //   //       AppAssets.png.hotDealsMenu.provider(),
         //   // },
         //   // {
         //   //   "name": context.localizedString.bouncedNav,
         //   //   "route": RoutePaths.getBouncedOrdersScreen,
         //   //   "icon": AppAssets.png.bouncedOrdersMenu
-        //   //       .provider(package: "core_flutter"),
+        //   //       .provider(),
         //   // },
         //   // {
         //   //   "name": context.localizedString.orderHistory,
         //   //   "route": RoutePaths.cashbackDeals,
         //   //   "icon": AppAssets.png.orderHistoryMenu
-        //   //       .provider(package: "core_flutter"),
+        //   //       .provider(),
         //   // },
         // ]
       },
       {
         "name": 'My Distributors',
         "route": RoutePaths.distributorConnection,
-        "icon":
-            AppAssets.png.distributorsMenu.provider(package: "core_flutter"),
+        "icon": AppAssets.png.distributorsMenu.provider(),
       },
       {
         "name": "Change Password",
-        "icon":
-            AppAssets.png.icChangePassword.provider(package: "core_flutter"),
+        "icon": AppAssets.png.icChangePassword.provider(),
         "route": RoutePaths.changePasswordDialogScreen
       },
       {
         "name": 'My Rewards',
-        "icon": AppAssets.png.icBrowse.provider(package: "core_flutter"),
+        "icon": AppAssets.png.icBrowse.provider(),
         "route": RoutePaths.rewards,
       },
       {
         "name": context.localizedString.feedback,
-        "icon": AppAssets.png.icFeedback.provider(package: "core_flutter"),
+        "icon": AppAssets.png.icFeedback.provider(),
         "route": RoutePaths.feedbackRequestDialogScreen
       },
       {
         "name": "Email Us",
-        "icon": AppAssets.png.icEmailUs.provider(package: "core_flutter"),
+        "icon": AppAssets.png.icEmailUs.provider(),
         "route": RoutePaths.eMailUs,
       },
       {
         "name": context.localizedString.contactUs,
-        "icon": AppAssets.png.icContactUs.provider(package: "core_flutter"),
+        "icon": AppAssets.png.icContactUs.provider(),
         "route": RoutePaths.callUs,
       },
       {
         "name": context.localizedString.termsAndConditions,
-        "icon": AppAssets.png.icTermsAndConditions
-            .provider(package: "core_flutter"),
+        "icon": AppAssets.png.icTermsAndConditions.provider(),
         "route": AppUrls.termsAndConditionsUrl,
       },
       {
         "name": context.localizedString.privacyPolicy,
-        "icon": AppAssets.png.icPrivacyPolicy.provider(package: "core_flutter"),
+        "icon": AppAssets.png.icPrivacyPolicy.provider(),
         "route": RoutePaths.privacyPolicy,
       },
       {
         "name": context.localizedString.logout,
-        "icon": AppAssets.png.icLogout.provider(package: "core_flutter"),
+        "icon": AppAssets.png.icLogout.provider(),
         "route": RoutePaths.loginScreen,
       },
     ];

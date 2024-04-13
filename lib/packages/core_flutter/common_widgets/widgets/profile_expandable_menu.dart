@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/side_navigation_legacy/app_expansion_panel.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/side_navigation_legacy/model/legacy_menu.dart';
@@ -83,14 +82,12 @@ class CustomNavDrawerState extends State<CustomNavDrawer> {
                           if (isExpanded) {
                             return Padding(
                                 padding: const EdgeInsets.only(right: 20),
-                                child: AppAssets.svg.chevronDownDark
-                                    .svg(package: 'core_flutter'));
+                                child: AppAssets.svg.chevronDownDark.svg());
                           } else {
                             return InkWell(
                               child: Padding(
                                   padding: const EdgeInsets.only(right: 20),
-                                  child: AppAssets.svg.chevronRightDark
-                                      .svg(package: 'core_flutter')),
+                                  child: AppAssets.svg.chevronRightDark.svg()),
                               onTap: () => onMainMenuClicked(index),
                             );
                           }
@@ -110,8 +107,7 @@ class CustomNavDrawerState extends State<CustomNavDrawer> {
                                   children: [
                                     Image(
                                       image: widget.menuList[index].icon ??
-                                          AppAssets.png.close.provider(
-                                              package: 'core_flutter'),
+                                          AppAssets.png.close.provider(),
                                       width: 20,
                                       height: 20,
                                     ),

@@ -7,6 +7,7 @@ import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
+import 'package:pharmarack/view/features/change_distributor/presentation/widget/purchase_details_row.dart';
 
 import '../../utils/extensions.dart';
 
@@ -108,10 +109,8 @@ class ProductListItem extends StatelessWidget {
                                               bottom: 1,
                                               left: 1,
                                               right: 8),
-                                          child: AppAssets.svg.arrowUp.svg(
-                                              package: 'core_flutter',
-                                              height: 19,
-                                              width: 19),
+                                          child: AppAssets.svg.arrowUp
+                                              .svg(height: 19, width: 19),
                                         ),
                                       )
                                     : GestureDetector(
@@ -128,10 +127,8 @@ class ProductListItem extends StatelessWidget {
                                               bottom: 5,
                                               left: 5,
                                               right: 15),
-                                          child: AppAssets.svg.arrowDown.svg(
-                                              package: 'core_flutter',
-                                              height: 10,
-                                              width: 10),
+                                          child: AppAssets.svg.arrowDown
+                                              .svg(height: 10, width: 10),
                                         ),
                                       ),
                               ],
@@ -154,8 +151,7 @@ class ProductListItem extends StatelessWidget {
                                 const SizedBox(
                                   width: 3,
                                 ),
-                                AppAssets.svg.infoCircle
-                                    .svg(package: 'core_flutter')
+                                AppAssets.svg.infoCircle.svg()
                               ],
                             ),
                           )
@@ -204,10 +200,7 @@ class ProductListItem extends StatelessWidget {
                                                 const EdgeInsets.only(top: 8.0),
                                             child: AppAssets
                                                 .svg.blueArrowUpRight
-                                                .svg(
-                                                    package: 'core_flutter',
-                                                    height: 12,
-                                                    width: 12),
+                                                .svg(height: 12, width: 12),
                                           )
                                         ],
                                       )
@@ -247,10 +240,7 @@ class ProductListItem extends StatelessWidget {
                                                 const EdgeInsets.only(top: 8.0),
                                             child: AppAssets
                                                 .svg.blueArrowUpRight
-                                                .svg(
-                                                    package: 'core_flutter',
-                                                    height: 12,
-                                                    width: 12),
+                                                .svg(height: 12, width: 12),
                                           ),
                                         ],
                                       )
@@ -258,48 +248,12 @@ class ProductListItem extends StatelessWidget {
                               ]),
                         ),
                         const SizedBox(height: 10),
-                        // PurchaseDetailsRow(
-                        //   ptr: ptr,
-                        //   mrp: mrp,
-                        //   stockQuantity: stock,
-                        //   rStockVisibility: rStockVisibility,
-                        // ),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(top: 10.0),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.start,
-                        //     crossAxisAlignment: CrossAxisAlignment.center,
-                        //     children: [
-                        //       TitleAndAmountRowItem(
-                        //           title: context.localizedString.ptr,
-                        //           value: ptr.toString(),
-                        //           textType: ValueTextType.currency),
-                        //       const SizedBox(
-                        //         width: 10,
-                        //       ),
-                        //       TitleAndAmountRowItem(
-                        //         title: context.localizedString.mrp,
-                        //         value: mrp.toString(),
-                        //         textType: ValueTextType.currency,
-                        //       ),
-                        //       const SizedBox(
-                        //         width: 10,
-                        //       ),
-                        //       TitleAndAmountRowItem(
-                        //         title: context.localizedString.stockValue,
-                        //         value: stock.toString(),
-                        //         textColor: stock == 0
-                        //             ? AppColors.redErrorColor
-                        //             : stock! > 10
-                        //                 ? AppColors.primaryGreenColor
-                        //                 : AppColors.primaryColor,
-                        //       ),
-                        //       const SizedBox(
-                        //         width: 10,
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
+                        PurchaseDetailsRow(
+                          ptr: ptr,
+                          mrp: mrp,
+                          stockQuantity: stock,
+                          rStockVisibility: rStockVisibility,
+                        ),
                         arrowState
                             ? Padding(
                                 padding: const EdgeInsets.only(

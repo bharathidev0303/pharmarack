@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/login_entity.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/failure_custom_dialog.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/image_picker_dialog.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/loader_dialog.dart';
@@ -11,10 +11,7 @@ import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/s
 import 'package:pharmarack/packages/core_flutter/core/ui/device_detector_widget.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/utils/app_constants.dart';
-import 'package:pharmarack/packages/common_entity/login_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
-
 import '../../common_local_data_source/local_data_source.dart';
 import '../../di/core_flutter_provider.dart';
 import 'simple_dialog_with_image_buttons.dart';
@@ -99,13 +96,14 @@ Future showSuccessDialog(
 }
 
 void showBinaryButtonAlertDialog(BuildContext context,
-    {required String title,
+    {String? title,
     FontWeight? titleFontWeight,
     required String subTitle,
     VoidCallback? onFirstButtonClick,
     VoidCallback? onSecondButtonClick,
     required String firstButtonTitle,
-    required String secondButtonTitle}) {
+    String? secondButtonTitle,
+    isCrossIconHide}) {
   showAdaptiveDialog(
       context: context,
       builder: (ctx) {
@@ -121,13 +119,13 @@ void showBinaryButtonAlertDialog(BuildContext context,
           actionsPadding: EdgeInsets.zero,
           buttonPadding: EdgeInsets.zero,
           content: SimpleAlertDialogWithBinaryButton(
-            title: title,
+            title: title ?? '',
             titleFontWeight: titleFontWeight,
             subTitle: subTitle,
             onFirstButtonClick: onFirstButtonClick,
             onSecondButtonClick: onSecondButtonClick,
             firstButtonTitle: firstButtonTitle,
-            secondButtonTitle: secondButtonTitle,
+            secondButtonTitle: secondButtonTitle ?? '',
           ),
         );
       });

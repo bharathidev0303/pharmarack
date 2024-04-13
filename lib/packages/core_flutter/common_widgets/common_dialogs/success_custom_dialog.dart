@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/success_widget.dart';
 
@@ -8,13 +7,14 @@ class SuccessDialog extends StatelessWidget {
   final String title;
   final String? subTitle;
   final VoidCallback? onCloseClick;
+  final bool? hideCloseIcon;
 
-  const SuccessDialog({
-    super.key,
-    required this.title,
-    this.subTitle,
-    this.onCloseClick,
-  });
+  const SuccessDialog(
+      {super.key,
+      required this.title,
+      this.subTitle,
+      this.onCloseClick,
+      this.hideCloseIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +31,7 @@ class SuccessDialog extends StatelessWidget {
         title: title,
         subTitle: subTitle,
         onCloseClick: onCloseClick,
+        hideCloseIcon: hideCloseIcon,
       ),
     );
   }

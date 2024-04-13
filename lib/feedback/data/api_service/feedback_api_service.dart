@@ -1,7 +1,6 @@
-
 import 'package:dio/dio.dart' hide Headers;
 import 'package:pharmarack/feedback/data/endpoint_constants/feedback_api_endpoints.dart';
-import 'package:pharmarack/packages/common_entity/common_response_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/common_response_entity.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'feedback_api_service.g.dart';

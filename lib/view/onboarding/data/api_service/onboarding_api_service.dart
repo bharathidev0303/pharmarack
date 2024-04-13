@@ -1,10 +1,9 @@
-
 import 'package:dio/dio.dart' hide Headers;
+import 'package:pharmarack/packages/core_flutter/common_entity/common_response_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/get_refresh_token_response_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/verify_otp_response_entity.dart';
 
-import 'package:pharmarack/packages/common_entity/common_response_entity.dart';
-import 'package:pharmarack/packages/common_entity/get_refresh_token_response_entity.dart';
-import 'package:pharmarack/packages/common_entity/retailer_info_response_entity.dart';
-import 'package:pharmarack/packages/common_entity/verify_otp_response_entity.dart';
 import 'package:pharmarack/view/onboarding/data/endpoints_constants/onboarding_endpoints.dart';
 import 'package:pharmarack/view/onboarding/data/endpoints_constants/onboarding_options.dart';
 import 'package:pharmarack/view/onboarding/data/entities/delete_account_otp_entity.dart';

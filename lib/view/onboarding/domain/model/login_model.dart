@@ -1,6 +1,4 @@
-
-
-import 'package:pharmarack/packages/common_entity/login_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/login_entity.dart';
 
 class LoginModel {
   int? userId;

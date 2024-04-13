@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -108,8 +107,8 @@ class _AppDropDownState extends State<AppDropDown> {
                   ),
                 ),
                 isOpen
-                    ? AppAssets.svg.arrowUp.svg(package: 'core_flutter')
-                    : AppAssets.svg.arrowDown.svg(package: 'core_flutter')
+                    ? AppAssets.svg.arrowUp.svg()
+                    : AppAssets.svg.arrowDown.svg()
               ],
             ),
           );

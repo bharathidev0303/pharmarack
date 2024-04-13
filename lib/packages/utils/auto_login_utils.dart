@@ -1,8 +1,7 @@
-
 import 'package:pharmarack/auth/user_auth_manager.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/verify_otp_response_entity.dart';
 import 'package:pharmarack/packages/core_flutter/common_local_data_source/local_data_source.dart';
-import 'package:pharmarack/packages/common_entity/verify_otp_response_entity.dart';
-import 'package:pharmarack/packages/splash_screen/domain/repository/splash_screen_repository.dart';
+import 'package:pharmarack/view/features/splash_screen/domain/repository/splash_screen_repository.dart';
 
 class AutoLoginUtils {
   final SplashScreenRepository splashScreenRepository;

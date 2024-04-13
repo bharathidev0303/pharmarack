@@ -1,6 +1,5 @@
-
 import 'package:pharmarack/auth/user_auth_manager.dart';
-import 'package:pharmarack/packages/common_entity/retailer_info_response_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
 import '../repository/change_password_repository.dart';
 
 class ChangePasswordUseCase {

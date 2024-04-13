@@ -88,7 +88,7 @@ class RetailerApp extends StatelessWidget {
       onGenerateRoute: (_) {
         return AppRouter.generateRoute(_, isLoggedIn, isResetPasswordAvailable);
       },
-      initialRoute: RoutePaths.loginScreen,
+      initialRoute: RoutePaths.homeScreen,
       theme: AppThemeData.lightTheme,
       themeMode: ThemeMode.light,
       localizationsDelegates: const [

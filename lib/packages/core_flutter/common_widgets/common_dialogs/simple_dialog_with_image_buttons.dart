@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_buttons/common_dialog_button.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
@@ -44,7 +43,6 @@ class SimpleAlertDialogWithImageButton extends StatelessWidget {
                     child: AppAssets.png.close.image(
                       width: 24,
                       height: 24,
-                      
                     ),
                   )
                 ],
@@ -58,9 +56,7 @@ class SimpleAlertDialogWithImageButton extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image(
-                        image: AppAssets.png.icLock
-                            .provider(package: "core_flutter")),
+                    Image(image: AppAssets.png.icLock.provider()),
                     const SizedBox(
                       height: 10,
                     ),

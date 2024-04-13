@@ -1,0 +1,7 @@
+arb-dir: lib/packages/core_flutter/localization
+template-arb-file: intl_en.arb
+output-dir: lib/packages/core_flutter/localization
+output-localization-file: app_localizations.dart
+use-escaping: true
+synthetic-package: false
+

@@ -35,7 +35,11 @@
 // import '../../features/terms_and_conditions/presentation/pages/terms_and_condition_page.dart';
 
 import 'package:flutter/material.dart';
+import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
+import 'package:pharmarack/view/features/landing_page/landing_page.dart';
+import 'package:pharmarack/view/features/search_product/presentation/pages/search_product_page.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/forgot_password_screen.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/otp_screen/forgot_password_otp_screen.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/reset_password/reset_password_screen.dart';
@@ -56,28 +60,28 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (context) => const LoginScreen(),
             settings: const RouteSettings(name: RoutePaths.loginScreen));
-      // case RoutePaths.landingPage:
-      //   return MaterialPageRoute(builder: (context) => const LandingPage());
-      // case RoutePaths.homeScreen:
-      //   if (isLoggedIn) {
-      //     return MaterialPageRoute(
-      //         builder: (context) => const LandingPage(),
-      //         settings: const RouteSettings(name: RoutePaths.dashBoardScreen));
-      //   } else if (isResetPasswordAvailable) {
-      //     return MaterialPageRoute(
-      //         builder: (context) => const ResetPasswordScreen());
-      //     // settings:
-      //     //     const RouteSettings(name: RoutePaths.resetPasswordScreen));
-      //   } else {
-      //     return MaterialPageRoute(
-      //         builder: (context) => const LoginScreen(),
-      //         settings: const RouteSettings(name: RoutePaths.loginScreen));
-      //   }
-      // case RoutePaths.dashBoardScreen:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const LandingPage(),
-      //     settings: const RouteSettings(name: RoutePaths.dashBoardScreen),
-      //   );
+      case RoutePaths.landingPage:
+        return MaterialPageRoute(builder: (context) => const LandingPage());
+      case RoutePaths.homeScreen:
+        if (isLoggedIn) {
+          return MaterialPageRoute(
+              builder: (context) => const LandingPage(),
+              settings: const RouteSettings(name: RoutePaths.dashBoardScreen));
+        } else if (isResetPasswordAvailable) {
+          return MaterialPageRoute(
+              builder: (context) => const ResetPasswordScreen());
+          // settings:
+          //     const RouteSettings(name: RoutePaths.resetPasswordScreen));
+        } else {
+          return MaterialPageRoute(
+              builder: (context) => const LoginScreen(),
+              settings: const RouteSettings(name: RoutePaths.loginScreen));
+        }
+      case RoutePaths.dashBoardScreen:
+        return MaterialPageRoute(
+          builder: (context) => const LandingPage(),
+          settings: const RouteSettings(name: RoutePaths.dashBoardScreen),
+        );
       // case RoutePaths.profileScreen:
       //   return MaterialPageRoute(
       //     builder: (context) => const ProfilePage(),
@@ -200,50 +204,50 @@ class AppRouter {
     }
   }
 
-  // static Widget getWidgetByRoute(String? routeName) {
-  //   // switch (routeName) {
-  //   //   case RoutePaths.notifications:
-  //   //     return const NotificationsScreen();
-  //   //   case RoutePaths.searchProduct:
-  //   //     return const SearchProductPage();
-  //   //   case RoutePaths.forgotPasswordScreen:
-  //   //     return const ForgotPasswordScreen();
-  //   //   case RoutePaths.getBouncedOrdersScreen:
-  //   //     return const GetBouncedOrdersPage();
-  //   //   case RoutePaths.viewBouncedOrderDetails:
-  //   //     return const ViewBouncedOrderDetailsPage("orderId");
-  //   //   case RoutePaths.distributorConnection:
-  //   //     return const DistributorConnectionPage();
-  //   //   case RoutePaths.changePasswordDialogScreen:
-  //   //     return const ChangePasswordDialogScreen();
-  //   //   case RoutePaths.orderHistory:
-  //   //     return const OrderHistoryPage();
-  //   //   case RoutePaths.fulfilmentPartner:
-  //   //     return const FulfilmentPartnerPage("retailer");
-  //   //   case RoutePaths.feedbackRequestDialogScreen:
-  //   //     return const FeedbackRequestDialogScreen();
-  //   //   case RoutePaths.cashbackDeals:
-  //   //     return const OrderHistoryPage();
-  //   //   case RoutePaths.orderHistoryDetail:
-  //   //     return const OrderDetailsPage();
-  //   //   case RoutePaths.mapping:
-  //   //     return const MappingPage();
-  //   //   case RoutePaths.settings:
-  //   //     return const SettingsPage();
-  //   //   case RoutePaths.rewards:
-  //   //     return const RewardsPage();
-  //   //   case RoutePaths.termsAndConditions:
-  //   //     return const TermsAndConditionPage();
-  //   //   case RoutePaths.placeOrderSuccessFulPage:
-  //   //     return const PlaceOrderSuccessfulPage();
-  //   //   case RoutePaths.operationsPage:
-  //   //     return const OperationsPage();
-  //   //   case RoutePaths.companyPage:
-  //   //     return const CompanyScreenPage();
-  //   //   case RoutePaths.bannerPage:
-  //   //     return const BannerPage();
-  //   //   default:
-  //   //     throw Exception('Invalid route: $routeName');
-  //   // }
-  // }
+  static Widget getWidgetByRoute(String? routeName) {
+    switch (routeName) {
+      //   case RoutePaths.notifications:
+      //     return const NotificationsScreen();
+      case RoutePaths.searchProduct:
+        return const SearchProductPage();
+      //   case RoutePaths.forgotPasswordScreen:
+      //     return const ForgotPasswordScreen();
+      //   case RoutePaths.getBouncedOrdersScreen:
+      //     return const GetBouncedOrdersPage();
+      //   case RoutePaths.viewBouncedOrderDetails:
+      //     return const ViewBouncedOrderDetailsPage("orderId");
+      //   case RoutePaths.distributorConnection:
+      //     return const DistributorConnectionPage();
+      //   case RoutePaths.changePasswordDialogScreen:
+      //     return const ChangePasswordDialogScreen();
+      //   case RoutePaths.orderHistory:
+      //     return const OrderHistoryPage();
+      //   case RoutePaths.fulfilmentPartner:
+      //     return const FulfilmentPartnerPage("retailer");
+      //   case RoutePaths.feedbackRequestDialogScreen:
+      //     return const FeedbackRequestDialogScreen();
+      //   case RoutePaths.cashbackDeals:
+      //     return const OrderHistoryPage();
+      //   case RoutePaths.orderHistoryDetail:
+      //     return const OrderDetailsPage();
+      //   case RoutePaths.mapping:
+      //     return const MappingPage();
+      //   case RoutePaths.settings:
+      //     return const SettingsPage();
+      //   case RoutePaths.rewards:
+      //     return const RewardsPage();
+      //   case RoutePaths.termsAndConditions:
+      //     return const TermsAndConditionPage();
+      //   case RoutePaths.placeOrderSuccessFulPage:
+      //     return const PlaceOrderSuccessfulPage();
+      //   case RoutePaths.operationsPage:
+      //     return const OperationsPage();
+      //   case RoutePaths.companyPage:
+      //     return const CompanyScreenPage();
+      //   case RoutePaths.bannerPage:
+      //     return const BannerPage();
+      default:
+        throw Exception('Invalid route: $routeName');
+    }
+  }
 }

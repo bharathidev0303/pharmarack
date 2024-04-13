@@ -1,12 +1,11 @@
-
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/login_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/verify_otp_response_entity.dart';
 import 'package:pharmarack/packages/core_flutter/error/database_error.dart';
 import 'package:pharmarack/packages/core_flutter/error/local_error.dart';
 import 'package:pharmarack/packages/core_flutter/error/network_error.dart';
-import 'package:pharmarack/packages/common_entity/login_entity.dart';
-import 'package:pharmarack/packages/common_entity/retailer_info_response_entity.dart';
-import 'package:pharmarack/packages/common_entity/verify_otp_response_entity.dart';
 import 'package:pharmarack/view/onboarding/data/entities/otp_login_api_payload_entity.dart';
 import 'package:pharmarack/view/onboarding/domain/model/delete_account_otp_model.dart';
 import 'package:pharmarack/view/onboarding/domain/model/forget_password_model.dart';

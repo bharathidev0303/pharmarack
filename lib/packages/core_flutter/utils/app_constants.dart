@@ -9,6 +9,8 @@ class AppConstants {
   static const String baseUrlDioConstant = "baseUrlDioConstant";
   static const String cmsGatewayBaseUrlDioConstant =
       "cmsGatewayBaseUrlDioConstant";
+  static const String baseUrlElasticSearchConstant =
+      "baseUrlElasticSearchConstant";
   static const String flyBaseUrlDioConstant = "flyBaseUrlDioConstant";
   static const String legacyBaseUrlUserAuthManager =
       "legacyBaseUrlUserAuthManager";

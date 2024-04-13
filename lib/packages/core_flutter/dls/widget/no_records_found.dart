@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/dls/widget/primary_button.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
@@ -26,10 +25,7 @@ class NoRecordsFound extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        icons ??
-            AppAssets.png.noRecordsFound.image(
-              package: 'core_flutter',
-            ),
+        icons ?? AppAssets.png.noRecordsFound.image(),
         const SizedBox(
           height: 8,
         ),

@@ -1,20 +1,21 @@
-
 import 'package:flutter/material.dart';
+import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/core/ui/device_detector_widget.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
-import 'package:pharmarack/gen/assets.gen.dart';
 
 class SuccessWidget extends StatelessWidget {
   final String title;
   final String? subTitle;
   final VoidCallback? onCloseClick;
+  final bool? hideCloseIcon;
 
   const SuccessWidget({
     super.key,
     required this.title,
     this.subTitle,
     this.onCloseClick,
+    this.hideCloseIcon,
   });
 
   @override
@@ -35,19 +36,20 @@ class SuccessWidget extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: InkWell(
-                    key: const Key('closeIcon'),
-                    onTap: onCloseClick ?? () => Navigator.pop(context),
-                    child: AppAssets.svg.icClose.svg(
-                      width: 24,
-                      height: 24,
-                      
-                    ),
-                  ),
-                ),
+                hideCloseIcon == null
+                    ? Positioned(
+                        top: 0,
+                        right: 0,
+                        child: InkWell(
+                          key: const Key('closeIcon'),
+                          onTap: onCloseClick ?? () => Navigator.pop(context),
+                          child: AppAssets.svg.icClose.svg(
+                            width: 24,
+                            height: 24,
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
                 _content(context),
               ],
             ),
@@ -69,7 +71,6 @@ class SuccessWidget extends StatelessWidget {
           AppAssets.png.successDialogImage.image(
             width: 65,
             height: 64,
-            
           ),
           const SizedBox(height: 10),
           FittedBox(
@@ -90,8 +91,8 @@ class SuccessWidget extends StatelessWidget {
               padding: const EdgeInsets.only(top: 10),
               child: Text(
                 subTitle ?? '',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+                // maxLines: 2,
+                // overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 softWrap: true,
                 style: AppTextStyles.style12W400

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
@@ -56,12 +55,12 @@ class PrimaryCheckBoxState extends State<PrimaryCheckBox> {
                 (widget.checkBoxText ?? const SizedBox.shrink())),
         const SizedBox(width: 5.0),
         SvgPicture.asset(
-            _isChecked
-                ? AppAssets.svg.checkBoxSelected.path
-                : AppAssets.svg.checkBoxUnselected.path,
-            width: 18,
-            height: 18,
-            package: 'core_flutter')
+          _isChecked
+              ? AppAssets.svg.checkBoxSelected.path
+              : AppAssets.svg.checkBoxUnselected.path,
+          width: 18,
+          height: 18,
+        )
       ]),
     );
   }

@@ -385,7 +385,6 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                           child: AppAssets.svg.icDown.svg(
                                             height: 20,
                                             width: 20,
-                                            package: "core_flutter",
                                           ),
                                         ),
                                       ),

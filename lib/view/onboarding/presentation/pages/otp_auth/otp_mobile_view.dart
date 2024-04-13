@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
-import 'package:pharmarack/packages/core_flutter/utils/extensions.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_state.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/otp_screen/otp_screen_cubit.dart';

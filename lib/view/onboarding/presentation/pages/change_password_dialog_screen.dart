@@ -249,7 +249,7 @@ class _TextFieldState extends State<_TextField> {
       onChanged: widget.onChanged,
       suffixIcon: GestureDetector(
         onTap: _togglePasswordVisibility,
-        child: suffixIcon.svg(package: 'core_flutter'),
+        child: suffixIcon.svg(),
       ),
       obscureText: _obscureText,
       informationText: widget.errorText ?? widget.successText,

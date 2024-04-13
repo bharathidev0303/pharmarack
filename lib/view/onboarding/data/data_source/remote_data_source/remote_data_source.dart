@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:pharmarack/packages/common_entity/login_entity.dart';
-import 'package:pharmarack/packages/common_entity/retailer_info_response_entity.dart';
-import 'package:pharmarack/packages/common_entity/verify_otp_response_entity.dart';
 import 'package:pharmarack/packages/core/network/interceptor/dio_interceptor.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/login_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/verify_otp_response_entity.dart';
 import 'package:pharmarack/packages/core_flutter/core/safe_api_call/safe_api_call.dart';
 import 'package:pharmarack/packages/core_flutter/error/network_error.dart';
 import 'package:pharmarack/packages/core_flutter/utils/app_constants.dart';
@@ -80,6 +80,7 @@ class OnboardingRemoteDataSource {
         onboardingDI.unregister<RetailerInfoEntity>();
       }
       onboardingDI.registerSingleton<RetailerInfoEntity>(r.data.data!);
+
       return right(r.data.data!);
     });
   }

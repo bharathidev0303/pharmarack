@@ -132,11 +132,11 @@ class FeedbackRequestDialog extends StatelessWidget {
                 //   unratedColor: AppColors.ratingStarUnSelectedColor,
                 //   ratingWidget: RatingWidget(
                 //     half: AppAssets.svg.feedbackStarHalf
-                //         .svg(package: "core_flutter"),
+                //         .svg(),
                 //     full: AppAssets.svg.feedbackStarFull
-                //         .svg(package: "core_flutter"),
+                //         .svg(),
                 //     empty:
-                //         AppAssets.svg.feedbackStar.svg(package: "core_flutter"),
+                //         AppAssets.svg.feedbackStar.svg(),
                 //   ),
                 //   onRatingUpdate: (rating) {
                 //     feedbackScreenCubit.feedbackInputCubit.updateRating(rating);
