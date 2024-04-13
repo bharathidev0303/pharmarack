@@ -28,10 +28,8 @@ class DistributorsItemList {
 class DistributorsListModel {
   @JsonKey(name: 'StoreId')
   int? storeId;
-  @JsonKey(name: 'DistributorId')
-  int? distributorId;
   @JsonKey(name: 'StoreName')
-  String? distributorName;
+  String? storeName;
   @JsonKey(name: 'StoreCode')
   String? storeCode;
   @JsonKey(name: 'CompanyId')
@@ -47,8 +45,7 @@ class DistributorsListModel {
 
   DistributorsListModel({
     this.storeId,
-    this.distributorId,
-    this.distributorName,
+    this.storeName,
     this.storeCode,
     this.companyId,
     this.distributorAddress1,
@@ -60,8 +57,7 @@ class DistributorsListModel {
   factory DistributorsListModel.fromJson(Map<String, dynamic> json) {
     return DistributorsListModel(
       storeId: json['StoreId'] as int?,
-      distributorId: json['DistributorId'] as int?,
-      distributorName: json['StoreName'] as String?,
+      storeName: json['StoreName'] as String?,
       storeCode: json['StoreCode'] as String?,
       companyId: json['CompanyId'] as String?,
       distributorAddress1: json['Address1'] as String?,
@@ -73,8 +69,7 @@ class DistributorsListModel {
 
   DistributorsListModel copyWith({
     int? storeId,
-    int? distributorId,
-    String? distributorName,
+    String? storeName,
     String? storeCode,
     String? companyId,
     String? distributorAddress1,
@@ -84,8 +79,7 @@ class DistributorsListModel {
   }) {
     return DistributorsListModel(
       storeId: storeId ?? this.storeId,
-      distributorId: distributorId ?? this.distributorId,
-      distributorName: distributorName ?? this.distributorName,
+      storeName: storeName ?? this.storeName,
       storeCode: storeCode ?? this.storeCode,
       companyId: companyId ?? this.companyId,
       distributorAddress1: distributorAddress1 ?? this.distributorAddress1,

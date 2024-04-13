@@ -5,6 +5,7 @@ import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/main/app_bottom_navigation_bar.dart';
 import 'package:pharmarack/main/navigation/app_router.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
+import 'package:pharmarack/view/features/browse_companies/presentation/pages/browse_companies_page.dart';
 import 'package:pharmarack/view/features/cart/presentation/pages/draggable_cart/dragable_cart_page.dart';
 import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/di/dashboard_screen_providers.dart';
@@ -88,7 +89,7 @@ class LandingPageState extends State<LandingPage> {
   Widget getCurrentNavigationWidget(int index) {
     List<Widget> navigationWidgets = [
       const DashboardScreenPage(),
-      const DashboardScreenPage(),
+      const BrowseCompaniesPage(),
       const DashboardScreenPage(),
       const DashboardScreenPage(),
       const DashboardScreenPage(),

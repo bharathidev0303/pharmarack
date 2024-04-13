@@ -35,9 +35,8 @@ class BrowseCompanyListItem extends StatelessWidget {
             fit: BoxFit.cover,
             width: 40,
             height: 40,
-            errorWidget: (context, url, error) => Image.asset(
-              "assets/Empty_company_logo.png",
-              fit: BoxFit.cover,
+            errorWidget: (context, url, error) =>
+                AppAssets.png.emptyCompanyLogo.image(
               width: 40,
               height: 40,
             ),

@@ -18,9 +18,20 @@ class $AssetsPngGen {
   AssetGenImage get arrowUpRightSM =>
       const AssetGenImage('assets/png/Arrow_Up_Right_SM.png');
 
+  /// File path: assets/png/Empty_company_logo.png
+  AssetGenImage get emptyCompanyLogo =>
+      const AssetGenImage('assets/png/Empty_company_logo.png');
+
   /// File path: assets/png/OnBoardBgImage.png
   AssetGenImage get onBoardBgImage =>
       const AssetGenImage('assets/png/OnBoardBgImage.png');
+
+  /// File path: assets/png/TooltipTop.png
+  AssetGenImage get tooltipTop =>
+      const AssetGenImage('assets/png/TooltipTop.png');
+
+  /// File path: assets/png/Union.png
+  AssetGenImage get union => const AssetGenImage('assets/png/Union.png');
 
   /// File path: assets/png/addToCartMenu.png
   AssetGenImage get addToCartMenu =>
@@ -213,7 +224,10 @@ class $AssetsPngGen {
   /// List of all assets
   List<AssetGenImage> get values => [
         arrowUpRightSM,
+        emptyCompanyLogo,
         onBoardBgImage,
+        tooltipTop,
+        union,
         addToCartMenu,
         bestRate,
         bouncedOrdersMenu,

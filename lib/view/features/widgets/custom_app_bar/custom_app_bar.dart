@@ -10,6 +10,7 @@ import 'package:pharmarack/packages/core_flutter/dls/theme/app_theme_colors.dart
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/utils/app_constants.dart';
 import 'package:pharmarack/view/features/search_product/di/search_product_providers.dart';
+import 'package:pharmarack/view/features/search_product/domain/model/search_context_model.dart';
 import 'package:pharmarack/view/features/search_product/presentation/cubit/search_product_cubit.dart';
 import 'package:pharmarack/view/features/widgets/custom_app_bar/custom_app_bar_cubit.dart';
 import '../dropdown/custom_drop_down.dart';
@@ -31,6 +32,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final bool isInterActive;
   final AppBarType type;
   final String? page;
+  final SearchContextModel? searchContextModel;
   final VoidCallback? onFilterClick;
   final int? searchBarFocusValue;
 
@@ -44,6 +46,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
       this.isInterActive = true,
       this.type = AppBarType.secondaryAppBar,
       this.page,
+      this.searchContextModel,
       this.onFilterClick,
       this.searchBarFocusValue});
 
@@ -95,8 +98,17 @@ class _CustomAppBarState extends State<CustomAppBar> {
       Future.delayed(const Duration(milliseconds: 100))
           .then((value) => openDropdown(context));
     }
-    super.initState();
+    if (widget.searchContextModel != null) {
+      if (widget.searchContextModel?.contextType != "") {
+        selectedDistributorId = widget.searchContextModel?.storeId ?? 0;
+        selectedStoreName = widget.searchContextModel!.storeName ?? "";
+        widget.productAndDistributorCallBack
+            ?.call("", selectedDistributorId, selectedStoreName, "yyuys");
+        distributorTextController.text = selectedStoreName;
+      }
+    }
 
+    super.initState();
     if (widget.type == AppBarType.secondaryAppBar) {
       AppConstants.dropDownHandler.listen((value) {
         appBarCubit.distributorTextFieldTapped(isTapped: false);
@@ -247,6 +259,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         onPressed: () {
                           deInitDI();
                           closeDropdown();
+                          if (selectedDistributorId != 0 &&
+                              selectedStoreName != "") {
+                            widget.productAndDistributorCallBack
+                                ?.call("", 0, "", "");
+                          }
                           Navigator.pop(context);
                         },
                         icon: const Icon(

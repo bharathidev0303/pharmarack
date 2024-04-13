@@ -6,6 +6,7 @@ import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
+import 'package:pharmarack/view/features/cart/di/cart_provider.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/di/distributors_page_providers.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/di/page_config_providers.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/cubit/distributors_page/distributors_page_state.dart';
@@ -33,6 +34,8 @@ class _DistributorScreenPageMobileViewState
     clearDistributorsPageDi();
     initDistributorsPageDi();
     userInfo = getIt<RetailerInfoEntity>();
+
+    draggableCartScreenCubit.getCartDetails();
     super.initState();
   }
 

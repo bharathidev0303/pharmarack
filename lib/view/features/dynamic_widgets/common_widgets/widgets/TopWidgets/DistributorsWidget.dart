@@ -1,12 +1,13 @@
 // Distributors Widget
 import 'package:flutter/material.dart';
+import 'package:pharmarack/main/navigation/app_router.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/utils/extensions.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/topWidgetModels/DistributorsListModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/topWidgetModels/TopWidgetModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/widgets/TopWidgets/TopWidgets.dart';
-import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/distributor_page/distributor_page_mobile_view.dart';
 
 Future<DistributorsItemList> _loadDistributorsWidgetData(
     List<dynamic> children) async {
@@ -36,6 +37,7 @@ class _DistributorsWidgetState extends State<DistributorsWidget> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _loadDistributorsWidgetData(widget.distributorsWidgetData.data),
@@ -43,8 +45,8 @@ class _DistributorsWidgetState extends State<DistributorsWidget> {
         if (snapshot.connectionState == ConnectionState.done) {
           DistributorsItemList distributorsItems = snapshot.requireData;
           int? itemShown =
-              int.parse(widget.distributorsWidgetData!.itemsToShow ?? "4");
-          return distributorsItems.distributors.length > 0
+              int.parse(widget.distributorsWidgetData.itemsToShow ?? "4");
+          return distributorsItems.distributors.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 7.0),
@@ -110,21 +112,11 @@ class _DistributorsWidgetState extends State<DistributorsWidget> {
 
 Widget distributorsListWidget(context,
     List<DistributorsListModel> distributorsItems, showAddDistributorsBtn) {
-  return distributorsItems!.isNotEmpty
+  return distributorsItems.isNotEmpty
       ? Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: distributorsItems!.asMap().entries.map((entry) {
-            int index = entry.key;
+          children: distributorsItems.asMap().entries.map((entry) {
             DistributorsListModel distributorsItem = entry.value;
-            if (distributorsItem.distributorAddress1 == null) {
-              distributorsItem.distributorAddress1 = "Sadashiv ";
-            }
-            if (distributorsItem.distributorCity == null) {
-              distributorsItem.distributorCity = "Peth";
-            }
-            if (distributorsItem.distributorState?.isNotEmpty == null) {
-              distributorsItem.distributorState = "Pune";
-            }
             if (showAddDistributorsBtn != true) {
               distributorsItem.distributorAddress1 = null;
               distributorsItem.distributorAddress2 = null;
@@ -134,14 +126,13 @@ Widget distributorsListWidget(context,
             return InkWell(
               borderRadius: BorderRadius.circular(5),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DistributorScreenPageMobileView(
-                            distributorId: distributorsItem.storeId,
-                            appBar: true,
-                          )),
-                );
+                AppRouter.cmsWidgetPageNavigator(
+                    cmsPageNavigatorModel: CmsPageNavigatorModel(
+                        context: context,
+                        linkType: "internal",
+                        linkTo: "/distributorPage",
+                        storeId: entry.value.storeId,
+                        storeName: entry.value.storeName));
               },
               child: Container(
                 width: double.infinity,
@@ -150,12 +141,12 @@ Widget distributorsListWidget(context,
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      distributorsItem.distributorName != null
+                      distributorsItem.storeName != null
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  distributorsItem.distributorName!
+                                  distributorsItem.storeName!
                                       .toString()
                                       .toTitleCase(),
                                   style: const TextStyle(

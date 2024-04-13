@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/di/app_provider.dart';
@@ -15,6 +17,7 @@ import 'package:pharmarack/view/features/filters/presentation/pages/filters_page
 import 'package:pharmarack/view/features/search_product/data/api_service/search_product_api_service.dart';
 import 'package:pharmarack/view/features/search_product/data/data_source/remote_data_source/search_product_remote_data_source.dart';
 import 'package:pharmarack/view/features/search_product/di/search_product_providers.dart';
+import 'package:pharmarack/view/features/search_product/domain/model/search_context_model.dart';
 import 'package:pharmarack/view/features/search_product/domain/repository/search_product_repository.dart';
 import 'package:pharmarack/view/features/search_product/domain/use_case/filter_search_product_use_case.dart';
 import 'package:pharmarack/view/features/search_product/domain/use_case/search_product_use_case.dart';
@@ -34,6 +37,7 @@ class SearchProductPage extends BasePage<SearchProductPageState> {
 
 class SearchProductPageState extends BaseStatefulPage {
   late SearchProductCubit searchProductCubit;
+  late SearchContextModel? searchContextModel;
   int textLength = 0;
 
   @override
@@ -48,10 +52,24 @@ class SearchProductPageState extends BaseStatefulPage {
       intProductDI();
       searchProductCubit = getIt<SearchProductCubit>();
     }
+    if (getIt.isRegistered<SearchContextModel>()) {
+      searchContextModel = getIt<SearchContextModel>();
+    } else {
+      searchContextModel = SearchContextModel(contextType: "");
+    }
     super.initState();
-
     searchProductCubit.fetchStockiestPriority('search');
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   if (getIt.isRegistered<SearchContextModel>()) {
+  //     searchContextModel = getIt<SearchContextModel>();
+  //   } else {
+  //     searchContextModel = SearchContextModel(contextType: "");
+  //   }
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Color scaffoldBackgroundColor() {
@@ -60,10 +78,12 @@ class SearchProductPageState extends BaseStatefulPage {
 
   @override
   Widget buildView(BuildContext context) {
-    final focusFiled = ModalRoute.of(context)!.settings.arguments as int;
+    final focusFiled = (ModalRoute.of(context)!.settings.arguments ?? 0) as int;
     return Scaffold(
         appBar: CustomAppBar(
           isInterActive: true,
+          page: DateTime.now().toString(),
+          searchContextModel: searchContextModel,
           searchBarFocusValue: focusFiled,
           onDropDownOpenCallBackForDistributor: (val) {
             searchProductCubit.handleBlurState(isBlur: val);
@@ -209,6 +229,7 @@ class SearchProductPageState extends BaseStatefulPage {
 
   @override
   void dispose() {
+    super.dispose();
     if (getIt.isRegistered<SearchProductApiService>()) {
       getIt.unregister<SearchProductApiService>();
     }
@@ -233,7 +254,9 @@ class SearchProductPageState extends BaseStatefulPage {
       getIt.unregister<SearchProductCubit>();
     }
 
+    if (getIt.isRegistered<SearchContextModel>()) {
+      getIt.unregister<SearchContextModel>();
+    }
     deInitStockiestDI();
-    super.dispose();
   }
 }

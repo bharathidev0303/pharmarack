@@ -38,8 +38,11 @@ import 'package:flutter/material.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
 import 'package:pharmarack/view/features/landing_page/landing_page.dart';
+import 'package:pharmarack/view/features/search_product/domain/model/search_context_model.dart';
 import 'package:pharmarack/view/features/search_product/presentation/pages/search_product_page.dart';
+import 'package:pharmarack/view/features/search_product/presentation/pages/widgets/search_product_company_page.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/forgot_password_screen.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/otp_screen/forgot_password_otp_screen.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/reset_password/reset_password_screen.dart';
@@ -184,10 +187,11 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const OperationsPage(),
         );
-      // case RoutePaths.companyPage:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const CompanyScreenPage(),
-      //   );
+      case RoutePaths.searchProduct:
+        return MaterialPageRoute(
+          builder: (context) => const SearchProductPage(),
+          settings: const RouteSettings(arguments: 0),
+        );
       // case RoutePaths.browseCompaniesPage:
       //   return MaterialPageRoute(
       //     builder: (context) => const BrowseCompaniesPage(),
@@ -248,6 +252,29 @@ class AppRouter {
       //     return const BannerPage();
       default:
         throw Exception('Invalid route: $routeName');
+    }
+  }
+
+  static cmsWidgetPageNavigator(
+      {required CmsPageNavigatorModel cmsPageNavigatorModel}) {
+    if (cmsPageNavigatorModel.linkType == 'internal') {
+      switch (cmsPageNavigatorModel.linkTo) {
+        case '/distributorPage':
+          getIt.unregister<SearchContextModel>();
+          getIt.registerLazySingleton<SearchContextModel>(() =>
+              SearchContextModel(
+                  contextType: "Distributors",
+                  storeId: cmsPageNavigatorModel.storeId ?? 0,
+                  storeName: cmsPageNavigatorModel.storeName ?? ""));
+          Navigator.push(
+            cmsPageNavigatorModel.context,
+            MaterialPageRoute(
+                builder: (context) => const SearchProductPage(),
+                settings: const RouteSettings(arguments: 0)),
+          );
+        default:
+          debugPrint("linkToNotFount ${cmsPageNavigatorModel.linkTo}");
+      }
     }
   }
 }
