@@ -72,9 +72,9 @@ class AppRouter {
               settings: const RouteSettings(name: RoutePaths.dashBoardScreen));
         } else if (isResetPasswordAvailable) {
           return MaterialPageRoute(
-              builder: (context) => const ResetPasswordScreen());
-          // settings:
-          //     const RouteSettings(name: RoutePaths.resetPasswordScreen));
+              builder: (context) => const ResetPasswordScreen(),
+              settings:
+                  const RouteSettings(name: RoutePaths.resetPasswordScreen));
         } else {
           return MaterialPageRoute(
               builder: (context) => const LoginScreen(),
