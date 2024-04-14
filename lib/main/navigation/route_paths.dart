@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/side_navigation_legacy/model/legacy_menu.dart';
 import 'package:pharmarack/packages/core_flutter/core/ui/drawer_router_paths.dart';
 import 'package:pharmarack/packages/core_flutter/navigation/core_route_path.dart';
-import 'package:pharmarack/view/profile/presentation/constants/my_profile_constants.dart';
+import 'package:pharmarack/view/features/profile/presentation/constants/my_profile_constants.dart';
 
 class RoutePaths implements DrawerRouterPaths, CoreRoutePaths {
   static const String splash = '/splash';

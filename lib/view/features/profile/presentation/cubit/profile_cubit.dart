@@ -1,9 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
+import 'package:pharmarack/view/features/profile/domain/model/profile_model.dart';
+import 'package:pharmarack/view/features/profile/presentation/cubit/profile_state.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
-import 'package:pharmarack/view/profile/presentation/constants/my_profile_constants.dart';
-import 'package:pharmarack/view/profile/presentation/cubit/profile_state.dart';
-import 'package:pharmarack/view/profile/presentation/demain/model/profile_model.dart';
+
+import '../constants/my_profile_constants.dart';
 
 /// This class [ProfileCubit] is consume by the [ProfilePage]
 /// where all state will observed by [ProfilePage]
@@ -29,10 +30,11 @@ class ProfileCubit extends Cubit<ProfileState> {
         retailerInfoEntity.displayRetailers?.isNotEmpty ?? false
             ? retailerInfoEntity.displayRetailers![0].retailerName ?? ''
             : '';
-    String userName = MyProfileConstants.userName =
+    String userName = MyProfileConstants.retailerName =
         retailerInfoEntity.displayRetailers?.isNotEmpty ?? false
-            ? retailerInfoEntity.username ?? ''
+            ? retailerInfoEntity.displayRetailers![0].retailerName ?? ''
             : '';
+
     String firstName = MyProfileConstants.firstName =
         retailerInfoEntity.firstname.toString().isNotEmpty
             ? retailerInfoEntity.firstname ?? ''
@@ -135,10 +137,14 @@ class ProfileCubit extends Cubit<ProfileState> {
         retailerInfoEntity.retailerPaymentConfig?.isNotEmpty ?? false
             ? retailerInfoEntity.retailerPaymentConfig![0].ifsc ?? ''
             : '';
-    String imageUrl = retailerInfoEntity.displayImages?.isNotEmpty ?? false
-        ? retailerInfoEntity.displayImages![0].imageUrl ?? ''
-        : '';
-    int displayImagesLength = retailerInfoEntity.displayImages?.length ?? 0;
+    String imageUrl = '';
+    if (retailerInfoEntity.displayImages != null &&
+        retailerInfoEntity.displayImages!.isNotEmpty) {
+      imageUrl = retailerInfoEntity.displayImages![0].imageUrl ?? '';
+    }
+
+    int displayImagesLength = MyProfileConstants.displayImagesLength =
+        retailerInfoEntity.displayImages?.length ?? 0;
 
     ProfileModel profileModel = ProfileModel(
       loginId: loginId,

@@ -9,7 +9,6 @@ import 'package:pharmarack/view/features/dynamic_widgets/di/banner_products_list
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/cubit/banner_products_list_page/banner_products_list_page_state.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/model/BannerProductsList.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/banner_products_list_page/banner_product_list.dart';
-import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/company_page/company_screen_page.dart';
 import 'package:pharmarack/view/features/search_product/di/search_product_providers.dart';
 import 'package:pharmarack/view/features/search_product/domain/model/search_product/search_product_model.dart';
 import 'package:pharmarack/view/features/search_product/presentation/pages/widgets/add_product_to_cart_popup.dart';
@@ -210,12 +209,12 @@ class _BannerProductsMobileViewPageState
                                                 () => compModel);
                                           }
                                           ;
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CompanyScreenPage()),
-                                          );
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //       builder: (context) =>
+                                          //           CompanyScreenPage()),
+                                          // );
                                         },
                                         child: RichText(
                                           text: TextSpan(

@@ -26,6 +26,8 @@ class SearchProductCubit extends Cubit<SearchProductState> {
   late bool isDistributor = false;
   late String selectedDistributorName = '';
   late int selectedDistributorId = 0;
+  late String selectedCompanyId = '';
+  late String selectedCompanyName = '';
   SearchProductListModel? productListModel;
 
   SearchProductCubit(
@@ -38,12 +40,22 @@ class SearchProductCubit extends Cubit<SearchProductState> {
         super(SearchProductInitialState());
 
   handleSearchText(
-      {required String query, int? id, String? storeName, String? companyId}) {
+      {required String query,
+      int? id,
+      String? storeName,
+      String? companyId,
+      String? companyName,
+      String? contextType}) {
     selectedDistributorName = storeName ?? "";
     selectedDistributorId = id ?? 0;
     searchQuery = query;
     if (query.length >= 3) {
-      fetchProductFromElastic(query: query, storeName: storeName);
+      if (contextType == "Company" && companyName!.isNotEmpty) {
+        fetchCompanyProductFromElastic(
+            query: query, storeName: storeName, companyName: companyName);
+      } else {
+        fetchProductFromElastic(query: query, storeName: storeName);
+      }
     } else {
       if (query.isEmpty) {
         emit(SearchProductInitialState());
@@ -83,6 +95,15 @@ class SearchProductCubit extends Cubit<SearchProductState> {
     }
   }
 
+  showCompanyPage(String companyName, String companyId) {
+    selectedCompanyName = companyName;
+    selectedCompanyId = companyId;
+    if (selectedCompanyId != "" && selectedCompanyName != "") {
+      emit(ShowCompanyPageState(
+          selectedCompanyName, int.parse(selectedCompanyId)));
+    }
+  }
+
   fetchProductFromElastic({required String query, String? storeName}) async {
     String? cartSource;
     List<String> storeArr = [];
@@ -103,6 +124,49 @@ class SearchProductCubit extends Cubit<SearchProductState> {
           skipCount: 0);
       final response = await _searchProductUseCase.execute(
           params: SearchProductParams(request));
+      response.fold((l) {
+        emit(SearchProductErrorMessageState(l.error.message));
+      }, (r) {
+        if (r.productList?.isNotEmpty ?? false) {
+          _filterSearchProductUseCase.updateProductLists(r.productList ?? []);
+          final filteredList = _filterSearchProductUseCase.filterList();
+          filteredList.fold(
+              (l) =>
+                  emit(SearchProductErrorMessageState(l.getFriendlyMessage())),
+              (r) => emit(SearchProductFilteredDataState(r[0], r[1])));
+        } else {
+          emit(SearchProductDataEmptyListState());
+        }
+      });
+    } catch (e) {
+      emit(SearchProductErrorState());
+    }
+  }
+
+  fetchCompanyProductFromElastic(
+      {required String query,
+      String? storeName,
+      required String companyName}) async {
+    List<String> storeArr = [];
+    List<String> companArr = [];
+
+    if (companyName.isNotEmpty) {
+      companArr.add(companyName);
+    }
+    if (storeName!.isNotEmpty) {
+      storeArr.add(storeName);
+    }
+    emit(SearchProductLoadingState());
+
+    try {
+      final request = ElasticSearchCompanyApiRequest(
+          searchKeyword: query,
+          company: companArr,
+          storeName: storeArr,
+          count: 100,
+          skipCount: 0);
+      final response = await _searchProductUseCase.executeCompanyProducts(
+          params: SearchCompanyProductParams(request));
       response.fold((l) {
         emit(SearchProductErrorMessageState(l.error.message));
       }, (r) {

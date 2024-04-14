@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pharmarack/view/profile/presentation/demain/model/profile_model.dart';
+import 'package:pharmarack/view/features/profile/domain/model/profile_model.dart';
 
 /// This class [ProfileState] which should be consume by Cubit as it's state
 abstract class ProfileState extends Equatable {

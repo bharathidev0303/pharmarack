@@ -7,4 +7,8 @@ import 'package:pharmarack/view/features/search_product/domain/use_case/search_p
 abstract class SearchProductRepository {
   Future<Either<NetworkError, SearchProductModel>> fetchProductFromElastic(
       SearchProductParams searchProductParam);
+
+  Future<Either<NetworkError, SearchProductModel>>
+      fetchCompanyProductFromElastic(
+          SearchCompanyProductParams searchCompanyProductParam);
 }

@@ -101,7 +101,7 @@ void showBinaryButtonAlertDialog(BuildContext context,
     required String subTitle,
     VoidCallback? onFirstButtonClick,
     VoidCallback? onSecondButtonClick,
-    required String firstButtonTitle,
+    String? firstButtonTitle,
     String? secondButtonTitle,
     isCrossIconHide}) {
   showAdaptiveDialog(
@@ -124,7 +124,7 @@ void showBinaryButtonAlertDialog(BuildContext context,
             subTitle: subTitle,
             onFirstButtonClick: onFirstButtonClick,
             onSecondButtonClick: onSecondButtonClick,
-            firstButtonTitle: firstButtonTitle,
+            firstButtonTitle: firstButtonTitle ?? '',
             secondButtonTitle: secondButtonTitle ?? '',
           ),
         );

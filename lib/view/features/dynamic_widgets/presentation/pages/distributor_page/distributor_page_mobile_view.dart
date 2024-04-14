@@ -79,8 +79,11 @@ class _DistributorScreenPageMobileViewState
                   ),
                 );
               } else if (state is DistributorsPageDataState) {
-                state.distributorsPageModel.widget
-                    .insert(0, distributorsTittle(context, distributorInfo));
+                if (state.distributorsPageModel.widget.first !=
+                    "Padding(padding: EdgeInsets(20.0,0.0,20.0,0.0),)") {
+                  state.distributorsPageModel.widget
+                      .insert(0, distributorsTittle(context, distributorInfo));
+                }
                 return ListView(
                   children: state.distributorsPageModel.widget,
                 );

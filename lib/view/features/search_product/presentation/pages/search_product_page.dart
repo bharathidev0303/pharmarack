@@ -11,6 +11,7 @@ import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/dls/widget/no_records_found.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/company_page/company_screen_page_mobile_view.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/distributor_page/distributor_page_mobile_view.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/null_search_page/null_search_page_mobile_view.dart';
 import 'package:pharmarack/view/features/filters/presentation/pages/filters_page_mobile_view.dart';
@@ -88,16 +89,31 @@ class SearchProductPageState extends BaseStatefulPage {
           onDropDownOpenCallBackForDistributor: (val) {
             searchProductCubit.handleBlurState(isBlur: val);
           },
-          productAndDistributorCallBack: (product, id, storeName, companyId) {
+          productAndDistributorCallBack:
+              (product, id, storeName, companyId, companyName, contextType) {
             //to search with product only
             if (id == 0) {
-              if (textLength <= product.length) {
+              if (id == 0 &&
+                  product.isEmpty &&
+                  storeName.isEmpty &&
+                  companyId.isNotEmpty &&
+                  companyName.isNotEmpty) {
+                searchProductCubit.showCompanyPage(companyName, companyId);
+              } else if (textLength <= product.length) {
                 searchProductCubit.handleSearchText(
-                    query: product, storeName: storeName);
+                    query: product,
+                    storeName: storeName,
+                    companyId: companyId,
+                    companyName: companyName,
+                    contextType: contextType);
               } else {
                 if (product.isEmpty) {
                   searchProductCubit.handleSearchText(
-                      query: product, storeName: storeName);
+                      query: product,
+                      storeName: storeName,
+                      companyId: companyId,
+                      companyName: companyName,
+                      contextType: contextType);
                 }
               }
               textLength = product.length;
@@ -108,11 +124,26 @@ class SearchProductPageState extends BaseStatefulPage {
                   query: product,
                   id: id,
                   storeName: storeName,
-                  companyId: companyId);
+                  companyId: companyId,
+                  companyName: companyName,
+                  contextType: contextType);
             }
             // to show distributor's page
-            else if (storeName != '' && id != 0 && product.isEmpty) {
+            else if (storeName != '' &&
+                id != 0 &&
+                product.isEmpty &&
+                companyName.isEmpty) {
               searchProductCubit.showDistributorsPage(storeName, id!);
+            } else if (id == 0 &&
+                product.isEmpty &&
+                storeName.isEmpty &&
+                companyId.isNotEmpty &&
+                companyName.isNotEmpty) {
+              searchProductCubit.showCompanyPage(companyName, companyId);
+            } else if (id != 0 &&
+                companyName.isNotEmpty &&
+                companyId.isNotEmpty) {
+              searchProductCubit.showCompanyPage(companyName, companyId);
             } else {
               searchProductCubit.invalidStore();
             }
@@ -140,6 +171,7 @@ class SearchProductPageState extends BaseStatefulPage {
                 (current is SearchProductLoadingState) ||
                 (current is SearchProductFilteredDataState) ||
                 (current is ShowDistributorsLockedPageState) ||
+                (current is ShowCompanyPageState) ||
                 (current is ShowDistributorPageState);
           },
           listener: (ctx, state) {
@@ -149,9 +181,12 @@ class SearchProductPageState extends BaseStatefulPage {
                     subTitle: "context.localizedString",
                     firstButtonTitle: context.localizedString.ok);
               } else if (state.isPartyLocked == 1) {
-                showBinaryButtonAlertDialog(context,
-                    subTitle: context.localizedString.partySoonMsg,
-                    firstButtonTitle: context.localizedString.ok);
+                showBinaryButtonAlertDialog(
+                  context,
+                  subTitle: context.localizedString.partySoonMsg,
+                  firstButtonTitle: context.localizedString.ok,
+                );
+                searchProductCubit.emitInitialState();
               }
             }
           },
@@ -204,6 +239,9 @@ class SearchProductPageState extends BaseStatefulPage {
               return const NullSearchPageMobileView();
             } else if (state is ShowDistributorPageState) {
               return DistributorScreenPageMobileView(distributorId: state.id);
+            } else if (state is ShowCompanyPageState) {
+              return CompanyScreenPageMobileView(
+                  companyId: state.comapanyId, companyName: state.companyName);
             } else {
               // loading state
               return const Center(child: CircularProgressIndicator());

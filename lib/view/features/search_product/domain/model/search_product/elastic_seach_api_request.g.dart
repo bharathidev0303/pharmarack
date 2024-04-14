@@ -26,3 +26,25 @@ Map<String, dynamic> _$ElasticSearchApiRequestToJson(
       'Count': instance.count,
       'SkipCount': instance.skipCount,
     };
+
+ElasticSearchCompanyApiRequest _$ElasticSearchCompanyApiRequestFromJson(
+        Map<String, dynamic> json) =>
+    ElasticSearchCompanyApiRequest(
+      searchKeyword: json['SearchKeyword'] as String,
+      company:
+          (json['Company'] as List<dynamic>).map((e) => e as String).toList(),
+      storeName:
+          (json['StoreName'] as List<dynamic>).map((e) => e as String).toList(),
+      count: json['Count'] as int,
+      skipCount: json['SkipCount'] as int,
+    );
+
+Map<String, dynamic> _$ElasticSearchCompanyApiRequestToJson(
+        ElasticSearchCompanyApiRequest instance) =>
+    <String, dynamic>{
+      'SearchKeyword': instance.searchKeyword,
+      'Company': instance.company,
+      'StoreName': instance.storeName,
+      'Count': instance.count,
+      'SkipCount': instance.skipCount,
+    };

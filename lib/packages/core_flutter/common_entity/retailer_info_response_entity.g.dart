@@ -282,6 +282,7 @@ Map<String, dynamic> _$DisplayImageToJson(DisplayImage instance) =>
 DisplayRetailer _$DisplayRetailerFromJson(Map<String, dynamic> json) =>
     DisplayRetailer(
       retailerId: json['RetailerId'] as int?,
+      regionId: json['RegionId'] as int?,
       retailerName: json['RetailerName'] as String?,
       licenseNumber: json['LicenseNumber'] as String?,
       secondDlNumber: json['SecondDLNumber'],
@@ -298,6 +299,7 @@ DisplayRetailer _$DisplayRetailerFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$DisplayRetailerToJson(DisplayRetailer instance) =>
     <String, dynamic>{
       'RetailerId': instance.retailerId,
+      'RegionId': instance.regionId,
       'RetailerName': instance.retailerName,
       'LicenseNumber': instance.licenseNumber,
       'SecondDLNumber': instance.secondDlNumber,

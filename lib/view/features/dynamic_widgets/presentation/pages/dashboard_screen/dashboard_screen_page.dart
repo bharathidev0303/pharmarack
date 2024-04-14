@@ -11,9 +11,9 @@ import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart
 import 'package:pharmarack/view/features/cart/di/cart_provider.dart';
 import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/di/dashboard_screen_providers.dart';
+import 'package:pharmarack/view/features/profile/presentation/constants/my_profile_constants.dart';
 import 'package:pharmarack/view/features/widgets/custom_app_bar/custom_app_bar.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
-import 'package:pharmarack/view/profile/presentation/constants/my_profile_constants.dart';
 import 'dashboard_screen_page_mobile_view.dart';
 
 class DashboardScreenPage extends BasePage<DashboardScreenPageSate> {

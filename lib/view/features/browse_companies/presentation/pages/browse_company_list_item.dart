@@ -2,11 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
+import 'package:pharmarack/main/navigation/app_router.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/view/features/browse_companies/domain/model/browse_companies/companies_model.dart';
-import '../../../dynamic_widgets/presentation/pages/company_page/company_screen_page.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
 
 class BrowseCompanyListItem extends StatelessWidget {
   final CompaniesModel companiesModel;
@@ -102,21 +103,13 @@ class BrowseCompanyListItem extends StatelessWidget {
           const SizedBox(width: 10),
           InkWell(
             onTap: () => {
-              if (getIt.isRegistered<CompaniesModel>())
-                {
-                  getIt.unregister<CompaniesModel>(),
-                  getIt.registerLazySingleton<CompaniesModel>(
-                      () => companiesModel),
-                }
-              else
-                {
-                  getIt.registerLazySingleton<CompaniesModel>(
-                      () => companiesModel),
-                },
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CompanyScreenPage()),
-              )
+              AppRouter.cmsWidgetPageNavigator(
+                  cmsPageNavigatorModel: CmsPageNavigatorModel(
+                      context: context,
+                      linkType: "internal",
+                      linkTo: "/companyPage",
+                      companyId: companiesModel.companyId,
+                      companyName: companiesModel.companyName)),
             },
             child: Container(
               width: 40,

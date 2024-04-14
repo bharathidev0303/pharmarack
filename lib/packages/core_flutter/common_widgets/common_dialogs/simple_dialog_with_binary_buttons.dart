@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_buttons/common_dialog_button.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
@@ -14,6 +13,7 @@ class SimpleAlertDialogWithBinaryButton extends StatelessWidget {
   final String secondButtonTitle;
   final VoidCallback? onFirstButtonClick;
   final VoidCallback? onSecondButtonClick;
+  final bool? isCrossIconHide;
 
   const SimpleAlertDialogWithBinaryButton(
       {super.key,
@@ -23,7 +23,8 @@ class SimpleAlertDialogWithBinaryButton extends StatelessWidget {
       this.onFirstButtonClick,
       this.onSecondButtonClick,
       required this.firstButtonTitle,
-      required this.secondButtonTitle});
+      required this.secondButtonTitle,
+      this.isCrossIconHide});
 
   @override
   Widget build(BuildContext context) {
@@ -37,28 +38,31 @@ class SimpleAlertDialogWithBinaryButton extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  Text(
-                    title,
-                    style: AppTextStyles.dialogTitleStyle16W400.copyWith(
-                        color: AppColors.blackTextFieldText,
-                        fontWeight: titleFontWeight),
-                  ),
-                  const Spacer(),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: AppAssets.png.close.image(
-                      width: 24,
-                      height: 24,
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 15,
+              title.isEmpty && isCrossIconHide != null
+                  ? Row(
+                      children: [
+                        Text(
+                          title,
+                          style: AppTextStyles.dialogTitleStyle16W400.copyWith(
+                              color: AppColors.blackTextFieldText,
+                              fontWeight: titleFontWeight),
+                        ),
+                        const Spacer(),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: AppAssets.png.close.image(
+                            width: 24,
+                            height: 24,
+                            package: "core_flutter",
+                          ),
+                        )
+                      ],
+                    )
+                  : const SizedBox.shrink(),
+              SizedBox(
+                height: title.isEmpty && isCrossIconHide != null ? 15 : 0,
               ),
               Text(
                 subTitle,
@@ -71,18 +75,20 @@ class SimpleAlertDialogWithBinaryButton extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Expanded(
-                    child: CommonDialogButton(
-                        text: secondButtonTitle,
-                        textStyle: AppTextStyles.style12W500Black(
-                            color: AppColors.blueButtonColor),
-                        buttonColor: AppColors.cardBorderColor,
-                        onPressed: () {
-                          onSecondButtonClick?.call();
-                        }),
-                  ),
-                  const SizedBox(
-                    width: 9,
+                  secondButtonTitle.isNotEmpty
+                      ? Expanded(
+                          child: CommonDialogButton(
+                              text: secondButtonTitle,
+                              textStyle: AppTextStyles.style12W500Black(
+                                  color: AppColors.blueButtonColor),
+                              buttonColor: AppColors.cardBorderColor,
+                              onPressed: () {
+                                onSecondButtonClick?.call();
+                              }),
+                        )
+                      : const SizedBox.shrink(),
+                  SizedBox(
+                    width: secondButtonTitle.isNotEmpty ? 9 : 0,
                   ),
                   Expanded(
                     child: CommonDialogButton(
@@ -91,9 +97,13 @@ class SimpleAlertDialogWithBinaryButton extends StatelessWidget {
                             color: AppColors.white),
                         buttonColor: AppColors.blueButtonColor,
                         onPressed: () {
-                          onFirstButtonClick?.call();
+                          if (onFirstButtonClick != null) {
+                            onFirstButtonClick?.call();
+                          } else {
+                            Navigator.pop(context);
+                          }
                         }),
-                  ),
+                  )
                 ],
               )
             ],

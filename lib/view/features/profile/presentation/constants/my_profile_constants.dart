@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/side_navigation_legacy/model/legacy_menu.dart';
 import 'package:pharmarack/packages/core_flutter/constants/app_urls.dart';
-import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 
 class MyProfileConstants {
@@ -45,10 +45,14 @@ class MyProfileConstants {
   static String partyNameEncoded = '';
   static String address1Encoded = '';
   static String address2Encoded = '';
+  static String drugLicenseNumberFilePath = '';
+  static String drugLicenseNumber2FilePath = '';
+  static String drugLicenseNumber3FilePath = '';
   static String drugLicenseNumberEncoded = '';
   static String drugLicenseNumber2Encoded = '';
   static String drugLicenseNumber3Encoded = '';
   static String cityEncoded = '';
+  static int displayImagesLength = 0;
 
   static List legacyMenuList(BuildContext context) {
     return [

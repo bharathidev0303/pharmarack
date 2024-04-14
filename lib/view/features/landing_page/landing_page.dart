@@ -10,6 +10,7 @@ import 'package:pharmarack/view/features/cart/presentation/pages/draggable_cart/
 import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/di/dashboard_screen_providers.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/dashboard_screen/dashboard_screen_page.dart';
+import 'package:pharmarack/view/features/profile/presentation/pages/profile_page.dart';
 
 import '../cart/presentation/pages/cart_detail_page.dart';
 
@@ -91,7 +92,7 @@ class LandingPageState extends State<LandingPage> {
       const DashboardScreenPage(),
       const BrowseCompaniesPage(),
       const DashboardScreenPage(),
-      const DashboardScreenPage(),
+      const ProfilePage(),
       const DashboardScreenPage(),
       // const BrowseCompaniesPage(),
       // OrderHistoryPage(onPressBackButton: () {

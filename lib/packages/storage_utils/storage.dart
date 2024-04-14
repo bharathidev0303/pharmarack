@@ -4,7 +4,6 @@ import "package:flutter_secure_storage/flutter_secure_storage.dart";
 import "package:hive_flutter/hive_flutter.dart";
 import "package:pharmarack/packages/storage_utils/model/bank_account.dart";
 
-
 /// Storage is prototype/blueprint for [LocalStorage] and [SecureStorage]
 abstract class Storage {
   /// Set String item to Storage

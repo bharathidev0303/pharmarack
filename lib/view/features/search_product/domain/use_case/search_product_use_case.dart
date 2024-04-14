@@ -20,10 +20,21 @@ class SearchProductUseCase
       {required SearchProductParams params}) {
     return _searchProductRepository.fetchProductFromElastic(params);
   }
+
+  Future<Either<BaseError, SearchProductModel>> executeCompanyProducts(
+      {required SearchCompanyProductParams params}) {
+    return _searchProductRepository.fetchCompanyProductFromElastic(params);
+  }
 }
 
 class SearchProductParams extends Params {
   final ElasticSearchApiRequest elasticSearchApiRequest;
 
   SearchProductParams(this.elasticSearchApiRequest);
+}
+
+class SearchCompanyProductParams extends Params {
+  final ElasticSearchCompanyApiRequest elasticSearchCompanyApiRequest;
+
+  SearchCompanyProductParams(this.elasticSearchCompanyApiRequest);
 }

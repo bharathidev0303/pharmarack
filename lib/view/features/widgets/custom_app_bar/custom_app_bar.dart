@@ -25,7 +25,8 @@ import 'di.dart';
 //ignore: must_be_immutable
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Function(String)? onTextTypedForProduct;
-  final Function(String, int?, String, String)? productAndDistributorCallBack;
+  final Function(String, int?, String, String, String, String)?
+      productAndDistributorCallBack;
   final Function(bool)? onDropDownOpenCallBackForDistributor;
   final Function? callbackForHamburger;
   final void Function()? onPressNotifications;
@@ -79,6 +80,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
   String selectedStoreName = '';
   int selectedDistributorId = 0;
   String selectedCompanyId = '';
+  String selectedCompanyName = '';
+  String contextType = '';
 
   @override
   void initState() {
@@ -99,12 +102,23 @@ class _CustomAppBarState extends State<CustomAppBar> {
           .then((value) => openDropdown(context));
     }
     if (widget.searchContextModel != null) {
-      if (widget.searchContextModel?.contextType != "") {
+      if (widget.searchContextModel!.contextType.isNotEmpty) {
+        contextType = widget.searchContextModel?.contextType ?? "";
         selectedDistributorId = widget.searchContextModel?.storeId ?? 0;
-        selectedStoreName = widget.searchContextModel!.storeName ?? "";
-        widget.productAndDistributorCallBack
-            ?.call("", selectedDistributorId, selectedStoreName, "yyuys");
-        distributorTextController.text = selectedStoreName;
+        selectedStoreName = widget.searchContextModel?.storeName ?? "";
+        selectedCompanyName = widget.searchContextModel?.companyName ?? "";
+        selectedCompanyId =
+            widget.searchContextModel?.companyId.toString() ?? "";
+        widget.productAndDistributorCallBack?.call(
+            "",
+            selectedDistributorId,
+            selectedStoreName,
+            selectedCompanyId,
+            selectedCompanyName,
+            contextType);
+        if (selectedDistributorId != 0 && selectedStoreName != "") {
+          distributorTextController.text = selectedStoreName;
+        }
       }
     }
 
@@ -262,7 +276,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           if (selectedDistributorId != 0 &&
                               selectedStoreName != "") {
                             widget.productAndDistributorCallBack
-                                ?.call("", 0, "", "");
+                                ?.call("", 0, "", "", "", "");
                           }
                           Navigator.pop(context);
                         },
@@ -345,7 +359,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     text,
                     selectedDistributorId,
                     distributorTextController.text,
-                    selectedCompanyId);
+                    selectedCompanyId,
+                    selectedCompanyName,
+                    contextType);
               },
               isIcon: isProductActive),
           Padding(
@@ -438,12 +454,15 @@ class _CustomAppBarState extends State<CustomAppBar> {
             getIdCallback: (id, storeName, companyId) {
               selectedStoreName = storeName;
               selectedDistributorId = id;
-              selectedCompanyId = companyId;
               closeDropdown(isTapped: true);
               widget.onDropDownOpenCallBackForDistributor?.call(true);
-
               widget.productAndDistributorCallBack?.call(
-                  productTextController.text, id, storeName, selectedCompanyId);
+                  productTextController.text,
+                  id,
+                  storeName,
+                  selectedCompanyId,
+                  selectedCompanyName,
+                  contextType);
 
               distributorTextController.text = storeName;
 
@@ -579,8 +598,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
       if (!isTapped) {
         if (distributorTextController.text == '') {
           _distributorFocusNode.unfocus();
-          widget.productAndDistributorCallBack
-              ?.call(productTextController.text, 0, '', selectedCompanyId);
+          widget.productAndDistributorCallBack?.call(productTextController.text,
+              0, '', selectedCompanyId, selectedCompanyName, contextType);
         }
       }
     }

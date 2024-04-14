@@ -272,6 +272,19 @@ class AppRouter {
                 builder: (context) => const SearchProductPage(),
                 settings: const RouteSettings(arguments: 0)),
           );
+        case '/companyPage':
+          getIt.unregister<SearchContextModel>();
+          getIt.registerLazySingleton<SearchContextModel>(() =>
+              SearchContextModel(
+                  contextType: "Company",
+                  companyId: cmsPageNavigatorModel.companyId ?? 7,
+                  companyName: cmsPageNavigatorModel.companyName ?? ""));
+          Navigator.push(
+            cmsPageNavigatorModel.context,
+            MaterialPageRoute(
+                builder: (context) => const SearchProductPage(),
+                settings: const RouteSettings(arguments: 0)),
+          );
         default:
           debugPrint("linkToNotFount ${cmsPageNavigatorModel.linkTo}");
       }

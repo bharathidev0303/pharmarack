@@ -6,6 +6,8 @@ import 'package:pharmarack/packages/core_flutter/utils/app_constants.dart';
 ///
 class SearchProductEndpoints {
   static const String elasticSearchProduct = '/elastic-search/api/v1/search';
+  static const String elasticSearchCompanyProduct =
+      '/elastic-search/api/v1/search/company';
   static const String searchProduct =
       "/search/api/${AppConstants.apiVersion}/GetProductListForPSSearch";
   static const String searchByProduct =

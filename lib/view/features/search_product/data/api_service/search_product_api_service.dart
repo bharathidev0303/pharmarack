@@ -17,4 +17,9 @@ abstract class SearchProductApiService {
   Future<HttpResponse<SearchProductEntity>> fetchProductFromElastic(
       @Body() Map<String, dynamic> requestBody,
       @Header('Authorization') String token);
+
+  @POST(SearchProductEndpoints.elasticSearchCompanyProduct)
+  Future<HttpResponse<SearchProductEntity>> fetchCompanyProductFromElastic(
+      @Body() Map<String, dynamic> requestBody,
+      @Header('Authorization') String token);
 }

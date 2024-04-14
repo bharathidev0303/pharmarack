@@ -65,6 +65,14 @@ class ShowDistributorPageState extends SearchProductState {
   List<Object?> get props => [distributorName, id];
 }
 
+class ShowCompanyPageState extends SearchProductState {
+  final String companyName;
+  final int comapanyId;
+  const ShowCompanyPageState(this.companyName, this.comapanyId);
+  @override
+  List<Object?> get props => [companyName, comapanyId];
+}
+
 class ShowDistributorsLockedPageState extends SearchProductState {
   final int isPartyLocked;
   final int isPartyLockedByDist;

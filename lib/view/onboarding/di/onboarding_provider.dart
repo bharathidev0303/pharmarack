@@ -5,6 +5,8 @@ import 'package:pharmarack/auth/user_auth_manager.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/login_entity.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/packages/core_flutter/utils/app_constants.dart';
+import 'package:pharmarack/view/features/profile/presentation/cubit/edit_profile_cubit.dart';
+import 'package:pharmarack/view/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:pharmarack/view/onboarding/data/api_service/change_password_api_service.dart';
 import 'package:pharmarack/view/onboarding/domain/repository/onboarding_repository.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/change_password_usecase.dart';
@@ -25,6 +27,7 @@ import 'package:pharmarack/view/onboarding/domain/usecase/retailer_registration/
 import 'package:pharmarack/view/onboarding/domain/usecase/retailer_registration/get_business_type_use_case.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/retailer_registration/get_state_list_use_case.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/retailer_registration/retailer_registration_use_case.dart';
+import 'package:pharmarack/view/onboarding/domain/usecase/retailer_registration/update_retailer_profile_usecase.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/retailer_registration/upload_drug_licence_number.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/save_reset_password_data_usecase.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/save_success_verify_otp_response_usecase.dart';
@@ -39,20 +42,17 @@ import 'package:pharmarack/view/onboarding/presentation/cubit/otp_screen/otp_scr
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_one/retailer_registration_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_three/retailer_registration_step_three_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_two/retailer_registration_step_two_cubit.dart';
-import 'package:pharmarack/view/profile/presentation/cubit/profile_cubit.dart';
 
 import '../domain/repository/change_password_repository.dart';
 import '../domain/usecase/check_password_update_uescase.dart';
 import '../domain/usecase/get_retailer_info_usecase.dart';
 import '../domain/usecase/referral_terms_and_condition_usecase.dart';
 import '../domain/usecase/save_reset_password_response_usecase.dart';
-import '../domain/usecase/update_retailer_profile_usecase.dart';
 import '../domain/usecase/validate_otp_usecase.dart';
 import '../presentation/cubit/change_password_cubit.dart';
 import '../presentation/cubit/forgot_password/otp_screen/delete_profile_otp_screen_cubit.dart';
 import '../presentation/cubit/login_screen_cubit.dart';
 import '../presentation/cubit/referral_t_and_c_cubit.dart';
-import '../presentation/cubit/update_retailer_profile_cubit.dart';
 
 final onboardingDI = GetIt.instance;
 ProfileCubit profileScreenCubit = ProfileCubit();
@@ -267,16 +267,16 @@ void initChangePasswordDependency(GetIt getIt) {
   );
 }
 
-// void initProfileCubit(GetIt getIt) {
-//   if (!getIt.isRegistered<ProfileCubit>()) {
-//     getIt.registerSingleton<ProfileCubit>(ProfileCubit());
-//   }
-//   if (!getIt.isRegistered<EditProfileCubit>()) {
-//     getIt.registerSingleton<EditProfileCubit>(EditProfileCubit(
-//         UpdateRetailerProfileUsecase(onboardingRepository: onboardingDI()),
-//         UploadDrugLicenceUseCase(onboardingDI())));
-//   }
-// }
+void initProfileCubit(GetIt getIt) {
+  if (!getIt.isRegistered<ProfileCubit>()) {
+    getIt.registerSingleton<ProfileCubit>(ProfileCubit());
+  }
+  if (!getIt.isRegistered<EditProfileCubit>()) {
+    getIt.registerSingleton<EditProfileCubit>(EditProfileCubit(
+        UpdateRetailerProfileUsecase(onboardingRepository: onboardingDI()),
+        UploadDrugLicenceUseCase(onboardingDI())));
+  }
+}
 
 /// Common data use case
 final retailerRegistrationUserCase =
