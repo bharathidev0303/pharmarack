@@ -2,8 +2,8 @@ import 'package:fpdart/fpdart.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/packages/core_flutter/error/local_error.dart';
-import 'package:pharmarack/view/features/cart/domain/model/cart_details_model.dart';
-import 'package:pharmarack/view/features/cart/presentation/cubit/draggable_cart/cubit/draggable_cart_cubit.dart';
+import 'package:pharmarack/view/dashboard/cart/domain/model/cart_details_model.dart';
+import 'package:pharmarack/view/dashboard/cart/presentation/cubit/draggable_cart/cubit/draggable_cart_cubit.dart';
 import 'package:pharmarack/view/features/distributor_connection/stockiest_priority/domain/model/stockiest_priority_model.dart';
 import 'package:pharmarack/view/features/search_product/domain/model/search_product/search_product_model.dart';
 

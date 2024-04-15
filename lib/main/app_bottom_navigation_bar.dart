@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
@@ -45,60 +44,50 @@ class _CustomBottomNavigationBar extends State<AppBottomNavigationBar> {
       BottomNavigationBarItem(
           activeIcon: Padding(
               padding: const EdgeInsets.only(bottom: 5),
-              child: AppAssets.png.icHomeActive
-                  .image(height: 25, width: 35)),
+              child: AppAssets.png.icHomeActive.image(height: 25, width: 35)),
           icon: Padding(
             padding: const EdgeInsets.only(bottom: 5),
-            child: AppAssets.png.icHomeInactive
-                .image(height: 25, width: 35),
+            child: AppAssets.png.icHomeInactive.image(height: 25, width: 35),
           ),
           label: context.localizedString.home),
       BottomNavigationBarItem(
           activeIcon: Padding(
             padding: const EdgeInsets.only(bottom: 5),
-            child: AppAssets.svg.icBrowseActive
-                .svg( height: 25, width: 25),
+            child: AppAssets.svg.icBrowseActive.svg(height: 25, width: 25),
           ),
           icon: Padding(
             padding: const EdgeInsets.only(bottom: 5),
-            child: AppAssets.svg.icBrowseInactive
-                .svg( height: 25, width: 25),
+            child: AppAssets.svg.icBrowseInactive.svg(height: 25, width: 25),
           ),
           label: context.localizedString.browse),
       BottomNavigationBarItem(
           activeIcon: Padding(
             padding: const EdgeInsets.only(bottom: 5),
-            child: AppAssets.svg.icOrderActive
-                .svg( height: 25, width: 25),
+            child: AppAssets.svg.icOrderActive.svg(height: 25, width: 25),
           ),
           icon: Padding(
             padding: const EdgeInsets.only(bottom: 5),
-            child: AppAssets.svg.icOrderInactive
-                .svg( height: 25, width: 25),
+            child: AppAssets.svg.icOrderInactive.svg(height: 25, width: 25),
           ),
           label: context.localizedString.orders),
       BottomNavigationBarItem(
           activeIcon: Padding(
             padding: const EdgeInsets.only(bottom: 5),
-            child: AppAssets.svg.icProfileActive
-                .svg( height: 25, width: 25),
+            child: AppAssets.svg.icProfileActive.svg(height: 25, width: 25),
           ),
           icon: Padding(
             padding: const EdgeInsets.only(bottom: 5),
-            child: AppAssets.svg.icProfileInactive
-                .svg( height: 25, width: 25),
+            child: AppAssets.svg.icProfileInactive.svg(height: 25, width: 25),
           ),
           label: context.localizedString.profile),
       BottomNavigationBarItem(
           activeIcon: Padding(
             padding: const EdgeInsets.only(bottom: 5),
-            child: AppAssets.svg.icCartActive
-                .svg( height: 25, width: 25),
+            child: AppAssets.svg.icCartActive.svg(height: 25, width: 25),
           ),
           icon: Padding(
             padding: const EdgeInsets.only(bottom: 5),
-            child: AppAssets.svg.icCartInactive
-                .svg( height: 25, width: 25),
+            child: AppAssets.svg.icCartInactive.svg(height: 25, width: 25),
           ),
           label: context.localizedString.cart),
     ];

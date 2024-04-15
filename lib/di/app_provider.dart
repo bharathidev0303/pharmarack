@@ -14,7 +14,7 @@ import 'package:pharmarack/feedback/data/data_source/remote_data_source.dart';
 import 'package:pharmarack/feedback/data/repository/feedback_repository_impl.dart';
 import 'package:pharmarack/feedback/domain/repository/feedback_repository.dart';
 import 'package:pharmarack/view/features/browse_companies/di/browse_companies_providers.dart';
-import 'package:pharmarack/view/features/cart/di/cart_provider.dart';
+import 'package:pharmarack/view/dashboard/cart/di/cart_provider.dart';
 import 'package:pharmarack/view/features/change_distributor/change_distributor_providers.dart';
 import 'package:pharmarack/view/features/distributor_connection/di/distributor_connection_providers.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/data/api_services/widget_builder_services.dart';

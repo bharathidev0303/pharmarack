@@ -2,13 +2,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:pharmarack/packages/core/log_util/log_util.dart';
 import 'package:pharmarack/packages/core_flutter/error/base_error.dart';
-import 'package:pharmarack/view/features/cart/domain/model/cart_details_model.dart';
+import 'package:pharmarack/view/dashboard/cart/domain/model/cart_details_model.dart';
 import 'package:pharmarack/view/features/change_distributor/data/product_distributors_response_entity.dart';
 import 'package:pharmarack/view/features/change_distributor/presentation/bloc/distributor_details.dart';
 
-import '../../../cart/domain/model/add_product_to_cart_param.dart';
-import '../../../cart/domain/usecase/add_change_cart_usecase.dart';
-import '../../../cart/domain/usecase/delete_product_usecase.dart';
+import '../../../../dashboard/cart/domain/model/add_product_to_cart_param.dart';
+import '../../../../dashboard/cart/domain/usecase/add_change_cart_usecase.dart';
+import '../../../../dashboard/cart/domain/usecase/delete_product_usecase.dart';
 import '../../domain/fetch_product_distributors_use_case.dart';
 import '../../domain/no_distributors_found_exception.dart';
 import 'change_distributor_dialog_state.dart';

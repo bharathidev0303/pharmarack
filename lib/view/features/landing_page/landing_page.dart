@@ -6,13 +6,13 @@ import 'package:pharmarack/main/app_bottom_navigation_bar.dart';
 import 'package:pharmarack/main/navigation/app_router.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/view/features/browse_companies/presentation/pages/browse_companies_page.dart';
-import 'package:pharmarack/view/features/cart/presentation/pages/draggable_cart/dragable_cart_page.dart';
+import 'package:pharmarack/view/dashboard/cart/presentation/pages/draggable_cart/dragable_cart_page.dart';
 import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/di/dashboard_screen_providers.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/dashboard_screen/dashboard_screen_page.dart';
 import 'package:pharmarack/view/features/profile/presentation/pages/profile_page.dart';
 
-import '../cart/presentation/pages/cart_detail_page.dart';
+import '../../dashboard/cart/presentation/pages/cart_detail_page.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -93,7 +93,6 @@ class LandingPageState extends State<LandingPage> {
       const BrowseCompaniesPage(),
       const DashboardScreenPage(),
       const ProfilePage(),
-      const DashboardScreenPage(),
       // const BrowseCompaniesPage(),
       // OrderHistoryPage(onPressBackButton: () {
       //   _goToDashboard();
@@ -101,9 +100,9 @@ class LandingPageState extends State<LandingPage> {
       // ProfilePage(onPressBackButton: () {
       //   _goToDashboard();
       // }),
-      // CartDetailPage(onPressBackButton: () {
-      //   _goToDashboard();
-      // }),
+      CartDetailPage(onPressBackButton: () {
+        _goToDashboard();
+      }),
     ];
     return navigationWidgets[index];
   }

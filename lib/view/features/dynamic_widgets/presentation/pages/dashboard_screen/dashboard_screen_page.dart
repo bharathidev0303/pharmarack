@@ -8,7 +8,7 @@ import 'package:pharmarack/packages/core_flutter/common_widgets/side_navigation_
 import 'package:pharmarack/packages/core_flutter/core/ui/base_view.dart';
 import 'package:pharmarack/packages/core_flutter/core/ui/drawer_router_paths.dart';
 import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
-import 'package:pharmarack/view/features/cart/di/cart_provider.dart';
+import 'package:pharmarack/view/dashboard/cart/di/cart_provider.dart';
 import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/di/dashboard_screen_providers.dart';
 import 'package:pharmarack/view/features/profile/presentation/constants/my_profile_constants.dart';
