@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
@@ -283,7 +284,10 @@ class _DistributorDropDownViewState extends State<DistributorDropDownView> {
                     height: 25,
                     width: 25,
                     margin: const EdgeInsets.symmetric(vertical: 25),
-                    child: const CircularProgressIndicator(),
+                    child: const SpinKitFadingCircle(
+                      color: AppColors.blueButtonColor,
+                      size: 50.0,
+                    ),
                   ),
                 );
               }

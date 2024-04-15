@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
@@ -58,7 +59,10 @@ class _BannerProductsMobileViewPageState
           builder: (context, state) {
             if (state is BannerProductsListLoadingState) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: SpinKitFadingCircle(
+                  color: AppColors.blueButtonColor,
+                  size: 50.0,
+                ),
               );
             } else if (state is BannerProductsListErrorState) {
               return Center(

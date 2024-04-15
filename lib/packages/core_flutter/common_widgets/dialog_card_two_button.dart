@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
 
@@ -115,7 +115,10 @@ class DialogCardTwoButton extends StatelessWidget {
                 visible: showProgress,
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: CircularProgressIndicator(),
+                  child: SpinKitFadingCircle(
+                    color: AppColors.blueButtonColor,
+                    size: 50.0,
+                  ),
                 ),
               ),
             ],

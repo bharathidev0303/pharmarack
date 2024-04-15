@@ -82,6 +82,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   String selectedCompanyId = '';
   String selectedCompanyName = '';
   String contextType = '';
+  String searchText = '';
 
   @override
   void initState() {
@@ -109,8 +110,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
         selectedCompanyName = widget.searchContextModel?.companyName ?? "";
         selectedCompanyId =
             widget.searchContextModel?.companyId.toString() ?? "";
+        searchText = widget.searchContextModel?.searchText ?? "";
         widget.productAndDistributorCallBack?.call(
-            "",
+            searchText,
             selectedDistributorId,
             selectedStoreName,
             selectedCompanyId,
@@ -274,9 +276,19 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           deInitDI();
                           closeDropdown();
                           if (selectedDistributorId != 0 &&
-                              selectedStoreName != "") {
+                              selectedStoreName != "" &&
+                              selectedCompanyName.isEmpty) {
                             widget.productAndDistributorCallBack
                                 ?.call("", 0, "", "", "", "");
+                          } else if (selectedCompanyName != "" &&
+                              selectedCompanyId != "") {
+                            widget.productAndDistributorCallBack?.call(
+                                "",
+                                selectedDistributorId,
+                                selectedStoreName,
+                                selectedCompanyId,
+                                selectedCompanyName,
+                                contextType);
                           }
                           Navigator.pop(context);
                         },
@@ -355,6 +367,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 appBarCubit.productTextFieldTapped(isTapped: true);
               },
               onTextTyped: (text) {
+                searchText = text;
                 widget.productAndDistributorCallBack?.call(
                     text,
                     selectedDistributorId,
@@ -457,7 +470,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               closeDropdown(isTapped: true);
               widget.onDropDownOpenCallBackForDistributor?.call(true);
               widget.productAndDistributorCallBack?.call(
-                  productTextController.text,
+                  searchText,
                   id,
                   storeName,
                   selectedCompanyId,
@@ -538,7 +551,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       'appbar-debouncer',
                       const Duration(milliseconds: 500),
                       () => onTextTyped?.call(text));
-                  setState(() {});
                 },
                 onTap: () {
                   onTap?.call();
@@ -598,8 +610,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
       if (!isTapped) {
         if (distributorTextController.text == '') {
           _distributorFocusNode.unfocus();
-          widget.productAndDistributorCallBack?.call(productTextController.text,
-              0, '', selectedCompanyId, selectedCompanyName, contextType);
+          widget.productAndDistributorCallBack?.call(searchText, 0, '',
+              selectedCompanyId, selectedCompanyName, contextType);
         }
       }
     }

@@ -96,7 +96,10 @@ Widget buildCrmBarWidget(Map<String, dynamic> children) {
         );
       } else {
         return Container(
-            // child: CircularProgressIndicator(),
+            // child: SpinKitFadingCircle(
+            //   color: AppColors.blueButtonColor,
+            //   size: 50.0,
+            // ),
             );
       }
     },

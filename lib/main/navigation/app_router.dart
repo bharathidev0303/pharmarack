@@ -39,6 +39,7 @@ import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/pageConfigModel.dart';
 import 'package:pharmarack/view/features/landing_page/landing_page.dart';
 import 'package:pharmarack/view/features/search_product/domain/model/search_context_model.dart';
 import 'package:pharmarack/view/features/search_product/presentation/pages/search_product_page.dart';
@@ -277,8 +278,28 @@ class AppRouter {
           getIt.registerLazySingleton<SearchContextModel>(() =>
               SearchContextModel(
                   contextType: "Company",
-                  companyId: cmsPageNavigatorModel.companyId ?? 7,
+                  companyId: cmsPageNavigatorModel.companyId ?? 0,
                   companyName: cmsPageNavigatorModel.companyName ?? ""));
+          Navigator.push(
+            cmsPageNavigatorModel.context,
+            MaterialPageRoute(
+                builder: (context) => const SearchProductPage(),
+                settings: const RouteSettings(arguments: 0)),
+          );
+        case '/TheropySearch':
+          PageConfigModel pageConfigModel = PageConfigModel();
+          if (getIt.isRegistered<PageConfigModel>()) {
+            pageConfigModel = getIt<PageConfigModel>();
+          }
+          getIt.unregister<SearchContextModel>();
+          getIt.registerLazySingleton<SearchContextModel>(() =>
+              SearchContextModel(
+                  contextType: "Theropy",
+                  searchText: cmsPageNavigatorModel.linkToExtra,
+                  companyId: pageConfigModel.companyId ?? 0,
+                  companyName: pageConfigModel.companyName ?? "",
+                  storeId: pageConfigModel.storeId ?? 0,
+                  storeName: pageConfigModel.storeName ?? ""));
           Navigator.push(
             cmsPageNavigatorModel.context,
             MaterialPageRoute(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 
 void showProgressDialog(BuildContext context) {
@@ -19,7 +21,10 @@ void showProgressDialog(BuildContext context) {
         ),
         content: Row(
           children: [
-            const CircularProgressIndicator(),
+            const SpinKitFadingCircle(
+              color: AppColors.blueButtonColor,
+              size: 50.0,
+            ),
             const SizedBox(
               width: 20,
             ),

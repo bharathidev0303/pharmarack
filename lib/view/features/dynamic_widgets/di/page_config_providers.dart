@@ -9,15 +9,13 @@ void initPageConfigDi({
   String? companyName,
 }) {
   clearPageConfigDi();
-  getIt.registerFactory<PageConfigModel>(
-    () => PageConfigModel(
-      page: pageName,
-      storeId: storeId,
-      storeName: storeName,
-      companyId: companyId,
-      companyName: companyName,
-    ),
-  );
+  getIt.registerLazySingleton<PageConfigModel>(() => PageConfigModel(
+        page: pageName,
+        storeId: storeId,
+        storeName: storeName,
+        companyId: companyId,
+        companyName: companyName,
+      ));
 }
 
 void clearPageConfigDi() {

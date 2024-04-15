@@ -1,8 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pharmarack/di/app_provider.dart';
+import 'package:pharmarack/main/navigation/app_router.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CardWidgetModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CommonModule.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/pageConfigModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/widgets/CardWidgets/CardWidget.dart';
 
 class CardImageWidget extends StatefulWidget {
@@ -19,83 +23,78 @@ class _CardImageWidgetState extends State<CardImageWidget> {
     if (widget.cardWidgetModel.itemsVisibleMobile == '1') {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        child: Container(
-          child: Column(
-            children: [
-              cardTitleWidget(widget.cardWidgetModel, context),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  widget.cardWidgetModel.children.isNotEmpty
-                      ? Wrap(
-                          children: widget.cardWidgetModel.children
-                              .take(4)
-                              .map(
-                                (item) => IntrinsicWidth(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      InkWell(
-                                        onTap: () => {
-                                          widgetPageNavigator(
-                                              context,
-                                              widget.cardWidgetModel.title,
-                                              item.linkType,
-                                              item.linkTo,
-                                              item.linkToExtra),
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 5.0, horizontal: 0.0),
-                                          child: item.assetUrl != ""
-                                              ? ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl:
-                                                        item.assetUrl ?? "",
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.89,
-                                                    fadeInDuration:
-                                                        const Duration(
-                                                            microseconds: 100),
-                                                    fadeOutDuration:
-                                                        const Duration(
-                                                            microseconds: 100),
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            Container(
-                                                      color: AppColors
-                                                          .appBackgroundColor,
-                                                      child: const Center(
-                                                        child:
-                                                            Icon(Icons.error),
-                                                      ),
+        child: Column(
+          children: [
+            cardTitleWidget(widget.cardWidgetModel, context),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                widget.cardWidgetModel.children.isNotEmpty
+                    ? Wrap(
+                        children: widget.cardWidgetModel.children
+                            .take(4)
+                            .map(
+                              (item) => IntrinsicWidth(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    InkWell(
+                                      onTap: () => {
+                                        AppRouter.cmsWidgetPageNavigator(
+                                            cmsPageNavigatorModel:
+                                                CmsPageNavigatorModel(
+                                          context: context,
+                                          linkType: item.linkType,
+                                          linkTo: item.linkTo,
+                                          linkToExtra: item.linkToExtra,
+                                        )),
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5.0, horizontal: 0.0),
+                                        child: item.assetUrl != ""
+                                            ? ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: item.assetUrl ?? "",
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.89,
+                                                  fadeInDuration:
+                                                      const Duration(
+                                                          microseconds: 100),
+                                                  fadeOutDuration:
+                                                      const Duration(
+                                                          microseconds: 100),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Container(
+                                                    color: AppColors
+                                                        .appBackgroundColor,
+                                                    child: const Center(
+                                                      child: Icon(Icons.error),
                                                     ),
                                                   ),
-                                                )
-                                              : Container(),
-                                        ),
+                                                ),
+                                              )
+                                            : Container(),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              )
-                              .toList(),
-                        )
-                      : Text('Empty list'),
-                ],
-              ),
-            ],
-          ),
+                              ),
+                            )
+                            .toList(),
+                      )
+                    : Text('Empty list'),
+              ],
+            ),
+          ],
         ),
       );
     } else if (widget.cardWidgetModel.itemsVisibleMobile == '2') {
@@ -125,12 +124,14 @@ class _CardImageWidgetState extends State<CardImageWidget> {
                                     children: <Widget>[
                                       InkWell(
                                         onTap: () => {
-                                          widgetPageNavigator(
-                                              context,
-                                              widget.cardWidgetModel.title,
-                                              item.value.linkType,
-                                              item.value.linkTo,
-                                              item.value.linkToExtra),
+                                          AppRouter.cmsWidgetPageNavigator(
+                                              cmsPageNavigatorModel:
+                                                  CmsPageNavigatorModel(
+                                            context: context,
+                                            linkType: item.value.linkType,
+                                            linkTo: item.value.linkTo,
+                                            linkToExtra: item.value.linkToExtra,
+                                          )),
                                         },
                                         child: Padding(
                                           padding: EdgeInsets.only(

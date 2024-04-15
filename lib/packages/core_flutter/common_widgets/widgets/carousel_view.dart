@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 
 class CarouselView extends StatefulWidget {
   final List<String> imgList;
@@ -47,7 +49,10 @@ class _CarouselViewState extends State<CarouselView> {
                           fit: BoxFit.fill,
                           placeholder: (_, __) {
                             return const Center(
-                              child: CircularProgressIndicator(),
+                              child: SpinKitFadingCircle(
+                                color: AppColors.blueButtonColor,
+                                size: 50.0,
+                              ),
                             );
                           },
                           errorWidget: (context, url, error) => const Center(

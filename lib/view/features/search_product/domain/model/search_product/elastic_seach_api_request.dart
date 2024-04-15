@@ -54,3 +54,30 @@ class ElasticSearchCompanyApiRequest {
 
   Map<String, dynamic> toJson() => _$ElasticSearchCompanyApiRequestToJson(this);
 }
+
+@JsonSerializable()
+class ElasticSearchTheropyApiRequest {
+  @JsonKey(name: "TherapyName")
+  String therapyName;
+  @JsonKey(name: "Company")
+  List<String> company;
+  @JsonKey(name: "StoreName")
+  List<String> storeName;
+  @JsonKey(name: "Count")
+  int count;
+  @JsonKey(name: "SkipCount")
+  int skipCount;
+
+  ElasticSearchTheropyApiRequest({
+    required this.therapyName,
+    required this.company,
+    required this.storeName,
+    required this.count,
+    required this.skipCount,
+  });
+
+  factory ElasticSearchTheropyApiRequest.fromJson(Map<String, dynamic> json) =>
+      _$ElasticSearchTheropyApiRequestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ElasticSearchTheropyApiRequestToJson(this);
+}

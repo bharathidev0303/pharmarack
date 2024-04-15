@@ -26,4 +26,12 @@ class SearchProductRepositoryImpl implements SearchProductRepository {
     return _searchProductRemoteDataSource
         .fetchCompanyProductFromElastic(searchComapnyProductParam);
   }
+
+  @override
+  Future<Either<NetworkError, SearchProductModel>>
+      fetchTheropyProductFromElastic(
+          SearchTheropyProductParams searchTheropyProductParam) {
+    return _searchProductRemoteDataSource
+        .fetchTheropyProductFromElastic(searchTheropyProductParam);
+  }
 }

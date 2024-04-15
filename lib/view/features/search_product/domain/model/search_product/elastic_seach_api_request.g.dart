@@ -48,3 +48,25 @@ Map<String, dynamic> _$ElasticSearchCompanyApiRequestToJson(
       'Count': instance.count,
       'SkipCount': instance.skipCount,
     };
+
+ElasticSearchTheropyApiRequest _$ElasticSearchTheropyApiRequestFromJson(
+        Map<String, dynamic> json) =>
+    ElasticSearchTheropyApiRequest(
+      therapyName: json['TherapyName'] as String,
+      company:
+          (json['Company'] as List<dynamic>).map((e) => e as String).toList(),
+      storeName:
+          (json['StoreName'] as List<dynamic>).map((e) => e as String).toList(),
+      count: json['Count'] as int,
+      skipCount: json['SkipCount'] as int,
+    );
+
+Map<String, dynamic> _$ElasticSearchTheropyApiRequestToJson(
+        ElasticSearchTheropyApiRequest instance) =>
+    <String, dynamic>{
+      'TherapyName': instance.therapyName,
+      'Company': instance.company,
+      'StoreName': instance.storeName,
+      'Count': instance.count,
+      'SkipCount': instance.skipCount,
+    };

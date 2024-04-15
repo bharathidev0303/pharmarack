@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
 
@@ -137,7 +138,10 @@ class DialogCard extends StatelessWidget {
                 visible: showProgress,
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: CircularProgressIndicator(),
+                  child: SpinKitFadingCircle(
+                    color: AppColors.blueButtonColor,
+                    size: 50.0,
+                  ),
                 ),
               ),
             ],

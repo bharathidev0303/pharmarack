@@ -25,6 +25,11 @@ class SearchProductUseCase
       {required SearchCompanyProductParams params}) {
     return _searchProductRepository.fetchCompanyProductFromElastic(params);
   }
+
+  Future<Either<BaseError, SearchProductModel>> executeTheropyProducts(
+      {required SearchTheropyProductParams params}) {
+    return _searchProductRepository.fetchTheropyProductFromElastic(params);
+  }
 }
 
 class SearchProductParams extends Params {
@@ -37,4 +42,10 @@ class SearchCompanyProductParams extends Params {
   final ElasticSearchCompanyApiRequest elasticSearchCompanyApiRequest;
 
   SearchCompanyProductParams(this.elasticSearchCompanyApiRequest);
+}
+
+class SearchTheropyProductParams extends Params {
+  final ElasticSearchTheropyApiRequest elasticSearchTheropyApiRequest;
+
+  SearchTheropyProductParams(this.elasticSearchTheropyApiRequest);
 }

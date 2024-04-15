@@ -8,6 +8,8 @@ class SearchProductEndpoints {
   static const String elasticSearchProduct = '/elastic-search/api/v1/search';
   static const String elasticSearchCompanyProduct =
       '/elastic-search/api/v1/search/company';
+  static const String elasticSearchTheropyProduct =
+      '/elastic-search/api/v1/search/therapy';
   static const String searchProduct =
       "/search/api/${AppConstants.apiVersion}/GetProductListForPSSearch";
   static const String searchByProduct =

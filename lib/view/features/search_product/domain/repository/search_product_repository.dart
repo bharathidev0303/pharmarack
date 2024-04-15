@@ -11,4 +11,8 @@ abstract class SearchProductRepository {
   Future<Either<NetworkError, SearchProductModel>>
       fetchCompanyProductFromElastic(
           SearchCompanyProductParams searchCompanyProductParam);
+
+  Future<Either<NetworkError, SearchProductModel>>
+      fetchTheropyProductFromElastic(
+          SearchTheropyProductParams searchTheropyProductParam);
 }

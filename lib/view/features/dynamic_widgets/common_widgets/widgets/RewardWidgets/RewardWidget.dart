@@ -48,7 +48,10 @@ Widget buildRewordsWidget(children) {
         }
       } else {
         return const Center(
-            // child: CircularProgressIndicator(),
+            // child: SpinKitFadingCircle(
+            //   color: AppColors.blueButtonColor,
+            //   size: 50.0,
+            // ),
             );
       }
     },

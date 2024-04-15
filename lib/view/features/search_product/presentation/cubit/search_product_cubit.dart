@@ -49,10 +49,14 @@ class SearchProductCubit extends Cubit<SearchProductState> {
     selectedDistributorName = storeName ?? "";
     selectedDistributorId = id ?? 0;
     searchQuery = query;
+
     if (query.length >= 3) {
       if (contextType == "Company" && companyName!.isNotEmpty) {
         fetchCompanyProductFromElastic(
             query: query, storeName: storeName, companyName: companyName);
+      } else if (contextType == "Theropy") {
+        fetchTheropyProductFromElastic(
+            query: query, storeName: storeName, companyName: companyName ?? "");
       } else {
         fetchProductFromElastic(query: query, storeName: storeName);
       }
@@ -167,6 +171,49 @@ class SearchProductCubit extends Cubit<SearchProductState> {
           skipCount: 0);
       final response = await _searchProductUseCase.executeCompanyProducts(
           params: SearchCompanyProductParams(request));
+      response.fold((l) {
+        emit(SearchProductErrorMessageState(l.error.message));
+      }, (r) {
+        if (r.productList?.isNotEmpty ?? false) {
+          _filterSearchProductUseCase.updateProductLists(r.productList ?? []);
+          final filteredList = _filterSearchProductUseCase.filterList();
+          filteredList.fold(
+              (l) =>
+                  emit(SearchProductErrorMessageState(l.getFriendlyMessage())),
+              (r) => emit(SearchProductFilteredDataState(r[0], r[1])));
+        } else {
+          emit(SearchProductDataEmptyListState());
+        }
+      });
+    } catch (e) {
+      emit(SearchProductErrorState());
+    }
+  }
+
+  fetchTheropyProductFromElastic(
+      {required String query,
+      String? storeName,
+      required String companyName}) async {
+    List<String> storeArr = [];
+    List<String> companArr = [];
+
+    if (companyName.isNotEmpty) {
+      companArr.add(companyName);
+    }
+    if (storeName!.isNotEmpty) {
+      storeArr.add(storeName);
+    }
+    emit(SearchProductLoadingState());
+
+    try {
+      final request = ElasticSearchTheropyApiRequest(
+          therapyName: query,
+          company: companArr,
+          storeName: storeArr,
+          count: 100,
+          skipCount: 0);
+      final response = await _searchProductUseCase.executeTheropyProducts(
+          params: SearchTheropyProductParams(request));
       response.fold((l) {
         emit(SearchProductErrorMessageState(l.error.message));
       }, (r) {

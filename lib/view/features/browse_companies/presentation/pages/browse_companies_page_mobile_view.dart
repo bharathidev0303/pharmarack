@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/widgets/text_input_field.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
@@ -50,7 +51,10 @@ class _BrowseCompaniesPageMobileViewState
         if (state.browseCompanyMessage is BrowseCompanyNone ||
             state.browseCompanyMessage is BrowseCompanyLoading) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: SpinKitFadingCircle(
+              color: AppColors.blueButtonColor,
+              size: 50.0,
+            ),
           );
         }
         if (state.browseCompanyMessage == CompanyListLimitReached()) {
@@ -223,7 +227,10 @@ class _BrowseCompaniesPageMobileViewState
                           return const Padding(
                             padding: EdgeInsets.symmetric(vertical: 15.0),
                             child: Center(
-                              child: CircularProgressIndicator(),
+                              child: SpinKitFadingCircle(
+                                color: AppColors.blueButtonColor,
+                                size: 50.0,
+                              ),
                             ),
                           );
                         }

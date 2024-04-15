@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
@@ -61,16 +62,6 @@ class SearchProductPageState extends BaseStatefulPage {
     super.initState();
     searchProductCubit.fetchStockiestPriority('search');
   }
-
-  // @override
-  // void didChangeDependencies() {
-  //   if (getIt.isRegistered<SearchContextModel>()) {
-  //     searchContextModel = getIt<SearchContextModel>();
-  //   } else {
-  //     searchContextModel = SearchContextModel(contextType: "");
-  //   }
-  //   super.didChangeDependencies();
-  // }
 
   @override
   Color scaffoldBackgroundColor() {
@@ -142,7 +133,8 @@ class SearchProductPageState extends BaseStatefulPage {
               searchProductCubit.showCompanyPage(companyName, companyId);
             } else if (id != 0 &&
                 companyName.isNotEmpty &&
-                companyId.isNotEmpty) {
+                companyId.isNotEmpty &&
+                product.isEmpty) {
               searchProductCubit.showCompanyPage(companyName, companyId);
             } else {
               searchProductCubit.invalidStore();
@@ -244,7 +236,11 @@ class SearchProductPageState extends BaseStatefulPage {
                   companyId: state.comapanyId, companyName: state.companyName);
             } else {
               // loading state
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                  child: SpinKitFadingCircle(
+                color: AppColors.blueButtonColor,
+                size: 50.0,
+              ));
             }
           },
         ));
