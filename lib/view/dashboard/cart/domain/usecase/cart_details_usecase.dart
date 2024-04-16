@@ -1,4 +1,3 @@
-
 import 'package:fpdart/fpdart.dart';
 import 'package:pharmarack/packages/core/log_util/log_util.dart';
 import 'package:pharmarack/packages/core_flutter/core/base_usecase/base_usecase.dart';

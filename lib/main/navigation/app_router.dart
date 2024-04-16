@@ -38,6 +38,9 @@ import 'package:flutter/material.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
+import 'package:pharmarack/view/dashboard/cart/presentation/pages/place_order_successful_page.dart';
+import 'package:pharmarack/view/dashboard/order_history/presentation/pages/order_history_details/order_details_page.dart';
+import 'package:pharmarack/view/dashboard/order_history/presentation/pages/order_history_page.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/pageConfigModel.dart';
 import 'package:pharmarack/view/features/landing_page/landing_page.dart';
@@ -112,9 +115,9 @@ class AppRouter {
             builder: (context) => const ResetPasswordScreen(),
             settings:
                 const RouteSettings(name: RoutePaths.resetPasswordScreen));
-      // case RoutePaths.orderHistory:
-      //   return MaterialPageRoute(
-      //       builder: (context) => const OrderHistoryPage());
+      case RoutePaths.orderHistory:
+        return MaterialPageRoute(
+            builder: (context) => const OrderHistoryPage());
       case RoutePaths.forgotPasswordScreen:
         return MaterialPageRoute(
             builder: (context) => const ForgotPasswordScreen(),
@@ -148,10 +151,10 @@ class AppRouter {
       //     builder: (context) => const NotificationsScreen(),
       //   );
 
-      // case RoutePaths.orderHistoryDetail:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const OrderDetailsPage(),
-      //   );
+      case RoutePaths.orderHistoryDetail:
+        return MaterialPageRoute(
+          builder: (context) => const OrderDetailsPage(),
+        );
       case RoutePaths.retailerRegistration:
         return MaterialPageRoute(
           builder: (context) => const RetailerRegistrationLandingScreen(),
@@ -176,10 +179,11 @@ class AppRouter {
       //   return MaterialPageRoute(
       //     builder: (context) => const TermsAndConditionPage(),
       //   );
-      // case RoutePaths.placeOrderSuccessFulPage:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const PlaceOrderSuccessfulPage(),
-      //   );
+      case RoutePaths.placeOrderSuccessFulPage:
+        return MaterialPageRoute(
+            builder: (context) => const PlaceOrderSuccessfulPage(),
+            settings:
+                const RouteSettings(name: RoutePaths.placeOrderSuccessFulPage));
       // case RoutePaths.privacyPolicy:
       //   return MaterialPageRoute(
       //     builder: (context) => const PrivacyPolicyPage(),
@@ -225,16 +229,16 @@ class AppRouter {
       //     return const DistributorConnectionPage();
       //   case RoutePaths.changePasswordDialogScreen:
       //     return const ChangePasswordDialogScreen();
-      //   case RoutePaths.orderHistory:
-      //     return const OrderHistoryPage();
+      case RoutePaths.orderHistory:
+        return const OrderHistoryPage();
       //   case RoutePaths.fulfilmentPartner:
       //     return const FulfilmentPartnerPage("retailer");
       //   case RoutePaths.feedbackRequestDialogScreen:
       //     return const FeedbackRequestDialogScreen();
-      //   case RoutePaths.cashbackDeals:
-      //     return const OrderHistoryPage();
-      //   case RoutePaths.orderHistoryDetail:
-      //     return const OrderDetailsPage();
+      case RoutePaths.cashbackDeals:
+        return const OrderHistoryPage();
+      case RoutePaths.orderHistoryDetail:
+        return const OrderDetailsPage();
       //   case RoutePaths.mapping:
       //     return const MappingPage();
       //   case RoutePaths.settings:
@@ -243,8 +247,8 @@ class AppRouter {
       //     return const RewardsPage();
       //   case RoutePaths.termsAndConditions:
       //     return const TermsAndConditionPage();
-      //   case RoutePaths.placeOrderSuccessFulPage:
-      //     return const PlaceOrderSuccessfulPage();
+      case RoutePaths.placeOrderSuccessFulPage:
+        return const PlaceOrderSuccessfulPage();
       //   case RoutePaths.operationsPage:
       //     return const OperationsPage();
       //   case RoutePaths.companyPage:

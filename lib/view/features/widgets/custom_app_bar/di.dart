@@ -12,7 +12,7 @@ void initDI() {
   getIt.registerFactory<DistributorDropDownUseCase>(
       () => DistributorDropDownUseCase());
   getIt.registerFactory<DistributorDropDownCubit>(() =>
-      DistributorDropDownCubit(getIt<DistributorDropDownUseCase>(),
+      DistributorDropDownCubit(getIt<DistributorDropDownUseCase>(), 
           getIt<StockiestPriorityUseCase>()));
 }
 
