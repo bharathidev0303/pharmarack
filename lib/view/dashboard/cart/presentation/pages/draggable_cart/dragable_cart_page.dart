@@ -66,13 +66,12 @@ class DraggableCartPageState extends State<DraggableCartPage>
                     child: GestureDetector(
                       onTap: () {
                         _expandCart();
+                        print(cartDetails);
                       },
                       child: Container(
                         color: AppColors.draggableCartColor,
                         padding: const EdgeInsets.only(top: 8),
-                        child: Center(
-                            child: AppAssets.svg.upBroadArrow
-                                .svg(package: 'core_flutter')),
+                        child: Center(child: AppAssets.svg.upBroadArrow.svg()),
                       ),
                     ),
                   ),
@@ -248,8 +247,8 @@ class DraggableCartPageState extends State<DraggableCartPage>
                                   child: Container(
                                     padding: const EdgeInsets.only(top: 16),
                                     child: Center(
-                                        child: AppAssets.svg.downBroadArrow
-                                            .svg(package: 'core_flutter')),
+                                        child:
+                                            AppAssets.svg.downBroadArrow.svg()),
                                   ),
                                 ),
                                 _buildCartAndDropDown(context),

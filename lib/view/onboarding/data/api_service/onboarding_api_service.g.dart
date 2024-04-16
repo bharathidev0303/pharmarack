@@ -426,7 +426,7 @@ class _OnboardingApiService implements OnboardingApiService {
     final value = CommonResponseEntity<RegistrationResponseModel>.fromJson(
       _result.data!,
       (json) =>
-          RegistrationResponseModel.fromJson(json as String),
+          RegistrationResponseModel.fromJson(json as Map<String, dynamic>),
     );
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;

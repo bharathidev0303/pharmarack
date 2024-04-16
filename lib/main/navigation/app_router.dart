@@ -3,7 +3,6 @@
 // import 'package:fulfilment_partner/presentation/pages/fulfilment_partner_page/fulfilment_partner_page.dart';
 // import 'package:fulfilment_partner/presentation/pages/mapping_page/mapping_page.dart';
 // import 'package:fulfilment_partner/presentation/pages/settings_page/settings_page.dart';
-// import 'package:onboarding/presentation/pages/change_password_dialog_screen.dart';
 // import 'package:onboarding/presentation/pages/forgot_password/forgot_password_screen.dart';
 // import 'package:onboarding/presentation/pages/forgot_password/otp_screen/forgot_password_otp_screen.dart';
 // import 'package:onboarding/presentation/pages/forgot_password/reset_password/reset_password_screen.dart';
@@ -47,6 +46,7 @@ import 'package:pharmarack/view/features/landing_page/landing_page.dart';
 import 'package:pharmarack/view/features/search_product/domain/model/search_context_model.dart';
 import 'package:pharmarack/view/features/search_product/presentation/pages/search_product_page.dart';
 import 'package:pharmarack/view/features/search_product/presentation/pages/widgets/search_product_company_page.dart';
+import 'package:pharmarack/view/onboarding/presentation/pages/change_password_dialog_screen.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/forgot_password_screen.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/otp_screen/forgot_password_otp_screen.dart';
 import 'package:pharmarack/view/onboarding/presentation/pages/forgot_password/reset_password/reset_password_screen.dart';
@@ -142,10 +142,11 @@ class AppRouter {
       //   return MaterialPageRoute(
       //       builder: (context) => const ViewBouncedOrderDetailsPage("orderId"));
 
-      // case RoutePaths.changePasswordDialogScreen:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const ChangePasswordDialogScreen(),
-      //   );
+      case RoutePaths.changePasswordDialogScreen:
+        return MaterialPageRoute(
+            builder: (context) => const ChangePasswordDialogScreen(),
+            settings: const RouteSettings(
+                name: RoutePaths.changePasswordDialogScreen));
       // case RoutePaths.notifications:
       //   return MaterialPageRoute(
       //     builder: (context) => const NotificationsScreen(),
@@ -227,8 +228,8 @@ class AppRouter {
       //     return const ViewBouncedOrderDetailsPage("orderId");
       //   case RoutePaths.distributorConnection:
       //     return const DistributorConnectionPage();
-      //   case RoutePaths.changePasswordDialogScreen:
-      //     return const ChangePasswordDialogScreen();
+      case RoutePaths.changePasswordDialogScreen:
+        return const ChangePasswordDialogScreen();
       case RoutePaths.orderHistory:
         return const OrderHistoryPage();
       //   case RoutePaths.fulfilmentPartner:

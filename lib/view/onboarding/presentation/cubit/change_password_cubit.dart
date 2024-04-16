@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/packages/core/log_util/log_util.dart';
 import 'package:pharmarack/view/onboarding/domain/repository/invalid_new_password_exception.dart';
 import 'package:pharmarack/view/onboarding/domain/repository/old_password_no_match_exception.dart';
+import 'package:pharmarack/view/onboarding/domain/repository/previeus_password_exception.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/change_password_state.dart';
 
 import '../../domain/usecase/change_password_usecase.dart';
@@ -24,7 +25,9 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
     userMessages
       ..remove(UserMessage.oldPasswordMatched)
       ..remove(UserMessage.oldPasswordNoMatch)
-      ..remove(UserMessage.currentPasswordIsEmpty);
+      ..remove(UserMessage.currentPasswordIsEmpty)
+      ..remove(UserMessage.previousPassword);
+    ;
 
     if (currentPassword.isEmpty) {
       userMessages.add(UserMessage.currentPasswordIsEmpty);
@@ -78,6 +81,9 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
   }
 
   void passwordChecks(String? value) {
+    final userMessages = state.userMessages;
+    userMessages.remove(UserMessage.previousPassword);
+    ;
     if ((value ?? '').isNotEmpty && (value ?? '').trim().length >= 8) {
       emit(state.copyWith(isAtLeastSixLetter: true));
     } else {
@@ -129,7 +135,8 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
     final userMessages = state.userMessages;
     userMessages
       ..remove(UserMessage.confirmPasswordIsEmpty)
-      ..remove(UserMessage.confirmPasswordNotMatch);
+      ..remove(UserMessage.confirmPasswordNotMatch)
+      ..remove(UserMessage.previousPassword);
 
     if (confirmPassword.isEmpty) {
       userMessages.add(UserMessage.confirmPasswordIsEmpty);
@@ -190,6 +197,7 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
       error: error,
       stackTrace: stack,
     );
+
     if (error is OldPasswordNoMatchException) {
       emit(
         state.copyWith(
@@ -204,12 +212,19 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
           userMessages: state.userMessages..add(UserMessage.invalidNewPassword),
         ),
       );
-    } else {
+    } else if (error is PreviousPasswordException) {
       emit(
         state.copyWith(
           isLoading: false,
-          userMessages: state.userMessages
-            ..add(UserMessage.changePasswordFailed),
+          userMessages: state.userMessages..add(UserMessage.previousPassword),
+        ),
+      );
+    } else {
+      print("djdkjdkdkd $error");
+      emit(
+        state.copyWith(
+          isLoading: false,
+          userMessages: state.userMessages..add(UserMessage.previousPassword),
         ),
       );
     }

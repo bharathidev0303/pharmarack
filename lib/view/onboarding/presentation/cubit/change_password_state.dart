@@ -102,4 +102,5 @@ enum UserMessage {
   oldPasswordMatched,
   changePasswordFailed,
   invalidNewPassword,
+  previousPassword
 }
