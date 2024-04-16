@@ -3156,6 +3156,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dear Retailer, Your party will be locked soon by stockist, Please pay the outstanding balance'**
   String get partySoonMsg;
+
+  /// No description provided for @failedToPreviouspasswordChanage.
+  ///
+  /// In en, this message translates to:
+  /// **'You have already used this password'**
+  String get failedToPreviouspasswordChanage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

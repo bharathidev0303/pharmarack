@@ -779,7 +779,7 @@ class _EditProfileDialogScreenState extends State<EditProfileDialogScreen> {
                                             .displayImages!
                                             .removeAt(0);
                                       });
-                                      await handleMediaSelection(selection);
+                                      // await handleMediaSelection(selection);
                                     },
                                   ),
                                   Text(

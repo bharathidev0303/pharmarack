@@ -123,7 +123,7 @@ class ChangePasswordDialogCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 8),
                   child: Text(
-                    "Hello",
+                    context.localizedString.failedToPreviouspasswordChanage,
                     textAlign: TextAlign.center,
                     style: AppTextStyles.textFieldNameStyle11W500
                         .copyWith(color: AppColors.redErrorColor),
