@@ -161,7 +161,9 @@ class Dynamic_CarouselSliderState extends State<DynamicCarouselSlider> {
                 options: CarouselOptions(
                   autoPlay: widget.carouselData.autoStart ?? false,
                   enlargeCenterPage: false,
-                  height: 160,
+                  height: (widget.carouselData.carousel[0].mobileAssestDimension
+                          .height) *
+                      0.34,
                   autoPlayInterval: Duration(
                       milliseconds: widget.carouselData.duration != ""
                           ? int.parse(widget.carouselData.duration)
@@ -206,7 +208,6 @@ class Dynamic_CarouselSliderState extends State<DynamicCarouselSlider> {
                                         const Duration(microseconds: 100),
                                     fadeOutDuration:
                                         const Duration(microseconds: 100),
-                                    height: 200,
                                     errorWidget: (context, url, error) =>
                                         Container(
                                       color: AppColors.appBackgroundColor,
@@ -258,11 +259,13 @@ class Dynamic_CarouselSliderState extends State<DynamicCarouselSlider> {
                 enlargeCenterPage: false,
                 height: kIsWeb
                     ? 250
-                    : calculateImageDimension(
-                            widget
-                                .carouselData.carousel[current].mobileAssetUrl,
-                            560.0) *
-                        0.37,
+                    : (widget.carouselData.carousel[0].mobileAssestDimension
+                            .height) *
+                        (widget.carouselData.carousel[0].mobileAssestDimension
+                                    .width >
+                                800
+                            ? 0.17
+                            : 0.35),
                 aspectRatio: 16 / 9,
                 autoPlayInterval: Duration(
                     milliseconds: widget.carouselData.duration != ""
@@ -449,11 +452,13 @@ class Dynamic_CarouselSliderState extends State<DynamicCarouselSlider> {
                 enlargeCenterPage: false,
                 height: kIsWeb
                     ? 250
-                    : calculateImageDimension(
-                            widget
-                                .carouselData.carousel[current].mobileAssetUrl,
-                            335.0) *
-                        0.26,
+                    : (widget.carouselData.carousel[0].mobileAssestDimension
+                            .height) *
+                        (widget.carouselData.carousel[0].mobileAssestDimension
+                                    .width >
+                                800
+                            ? 0.11
+                            : 0.26),
                 autoPlayInterval: Duration(
                     milliseconds: widget.carouselData.duration != ""
                         ? int.parse(widget.carouselData.duration)

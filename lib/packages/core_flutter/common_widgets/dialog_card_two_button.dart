@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
@@ -74,38 +76,46 @@ class DialogCardTwoButton extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    FilledButton(
-                      key: keyDialogCardCancelActionButton,
-                      onPressed: showProgress ? null : onClickCancelAction,
-                      style: FilledButton.styleFrom(
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        backgroundColor:
-                            AppColors.dialogActionDisabledBackground,
-                        foregroundColor: AppColors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
+                    Expanded(
+                      flex: 4,
+                      child: FilledButton(
+                        key: keyDialogCardCancelActionButton,
+                        onPressed: showProgress ? null : onClickCancelAction,
+                        style: FilledButton.styleFrom(
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          backgroundColor: AppColors.secondaryButtonColor,
+                          foregroundColor: AppColors.blueLinkTextColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        cancelActionText?.toUpperCase() ?? '',
-                        style: AppTextStyles.dialogActionStyle12W500,
+                        child: Text(
+                          cancelActionText?.toUpperCase() ?? '',
+                          style: AppTextStyles.blueLinkTextStyle,
+                        ),
                       ),
                     ),
-                    FilledButton(
-                      key: keyDialogCardSaveActionButton,
-                      onPressed: showProgress ? null : onClickSaveAction,
-                      style: FilledButton.styleFrom(
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        backgroundColor:
-                            AppColors.dialogActionEnabledBackground,
-                        foregroundColor: AppColors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: FilledButton(
+                        key: keyDialogCardSaveActionButton,
+                        onPressed: showProgress ? null : onClickSaveAction,
+                        style: FilledButton.styleFrom(
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          backgroundColor:
+                              AppColors.dialogActionEnabledBackground,
+                          foregroundColor: AppColors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        saveActionText?.toUpperCase() ?? '',
-                        style: AppTextStyles.dialogActionStyle12W500,
+                        child: Text(
+                          saveActionText?.toUpperCase() ?? '',
+                          style: AppTextStyles.dialogActionStyle12W500,
+                        ),
                       ),
                     ),
                   ],

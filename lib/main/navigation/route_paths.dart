@@ -55,6 +55,7 @@ class RoutePaths implements DrawerRouterPaths, CoreRoutePaths {
   static const String companyPage = "/companyPage";
   static const String browseCompaniesPage = "/browseCompaniesPage";
   static const String bannerPage = "/bannerPage";
+  static const String editProfilePage = "/editProfilePage";
 
   @override
   String getMyConnectionsDistributors() {

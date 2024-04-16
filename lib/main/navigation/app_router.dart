@@ -36,14 +36,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:pharmarack/di/app_provider.dart';
+import 'package:pharmarack/feedback/presentation/pages/feedback_request_dialog.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/view/dashboard/cart/presentation/pages/place_order_successful_page.dart';
 import 'package:pharmarack/view/dashboard/order_history/presentation/pages/order_history_details/order_details_page.dart';
 import 'package:pharmarack/view/dashboard/order_history/presentation/pages/order_history_page.dart';
+import 'package:pharmarack/view/features/distributor_connection/presentation/widget/distributor_connection_page.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/pageConfigModel.dart';
 import 'package:pharmarack/view/features/landing_page/landing_page.dart';
+import 'package:pharmarack/view/features/profile/presentation/pages/edit_profile_screen.dart';
+import 'package:pharmarack/view/features/profile/presentation/pages/profile_page.dart';
 import 'package:pharmarack/view/features/search_product/domain/model/search_context_model.dart';
 import 'package:pharmarack/view/features/search_product/presentation/pages/search_product_page.dart';
 import 'package:pharmarack/view/features/search_product/presentation/pages/widgets/search_product_company_page.dart';
@@ -89,10 +93,15 @@ class AppRouter {
           builder: (context) => const LandingPage(),
           settings: const RouteSettings(name: RoutePaths.dashBoardScreen),
         );
-      // case RoutePaths.profileScreen:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const ProfilePage(),
-      //   );
+      case RoutePaths.profileScreen:
+        return MaterialPageRoute(
+          builder: (context) => const ProfilePage(),
+        );
+      case RoutePaths.distributorConnection:
+        return MaterialPageRoute(
+          builder: (context) => const DistributorConnectionPage(),
+          settings: settings,
+        );
       // case RoutePaths.fulfilmentPartner:
       //   return MaterialPageRoute(
       //     builder: (context) => const FulfilmentPartnerPage("retailer"),
@@ -127,11 +136,6 @@ class AppRouter {
       //   return MaterialPageRoute(
       //     builder: (context) => const MappingPage(),
       //     settings: const RouteSettings(name: RoutePaths.mapping),
-      //   );
-      // case RoutePaths.distributorConnection:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const DistributorConnectionPage(),
-      //     settings: settings,
       //   );
       // case RoutePaths.settings:
       //   return MaterialPageRoute(
@@ -201,10 +205,15 @@ class AppRouter {
       //   return MaterialPageRoute(
       //     builder: (context) => const BrowseCompaniesPage(),
       //   );
-      // case RoutePaths.bannerPage:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const BannerPage(),
-      //   );
+      case RoutePaths.feedbackRequestDialogScreen:
+        return MaterialPageRoute(
+          builder: (context) => const FeedbackRequestDialogScreen(),
+        );
+      case RoutePaths.editProfilePage:
+        return MaterialPageRoute(
+          builder: (context) => const EditProfileScreen(),
+          settings: const RouteSettings(name: RoutePaths.editProfilePage),
+        );
       // //Page not found
       default:
         return MaterialPageRoute(
@@ -225,16 +234,16 @@ class AppRouter {
       //     return const GetBouncedOrdersPage();
       //   case RoutePaths.viewBouncedOrderDetails:
       //     return const ViewBouncedOrderDetailsPage("orderId");
-      //   case RoutePaths.distributorConnection:
-      //     return const DistributorConnectionPage();
+      case RoutePaths.distributorConnection:
+        return const DistributorConnectionPage();
       //   case RoutePaths.changePasswordDialogScreen:
       //     return const ChangePasswordDialogScreen();
       case RoutePaths.orderHistory:
         return const OrderHistoryPage();
       //   case RoutePaths.fulfilmentPartner:
       //     return const FulfilmentPartnerPage("retailer");
-      //   case RoutePaths.feedbackRequestDialogScreen:
-      //     return const FeedbackRequestDialogScreen();
+      case RoutePaths.feedbackRequestDialogScreen:
+        return const FeedbackRequestDialogScreen();
       case RoutePaths.cashbackDeals:
         return const OrderHistoryPage();
       case RoutePaths.orderHistoryDetail:

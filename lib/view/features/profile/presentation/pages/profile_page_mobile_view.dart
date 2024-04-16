@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
+import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/dashboard/menu_actions.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/widgets/profile_expandable_menu.dart';
@@ -17,6 +18,7 @@ import 'package:pharmarack/view/features/profile/presentation/constants/my_profi
 import 'package:pharmarack/view/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:pharmarack/view/features/profile/presentation/cubit/profile_state.dart';
 import 'package:pharmarack/view/features/profile/presentation/pages/edit_profile_dialog_screen.dart';
+import 'package:pharmarack/view/features/profile/presentation/pages/edit_profile_screen.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 
 import '../cubit/edit_profile_cubit.dart';
@@ -82,34 +84,39 @@ class _ProfilePageMobileViewState extends State<ProfilePageMobileView> {
                                   child: Text(context.localizedString.edit,
                                       style: AppTextStyles.blueLinkTextStyle),
                                   onTap: () {
-                                    openEditProfileDialog(
-                                      context,
-                                      MyProfileConstants.loginId,
-                                      MyProfileConstants.businessTypeName,
-                                      MyProfileConstants.shopFirmFullName,
-                                      MyProfileConstants.shopAddress,
-                                      MyProfileConstants.pinCode,
-                                      MyProfileConstants.city,
-                                      MyProfileConstants.state,
-                                      MyProfileConstants.stateId,
-                                      MyProfileConstants.telephone,
-                                      MyProfileConstants.drugLicenseNumber,
-                                      MyProfileConstants.drugLicenseNumber2,
-                                      MyProfileConstants.drugLicenseNumber3,
-                                      MyProfileConstants.gstin,
-                                      MyProfileConstants.panNumber,
-                                      MyProfileConstants.upiId,
-                                      MyProfileConstants.bankName,
-                                      MyProfileConstants.accountType,
-                                      MyProfileConstants.bankAccountNumber,
-                                      MyProfileConstants.bankAccountHolderName,
-                                      MyProfileConstants.ifsc,
-                                      MyProfileConstants.userName,
-                                      MyProfileConstants.mobileNo,
-                                      MyProfileConstants.emailId,
-                                      MyProfileConstants.imageUrl.toString(),
-                                      MyProfileConstants.displayImagesLength,
-                                    );
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const EditProfileScreen()));
+                                    // openEditProfileDialog(
+                                    //   context,
+                                    //   MyProfileConstants.loginId,
+                                    //   MyProfileConstants.businessTypeName,
+                                    //   MyProfileConstants.shopFirmFullName,
+                                    //   MyProfileConstants.shopAddress,
+                                    //   MyProfileConstants.pinCode,
+                                    //   MyProfileConstants.city,
+                                    //   MyProfileConstants.state,
+                                    //   MyProfileConstants.stateId,
+                                    //   MyProfileConstants.telephone,
+                                    //   MyProfileConstants.drugLicenseNumber,
+                                    //   MyProfileConstants.drugLicenseNumber2,
+                                    //   MyProfileConstants.drugLicenseNumber3,
+                                    //   MyProfileConstants.gstin,
+                                    //   MyProfileConstants.panNumber,
+                                    //   MyProfileConstants.upiId,
+                                    //   MyProfileConstants.bankName,
+                                    //   MyProfileConstants.accountType,
+                                    //   MyProfileConstants.bankAccountNumber,
+                                    //   MyProfileConstants.bankAccountHolderName,
+                                    //   MyProfileConstants.ifsc,
+                                    //   MyProfileConstants.userName,
+                                    //   MyProfileConstants.mobileNo,
+                                    //   MyProfileConstants.emailId,
+                                    //   MyProfileConstants.imageUrl.toString(),
+                                    //   MyProfileConstants.displayImagesLength,
+                                    // );
                                   }),
                             ],
                           ),
@@ -240,8 +247,7 @@ void handleProfileMenuClick(
   //   Navigator.pushNamed(context, drawerRouterPaths.getOrderNowBounced());
   // }
   else if (action == drawerRouterPaths.getMyConnectionsDistributors()) {
-    Navigator.pushNamed(
-        context, drawerRouterPaths.getMyConnectionsDistributors());
+    Navigator.pushNamed(context, RoutePaths.distributorConnection);
   }
   // else if (action == drawerRouterPaths.getOtherFeaturesCart()) {
   //   Navigator.pushNamed(context, drawerRouterPaths.getOtherFeaturesCart());

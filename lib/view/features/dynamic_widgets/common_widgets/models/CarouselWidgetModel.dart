@@ -1,3 +1,5 @@
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/AssestDimension.dart';
+
 class CarouselWidgetModel {
   final String title;
   final String subTitle;
@@ -108,6 +110,9 @@ class Carousel {
   final String duration;
   final String mobileAssetUrl;
   final String webAssetUrl;
+  final AssestDimension mobileAssestDimension;
+  final AssestDimension webAssestDimension;
+
   Carousel({
     required this.title,
     required this.assetType,
@@ -117,6 +122,8 @@ class Carousel {
     required this.duration,
     required this.mobileAssetUrl,
     required this.webAssetUrl,
+    required this.mobileAssestDimension,
+    required this.webAssestDimension,
   });
 
   factory Carousel.fromJson(Map<String, dynamic> children) {
@@ -129,6 +136,12 @@ class Carousel {
       duration: children['duration'].toString() ?? "",
       mobileAssetUrl: children['mobile_asset_url'] ?? "",
       webAssetUrl: children['web_asset_url'] ?? "",
+      mobileAssestDimension: children['mobile_assest_dimension'] != null
+          ? AssestDimension.fromJson(children['mobile_assest_dimension'])
+          : AssestDimension.empty(),
+      webAssestDimension: children['web_assest_dimension'] != null
+          ? AssestDimension.fromJson(children['mobile_assest_dimension'])
+          : AssestDimension.empty(),
     );
   }
 }

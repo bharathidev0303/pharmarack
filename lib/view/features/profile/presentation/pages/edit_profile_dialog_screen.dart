@@ -1,9 +1,10 @@
 import 'dart:collection';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
@@ -19,6 +20,7 @@ import 'package:pharmarack/packages/core_flutter/localization/localization_exten
 import 'package:pharmarack/packages/core_flutter/utils/image_picker_util.dart';
 import 'package:pharmarack/view/features/profile/presentation/constants/my_profile_constants.dart';
 import 'package:pharmarack/view/features/profile/presentation/cubit/edit_profile_cubit.dart';
+// import 'package:pharmarack/view/features/profile/presentation/cubit/edit_profile_cubit.dart';
 import 'package:pharmarack/view/features/profile/presentation/cubit/edit_profile_state.dart';
 import 'package:pharmarack/view/features/profile/presentation/pages/profile_page.dart';
 import 'package:pharmarack/view/features/widgets/validator_disabled_input_text_new.dart';
@@ -110,17 +112,17 @@ class _EditProfileDialogScreenState extends State<EditProfileDialogScreen> {
   @override
   void initState() {
     super.initState();
-    panNumberTextController.text = cubit.state.panNumber;
-    dlOneTextController.text = cubit.state.drugLicenseNum1;
-    dlTwoTextController.text = cubit.state.drugLicenseNum2;
-    dlThreeTextController.text = cubit.state.drugLicenseNum3;
-    upiIdTextController.text = cubit.state.upiId;
-    bankNameTextController.text = cubit.state.bankName;
-    accountTypeTextController.text = cubit.state.accountType;
-    bankAccountNumberTextController.text = cubit.state.accountNumber;
-    accountHolderNameTextEditingController.text = cubit.state.accountHolderName;
-    ifscTextEditingController.text = cubit.state.ifsc;
-    nameTextController.text = cubit.state.name;
+    // panNumberTextController.text = cubit.state.panNumber;
+    // dlOneTextController.text = cubit.state.drugLicenseNum1;
+    // dlTwoTextController.text = cubit.state.drugLicenseNum2;
+    // dlThreeTextController.text = cubit.state.drugLicenseNum3;
+    // upiIdTextController.text = cubit.state.upiId;
+    // bankNameTextController.text = cubit.state.bankName;
+    // accountTypeTextController.text = cubit.state.accountType;
+    // bankAccountNumberTextController.text = cubit.state.accountNumber;
+    // accountHolderNameTextEditingController.text = cubit.state.accountHolderName;
+    // ifscTextEditingController.text = cubit.state.ifsc;
+    // nameTextController.text = cubit.state.name;
   }
 
   @override
@@ -320,9 +322,7 @@ class _EditProfileDialogScreenState extends State<EditProfileDialogScreen> {
             if (onboardingDI<RetailerInfoEntity>().displayImages!.length == 1) {
               if (drugLicenseNumber.isEmpty) {
                 return;
-              } else {
-                cubit.addDrugLicense();
-              }
+              } else {}
             }
             // if (_formKey.currentState?.validate() ?? false) {
             //   if (selectedFile != null && MyProfileConstants.drugLicenseNumber!=null) {
@@ -336,538 +336,568 @@ class _EditProfileDialogScreenState extends State<EditProfileDialogScreen> {
           },
           onClickCancelAction: () => Navigator.of(context).pop(),
           showProgress: state.isLoading,
-          body: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                //loginId
-                ValidatorDisabledInputTextNew(
-                  labelText: context.localizedString.loginId,
-                  defaultValue: loginId,
-                  key: MyProfileConstants.keyLoginId,
-                  onChangeCallBack: (value) {},
-                  enable: false,
-                  validator: (value) {
-                    return OnboardingValidators()
-                        .validateNotNullOrEmptyOrSpaces(
-                            value, context.localizedString.loginId);
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          body: Container(),
+          // body: Form(
+          //   key: _formKey,
+          //   child: Column(
+          //     children: [
+          //       const SizedBox(height: 10),
+          //       //loginId
+          //       ValidatorDisabledInputTextNew(
+          //         labelText: context.localizedString.loginId,
+          //         defaultValue: loginId,
+          //         key: MyProfileConstants.keyLoginId,
+          //         onChangeCallBack: (value) {},
+          //         enable: false,
+          //         validator: (value) {
+          //           return OnboardingValidators()
+          //               .validateNotNullOrEmptyOrSpaces(
+          //                   value, context.localizedString.loginId);
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //businessType
-                OnboardingDropDownNew(
-                  defaultValue: businessTypeName,
-                  enable: false,
-                  labelText: context.localizedString.businessType,
-                  onChangeCallBack: (value) {},
-                  dropdownItems: [], // Add your dropdown items here
-                  validator: (value) {
-                    return null;
-                  },
-                  key: MyProfileConstants.keyBusinessType,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //businessType
+          //       OnboardingDropDownNew(
+          //         defaultValue: businessTypeName,
+          //         enable: false,
+          //         labelText: context.localizedString.businessType,
+          //         onChangeCallBack: (value) {},
+          //         dropdownItems: [], // Add your dropdown items here
+          //         validator: (value) {
+          //           return null;
+          //         },
+          //         key: MyProfileConstants.keyBusinessType,
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //shop/Firm full name
-                ValidatorDisabledInputTextNew(
-                  defaultValue: shopFirmFullName,
-                  key: const ValueKey(MyProfileConstants.keyShopFullName),
-                  labelText: context.localizedString.nameOfShopFirm,
-                  enable: false,
-                  onChangeCallBack: (value) {},
-                  validator: (value) {
-                    return OnboardingValidators()
-                        .validateNotNullOrEmptyOrSpaces(
-                            value, context.localizedString.shopFirmFullName);
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //shop/Firm full name
+          //       ValidatorDisabledInputTextNew(
+          //         defaultValue: shopFirmFullName,
+          //         key: const ValueKey(MyProfileConstants.keyShopFullName),
+          //         labelText: context.localizedString.nameOfShopFirm,
+          //         enable: false,
+          //         onChangeCallBack: (value) {},
+          //         validator: (value) {
+          //           return OnboardingValidators()
+          //               .validateNotNullOrEmptyOrSpaces(
+          //                   value, context.localizedString.shopFirmFullName);
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //name EDITABLE
-                ValidatorEnabledInputTextNew(
-                  //controller: nameTextController,
-                  isEditable: true,
-                  labelText: context.localizedString.name,
-                  defaultValue: MyProfileConstants.retailerName,
-                  key: MyProfileConstants.keyName,
-                  onChangeCallBack: (text) {
-                    cubit.setName(text);
-                    //cubit.softValidateFields();
-                    reqMap[MyProfileConstants.retailerName] = text;
-                  },
-                  enable: true,
-                  validator: (value) {
-                    return OnboardingValidators()
-                        .validateNotNullOrEmptyOrSpaces(
-                            value, context.localizedString.shopNameError);
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //name EDITABLE
+          //       ValidatorEnabledInputTextNew(
+          //         //controller: nameTextController,
+          //         isEditable: true,
+          //         labelText: context.localizedString.name,
+          //         defaultValue: MyProfileConstants.retailerName,
+          //         key: MyProfileConstants.keyName,
+          //         onChangeCallBack: (text) {
+          //           // cubit.setName(text);
+          //           // cubit.softValidateFields();
+          //           reqMap[MyProfileConstants.retailerName] = text;
+          //         },
+          //         enable: true,
+          //         validator: (value) {
+          //           return OnboardingValidators()
+          //               .validateNotNullOrEmptyOrSpaces(
+          //                   value, context.localizedString.shopNameError);
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //shopAddress
-                ValidatorDisabledInputTextNew(
-                  enable: false,
-                  labelText: context.localizedString.shopAddress,
-                  defaultValue: shopAddress,
-                  key: MyProfileConstants.keyShopAddress,
-                  onChangeCallBack: (value) {},
-                  validator: (value) {
-                    return OnboardingValidators()
-                        .validateNotNullOrEmptyOrSpaces(
-                            value, context.localizedString.shopAddressError);
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //shopAddress
+          //       ValidatorDisabledInputTextNew(
+          //         enable: false,
+          //         labelText: context.localizedString.shopAddress,
+          //         defaultValue: shopAddress,
+          //         key: MyProfileConstants.keyShopAddress,
+          //         onChangeCallBack: (value) {},
+          //         validator: (value) {
+          //           return OnboardingValidators()
+          //               .validateNotNullOrEmptyOrSpaces(
+          //                   value, context.localizedString.shopAddressError);
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //pincode
-                ValidatorDisabledInputTextNew(
-                  labelText: context.localizedString.pinCode,
-                  defaultValue: pinCode,
-                  key: MyProfileConstants.keyPinCode,
-                  enable: false,
-                  onChangeCallBack: (value) {},
-                  validator: (value) {
-                    return OnboardingValidators()
-                        .validateNotNullOrEmptyOrSpaces(
-                            value, context.localizedString.pincodeError);
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //pincode
+          //       ValidatorDisabledInputTextNew(
+          //         labelText: context.localizedString.pinCode,
+          //         defaultValue: pinCode,
+          //         key: MyProfileConstants.keyPinCode,
+          //         enable: false,
+          //         onChangeCallBack: (value) {},
+          //         validator: (value) {
+          //           return OnboardingValidators()
+          //               .validateNotNullOrEmptyOrSpaces(
+          //                   value, context.localizedString.pincodeError);
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //city
-                ValidatorDisabledInputTextNew(
-                  labelText: context.localizedString.city,
-                  defaultValue: city,
-                  key: MyProfileConstants.keyCity,
-                  onChangeCallBack: (value) {
-                    MyProfileConstants.city = value;
-                  },
-                  enable: false,
-                  validator: (value) {
-                    return OnboardingValidators()
-                        .validateNotNullOrEmptyOrSpaces(
-                            value, context.localizedString.cityError);
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //city
+          //       ValidatorDisabledInputTextNew(
+          //         labelText: context.localizedString.city,
+          //         defaultValue: city,
+          //         key: MyProfileConstants.keyCity,
+          //         onChangeCallBack: (value) {
+          //           MyProfileConstants.city = value;
+          //         },
+          //         enable: false,
+          //         validator: (value) {
+          //           return OnboardingValidators()
+          //               .validateNotNullOrEmptyOrSpaces(
+          //                   value, context.localizedString.cityError);
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //state
-                OnboardingDropDownNew(
-                  defaultValue: stateName,
-                  enable: false,
-                  labelText: context.localizedString.state,
-                  onChangeCallBack: (value) {},
-                  dropdownItems: [], // Add your dropdown items here
-                  validator: (value) {
-                    return null;
-                  },
-                  key: MyProfileConstants.keyState,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //state
+          //       OnboardingDropDownNew(
+          //         defaultValue: stateName,
+          //         enable: false,
+          //         labelText: context.localizedString.state,
+          //         onChangeCallBack: (value) {},
+          //         dropdownItems: [], // Add your dropdown items here
+          //         validator: (value) {
+          //           return null;
+          //         },
+          //         key: MyProfileConstants.keyState,
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //emailId
-                ValidatorDisabledInputTextNew(
-                  labelText: context.localizedString.emailId,
-                  defaultValue: mobileNumber,
-                  key: MyProfileConstants.keyMobileNumber,
-                  onChangeCallBack: (value) {},
-                  enable: false,
-                  validator: (value) {
-                    return OnboardingValidators()
-                        .validateNotNullOrEmptyOrSpaces(value,
-                            context.localizedString.mobileNumLengthError);
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //emailId
+          //       ValidatorDisabledInputTextNew(
+          //         labelText: context.localizedString.emailId,
+          //         defaultValue: mobileNumber,
+          //         key: MyProfileConstants.keyMobileNumber,
+          //         onChangeCallBack: (value) {},
+          //         enable: false,
+          //         validator: (value) {
+          //           return OnboardingValidators()
+          //               .validateNotNullOrEmptyOrSpaces(value,
+          //                   context.localizedString.mobileNumLengthError);
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //mobile number
-                ValidatorDisabledInputTextNew(
-                  labelText: context.localizedString.mobileNo,
-                  defaultValue: emailId,
-                  key: MyProfileConstants.keyEmailId,
-                  onChangeCallBack: (value) {},
-                  enable: false,
-                  validator: (value) {
-                    return OnboardingValidators()
-                        .validateNotNullOrEmptyOrSpaces(
-                            value, context.localizedString.emailError);
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //mobile number
+          //       ValidatorDisabledInputTextNew(
+          //         labelText: context.localizedString.mobileNo,
+          //         defaultValue: emailId,
+          //         key: MyProfileConstants.keyEmailId,
+          //         onChangeCallBack: (value) {},
+          //         enable: false,
+          //         validator: (value) {
+          //           return OnboardingValidators()
+          //               .validateNotNullOrEmptyOrSpaces(
+          //                   value, context.localizedString.emailError);
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //telephone EDITABLE
-                ValidatorEnabledInputTextNew(
-                  //controller: telephoneTextController,
-                  labelText: context.localizedString.telephoneNo,
-                  isEditable: true,
-                  defaultValue: telephone,
-                  key: MyProfileConstants.keyTelephoneNumber,
-                  textInputType: TextInputType.phone,
-                  maxLength: 10,
-                  onChangeCallBack: (text) {
-                    cubit.setTelephoneNumber(text);
-                    if (text.trim().length == 10 || text.isEmpty) {
-                      MyProfileConstants.telephone = text;
-                      // cubit.validateMainMobileNumber();
-                    }
-                  },
-                  enable: true,
-                  validator: (value) {
-                    // return OnboardingValidators()
-                    //     .validateNotNullOrEmptyOrSpaces(
-                    //         value, context.localizedString.telephoneError);
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //telephone EDITABLE
+          //       ValidatorEnabledInputTextNew(
+          //         //controller: telephoneTextController,
+          //         labelText: context.localizedString.telephoneNo,
+          //         isEditable: true,
+          //         defaultValue: telephone,
+          //         key: MyProfileConstants.keyTelephoneNumber,
+          //         textInputType: TextInputType.phone,
+          //         maxLength: 10,
+          //         onChangeCallBack: (text) {
+          //           // cubit.setTelephoneNumber(text);
+          //           if (text.trim().length == 10 || text.isEmpty) {
+          //             MyProfileConstants.telephone = text;
+          //             // cubit.validateMainMobileNumber();
+          //           }
+          //         },
+          //         enable: true,
+          //         validator: (value) {
+          //           // return OnboardingValidators()
+          //           //     .validateNotNullOrEmptyOrSpaces(
+          //           //         value, context.localizedString.telephoneError);
+          //           return null;
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //dl one EDITABLE
-                ValidatorEnabledInputTextNew(
-                  widgetKey: MyProfileConstants.keyDrugLicenseNumber,
-                  defaultValue: MyProfileConstants.drugLicenseNumber,
-                  validator: (value) {
-                    // return OnboardingValidators().validateImageFormField(
-                    //     file, context.localizedString.drugLicenseFileError);
-                    return null;
-                  },
-                  // selectedFile:
-                  //     state.hasDrugLicenseFile1 ? state.drugLicenseFile1 : null,
-                  onChangeCallBack: (value) {
-                    cubit.setDrugLicenseNum1(value);
-                    //cubit.softValidateFields();
-                  },
-                  labelText: context.localizedString.drugLicenseNumber,
-                ),
+          //       //dl one EDITABLE
+          //       ValidatorEnabledInputTextNew(
+          //         widgetKey: MyProfileConstants.keyDrugLicenseNumber,
+          //         defaultValue: MyProfileConstants.drugLicenseNumber,
+          //         validator: (value) {
+          //           // return OnboardingValidators().validateImageFormField(
+          //           //     file, context.localizedString.drugLicenseFileError);
+          //           return null;
+          //         },
+          //         // selectedFile:
+          //         //     state.hasDrugLicenseFile1 ? state.drugLicenseFile1 : null,
+          //         onChangeCallBack: (value) {
+          //           // cubit.setDrugLicenseNum1(value);
+          //           // cubit.softValidateFields();
+          //         },
+          //         labelText: context.localizedString.drugLicenseNumber,
+          //       ),
 
-                const SizedBox(
-                  height: 8,
-                ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //gst
-                OnboardingDropDownNew(
-                  defaultValue: gstin,
-                  enable: false,
-                  labelText: context.localizedString.gst,
-                  onChangeCallBack: (value) {},
-                  dropdownItems: [], // Add your dropdown items here
-                  validator: (value) {
-                    return null;
-                  },
-                  key: MyProfileConstants.keyGstin,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //gst
+          //       OnboardingDropDownNew(
+          //         defaultValue: gstin,
+          //         enable: false,
+          //         labelText: context.localizedString.gst,
+          //         onChangeCallBack: (value) {},
+          //         dropdownItems: [], // Add your dropdown items here
+          //         validator: (value) {
+          //           return null;
+          //         },
+          //         key: MyProfileConstants.keyGstin,
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //pan number EDITABLE
-                ValidatorEnabledInputTextNew(
-                  //controller: panNumberTextController,
-                  isEditable: true,
-                  labelText: context.localizedString.panNumber,
-                  defaultValue: panNumber,
-                  key: MyProfileConstants.keyPanNumber,
-                  onChangeCallBack: (value) {
-                    cubit.setPanNumber(value);
-                    //cubit.softValidateFields();
-                    reqMap[MyProfileConstants.panNumber] = value;
-                  },
-                  enable: true,
-                  validator: (value) {
-                    // return OnboardingValidators()
-                    //     .validateNotNullOrEmptyOrSpaces(
-                    //         value, context.localizedString.panError);
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //pan number EDITABLE
+          //       ValidatorEnabledInputTextNew(
+          //         //controller: panNumberTextController,
+          //         isEditable: true,
+          //         labelText: context.localizedString.panNumber,
+          //         defaultValue: panNumber,
+          //         key: MyProfileConstants.keyPanNumber,
+          //         onChangeCallBack: (value) {
+          //           // cubit.setPanNumber(value);
+          //           // cubit.softValidateFields();
+          //           reqMap[MyProfileConstants.panNumber] = value;
+          //         },
+          //         enable: true,
+          //         validator: (value) {
+          //           // return OnboardingValidators()
+          //           //     .validateNotNullOrEmptyOrSpaces(
+          //           //         value, context.localizedString.panError);
+          //           return null;
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //upiId EDITABLE
-                ValidatorEnabledInputTextNew(
-                  //controller: upiIdTextController,
-                  isEditable: true,
-                  labelText: context.localizedString.upiId,
-                  defaultValue: upiId,
-                  key: MyProfileConstants.keyUpiId,
-                  onChangeCallBack: (value) {
-                    cubit.setUpiId(value);
-                    //cubit.softValidateFields();
-                    reqMap[MyProfileConstants.upiId] = value;
-                  },
-                  enable: true,
-                  validator: (value) {
-                    // return OnboardingValidators()
-                    //     .validateNotNullOrEmptyOrSpaces(
-                    //         value, context.localizedString.upiIdError);
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //upiId EDITABLE
+          //       ValidatorEnabledInputTextNew(
+          //         //controller: upiIdTextController,
+          //         isEditable: true,
+          //         labelText: context.localizedString.upiId,
+          //         defaultValue: upiId,
+          //         key: MyProfileConstants.keyUpiId,
+          //         onChangeCallBack: (value) {
+          //           // cubit.setUpiId(value);
+          //           cubit.softValidateFields();
+          //           reqMap[MyProfileConstants.upiId] = value;
+          //         },
+          //         enable: true,
+          //         validator: (value) {
+          //           // return OnboardingValidators()
+          //           //     .validateNotNullOrEmptyOrSpaces(
+          //           //         value, context.localizedString.upiIdError);
+          //           return null;
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //bank name EDITABLE
-                ValidatorEnabledInputTextNew(
-                  //controller: bankNameTextController,
-                  isEditable: true,
-                  labelText: context.localizedString.bankName,
-                  defaultValue: bankName,
-                  key: MyProfileConstants.keyBankName,
-                  onChangeCallBack: (value) {
-                    cubit.setBankName(value);
-                    //cubit.softValidateFields();
-                    reqMap[MyProfileConstants.bankName] = value;
-                  },
-                  enable: true,
-                  validator: (value) {
-                    // return OnboardingValidators()
-                    //     .validateNotNullOrEmptyOrSpaces(
-                    //         value, context.localizedString.bankNameError);
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //bank name EDITABLE
+          //       ValidatorEnabledInputTextNew(
+          //         //controller: bankNameTextController,
+          //         isEditable: true,
+          //         labelText: context.localizedString.bankName,
+          //         defaultValue: bankName,
+          //         key: MyProfileConstants.keyBankName,
+          //         onChangeCallBack: (value) {
+          //           // cubit.setBankName(value);
+          //           cubit.softValidateFields();
+          //           reqMap[MyProfileConstants.bankName] = value;
+          //         },
+          //         enable: true,
+          //         validator: (value) {
+          //           // return OnboardingValidators()
+          //           //     .validateNotNullOrEmptyOrSpaces(
+          //           //         value, context.localizedString.bankNameError);
+          //           return null;
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //account type EDITABLE
-                ValidatorEnabledInputTextNew(
-                  //controller: accountTypeTextController,
-                  isEditable: true,
-                  labelText: context.localizedString.accountType,
-                  defaultValue: accountType,
-                  key: MyProfileConstants.keyAccountType,
-                  onChangeCallBack: (value) {
-                    cubit.setAccountType(value);
-                    //cubit.softValidateFields();
-                    reqMap[MyProfileConstants.accountType] = value;
-                  },
-                  enable: true,
-                  validator: (value) {
-                    // return OnboardingValidators()
-                    //     .validateNotNullOrEmptyOrSpaces(
-                    //         value, context.localizedString.accountTypeError);
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //account type EDITABLE
+          //       ValidatorEnabledInputTextNew(
+          //         //controller: accountTypeTextController,
+          //         isEditable: true,
+          //         labelText: context.localizedString.accountType,
+          //         defaultValue: accountType,
+          //         key: MyProfileConstants.keyAccountType,
+          //         onChangeCallBack: (value) {
+          //           // cubit.setAccountType(value);
+          //           cubit.softValidateFields();
+          //           reqMap[MyProfileConstants.accountType] = value;
+          //         },
+          //         enable: true,
+          //         validator: (value) {
+          //           // return OnboardingValidators()
+          //           //     .validateNotNullOrEmptyOrSpaces(
+          //           //         value, context.localizedString.accountTypeError);
+          //           return null;
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //bank account number EDITABLE
-                ValidatorEnabledInputTextNew(
-                  //controller: bankAccountNumberTextController,
-                  isEditable: true,
-                  labelText: context.localizedString.bankAccountNumber,
-                  defaultValue: bankAccountNumber,
-                  key: MyProfileConstants.keyBankAccountNumber,
-                  onChangeCallBack: (value) {
-                    cubit.setBankAccountNumber(value);
-                    //cubit.softValidateFields();
-                    reqMap[MyProfileConstants.bankAccountNumber] = value;
-                  },
-                  enable: true,
-                  validator: (value) {
-                    // return OnboardingValidators()
-                    //     .validateNotNullOrEmptyOrSpaces(value,
-                    //         context.localizedString.bankAccountNumberError);
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //bank account number EDITABLE
+          //       ValidatorEnabledInputTextNew(
+          //         //controller: bankAccountNumberTextController,
+          //         isEditable: true,
+          //         labelText: context.localizedString.bankAccountNumber,
+          //         defaultValue: bankAccountNumber,
+          //         key: MyProfileConstants.keyBankAccountNumber,
+          //         onChangeCallBack: (value) {
+          //           // cubit.setBankAccountNumber(value);
+          //           cubit.softValidateFields();
+          //           reqMap[MyProfileConstants.bankAccountNumber] = value;
+          //         },
+          //         enable: true,
+          //         validator: (value) {
+          //           // return OnboardingValidators()
+          //           //     .validateNotNullOrEmptyOrSpaces(value,
+          //           //         context.localizedString.bankAccountNumberError);
+          //           return null;
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //account holder name EDITABLE
-                ValidatorEnabledInputTextNew(
-                  //controller: accountHolderNameTextEditingController,
-                  isEditable: true,
-                  labelText: context.localizedString.accountHolderName,
-                  defaultValue: bankHolderName,
-                  key: MyProfileConstants.keyAccountHolderName,
-                  onChangeCallBack: (value) {
-                    cubit.setBankAccountHolderName(value);
-                    //cubit.softValidateFields();
-                    reqMap[MyProfileConstants.bankAccountHolderName] = value;
-                  },
-                  enable: true,
-                  validator: (value) {
-                    // return OnboardingValidators()
-                    //     .validateNotNullOrEmptyOrSpaces(value,
-                    //         context.localizedString.accountHolderNameError);
-                    return null;
-                  },
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+          //       //account holder name EDITABLE
+          //       ValidatorEnabledInputTextNew(
+          //         //controller: accountHolderNameTextEditingController,
+          //         isEditable: true,
+          //         labelText: context.localizedString.accountHolderName,
+          //         defaultValue: bankHolderName,
+          //         key: MyProfileConstants.keyAccountHolderName,
+          //         onChangeCallBack: (value) {
+          //           // cubit.setBankAccountHolderName(value);
+          //           cubit.softValidateFields();
+          //           reqMap[MyProfileConstants.bankAccountHolderName] = value;
+          //         },
+          //         enable: true,
+          //         validator: (value) {
+          //           // return OnboardingValidators()
+          //           //     .validateNotNullOrEmptyOrSpaces(value,
+          //           //         context.localizedString.accountHolderNameError);
+          //           return null;
+          //         },
+          //       ),
+          //       const SizedBox(
+          //         height: 8,
+          //       ),
 
-                //ifsc EDITABLE
-                ValidatorEnabledInputTextNew(
-                  //controller: ifscTextEditingController,
-                  isEditable: true,
-                  labelText: context.localizedString.ifsc,
-                  defaultValue: ifscCode,
-                  key: MyProfileConstants.keyIfscCode,
-                  onChangeCallBack: (value) {
-                    cubit.setIfscCode(value);
-                    //cubit.softValidateFields();
-                    reqMap[MyProfileConstants.ifsc] = value;
-                  },
-                  enable: true,
-                  validator: (value) {
-                    // return OnboardingValidators()
-                    //     .validateNotNullOrEmptyOrSpaces(
-                    //         value, context.localizedString.ifscError);
-                    return null;
-                  },
-                ),
+          //       //ifsc EDITABLE
+          //       ValidatorEnabledInputTextNew(
+          //         //controller: ifscTextEditingController,
+          //         isEditable: true,
+          //         labelText: context.localizedString.ifsc,
+          //         defaultValue: ifscCode,
+          //         key: MyProfileConstants.keyIfscCode,
+          //         onChangeCallBack: (value) {
+          //           // cubit.setIfscCode(value);
+          //           cubit.softValidateFields();
+          //           reqMap[MyProfileConstants.ifsc] = value;
+          //         },
+          //         enable: true,
+          //         validator: (value) {
+          //           // return OnboardingValidators()
+          //           //     .validateNotNullOrEmptyOrSpaces(
+          //           //         value, context.localizedString.ifscError);
+          //           return null;
+          //         },
+          //       ),
 
-                const SizedBox(height: 25),
+          //       const SizedBox(height: 25),
 
-                //DL Image BOX
-                onboardingDI<RetailerInfoEntity>().displayImages != null
-                    ? SizedBox(
-                        height: 300,
-                        child: Column(children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  InkWell(
-                                    child: const Icon(
-                                      Icons.camera_alt_sharp,
-                                      color: AppColors.blueButtonColor,
-                                    ),
-                                    onTap: () async {
-                                      // if (onboardingDI<RetailerInfoEntity>()
-                                      //     .displayImages!
-                                      //     .length >
-                                      //     1) {
-                                      //   return;
-                                      // }
-                                      final selection =
-                                          await showImagePickerDialog(context,
-                                              closeClick: () {
-                                        onboardingDI<RetailerInfoEntity>()
-                                            .displayImages!
-                                            .removeAt(0);
-                                      });
-                                      await handleMediaSelection(selection);
-                                    },
-                                  ),
-                                  Text(
-                                      'Upload/Capture Drug License or Bill Copy'),
-                                ],
-                              ),
-                            ],
-                          ),
-                          onboardingDI<RetailerInfoEntity>().displayImages !=
-                                  null
-                              ? onboardingDI<RetailerInfoEntity>()
-                                      .displayImages![0]
-                                      .imageUrl!
-                                      .startsWith('https')
-                                  ? Image.network(errorBuilder:
-                                          (context, error, stackTrace) {
-                                      return Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors
-                                              .white, // Background color for the container
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                          border: Border.all(
-                                              color: Colors.grey,
-                                              width:
-                                                  2), // Border radius for rounded corners
-                                        ),
-                                        height: 260,
-                                        // Background color for the container
-                                        child: Center(
-                                          child: Text(
-                                            'Image Not Found',
-                                            style: TextStyle(
-                                              color: Colors.black, // Text color
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                      height: 260,
-                                      fit: BoxFit.cover,
-                                      '${onboardingDI<RetailerInfoEntity>().displayImages![0].imageUrl}')
-                                  : Image.file(
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors
-                                                .white, // Background color for the container
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                            border: Border.all(
-                                                color: Colors.grey,
-                                                width:
-                                                    2), // Border radius for rounded corners
-                                          ),
-                                          height: 260,
-                                          // Background color for the container
-                                          child: Center(
-                                            child: Text(
-                                              'Image Not Found',
-                                              style: TextStyle(
-                                                color:
-                                                    Colors.black, // Text color
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      height: 260,
-                                      fit: BoxFit.cover,
-                                      File(onboardingDI<RetailerInfoEntity>()
-                                          .displayImages![0]
-                                          .imageUrl!),
-                                    )
-                              : Container(), // Placeholder whe
-                          const SizedBox(height: 16),
-                        ]),
-                      )
-                    : Container(),
-                const SizedBox(height: 25),
-              ],
-            ),
-          ),
+          //       //DL Image BOX
+          //       onboardingDI<RetailerInfoEntity>().displayImages != null
+          //           ? SizedBox(
+          //               height: 300,
+          //               child: Column(children: [
+          //                 Row(
+          //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                   children: [
+          //                     InkWell(
+          //                       onTap: () async {
+          //                         final selection = await showImagePickerDialog(
+          //                             context, closeClick: () {
+          //                           onboardingDI<RetailerInfoEntity>()
+          //                               .displayImages!
+          //                               .removeAt(0);
+          //                         });
+          //                         await handleMediaSelection(selection);
+          //                       },
+          //                       child: const Row(
+          //                         children: [
+          //                           Icon(
+          //                             Icons.camera_alt_sharp,
+          //                             color: AppColors.blueButtonColor,
+          //                           ),
+          //                           Text(
+          //                               'Upload/Capture Drug License or Bill Copy'),
+          //                         ],
+          //                       ),
+          //                     )
+          //                   ],
+          //                 ),
+          //                 const SizedBox(height: 16),
+          //                 Container(
+          //                   height: 240,
+          //                   alignment: Alignment.center,
+          //                   child: onboardingDI<RetailerInfoEntity>()
+          //                               .displayImages !=
+          //                           null
+          //                       ? CachedNetworkImage(
+          //                           imageUrl: onboardingDI<RetailerInfoEntity>()
+          //                               .displayImages![0]
+          //                               .imageUrl!,
+          //                           fit: BoxFit.fill,
+          //                           placeholder: (_, __) {
+          //                             return const Center(
+          //                               child: SpinKitFadingCircle(
+          //                                 color: AppColors.blueButtonColor,
+          //                                 size: 50.0,
+          //                               ),
+          //                             );
+          //                           },
+          //                           errorWidget: (context, url, error) =>
+          //                               const Center(
+          //                             child: Text('Image Not Found'),
+          //                           ),
+          //                         )
+          //                       : const Center(
+          //                           child: Text(
+          //                             'Image Not Found',
+          //                             style: TextStyle(
+          //                               color: Colors.black, // Text color
+          //                               fontSize: 18,
+          //                               fontWeight: FontWeight.bold,
+          //                             ),
+          //                           ),
+          //                         ),
+          //                 ),
+          //                 // onboardingDI<RetailerInfoEntity>().displayImages !=
+          //                 //         null
+          //                 //     ? onboardingDI<RetailerInfoEntity>()
+          //                 //                 .displayImages![0]
+          //                 //                 .imageUrl !=
+          //                 //             null
+          //                 //         ? Image.network(errorBuilder:
+          //                 //                 (context, error, stackTrace) {
+          //                 //             return Container(
+          //                 //               decoration: BoxDecoration(
+          //                 //                 color: Colors
+          //                 //                     .white, // Background color for the container
+          //                 //                 borderRadius:
+          //                 //                     BorderRadius.circular(12),
+          //                 //                 border: Border.all(
+          //                 //                     color: Colors.grey,
+          //                 //                     width:
+          //                 //                         2), // Border radius for rounded corners
+          //                 //               ),
+          //                 //               height: 260,
+          //                 //               // Background color for the container
+          //                 //               child: Center(
+          //                 //                 child: Text(
+          //                 //                   'Image Not Found',
+          //                 //                   style: TextStyle(
+          //                 //                     color: Colors.black, // Text color
+          //                 //                     fontSize: 18,
+          //                 //                     fontWeight: FontWeight.bold,
+          //                 //                   ),
+          //                 //                 ),
+          //                 //               ),
+          //                 //             );
+          //                 //           },
+          //                 //             height: 260,
+          //                 //             fit: BoxFit.cover,
+          //                 //             '${onboardingDI<RetailerInfoEntity>().displayImages![0].imageUrl}')
+          //                 //         : Image.file(
+          //                 //             errorBuilder:
+          //                 //                 (context, error, stackTrace) {
+          //                 //               return Container(
+          //                 //                 decoration: BoxDecoration(
+          //                 //                   color: Colors
+          //                 //                       .white, // Background color for the container
+          //                 //                   borderRadius:
+          //                 //                       BorderRadius.circular(12),
+          //                 //                   border: Border.all(
+          //                 //                       color: Colors.grey,
+          //                 //                       width:
+          //                 //                           2), // Border radius for rounded corners
+          //                 //                 ),
+          //                 //                 height: 260,
+          //                 //                 // Background color for the container
+          //                 //                 child: Center(
+          //                 //                   child: Text(
+          //                 //                     'Image Not Found',
+          //                 //                     style: TextStyle(
+          //                 //                       color:
+          //                 //                           Colors.black, // Text color
+          //                 //                       fontSize: 18,
+          //                 //                       fontWeight: FontWeight.bold,
+          //                 //                     ),
+          //                 //                   ),
+          //                 //                 ),
+          //                 //               );
+          //                 //             },
+          //                 //             height: 260,
+          //                 //             fit: BoxFit.cover,
+          //                 //             File(onboardingDI<RetailerInfoEntity>()
+          //                 //                 .displayImages![0]
+          //                 //                 .imageUrl!),
+          //                 //           )
+          //                 //     : Container(), // Placeholder whe
+          //                 const SizedBox(height: 16),
+          //               ]),
+          //             )
+          //           : Container(),
+          //       const SizedBox(height: 25),
+          //     ],
+          //   ),
+          // ),
         ),
       ),
     );
@@ -902,6 +932,7 @@ class _EditProfileDialogScreenState extends State<EditProfileDialogScreen> {
       setState(() {
         DisplayImage displayImage = DisplayImage(imageUrl: file.path);
         onboardingDI<RetailerInfoEntity>().displayImages!.add(displayImage);
+        print("displayImage ${file.path}");
         //selectedFile!.add(File(file.path));
       });
     }

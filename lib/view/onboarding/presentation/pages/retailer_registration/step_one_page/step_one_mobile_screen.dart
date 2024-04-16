@@ -447,12 +447,11 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                         null ||
                                     reqMap[OnboardingConstants.regionId] ==
                                         "") {
-                                  SetRegionDefaultSate(state);
+                                  setRegionDefaultSate(state);
                                 }
 
                                 cubit.saveUserInputFieldsData(reqMap);
 
-                                print("valuesdata ${reqMap}");
                                 Navigator.pushNamed(context,
                                     RoutePaths.retailerRegistrationStepTwo);
                               }
@@ -511,7 +510,7 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
     }
   }
 
-  void SetRegionDefaultSate(RetailerRegistrationState state) async {
+  void setRegionDefaultSate(RetailerRegistrationState state) async {
     if (state.pincodeData.registrationRegion?.first != null) {
       var regId =
           state.pincodeData.registrationRegion?.first.regionId.toString() ?? '';
