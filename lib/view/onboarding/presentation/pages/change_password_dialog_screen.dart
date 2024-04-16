@@ -116,6 +116,20 @@ class ChangePasswordDialogCard extends StatelessWidget {
                   ),
                 ),
               ),
+              Visibility(
+                visible: state.userMessages.contains(
+                  UserMessage.previousPassword,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    context.localizedString.failedToPreviouspasswordChanage,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.textFieldNameStyle11W500
+                        .copyWith(color: AppColors.redErrorColor),
+                  ),
+                ),
+              ),
               const SizedBox(height: 25),
             ],
           ),

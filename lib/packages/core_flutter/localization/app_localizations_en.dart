@@ -1573,4 +1573,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get partySoonMsg => 'Dear Retailer, Your party will be locked soon by stockist, Please pay the outstanding balance';
+
+  @override
+  String get failedToPreviouspasswordChanage => 'You have already used this password';
 }
