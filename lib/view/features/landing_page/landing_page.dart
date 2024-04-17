@@ -5,6 +5,7 @@ import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/main/app_bottom_navigation_bar.dart';
 import 'package:pharmarack/main/navigation/app_router.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
+import 'package:pharmarack/view/dashboard/order_history/presentation/pages/order_history_page.dart';
 import 'package:pharmarack/view/features/browse_companies/presentation/pages/browse_companies_page.dart';
 import 'package:pharmarack/view/dashboard/cart/presentation/pages/draggable_cart/dragable_cart_page.dart';
 import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
@@ -91,15 +92,13 @@ class LandingPageState extends State<LandingPage> {
     List<Widget> navigationWidgets = [
       const DashboardScreenPage(),
       const BrowseCompaniesPage(),
-      const DashboardScreenPage(),
-      const ProfilePage(),
       // const BrowseCompaniesPage(),
-      // OrderHistoryPage(onPressBackButton: () {
-      //   _goToDashboard();
-      // }),
-      // ProfilePage(onPressBackButton: () {
-      //   _goToDashboard();
-      // }),
+      OrderHistoryPage(onPressBackButton: () {
+        _goToDashboard();
+      }),
+      ProfilePage(onPressBackButton: () {
+        _goToDashboard();
+      }),
       CartDetailPage(onPressBackButton: () {
         _goToDashboard();
       }),
