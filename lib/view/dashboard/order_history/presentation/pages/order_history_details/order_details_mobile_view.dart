@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/di/app_provider.dart';
@@ -23,9 +22,9 @@ class OrderDetailsMobileView extends StatelessWidget {
       listener: _onBlocListener,
       builder: (context, state) {
         if (state.orderDetailMessage is OrderDetailLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          // return const Center(
+          //   child: CircularProgressIndicator(),
+          // );
         }
 
         return OrderDetailMobileContent(

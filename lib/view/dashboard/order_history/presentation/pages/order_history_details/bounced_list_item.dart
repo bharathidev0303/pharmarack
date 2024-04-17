@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core/log_util/log_util.dart';
@@ -70,7 +69,6 @@ class BouncedListItem extends StatelessWidget {
                                 WidgetSpan(
                                   child: AppAssets.svg.blueArrowUpRight.svg(
                                     alignment: Alignment.centerLeft,
-                                    package: 'core_flutter',
                                     height: 12,
                                     width: 12,
                                   ),
@@ -96,7 +94,6 @@ class BouncedListItem extends StatelessWidget {
                                 WidgetSpan(
                                   child: AppAssets.svg.blueArrowUpRight.svg(
                                     alignment: Alignment.centerLeft,
-                                    package: 'core_flutter',
                                     height: 12,
                                     width: 12,
                                   ),
@@ -163,7 +160,6 @@ class BouncedListItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5)),
                 ),
                 child: AppAssets.svg.icRefresh.svg(
-                  package: "core_flutter",
                   width: 16,
                   height: 16,
                 ),

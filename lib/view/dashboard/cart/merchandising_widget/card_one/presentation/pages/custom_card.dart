@@ -1,7 +1,7 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/widgets/title_and_value_row_item.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
@@ -52,7 +52,12 @@ class CustomCard extends StatelessWidget {
                   placeholder: (context, url) => const SizedBox(
                     width: 42,
                     height: 42,
-                    child: Center(child: CircularProgressIndicator()),
+                    child: Center(
+                      child: SpinKitFadingCircle(
+                        color: AppColors.blueButtonColor,
+                        size: 50.0,
+                      ),
+                    ),
                   ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),

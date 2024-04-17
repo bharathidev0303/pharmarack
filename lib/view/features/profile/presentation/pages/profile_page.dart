@@ -26,9 +26,7 @@ class ProfilePageState extends State<ProfilePage> {
           widget.onPressBackButton?.call();
         },
         actions: [
-          InkWell(
-              onTap: () {},
-              child: AppAssets.svg.icNotification.svg(package: 'core_flutter')),
+          InkWell(onTap: () {}, child: AppAssets.svg.icNotification.svg()),
         ],
       ),
       body: const ProfilePageMobileView(),

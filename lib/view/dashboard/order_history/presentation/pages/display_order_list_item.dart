@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pharmarack/di/app_provider.dart';
@@ -80,7 +79,7 @@ class DisplayOrderListItem extends StatelessWidget {
                           ),
                         ),
                         AppAssets.svg.blueArrowUpRight
-                            .svg(package: 'core_flutter', height: 12, width: 12)
+                            .svg(height: 12, width: 12)
                       ],
                     ),
                   ],
@@ -132,8 +131,8 @@ class DisplayOrderListItem extends StatelessWidget {
                               }
                             }
                           },
-                          child: AppAssets.svg.icPhone.svg(
-                              package: 'core_flutter', height: 24, width: 24),
+                          child:
+                              AppAssets.svg.icPhone.svg(height: 24, width: 24),
                         ),
                         const SizedBox(
                           width: 5.0,
@@ -142,8 +141,8 @@ class DisplayOrderListItem extends StatelessWidget {
                           onTap: () {
                             shareLink(order.invoiceLink);
                           },
-                          child: AppAssets.svg.icShare.svg(
-                              package: 'core_flutter', height: 24, width: 24),
+                          child:
+                              AppAssets.svg.icShare.svg(height: 24, width: 24),
                         ),
                       ],
                     ),
@@ -171,7 +170,6 @@ class DisplayOrderListItem extends StatelessWidget {
                               order.successfulItems != order.orderedQuantity,
                           child: ToolTipPopup(
                               AppAssets.svg.icInfoCircle.svg(
-                                package: 'core_flutter',
                                 height: 12,
                                 width: 12,
                                 colorFilter: const ColorFilter.mode(
@@ -224,10 +222,13 @@ class DisplayOrderListItem extends StatelessWidget {
             child: SecondaryButton(
               text: context.localizedString.orderDetails.toUpperCase(),
               onClick: () {
+                if (getIt.isRegistered<DisplayOrder>()) {
+                  getIt.unregister<DisplayOrder>();
+                }
+                getIt.registerLazySingleton<DisplayOrder>(() => order);
                 Navigator.pushNamed(
                   context,
                   RoutePaths.orderHistoryDetail,
-                  arguments: order,
                 );
               },
             ),

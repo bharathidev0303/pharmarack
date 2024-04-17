@@ -1,11 +1,9 @@
-
 import 'package:fpdart/fpdart.dart';
 import 'package:pharmarack/packages/core_flutter/core/base_usecase/base_usecase.dart';
 import 'package:pharmarack/packages/core_flutter/core/base_usecase/params.dart';
 import 'package:pharmarack/packages/core_flutter/error/base_error.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/model/cart_details_model.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/repository/cart_repository.dart';
-
 
 class DeleteProductUseCase
     extends BaseUseCase<BaseError, DeleteProductParams, CartDetailsModel?> {

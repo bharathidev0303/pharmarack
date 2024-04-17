@@ -1,5 +1,6 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/legacy_app_color.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/legacy_app_textstyles.dart';
 
@@ -30,8 +31,9 @@ class LoaderDialog extends StatelessWidget {
       ),
       content: Row(
         children: [
-          const CircularProgressIndicator(
-            color: LegacyAppColor.circularLoaderColor,
+          const SpinKitFadingCircle(
+            color: AppColors.blueButtonColor,
+            size: 50.0,
           ),
           const SizedBox(
             width: 16,

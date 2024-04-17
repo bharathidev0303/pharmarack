@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/view/dashboard/cart/merchandising_widget/card_one/presentation/pages/custom_card.dart';
 import '../../data/model/special_offer_entity.dart';
@@ -46,7 +47,12 @@ class _CustomCardCarouselState extends State<CustomCardCarousel> {
   @override
   Widget build(BuildContext context) {
     return _availableProducts.isEmpty
-        ? const Center(child: CircularProgressIndicator())
+        ? const Center(
+            child: SpinKitFadingCircle(
+              color: AppColors.blueButtonColor,
+              size: 50.0,
+            ),
+          )
         : Column(
             children: [
               CarouselSlider.builder(

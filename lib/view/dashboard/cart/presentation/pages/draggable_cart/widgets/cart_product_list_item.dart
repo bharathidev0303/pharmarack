@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
@@ -6,9 +5,6 @@ import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
 import 'package:pharmarack/utils/retailer_utils.dart';
 import 'package:pharmarack/view/dashboard/cart/presentation/cubit/draggable_cart/cubit/draggable_cart_cubit.dart';
-
-
-
 
 class CartProductListItem extends StatelessWidget {
   final String productName;
@@ -87,8 +83,10 @@ class CartProductListItem extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: isClose
-                    ? AppAssets.svg.cartClose
-                        .svg(width: 12, height: 12, package: 'core_flutter')
+                    ? AppAssets.svg.cartClose.svg(
+                        width: 12,
+                        height: 12,
+                      )
                     : const SizedBox.shrink(),
               ),
             )),

@@ -179,50 +179,54 @@ class Dynamic_CarouselSliderState extends State<DynamicCarouselSlider> {
                 ),
                 itemCount: widget.carouselData.carousel.length,
                 itemBuilder: (BuildContext context, int index, int realIndex) {
-                  return Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Container(
-                        width: double.infinity,
-                        // borderRadius: BorderRadius.circular(10.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: InkWell(
-                                onTap: () => {
-                                  widgetPageNavigator(
-                                      context,
-                                      widget.carouselData.title,
-                                      carouselItem[index].linkType,
-                                      carouselItem[index].linkTo,
-                                      carouselItem[index].linkToExtra),
-                                },
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                        carouselItem[index].mobileAssetUrl ??
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: SizedBox(
+                            width: double.infinity,
+                            // borderRadius: BorderRadius.circular(10.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () => {
+                                      widgetPageNavigator(
+                                          context,
+                                          widget.carouselData.title,
+                                          carouselItem[index].linkType,
+                                          carouselItem[index].linkTo,
+                                          carouselItem[index].linkToExtra),
+                                    },
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: CachedNetworkImage(
+                                        imageUrl: carouselItem[index]
+                                                .mobileAssetUrl ??
                                             "",
-                                    fit: BoxFit.fill,
-                                    fadeInDuration:
-                                        const Duration(microseconds: 100),
-                                    fadeOutDuration:
-                                        const Duration(microseconds: 100),
-                                    errorWidget: (context, url, error) =>
-                                        Container(
-                                      color: AppColors.appBackgroundColor,
-                                      child: const Center(
-                                        child: Icon(Icons.error),
+                                        fit: BoxFit.fill,
+                                        fadeInDuration:
+                                            const Duration(microseconds: 100),
+                                        fadeOutDuration:
+                                            const Duration(microseconds: 100),
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                          color: AppColors.appBackgroundColor,
+                                          child: const Center(
+                                            child: Icon(Icons.error),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   );
                 }),
             Row(
@@ -265,7 +269,7 @@ class Dynamic_CarouselSliderState extends State<DynamicCarouselSlider> {
                                     .width >
                                 800
                             ? 0.17
-                            : 0.35),
+                            : 0.37),
                 aspectRatio: 16 / 9,
                 autoPlayInterval: Duration(
                     milliseconds: widget.carouselData.duration != ""

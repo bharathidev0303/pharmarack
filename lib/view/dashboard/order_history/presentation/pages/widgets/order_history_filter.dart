@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_buttons/secondary_button.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
@@ -53,9 +54,7 @@ class _OrderHistoryFilterState extends State<OrderHistoryFilter> {
               height: 25,
               child: Padding(
                 padding: const EdgeInsets.only(top: 10.0),
-                child: AppAssets.svg.downBroadArrow.svg(
-                  package: 'core_flutter',
-                ),
+                child: AppAssets.svg.downBroadArrow.svg(),
               ),
             ),
           ),
@@ -160,7 +159,10 @@ class _OrderHistoryFilterState extends State<OrderHistoryFilter> {
                 statusItem = state.list;
               }
               if (state is OrderHistoryInitialState) {
-                return const CircularProgressIndicator();
+                return const SpinKitFadingCircle(
+                  color: AppColors.blueButtonColor,
+                  size: 50.0,
+                );
               }
               if (state is OrderHistoryFilterUpdatedDataState) {
                 statusItem = state.list;
@@ -271,8 +273,7 @@ class _OrderHistoryFilterState extends State<OrderHistoryFilter> {
                 SizedBox(
                   width: 24,
                   height: 24,
-                  child: AppAssets.svg.icCalendar
-                      .svg(package: 'core_flutter', height: 24, width: 24),
+                  child: AppAssets.svg.icCalendar.svg(height: 24, width: 24),
                 ),
               ],
             ),
@@ -310,12 +311,7 @@ class _OrderHistoryFilterState extends State<OrderHistoryFilter> {
         isSelected ? AppAssets.svg.icChecked : AppAssets.svg.icUnchecked;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        imageStatus.svg(
-          package: 'core_flutter',
-        ),
-        Text(title)
-      ],
+      children: [imageStatus.svg(), Text(title)],
     );
   }
 }

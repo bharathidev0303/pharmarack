@@ -23,6 +23,7 @@ class ErrorMessageWidget extends StatelessWidget {
             child: Text(
               errorMessage,
               style: AppTextStyles.style11W400Red(),
+              maxLines: 2,
             ),
           )
         ],

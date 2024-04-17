@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/dashboard/secondary_app_bar.dart';
@@ -9,7 +8,6 @@ import 'package:pharmarack/view/dashboard/order_history/di/order_history_provide
 import 'package:pharmarack/view/dashboard/order_history/domain/model/display_orders_model.dart';
 import 'package:pharmarack/view/dashboard/order_history/presentation/cubit/order_history_detail_cubit.dart';
 import 'package:pharmarack/view/dashboard/order_history/presentation/pages/order_history_details/order_details_mobile_view.dart';
-
 
 class OrderDetailsPage extends BasePage<OrderDetailPageState> {
   const OrderDetailsPage({super.key});
@@ -31,17 +29,18 @@ class OrderDetailPageState extends BaseStatefulPage {
     clearOrderDetailsDI();
     clearOrderHistoryDI();
     initOrderHistoryDI();
+    _order = getIt<DisplayOrder>();
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final value = ModalRoute.of(context)?.settings.arguments;
-    if (value is DisplayOrder) {
-      _order = value;
-    }
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   final value = ModalRoute.of(context)?.settings.arguments;
+  //   if (value is DisplayOrder) {
+  //     _order = value;
+  //   }
+  // }
 
   @override
   Widget buildView(BuildContext context) {

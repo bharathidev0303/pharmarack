@@ -177,7 +177,6 @@ class _EditProfileDialogScreenState extends State<EditProfileDialogScreen> {
                                         child: AppAssets.png.close.image(
                                           width: 24,
                                           height: 24,
-                                          package: "core_flutter",
                                         ),
                                       )
                                     ],

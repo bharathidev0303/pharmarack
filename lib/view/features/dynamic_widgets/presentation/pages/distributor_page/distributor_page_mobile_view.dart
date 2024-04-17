@@ -107,7 +107,7 @@ class _DistributorScreenPageMobileViewState
       isInterActive: false,
       callbackForHamburger: (action) {},
       onPressNotifications: () {
-        Navigator.pushNamed(context, RoutePaths.notifications);
+        // Navigator.pushNamed(context, RoutePaths.notifications);
       },
     );
   }

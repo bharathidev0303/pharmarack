@@ -47,7 +47,7 @@ class TopWidgetsViewMoreListPageState
       isInterActive: true,
       callbackForHamburger: (action) {},
       onPressNotifications: () {
-        Navigator.pushNamed(context, RoutePaths.notifications);
+        // Navigator.pushNamed(context, RoutePaths.notifications);
       },
     );
   }

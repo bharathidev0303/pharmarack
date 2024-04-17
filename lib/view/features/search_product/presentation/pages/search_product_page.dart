@@ -164,6 +164,7 @@ class SearchProductPageState extends BaseStatefulPage {
                 (current is SearchProductFilteredDataState) ||
                 (current is ShowDistributorsLockedPageState) ||
                 (current is ShowCompanyPageState) ||
+                (current is DistributorsEmptyState) ||
                 (current is ShowDistributorPageState);
           },
           listener: (ctx, state) {
@@ -234,6 +235,17 @@ class SearchProductPageState extends BaseStatefulPage {
             } else if (state is ShowCompanyPageState) {
               return CompanyScreenPageMobileView(
                   companyId: state.comapanyId, companyName: state.companyName);
+            } else if (state is DistributorsEmptyState) {
+              return Container(
+                  color: AppColors.white,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: Align(
+                      alignment: Alignment.topCenter,
+                      child: NoRecordsFound(
+                        icons: AppAssets.svg.noDataFound.svg(),
+                        message: "Distributor Page Not Found",
+                      )));
             } else {
               // loading state
               return const Center(

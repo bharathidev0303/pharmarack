@@ -33,6 +33,9 @@ class OrderHistoryPageState extends State<OrderHistoryPage> {
 
   @override
   void initState() {
+    clearOrderHistoryDI();
+    deInitProductDI();
+    deInitStockiestDI();
     initOrderHistoryPageDI();
     initStockiestDI();
     intProductDI();
@@ -83,8 +86,7 @@ class OrderHistoryPageState extends State<OrderHistoryPage> {
                           storeId: value.storeId));
                 });
               },
-              child:
-                  AppAssets.svg.icFilterSettings.svg(package: 'core_flutter'),
+              child: AppAssets.svg.icFilterSettings.svg(),
             ),
           ]),
       body: Column(
@@ -182,8 +184,6 @@ class OrderHistoryPageState extends State<OrderHistoryPage> {
               if (state is OrderHistoryLoadingState) {
                 showProcessingRequestDialog(context, userRootNavigator: false);
               } else if (state is OrderHistorySuccessState) {
-                CommonDialogs.closeCommonDialog(context: context);
-
                 List<DisplayOrder> orders = state.orders;
                 return Expanded(
                     child: RefreshIndicator(
@@ -210,8 +210,7 @@ class OrderHistoryPageState extends State<OrderHistoryPage> {
                       child: Align(
                           alignment: Alignment.topCenter,
                           child: NoRecordsFound(
-                            icons: AppAssets.svg.noRecordFound
-                                .svg(package: 'core_flutter'),
+                            icons: AppAssets.svg.noRecordFound.svg(),
                             message: context.localizedString.noProductStr,
                           ))),
                 );

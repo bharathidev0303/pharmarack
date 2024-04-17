@@ -44,6 +44,8 @@ class SearchProductFilteredDataState extends SearchProductState {
 
 class SearchProductDataEmptyListState extends SearchProductState {}
 
+class DistributorsEmptyState extends SearchProductState {}
+
 class SearchProductErrorMessageState extends SearchProductState {
   final String errorMessage;
   const SearchProductErrorMessageState(this.errorMessage);

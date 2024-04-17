@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
+import 'package:pharmarack/packages/storage_utils/storage.dart';
 import 'package:pharmarack/view/features/distributor_connection/stockiest_priority/domain/model/stockiest_priority_param.dart';
 import 'package:pharmarack/view/features/distributor_connection/stockiest_priority/domain/use_case/stockiest_priority_use_case.dart';
 import 'package:pharmarack/view/features/filters/domain/model/filters/filter_type.dart';
@@ -86,16 +87,20 @@ class SearchProductCubit extends Cubit<SearchProductState> {
     if (getIt<RetailerInfoEntity>().stores != null) {
       var data = getIt<RetailerInfoEntity>()
           .stores
-          ?.where((element) => element.storeId == id)
-          .first;
-      if (data?.isPartyLocked == 1 || data?.isPartyLockedSoonByDist == 1) {
-        emit(ShowDistributorsLockedPageState(
-            data!.isPartyLocked!, data.isPartyLockedSoonByDist!));
+          ?.where((element) => element.storeId == id);
+      if (data!.isNotEmpty) {
+        if (data.first.isPartyLocked == 1 ||
+            data.first.isPartyLockedSoonByDist == 1) {
+          emit(ShowDistributorsLockedPageState(
+              data.first.isPartyLocked!, data.first.isPartyLockedSoonByDist!));
+        } else {
+          emit(ShowDistributorPageState(distributorName, id));
+        }
       } else {
-        emit(ShowDistributorPageState(distributorName, id));
+        emit(DistributorsEmptyState());
       }
     } else {
-      emit(ShowDistributorPageState(distributorName, id));
+      emit(DistributorsEmptyState());
     }
   }
 

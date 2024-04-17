@@ -55,6 +55,7 @@ class CartPageState extends State<CartDetailPage> {
                 subtitle: formatHtmlString(state.errorMessage ??
                     context.localizedString.somethingWentWrong),
               );
+              cartScreenCubit.getCartDetails(showLoader: false);
             } else if (state is CartScreenDataState) {
               CommonDialogs.closeCommonDialog(context: context);
             } else if (state is PlaceOrderSuccess) {
@@ -77,8 +78,7 @@ class CartPageState extends State<CartDetailPage> {
                   child: Align(
                       alignment: Alignment.topCenter,
                       child: NoRecordsFound(
-                        icons: AppAssets.svg.emptyCart
-                            .svg(package: 'core_flutter'),
+                        icons: AppAssets.svg.emptyCart.svg(),
                         buttonTitle: context.localizedString.addNow,
                         message: context.localizedString.emptyCartStr,
                         buttonCallBack: () async {

@@ -82,7 +82,7 @@ class DashboardScreenPageSate extends BaseStatefulPage {
         handleMenuClick(action, getIt.get<DrawerRouterPaths>());
       },
       onPressNotifications: () {
-        Navigator.pushNamed(context, RoutePaths.notifications);
+        // Navigator.pushNamed(context, RoutePaths.notifications);
       },
     );
   }

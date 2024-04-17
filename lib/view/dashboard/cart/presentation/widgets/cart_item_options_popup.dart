@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/widgets/overlay_widget.dart';
@@ -48,7 +47,6 @@ class _CartItemOptionsPopupState extends State<CartItemOptionsPopup> {
       child: AppAssets.svg.icMoreHorizontal.svg(
         width: 20,
         height: 20,
-        package: "core_flutter",
       ),
     );
   }
@@ -104,7 +102,6 @@ class _CartOptions extends StatelessWidget {
                   AppAssets.svg.icArrowReload.svg(
                     width: 14,
                     height: 14,
-                    package: "core_flutter",
                   ),
                   const SizedBox(width: 4),
                   Text(
@@ -124,7 +121,6 @@ class _CartOptions extends StatelessWidget {
                   AppAssets.svg.icTrash.svg(
                     width: 14,
                     height: 14,
-                    package: "core_flutter",
                   ),
                   const SizedBox(width: 4),
                   Text(

@@ -101,7 +101,6 @@ class _ReorderDialogState extends StatelessWidget {
                 child: AppAssets.svg.icClose.svg(
                   width: 24,
                   height: 24,
-                  package: "core_flutter",
                 ),
               ),
             ),

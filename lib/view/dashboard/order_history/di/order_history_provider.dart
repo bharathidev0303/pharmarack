@@ -70,21 +70,20 @@ void initOrderHistoryPageDI() {
   getIt.registerFactory<FeedbackScreenCubit>(
     () => FeedbackScreenCubit(saveFeedbackUseCase: getIt()),
   );
+  getIt.registerSingleton<CustomAppBarCubit>(CustomAppBarCubit());
+  // if (getIt.isRegistered<CustomAppBarCubit>()) {
+  //   getIt.unregister<CustomAppBarCubit>();
+  //   getIt.registerSingleton<CustomAppBarCubit>(CustomAppBarCubit());
+  // }
 
-  if (getIt.isRegistered<CustomAppBarCubit>()) {
-    getIt.unregister<CustomAppBarCubit>();
-  } else {
-    getIt.registerSingleton<CustomAppBarCubit>(CustomAppBarCubit());
-  }
   if (getIt.isRegistered<DistributorDropDownUseCase>()) {
     getIt.unregister<DistributorDropDownUseCase>();
-  } else {
     getIt.registerFactory<DistributorDropDownUseCase>(
         () => DistributorDropDownUseCase());
   }
+
   if (getIt.isRegistered<DistributorDropDownCubit>()) {
     getIt.unregister<DistributorDropDownCubit>();
-  } else {
     getIt.registerFactory<DistributorDropDownCubit>(() =>
         DistributorDropDownCubit(getIt<DistributorDropDownUseCase>(),
             getIt<StockiestPriorityUseCase>()));

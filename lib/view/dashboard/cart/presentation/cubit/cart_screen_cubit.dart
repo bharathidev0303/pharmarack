@@ -38,8 +38,8 @@ class CartScreenCubit extends Cubit<CartScreenState> {
     this._cancelOrderUseCase,
   ) : super(CartScreenInitialState());
 
-  void getCartDetails({bool showLoader = true}) async {
-    if (showLoader) {
+  void getCartDetails({bool? showLoader = true}) async {
+    if (showLoader!) {
       emit(CartScreenLoadingState());
     }
     final response =
@@ -184,19 +184,33 @@ class CartScreenCubit extends Cubit<CartScreenState> {
 
     emit(CartScreenLoadingState());
     final response = await _deleteProductUseCase.execute(params: param);
+
     response.fold((l) {
       emit(const CartScreenErrorState());
     }, (r) {
+      var stores = getIt<DraggableCartScreenCubit>().stores;
+      if (stores.isNotEmpty) {
+        stores.remove(0);
+      }
+
+      getCartDetails(showLoader: false);
       if (r == null || r.statusCode != 200) {
         emit(const CartScreenErrorState());
-      } else if (r.stores.isEmpty) {
-        getIt<DraggableCartScreenCubit>().stores.clear();
+      } else if (stores.isEmpty) {
         emit(CartScreenNoDataState());
       } else {
-        getIt<DraggableCartScreenCubit>().stores.clear();
-        getIt<DraggableCartScreenCubit>().stores.addAll(r.stores);
-        emit(CartScreenDataState(r, false, true, r.stores.length));
+        emit(CartScreenDataState(r, false, true, stores.length));
       }
+      // if (r == null || r.statusCode != 200) {
+      //   emit(const CartScreenErrorState());
+      // } else if (r.stores.isEmpty) {
+      //   getIt<DraggableCartScreenCubit>().stores.clear();
+      //   emit(CartScreenNoDataState());
+      // } else {
+      //   getIt<DraggableCartScreenCubit>().stores.clear();
+      //   getIt<DraggableCartScreenCubit>().stores.addAll(r.stores);
+      //   emit(CartScreenDataState(r, false, true, r.stores.length));
+      // }
     });
   }
 

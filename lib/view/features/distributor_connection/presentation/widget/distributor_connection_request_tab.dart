@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core/log_util/log_util.dart';
@@ -93,7 +94,10 @@ class DistributorConnectionRequestTabContent extends StatelessWidget {
     final Widget content;
     if (state.isLoading) {
       content = const Center(
-        child: CircularProgressIndicator(color: AppColors.primaryColor),
+        child: SpinKitFadingCircle(
+          color: AppColors.blueButtonColor,
+          size: 50.0,
+        ),
       );
     } else if (state.storeItems.isEmpty) {
       content = _BlankSlate(

@@ -45,9 +45,7 @@ class PlaceOrderSuccessfulPageState extends State<PlaceOrderSuccessfulPage> {
       appBar: SecondaryAppBar(
         titleText: context.localizedString.cart,
         actions: [
-          InkWell(
-              onTap: () {},
-              child: AppAssets.svg.icHelpCircle.svg(package: 'core_flutter')),
+          InkWell(onTap: () {}, child: AppAssets.svg.icHelpCircle.svg()),
         ],
       ),
       backgroundColor: AppColors.appBackgroundColor,
@@ -119,11 +117,9 @@ class PlaceOrderSuccessfulPageState extends State<PlaceOrderSuccessfulPage> {
         children: [
           Align(
             alignment: Alignment.topRight,
-            child: InkWell(
-                onTap: () {},
-                child: AppAssets.svg.icShare.svg(package: 'core_flutter')),
+            child: InkWell(onTap: () {}, child: AppAssets.svg.icShare.svg()),
           ),
-          AppAssets.svg.icSuccess.svg(package: 'core_flutter'),
+          AppAssets.svg.icSuccess.svg(),
           Text(
             context.localizedString.placedOrders.replaceAll('#', ''),
             style: AppTextStyles.dialogTitleTextStyle20W700,

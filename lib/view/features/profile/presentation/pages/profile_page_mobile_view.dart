@@ -14,14 +14,13 @@ import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.d
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/utils/url_launcher_utils.dart';
 import 'package:pharmarack/packages/utils/retailer_app_constants.dart';
+import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
 import 'package:pharmarack/view/features/profile/presentation/constants/my_profile_constants.dart';
 import 'package:pharmarack/view/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:pharmarack/view/features/profile/presentation/cubit/profile_state.dart';
 import 'package:pharmarack/view/features/profile/presentation/pages/edit_profile_dialog_screen.dart';
 import 'package:pharmarack/view/features/profile/presentation/pages/edit_profile_screen.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
-
-import '../cubit/edit_profile_cubit.dart';
 
 /// This class [ProfilePageMobileView] which specifically used to render Mobile UI
 class ProfilePageMobileView extends StatefulWidget {
@@ -62,62 +61,68 @@ class _ProfilePageMobileViewState extends State<ProfilePageMobileView> {
               child: AppAssets.png.noRecordsFound.image(),
             );
           } else if (state is ProfileDataState) {
-            return Expanded(
-              child: Column(
-                children: [
-                  Padding(
-                      padding: const EdgeInsets.only(
-                          left: 30, right: 30, top: 20, bottom: 5),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            return Column(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.only(
+                              left: 30, right: 30, top: 20, bottom: 5),
+                          child: Column(
                             children: [
-                              Text(
-                                '${MyProfileConstants.firstName} ${MyProfileConstants.lastName}',
-                                style: AppTextStyles.style16W700Black(),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '${MyProfileConstants.firstName} ${MyProfileConstants.lastName}',
+                                    style: AppTextStyles.style16W700Black(),
+                                  ),
+                                  InkWell(
+                                      child: Text(context.localizedString.edit,
+                                          style:
+                                              AppTextStyles.blueLinkTextStyle),
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const EditProfileScreen()));
+                                      }),
+                                ],
                               ),
-                              InkWell(
-                                  child: Text(context.localizedString.edit,
-                                      style: AppTextStyles.blueLinkTextStyle),
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const EditProfileScreen()));
-                                  }),
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text('+91 ${MyProfileConstants.mobileNo}',
+                                      style: AppTextStyles.textStyleBlack15w400(
+                                              AppColors.primaryTextColor)
+                                          .copyWith(fontSize: 12)),
+                                  const SizedBox(width: 20),
+                                  Text(MyProfileConstants.emailId,
+                                      style: AppTextStyles.textStyleBlack15w400(
+                                              AppColors.primaryTextColor)
+                                          .copyWith(fontSize: 12)),
+                                ],
+                              ),
+                              const SizedBox(height: 15),
                             ],
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text('+91 ${MyProfileConstants.mobileNo}',
-                                  style: AppTextStyles.textStyleBlack15w400(
-                                          AppColors.primaryTextColor)
-                                      .copyWith(fontSize: 12)),
-                              const SizedBox(width: 20),
-                              Text(MyProfileConstants.emailId,
-                                  style: AppTextStyles.textStyleBlack15w400(
-                                          AppColors.primaryTextColor)
-                                      .copyWith(fontSize: 12)),
-                            ],
-                          ),
-                          const SizedBox(height: 15),
-                        ],
-                      )),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: ProfileExpandableMenu((selectedMenu) {
-                        handleProfileMenuClick(context, selectedMenu,
-                            getIt.get<DrawerRouterPaths>());
-                      }, MyProfileConstants.getProfileMenu(context)),
-                    ),
-                  )
-                ],
-              ),
+                          )),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: ProfileExpandableMenu((selectedMenu) {
+                            handleProfileMenuClick(context, selectedMenu,
+                                getIt.get<DrawerRouterPaths>());
+                          }, MyProfileConstants.getProfileMenu(context)),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
             );
           }
           return Container();
@@ -197,7 +202,8 @@ void handleProfileMenuClick(
   }
 
   if (action == drawerRouterPaths.getOrderHistoryPath()) {
-    Navigator.pushNamed(context, drawerRouterPaths.getOrderHistoryPath());
+    getIt<BottomNavigationCubit>().updateBottomNavigationIndex(2);
+    // Navigator.pushNamed(context, drawerRouterPaths.getOrderHistoryPath());
   }
   if (action == drawerRouterPaths.getFeedbackRequestDialogPath()) {
     Navigator.pushNamed(
@@ -243,6 +249,6 @@ void handleProfileMenuClick(
   //   Navigator.pushNamed(context, drawerRouterPaths.getOrderHistoryPath());
   // }
   else if (action == drawerRouterPaths.getRewardsPath()) {
-    Navigator.pushNamed(context, drawerRouterPaths.getRewardsPath());
+    // Navigator.pushNamed(context, drawerRouterPaths.getRewardsPath());
   }
 }

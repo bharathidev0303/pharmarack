@@ -281,12 +281,12 @@ class _DistributorDropDownViewState extends State<DistributorDropDownView> {
               } else {
                 return Center(
                   child: Container(
-                    height: 25,
-                    width: 25,
+                    height: 50,
+                    width: 50,
                     margin: const EdgeInsets.symmetric(vertical: 25),
-                    child: const SpinKitFadingCircle(
+                    child: const SpinKitThreeBounce(
                       color: AppColors.blueButtonColor,
-                      size: 50.0,
+                      size: 20.0,
                     ),
                   ),
                 );

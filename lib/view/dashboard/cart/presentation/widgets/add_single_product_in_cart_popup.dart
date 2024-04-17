@@ -137,8 +137,10 @@ class _AddSingleProductInCartPopupState
                 onTap: () => Navigator.pop(context),
                 child: Container(
                   margin: const EdgeInsets.only(top: 1),
-                  child: AppAssets.svg.icClose
-                      .svg(height: 20, width: 20, package: 'core_flutter'),
+                  child: AppAssets.svg.icClose.svg(
+                    height: 20,
+                    width: 20,
+                  ),
                 ),
               ),
             ],
@@ -416,7 +418,6 @@ class _ProductListDropdownMenuState extends State<ProductListDropdownMenu> {
               context.colors.primary!,
               BlendMode.srcIn,
             ),
-            package: 'core_flutter',
           ),
         ),
       ),
@@ -536,10 +537,8 @@ class _ProductListDropdownMenuState extends State<ProductListDropdownMenu> {
                         productList.company != null && productList.company != ''
                             ? Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
-                                child: AppAssets.svg.blueArrowUpRight.svg(
-                                    package: 'core_flutter',
-                                    height: 12,
-                                    width: 12),
+                                child: AppAssets.svg.blueArrowUpRight
+                                    .svg(height: 12, width: 12),
                               )
                             : const SizedBox.shrink(),
                       ],

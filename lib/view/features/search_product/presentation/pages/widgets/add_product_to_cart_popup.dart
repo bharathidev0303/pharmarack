@@ -48,7 +48,7 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
     }
     if (widget.productDetails.scheme != null &&
         widget.productDetails.scheme!.isNotEmpty) {
-      widget.productDetails.scheme!.split(' ').forEach((tag) {
+      widget.productDetails.scheme!.split(',').forEach((tag) {
         schemeList.add(tag);
       });
     }
@@ -99,7 +99,7 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
               height: schemeList.isNotEmpty
                   ? MediaQuery.of(context).size.height * 0.32
                   : errorMessage.isNotEmpty
-                      ? errorMessage.length > 80
+                      ? errorMessage.length > 60
                           ? MediaQuery.of(context).size.height * 0.35
                           : MediaQuery.of(context).size.height * 0.32
                       : MediaQuery.of(context).size.height * 0.26,

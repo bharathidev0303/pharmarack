@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/tool_tip_popup.dart';
@@ -88,7 +87,6 @@ class OrderDetailMobileContent extends StatelessWidget {
                                 WidgetSpan(
                                   child: AppAssets.svg.blueArrowUpRight.svg(
                                     alignment: Alignment.centerLeft,
-                                    package: 'core_flutter',
                                     height: 12,
                                     width: 12,
                                   ),
@@ -129,7 +127,6 @@ class OrderDetailMobileContent extends StatelessWidget {
                                   order.orderedQuantity,
                               child: ToolTipPopup(
                                 AppAssets.svg.icInfoCircle.svg(
-                                  package: 'core_flutter',
                                   height: 12,
                                   width: 12,
                                   colorFilter: const ColorFilter.mode(
@@ -230,7 +227,6 @@ class OrderDetailMobileContent extends StatelessWidget {
                         AppAssets.svg.icRefresh.svg(
                           width: 14,
                           height: 14,
-                          package: "core_flutter",
                         )
                       ],
                     ),

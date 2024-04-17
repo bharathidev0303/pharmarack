@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -124,12 +123,12 @@ class _ExpandCollapseTitleState extends State<ExpandCollapseTitle> {
               : widget.expandedLabel ?? const SizedBox.shrink(),
           const SizedBox(width: 5),
           SvgPicture.asset(
-              _isExpanded
-                  ? AppAssets.svg.icArrowUp.path
-                  : AppAssets.svg.icArrowDown.path,
-              width: 18,
-              height: 18,
-              package: 'core_flutter')
+            _isExpanded
+                ? AppAssets.svg.icArrowUp.path
+                : AppAssets.svg.icArrowDown.path,
+            width: 18,
+            height: 18,
+          )
         ],
       ),
     );

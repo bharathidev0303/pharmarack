@@ -55,24 +55,22 @@ class _InputTextFields extends State<LoginScreenInputTextFields> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16.0, vertical: 10.0),
-                    child: Expanded(
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.info_outline,
-                            color: AppColors.redErrorColor,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            'Invalid credentials, Please verify them and retry.',
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextStyles.style12W500Black(
-                                color: AppColors.redErrorColor),
-                          ),
-                        ],
-                      ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.info_outline,
+                          color: AppColors.redErrorColor,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'Invalid credentials, Please verify them and retry.',
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.style12W500Black(
+                              color: AppColors.redErrorColor),
+                        ),
+                      ],
                     ),
                   ),
                 )

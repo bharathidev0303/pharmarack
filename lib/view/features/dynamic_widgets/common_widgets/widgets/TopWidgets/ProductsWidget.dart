@@ -294,7 +294,7 @@ Widget companyProductListWidget(context, List<ProductListModel> productsItems) {
                                       return ChangeDistributorDialogCard(
                                         productCode:
                                             productItem.productId.toString(),
-                                        storeId: productItem.storeId!,
+                                        storeId: productItem.companyId!,
                                       );
                                     },
                                   ),

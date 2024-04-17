@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
@@ -24,14 +23,12 @@ class CartProductList extends StatelessWidget {
   const CartProductList({required this.stores, super.key});
   @override
   Widget build(BuildContext context) {
-      
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: ListView.builder(
           padding: const EdgeInsets.only(bottom: 15.0),
           itemCount: stores.length,
           itemBuilder: (context, index) {
-            
             final store = stores[index];
             return Stack(
               children: [
@@ -78,8 +75,7 @@ class CartProductList extends StatelessWidget {
                     ? Container(
                         alignment: Alignment.topRight,
                         margin: const EdgeInsets.only(top: 8),
-                        child: AppAssets.svg.icInfoCircleError
-                            .svg(package: 'core_flutter'),
+                        child: AppAssets.svg.icInfoCircleError.svg(),
                       )
                     : Container()
               ],

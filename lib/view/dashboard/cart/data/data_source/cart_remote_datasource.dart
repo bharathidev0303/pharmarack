@@ -35,7 +35,8 @@ class CartRemoteDataSource {
         storeId: deleteProductRequestParam.storeId,
         productCode: deleteProductRequestParam.productCode));
     return response.fold((l) => left(l), (r) async {
-      return right(await _mapCartDetails(r.data));
+      // return right(await _mapCartDetails(r.data));
+      return right(CartDetailsModel(statusCode: 200, stores: []));
     });
   }
 

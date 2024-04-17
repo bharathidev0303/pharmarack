@@ -27,6 +27,7 @@ import 'package:pharmarack/view/features/profile/presentation/cubit/edit_profile
 import 'package:pharmarack/view/features/profile/presentation/pages/profile_page.dart';
 import 'package:pharmarack/view/features/widgets/validator_disabled_input_text_new.dart';
 import 'package:pharmarack/view/features/widgets/validator_enabled_input_text.dart';
+import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_drop_down.dart';
 import 'package:pharmarack/view/onboarding/utils/onboarding_validators.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
@@ -40,19 +41,24 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
-  final editProfileCubit = getIt<EditProfileCubit>();
-  final retailerInfoEntity = getIt<RetailerInfoEntity>();
+  late EditProfileCubit editProfileCubit;
+  late RetailerInfoEntity retailerInfoEntity;
   final Map<String, String> reqMap = HashMap();
 
   @override
   void initState() {
+    if (!getIt.isRegistered<EditProfileCubit>()) {
+      initProfileCubit();
+    }
+    editProfileCubit = getIt<EditProfileCubit>();
+    retailerInfoEntity = getIt<RetailerInfoEntity>();
     _initiateEditProfielDetails();
-    editProfileCubit.initialStateEmit();
     super.initState();
   }
 
   @override
   void dispose() {
+    clearProfileCubit();
     super.dispose();
   }
 
@@ -830,7 +836,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (state.userMessages.contains(UserMessage.updateProfileLoading)) {
       showProcessingRequestDialog(context, userRootNavigator: false);
     } else if (state.userMessages.contains(UserMessage.updateProfileSuccess)) {
-      Navigator.push(
+      Navigator.pop(
+        context,
+      );
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const ProfilePage()),
       );
@@ -840,7 +849,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         subtitle: "Your profile has been updated successfully.",
       );
     } else if (state.userMessages.contains(UserMessage.updateProfileFailure)) {
-      CommonDialogs.closeCommonDialog(context: context);
       showFailedRequestDialog(context, title: "Unable to update");
     }
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/widgets/content_card.dart';
@@ -124,9 +125,9 @@ class _DistributorConnectionAddTabContentState
   Widget build(BuildContext context) {
     if (widget.state.isLoading) {
       return const Center(
-        child: CircularProgressIndicator(
-          color: AppColors.primaryColor,
-          backgroundColor: AppColors.secondaryTextColor,
+        child: SpinKitFadingCircle(
+          color: AppColors.blueButtonColor,
+          size: 50.0,
         ),
       );
     }
