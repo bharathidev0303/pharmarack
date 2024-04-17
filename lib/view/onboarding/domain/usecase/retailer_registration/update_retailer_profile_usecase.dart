@@ -174,7 +174,7 @@ class UpdateRetailerProfileUsecase extends BaseUseCase<BaseError,
         "UPIId": "${reqData[EditProfileConstants.uPIIdField]}" ?? "",
         "BankName": "${reqData[EditProfileConstants.bankNameField]}" ?? "",
         "BankAccountType":
-            "${reqData[EditProfileConstants.bankAccountTypeField]}" ?? "",
+            "${reqData[EditProfileConstants.accountTypeField]}" ?? "",
         "AccountType":
             "${reqData[EditProfileConstants.accountTypeField]}" ?? "",
         "BankAcNumber":

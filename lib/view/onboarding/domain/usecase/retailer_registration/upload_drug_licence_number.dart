@@ -4,6 +4,7 @@ import 'package:pharmarack/packages/core_flutter/core/base_usecase/base_usecase.
 import 'package:pharmarack/packages/core_flutter/core/base_usecase/params.dart';
 import 'package:pharmarack/packages/core_flutter/error/base_error.dart';
 import 'package:pharmarack/view/onboarding/domain/repository/onboarding_repository.dart';
+import 'package:http_parser/http_parser.dart';
 
 class UploadDrugLicenceUseCase
     extends BaseUseCase<BaseError, UploadDLParams, String> {
@@ -13,11 +14,15 @@ class UploadDrugLicenceUseCase
   @override
   Future<Either<BaseError, String>> execute(
       {required UploadDLParams params}) async {
-    final payLoad = {
-      'file': await MultipartFile.fromFile(params.drugLicenceFilePath)
-    };
+    final payLoad = FormData.fromMap({
+      'file': await MultipartFile.fromFile(params.drugLicenceFilePath,
+          filename: params.drugLicenceFilePath.split("/").last,
+          contentType: MediaType(
+              "image", params.drugLicenceFilePath.toString().split(".").last))
+    });
+
     return _onboardingRepository.uploadDLServer(
-        FormData.fromMap(payLoad), params.type, params.userId);
+        payLoad, params.type, params.userId);
   }
 }
 

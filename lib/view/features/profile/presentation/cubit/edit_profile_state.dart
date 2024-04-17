@@ -1,9 +1,6 @@
 import 'dart:collection';
-import 'dart:io';
-
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pharmarack/view/onboarding/utils/constants.dart';
 
 class EditProfileState extends Equatable {
   final bool isLoading;
@@ -27,7 +24,21 @@ class EditProfileState extends Equatable {
   factory EditProfileState.initial() {
     return EditProfileState(
       isLoading: false,
-      userMessages: HashSet<UserMessage>(),
+      userMessages: HashSet<UserMessage>()
+        ..add(UserMessage.updateProfileInitial),
+      isActionButtonEnabled: false,
+      drugLicenseFileUploaded: false,
+      moveToMyProfilePage: false,
+      drugLicenseNewFile: null,
+      drugLicenseFileError: null,
+    );
+  }
+
+  factory EditProfileState.loading() {
+    return EditProfileState(
+      isLoading: false,
+      userMessages: HashSet<UserMessage>()
+        ..add(UserMessage.updateProfileLoading),
       isActionButtonEnabled: false,
       drugLicenseFileUploaded: false,
       moveToMyProfilePage: false,
@@ -38,7 +49,20 @@ class EditProfileState extends Equatable {
   factory EditProfileState.success() {
     return EditProfileState(
       isLoading: false,
-      userMessages: HashSet<UserMessage>(),
+      userMessages: HashSet<UserMessage>()
+        ..add(UserMessage.updateProfileSuccess),
+      isActionButtonEnabled: false,
+      drugLicenseFileUploaded: false,
+      moveToMyProfilePage: false,
+      drugLicenseNewFile: null,
+      drugLicenseFileError: null,
+    );
+  }
+  factory EditProfileState.error() {
+    return EditProfileState(
+      isLoading: false,
+      userMessages: HashSet<UserMessage>()
+        ..add(UserMessage.updateProfileFailure),
       isActionButtonEnabled: false,
       drugLicenseFileUploaded: false,
       moveToMyProfilePage: false,
@@ -84,5 +108,6 @@ class EditProfileState extends Equatable {
 enum UserMessage {
   updateProfileSuccess,
   updateProfileFailure,
-  updateProfileInitial
+  updateProfileLoading,
+  updateProfileInitial,
 }

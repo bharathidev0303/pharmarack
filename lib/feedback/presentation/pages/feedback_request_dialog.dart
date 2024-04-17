@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/dialog_card.dart';
 import 'package:pharmarack/packages/core_flutter/core/ui/device_detector_widget.dart';
@@ -121,29 +123,26 @@ class FeedbackRequestDialog extends StatelessWidget {
               ),
               SizedBox(
                 key: const Key(FeedbackConstants.feedbackRatingBarKey),
-                // child: RatingBar(
-                //   minRating: 0.5,
-                //   itemCount: 5,
-                //   itemSize: 35.0,
-                //   itemPadding: const EdgeInsets.symmetric(horizontal: 5.0),
-                //   initialRating: 0,
-                //   allowHalfRating: true,
-                //   glow: false,
-                //   unratedColor: AppColors.ratingStarUnSelectedColor,
-                //   ratingWidget: RatingWidget(
-                //     half: AppAssets.svg.feedbackStarHalf
-                //         .svg(),
-                //     full: AppAssets.svg.feedbackStarFull
-                //         .svg(),
-                //     empty:
-                //         AppAssets.svg.feedbackStar.svg(),
-                //   ),
-                //   onRatingUpdate: (rating) {
-                //     feedbackScreenCubit.feedbackInputCubit.updateRating(rating);
-                //     feedbackScreenCubit.feedbackInputCubit
-                //         .validateRatingAndRemarks();
-                //   },
-                // ),
+                child: RatingBar(
+                  minRating: 0.5,
+                  itemCount: 5,
+                  itemSize: 35.0,
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  initialRating: 0,
+                  allowHalfRating: true,
+                  glow: false,
+                  unratedColor: AppColors.ratingStarUnSelectedColor,
+                  ratingWidget: RatingWidget(
+                    half: AppAssets.svg.feedbackStarHalf.svg(),
+                    full: AppAssets.svg.feedbackStarFull.svg(),
+                    empty: AppAssets.svg.feedbackStar.svg(),
+                  ),
+                  onRatingUpdate: (rating) {
+                    feedbackScreenCubit.feedbackInputCubit.updateRating(rating);
+                    feedbackScreenCubit.feedbackInputCubit
+                        .validateRatingAndRemarks();
+                  },
+                ),
               ),
               const SizedBox(
                 height: 20,

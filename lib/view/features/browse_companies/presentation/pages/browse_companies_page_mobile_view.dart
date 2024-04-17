@@ -32,7 +32,6 @@ class _BrowseCompaniesPageMobileViewState
   @override
   void initState() {
     super.initState();
-
     _scrollController.addListener(() {
       if (_scrollController.offset ==
           _scrollController.position.maxScrollExtent) {

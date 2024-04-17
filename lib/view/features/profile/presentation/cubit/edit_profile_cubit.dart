@@ -21,45 +21,30 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   ) : super(EditProfileState.initial());
 
   void saveChanges(Map<String, dynamic> reqData) async {
-    emit(
-      state.copyWith(
-        isLoading: true,
-        userMessages: state.userMessages..add(UserMessage.updateProfileInitial),
-      ),
-    );
+    emit(EditProfileState.loading());
     final response = await _updateRetailerProfileUsecase.execute(
         params: UpdateRetailerUseCaseParams(reqData), reqData: reqData);
 
     response.fold((l) {
-      emit(
-        state.copyWith(
-          isLoading: false,
-          userMessages: state.userMessages
-            ..add(UserMessage.updateProfileFailure),
-        ),
-      );
+      emit(EditProfileState.error());
     }, (r) {
       getIt<AutoLoginUtils>().getRetailerInfo();
       emit(EditProfileState.success());
-      emit(
-        state.copyWith(
-          moveToMyProfilePage: true,
-          isLoading: false,
-          userMessages: state.userMessages
-            ..add(UserMessage.updateProfileSuccess),
-        ),
-      );
     });
   }
 
-  void saveUserInputFieldsData(Map<String, String> reqData) {
-    uploadUserDL(state.drugLicenseNewFile ?? XFile(""));
-    // saveChanges(reqData);
+  void initialStateEmit() {
+    emit(EditProfileState.initial());
   }
 
-  Future<void> uploadUserDL(XFile file) async {
+  void saveUserInputFieldsData(Map<String, String> reqData) {
+    uploadUserDL(state.drugLicenseNewFile ?? XFile(""),
+        reqData[EditProfileConstants.loginIdField] ?? "0");
+    saveChanges(reqData);
+  }
+
+  Future<void> uploadUserDL(XFile file, String userId) async {
     List<Future<dynamic>> futures = [];
-    const String userId = "0";
     if (file.path.isNotEmpty) {
       UploadDLParams params = UploadDLParams(
           drugLicenceFilePath: file.path, type: 'DL1', userId: userId);
