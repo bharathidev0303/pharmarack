@@ -38,6 +38,9 @@ abstract final class AppThemeData {
 
   /// Light visual properties for the app. Includes colors, typography, shapes etc.
   static final ThemeData lightTheme = ThemeData(
+    splashColor: Colors.transparent,
+    highlightColor: Colors.transparent,
+    hoverColor: Colors.transparent,
     useMaterial3: true,
     colorScheme: const ColorScheme.light(),
     extensions: <ThemeExtension<dynamic>>[

@@ -121,6 +121,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
         if (selectedDistributorId != 0 && selectedStoreName != "") {
           distributorTextController.text = selectedStoreName;
         }
+        if (widget.searchContextModel!.searchText != "" ||
+            widget.searchContextModel!.searchText != null) {
+          if (searchText.length >= 3) {
+            productTextController.text = searchText;
+          }
+        }
       }
     }
 

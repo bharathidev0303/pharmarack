@@ -83,8 +83,10 @@ class _DistributorScreenPageMobileViewState
                   ),
                 );
               } else if (state is DistributorsPageDataState) {
-                if (state.distributorsPageModel.widget.first !=
-                    "Padding(padding: EdgeInsets(20.0,0.0,20.0,0.0),)") {
+                if (state.distributorsPageModel.widget.first
+                        .toString()
+                        .substring(0, 7) !=
+                    "Padding") {
                   state.distributorsPageModel.widget
                       .insert(0, distributorsTittle(context, distributorInfo));
                 }

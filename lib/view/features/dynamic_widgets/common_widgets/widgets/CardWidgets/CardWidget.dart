@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pharmarack/main/navigation/app_router.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CardWidgetModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CommonModule.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/widgets/CardWidgets/CardImageWidget.dart';
 
 Future<CardWidgetModel> _loadCardWidgetData(jsonData) async {
@@ -51,12 +53,14 @@ Widget cardTitleWidget(CardWidgetModel cardWidgetData, context) {
         cardWidgetData.showViewMoreBtn
             ? InkWell(
                 onTap: () => {
-                  widgetPageNavigator(
-                      context,
-                      cardWidgetData.title!,
-                      cardWidgetData.linkType!,
-                      cardWidgetData.viewMoreLinkTo!,
-                      cardWidgetData.viewMoreLinkToExtra!),
+                  AppRouter.cmsWidgetPageNavigator(
+                      cmsPageNavigatorModel: CmsPageNavigatorModel(
+                    context: context,
+                    title: cardWidgetData.title,
+                    linkType: cardWidgetData.linkType,
+                    linkTo: cardWidgetData.viewMoreLinkTo,
+                    linkToExtra: cardWidgetData.viewMoreLinkToExtra,
+                  )),
                 },
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,

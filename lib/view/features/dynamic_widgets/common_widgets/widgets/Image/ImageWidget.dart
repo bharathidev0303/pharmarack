@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pharmarack/main/navigation/app_router.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CommonModule.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/ImageWidgetModel.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
 
 Future<ImageWidgetModel> _loadImageWidgetData(jsonData) async {
   try {
@@ -24,12 +26,14 @@ Widget buildImageWidget(dynamic children) {
                 padding: const EdgeInsets.symmetric(horizontal: 23),
                 child: InkWell(
                   onTap: () => {
-                    widgetPageNavigator(
-                        context,
-                        imageWidgetModel.title,
-                        imageWidgetModel.linkType,
-                        imageWidgetModel.linkTo,
-                        imageWidgetModel.linkTo),
+                    AppRouter.cmsWidgetPageNavigator(
+                        cmsPageNavigatorModel: CmsPageNavigatorModel(
+                      context: context,
+                      title: imageWidgetModel.title,
+                      linkType: imageWidgetModel.linkType,
+                      linkTo: imageWidgetModel.linkTo,
+                      linkToExtra: imageWidgetModel.linkToExtra,
+                    )),
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),

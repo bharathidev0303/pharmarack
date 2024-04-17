@@ -538,5 +538,6 @@
   "ppContactUs": "Contact Us",
   "ppContactUsDesc": "If you have any questions regarding privacy while using the Application, or have questions about our practices, please contact us via email at info@pharmarack.com",
   "partySoonMsg": "Dear Retailer, Your party will be locked soon by stockist, Please pay the outstanding balance",
+  "partyLockedDistributor": "Dear Retailer, the selected distributor has locked you. We can''t show any products or deals from this distributor, please select other distributor to continue!",
   "failedToPreviouspasswordChanage":"You have already used this password"
 }

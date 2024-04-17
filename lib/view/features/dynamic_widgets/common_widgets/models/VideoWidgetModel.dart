@@ -6,6 +6,7 @@ class VideoWidgetModel {
   final String titleSize;
   final String subTitleSize;
   final String title;
+  final bool autoPlay;
   final String componentType;
 
   VideoWidgetModel({
@@ -16,6 +17,7 @@ class VideoWidgetModel {
     required this.titleSize,
     required this.subTitleSize,
     required this.title,
+    required this.autoPlay,
     required this.componentType,
   });
 
@@ -27,6 +29,7 @@ class VideoWidgetModel {
     final String titleSize = json['title_size'] ?? "";
     final String subTitleSize = json['sub_title_size'] ?? "";
     final String title = json['title'] ?? "";
+    final bool autoPlay = json['auto_play'] ?? false;
     final String componentType = json['component_type'] ?? "";
 
     return VideoWidgetModel(
@@ -37,6 +40,7 @@ class VideoWidgetModel {
       titleSize: titleSize,
       subTitleSize: subTitleSize,
       title: title,
+      autoPlay: autoPlay,
       componentType: componentType,
     );
   }

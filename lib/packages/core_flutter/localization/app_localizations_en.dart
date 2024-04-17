@@ -1575,5 +1575,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get partySoonMsg => 'Dear Retailer, Your party will be locked soon by stockist, Please pay the outstanding balance';
 
   @override
+  String get partyLockedDistributor => 'Dear Retailer, the selected distributor has locked you. We can\'t show any products or deals from this distributor, please select other distributor to continue!';
+
+  @override
   String get failedToPreviouspasswordChanage => 'You have already used this password';
 }

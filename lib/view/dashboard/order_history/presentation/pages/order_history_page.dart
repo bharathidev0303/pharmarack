@@ -33,11 +33,8 @@ class OrderHistoryPageState extends State<OrderHistoryPage> {
 
   @override
   void initState() {
-    clearOrderHistoryDI();
-    deInitProductDI();
-    deInitStockiestDI();
-    initOrderHistoryPageDI();
     initStockiestDI();
+    initOrderHistoryPageDI();
     intProductDI();
     _orderHistoryCubit = getIt<OrderHistoryCubit>();
     searchProductCubit = getIt<SearchProductCubit>();
@@ -56,7 +53,11 @@ class OrderHistoryPageState extends State<OrderHistoryPage> {
       appBar: SecondaryAppBar(
           titleText: context.localizedString.myOrders,
           onPressBackButton: () {
-            widget.onPressBackButton?.call();
+            if (widget.onPressBackButton != null) {
+              widget.onPressBackButton?.call();
+            } else {
+              Navigator.pop(context);
+            }
           },
           actions: [
             InkWell(

@@ -17,93 +17,154 @@ import 'package:pharmarack/view/features/distributor_connection/stockiest_priori
 
 void initStockiestDi() {
   /// factory storing
-  getIt.registerFactory<StockiestPriorityApiService>(
-    () => StockiestPriorityApiService(
-      getIt<Dio>(instanceName: AppConstants.baseUrlDioConstant),
-    ),
+  if (!getIt.isRegistered<StockiestPriorityApiService>(
     instanceName: "stockiestApi",
-  );
+  )) {
+    getIt.registerFactory<StockiestPriorityApiService>(
+      () => StockiestPriorityApiService(
+        getIt<Dio>(instanceName: AppConstants.baseUrlDioConstant),
+      ),
+      instanceName: "stockiestApi",
+    );
+  }
 
-  getIt.registerFactory<StockiestPriorityRemoteDataSource>(
-    () => StockiestPriorityRemoteDataSource(
-      getIt<StockiestPriorityApiService>(instanceName: "stockiestApi"),
-    ),
+  if (!getIt.isRegistered<StockiestPriorityRemoteDataSource>(
     instanceName: "stockiestRemote",
-  );
+  )) {
+    getIt.registerFactory<StockiestPriorityRemoteDataSource>(
+      () => StockiestPriorityRemoteDataSource(
+        getIt<StockiestPriorityApiService>(instanceName: "stockiestApi"),
+      ),
+      instanceName: "stockiestRemote",
+    );
+  }
+  if (!getIt.isRegistered<SaveDistributorPrioritiesUseCase>()) {
+    getIt.registerFactory<SaveDistributorPrioritiesUseCase>(
+      () => SaveDistributorPrioritiesUseCase(
+        stockiestPriorityRepository: getIt<StockiestPriorityRepository>(
+            instanceName: "stockiestPriorityRepository"),
+      ),
+    );
+  }
 
-  getIt.registerFactory<StockiestPriorityUseCase>(
-    () => StockiestPriorityUseCase(
-      getIt<StockiestPriorityRepository>(
-          instanceName: "stockiestPriorityRepository"),
-    ),
+  if (!getIt.isRegistered<StoreRequestMappingUseCase>()) {
+    getIt.registerFactory<StoreRequestMappingUseCase>(
+      () => StoreRequestMappingUseCase(
+        stockiestPriorityRepository: getIt<StockiestPriorityRepository>(
+            instanceName: "stockiestPriorityRepository"),
+      ),
+    );
+  }
+
+  if (!getIt.isRegistered<NonMappedDistributorsUseCase>()) {
+    getIt.registerFactory<NonMappedDistributorsUseCase>(
+      () => NonMappedDistributorsUseCase(
+        getIt<StockiestPriorityRepository>(
+            instanceName: "stockiestPriorityRepository"),
+      ),
+    );
+  }
+
+  if (!getIt.isRegistered<StockiestPriorityUseCase>(
     instanceName: "stockiestPriorityUseCase",
-  );
+  )) {
+    getIt.registerFactory<StockiestPriorityUseCase>(
+      () => StockiestPriorityUseCase(
+        getIt<StockiestPriorityRepository>(
+            instanceName: "stockiestPriorityRepository"),
+      ),
+      instanceName: "stockiestPriorityUseCase",
+    );
+  }
 
-  getIt.registerFactory<NonMappedDistributorsUseCase>(
-    () => NonMappedDistributorsUseCase(
-      getIt<StockiestPriorityRepository>(
-          instanceName: "stockiestPriorityRepository"),
-    ),
-  );
+  if (!getIt.isRegistered<MappedNonMappedSearchUseCase>()) {
+    getIt.registerFactory<MappedNonMappedSearchUseCase>(
+      () => MappedNonMappedSearchUseCase(
+        mappedList: [],
+        nonMappedList: [],
+      ),
+    );
+  }
 
-  getIt.registerFactory<MappedNonMappedSearchUseCase>(
-    () => MappedNonMappedSearchUseCase(
-      mappedList: [],
-      nonMappedList: [],
-    ),
-  );
+  if (!getIt.isRegistered<SaveDistributorPrioritiesUseCase>()) {
+    getIt.registerFactory<SaveDistributorPrioritiesUseCase>(
+      () => SaveDistributorPrioritiesUseCase(
+        stockiestPriorityRepository: getIt<StockiestPriorityRepository>(
+            instanceName: "stockiestPriorityRepository"),
+      ),
+    );
+  }
 
-  getIt.registerFactory<SaveDistributorPrioritiesUseCase>(
-    () => SaveDistributorPrioritiesUseCase(
-      stockiestPriorityRepository: getIt<StockiestPriorityRepository>(
-          instanceName: "stockiestPriorityRepository"),
-    ),
-  );
+  if (!getIt.isRegistered<StoreRequestMappingUseCase>()) {
+    getIt.registerFactory<StoreRequestMappingUseCase>(
+      () => StoreRequestMappingUseCase(
+        stockiestPriorityRepository: getIt<StockiestPriorityRepository>(
+            instanceName: "stockiestPriorityRepository"),
+      ),
+    );
+  }
 
-  getIt.registerFactory<StoreRequestMappingUseCase>(
-    () => StoreRequestMappingUseCase(
-      stockiestPriorityRepository: getIt<StockiestPriorityRepository>(
-          instanceName: "stockiestPriorityRepository"),
-    ),
-  );
+  if (!getIt.isRegistered<NonMappedDistributorsUseCase>()) {
+    getIt.registerFactory<NonMappedDistributorsUseCase>(
+      () => NonMappedDistributorsUseCase(
+        getIt<StockiestPriorityRepository>(
+            instanceName: "stockiestPriorityRepository"),
+      ),
+    );
+  }
 
   /// singleton storing
-  getIt.registerSingleton<StockiestPriorityRepository>(
-    StockiestPriorityRepositoryImpl(
-      getIt<StockiestPriorityRemoteDataSource>(instanceName: "stockiestRemote"),
-    ),
-    instanceName: "stockiestPriorityRepository",
-  );
+  if (!getIt.isRegistered<StockiestPriorityRepository>(
+      instanceName: "stockiestPriorityRepository")) {
+    getIt.registerSingleton<StockiestPriorityRepository>(
+      StockiestPriorityRepositoryImpl(
+        getIt<StockiestPriorityRemoteDataSource>(
+            instanceName: "stockiestRemote"),
+      ),
+      instanceName: "stockiestPriorityRepository",
+    );
+  }
 
-  getIt.registerSingleton<SearchCubit>(
-    SearchCubit(""),
-  );
+  if (!getIt.isRegistered<SearchCubit>()) {
+    getIt.registerSingleton<SearchCubit>(
+      SearchCubit(""),
+    );
+  }
 
-  getIt.registerSingleton<SearchCubit>(SearchCubit(""),
-      instanceName: "partyCode");
+  if (!getIt.isRegistered<SearchCubit>(instanceName: "partyCode")) {
+    getIt.registerSingleton<SearchCubit>(SearchCubit(""),
+        instanceName: "partyCode");
+  }
 
-  getIt.registerSingleton<SavePriorityCubit>(
-    SavePriorityCubit(
-      getIt<SaveDistributorPrioritiesUseCase>(),
-    ),
-  );
+  if (!getIt.isRegistered<SavePriorityCubit>()) {
+    getIt.registerSingleton<SavePriorityCubit>(
+      SavePriorityCubit(
+        getIt<SaveDistributorPrioritiesUseCase>(),
+      ),
+    );
+  }
 
-  getIt.registerSingleton<DistributorMappedTabCubit>(
-    DistributorMappedTabCubit(
-      getIt<StockiestPriorityUseCase>(instanceName: "stockiestPriorityUseCase"),
-      getIt<NonMappedDistributorsUseCase>(),
-      getIt<MappedNonMappedSearchUseCase>(),
-      getIt<SearchCubit>(),
-      getIt<SavePriorityCubit>(),
-    ),
-  );
+  if (!getIt.isRegistered<DistributorMappedTabCubit>()) {
+    getIt.registerSingleton<DistributorMappedTabCubit>(
+      DistributorMappedTabCubit(
+        getIt<StockiestPriorityUseCase>(
+            instanceName: "stockiestPriorityUseCase"),
+        getIt<NonMappedDistributorsUseCase>(),
+        getIt<MappedNonMappedSearchUseCase>(),
+        getIt<SearchCubit>(),
+        getIt<SavePriorityCubit>(),
+      ),
+    );
+  }
 
-  getIt.registerSingleton<SendRequestMappingCubit>(
-    SendRequestMappingCubit(
-      getIt<StoreRequestMappingUseCase>(),
-      getIt<DistributorMappedTabCubit>(),
-    ),
-  );
+  if (!getIt.isRegistered<SendRequestMappingCubit>()) {
+    getIt.registerSingleton<SendRequestMappingCubit>(
+      SendRequestMappingCubit(
+        getIt<StoreRequestMappingUseCase>(),
+        getIt<DistributorMappedTabCubit>(),
+      ),
+    );
+  }
 }
 
 Future<void> clearStockiestDi() async {

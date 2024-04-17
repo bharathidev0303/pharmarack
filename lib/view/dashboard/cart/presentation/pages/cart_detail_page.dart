@@ -38,7 +38,11 @@ class CartPageState extends State<CartDetailPage> {
       appBar: SecondaryAppBar(
         titleText: context.localizedString.cart,
         onPressBackButton: () {
-          widget.onPressBackButton?.call();
+          if (widget.onPressBackButton != null) {
+            widget.onPressBackButton?.call();
+          } else {
+            Navigator.pop(context);
+          }
         },
       ),
       backgroundColor: AppColors.appBackgroundColor,

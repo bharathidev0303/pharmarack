@@ -62,28 +62,30 @@ final searchBarCubit =
     getIt.registerSingleton<SearchBarCubit>(SearchBarCubit());
 
 void initOrderHistoryPageDI() {
-  getIt.registerFactory<OrderHistoryCubit>(
-      () => OrderHistoryCubit(displayOrderUseCase));
-  getIt.registerSingleton<SaveFeedbackUseCase>(
-    SaveFeedbackUseCase(feedbackRepository: getIt()),
-  );
-  getIt.registerFactory<FeedbackScreenCubit>(
-    () => FeedbackScreenCubit(saveFeedbackUseCase: getIt()),
-  );
-  getIt.registerSingleton<CustomAppBarCubit>(CustomAppBarCubit());
-  // if (getIt.isRegistered<CustomAppBarCubit>()) {
-  //   getIt.unregister<CustomAppBarCubit>();
-  //   getIt.registerSingleton<CustomAppBarCubit>(CustomAppBarCubit());
-  // }
+  if (!getIt.isRegistered<OrderHistoryCubit>()) {
+    getIt.registerFactory<OrderHistoryCubit>(
+        () => OrderHistoryCubit(displayOrderUseCase));
+  }
+  if (!getIt.isRegistered<SaveFeedbackUseCase>()) {
+    getIt.registerSingleton<SaveFeedbackUseCase>(
+      SaveFeedbackUseCase(feedbackRepository: getIt()),
+    );
+  }
+  if (!getIt.isRegistered<FeedbackScreenCubit>()) {
+    getIt.registerFactory<FeedbackScreenCubit>(
+      () => FeedbackScreenCubit(saveFeedbackUseCase: getIt()),
+    );
+  }
+  if (!getIt.isRegistered<CustomAppBarCubit>()) {
+    getIt.registerSingleton<CustomAppBarCubit>(CustomAppBarCubit());
+  }
 
-  if (getIt.isRegistered<DistributorDropDownUseCase>()) {
-    getIt.unregister<DistributorDropDownUseCase>();
+  if (!getIt.isRegistered<DistributorDropDownUseCase>()) {
     getIt.registerFactory<DistributorDropDownUseCase>(
         () => DistributorDropDownUseCase());
   }
 
-  if (getIt.isRegistered<DistributorDropDownCubit>()) {
-    getIt.unregister<DistributorDropDownCubit>();
+  if (!getIt.isRegistered<DistributorDropDownCubit>()) {
     getIt.registerFactory<DistributorDropDownCubit>(() =>
         DistributorDropDownCubit(getIt<DistributorDropDownUseCase>(),
             getIt<StockiestPriorityUseCase>()));
@@ -233,6 +235,7 @@ void clearOrderHistoryDI() {
   getIt.unregister<OrderHistoryCubit>();
   getIt.unregister<FeedbackScreenCubit>();
   getIt.unregister<SaveFeedbackUseCase>();
+  getIt.unregister<CustomAppBarCubit>();
 }
 
 void clearOrderDetailsDI() {

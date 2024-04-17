@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmarack/gen/fonts.gen.dart';
+import 'package:pharmarack/main/navigation/app_router.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CommonModule.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CrmBarWidgetModel.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
 
 Future<CrmBarWidgetModel> _loadCrmBarData(jsonData) async {
   try {
@@ -31,12 +33,14 @@ Widget buildCrmBarWidget(Map<String, dynamic> children) {
               return InkWell(
                 borderRadius: BorderRadius.circular(10),
                 onTap: () {
-                  widgetPageNavigator(
-                      context,
-                      crmBarModel.title,
-                      crmBarItem.linkType,
-                      crmBarItem.linkTo,
-                      crmBarItem.linkTo);
+                  AppRouter.cmsWidgetPageNavigator(
+                      cmsPageNavigatorModel: CmsPageNavigatorModel(
+                    context: context,
+                    title: crmBarItem.title,
+                    linkType: crmBarItem.linkType,
+                    linkTo: crmBarItem.linkTo,
+                    linkToExtra: crmBarItem.linkToExtra,
+                  ));
                 },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

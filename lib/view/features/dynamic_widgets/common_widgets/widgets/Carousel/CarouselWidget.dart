@@ -3,9 +3,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pharmarack/main/navigation/app_router.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CarouselWidgetModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CommonModule.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
 
 Future<CarouselWidgetModel> _loadCarouselData(jsonData) async {
   try {
@@ -90,12 +92,16 @@ class _CarouselWidgetState extends State<CarouselWidget> {
                                   const EdgeInsets.symmetric(horizontal: 23.0),
                               child: InkWell(
                                 onTap: () => {
-                                  widgetPageNavigator(
-                                      BuildContext,
-                                      widget.carouselData.title,
-                                      widget.carouselData.linkType!,
-                                      widget.carouselData.viewMoreLinkTo!,
-                                      widget.carouselData.viewMoreLinkToExtra!),
+                                  AppRouter.cmsWidgetPageNavigator(
+                                      cmsPageNavigatorModel:
+                                          CmsPageNavigatorModel(
+                                    context: context,
+                                    title: widget.carouselData.title,
+                                    linkType: widget.carouselData.linkType,
+                                    linkTo: widget.carouselData.viewMoreLinkTo,
+                                    linkToExtra:
+                                        widget.carouselData.viewMoreLinkToExtra,
+                                  )),
                                 },
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
@@ -140,10 +146,10 @@ class DynamicCarouselSlider extends StatefulWidget {
   });
 
   @override
-  State<DynamicCarouselSlider> createState() => Dynamic_CarouselSliderState();
+  State<DynamicCarouselSlider> createState() => DynamicCarouselSliderState();
 }
 
-class Dynamic_CarouselSliderState extends State<DynamicCarouselSlider> {
+class DynamicCarouselSliderState extends State<DynamicCarouselSlider> {
   int current = 0;
 
   @override
@@ -192,12 +198,15 @@ class Dynamic_CarouselSliderState extends State<DynamicCarouselSlider> {
                                 Expanded(
                                   child: InkWell(
                                     onTap: () => {
-                                      widgetPageNavigator(
-                                          context,
-                                          widget.carouselData.title,
-                                          carouselItem[index].linkType,
-                                          carouselItem[index].linkTo,
-                                          carouselItem[index].linkToExtra),
+                                      AppRouter.cmsWidgetPageNavigator(
+                                          cmsPageNavigatorModel:
+                                              CmsPageNavigatorModel(
+                                        context: context,
+                                        linkType: carouselItem[index].linkType,
+                                        linkTo: carouselItem[index].linkTo,
+                                        linkToExtra:
+                                            carouselItem[index].linkToExtra,
+                                      )),
                                     },
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(10.0),
@@ -310,12 +319,15 @@ class Dynamic_CarouselSliderState extends State<DynamicCarouselSlider> {
                               children: [
                                 InkWell(
                                   onTap: () => {
-                                    widgetPageNavigator(
-                                        context,
-                                        widget.carouselData.title,
-                                        carouselItem[index].linkType,
-                                        carouselItem[index].linkTo,
-                                        carouselItem[index].linkToExtra),
+                                    AppRouter.cmsWidgetPageNavigator(
+                                        cmsPageNavigatorModel:
+                                            CmsPageNavigatorModel(
+                                      context: context,
+                                      linkType: carouselItem[index].linkType,
+                                      linkTo: carouselItem[index].linkTo,
+                                      linkToExtra:
+                                          carouselItem[index].linkToExtra,
+                                    )),
                                   },
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10.0),
@@ -356,12 +368,17 @@ class Dynamic_CarouselSliderState extends State<DynamicCarouselSlider> {
                                         children: [
                                           InkWell(
                                             onTap: () => {
-                                              widgetPageNavigator(
-                                                  context,
-                                                  widget.carouselData.title,
-                                                  carouselItem[e].linkType,
-                                                  carouselItem[e].linkTo,
-                                                  carouselItem[e].linkToExtra),
+                                              AppRouter.cmsWidgetPageNavigator(
+                                                  cmsPageNavigatorModel:
+                                                      CmsPageNavigatorModel(
+                                                context: context,
+                                                linkType: carouselItem[index]
+                                                    .linkType,
+                                                linkTo:
+                                                    carouselItem[index].linkTo,
+                                                linkToExtra: carouselItem[index]
+                                                    .linkToExtra,
+                                              )),
                                             },
                                             child: ClipRRect(
                                               borderRadius:
@@ -498,12 +515,15 @@ class Dynamic_CarouselSliderState extends State<DynamicCarouselSlider> {
                               children: [
                                 InkWell(
                                   onTap: () => {
-                                    widgetPageNavigator(
-                                        context,
-                                        widget.carouselData.title,
-                                        carouselItem[index].linkType,
-                                        carouselItem[index].linkTo,
-                                        carouselItem[index].linkToExtra),
+                                    AppRouter.cmsWidgetPageNavigator(
+                                        cmsPageNavigatorModel:
+                                            CmsPageNavigatorModel(
+                                      context: context,
+                                      linkType: carouselItem[index].linkType,
+                                      linkTo: carouselItem[index].linkTo,
+                                      linkToExtra:
+                                          carouselItem[index].linkToExtra,
+                                    )),
                                   },
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10.0),
@@ -544,12 +564,17 @@ class Dynamic_CarouselSliderState extends State<DynamicCarouselSlider> {
                                         children: [
                                           InkWell(
                                             onTap: () => {
-                                              widgetPageNavigator(
-                                                  context,
-                                                  widget.carouselData.title,
-                                                  carouselItem[e].linkType,
-                                                  carouselItem[e].linkTo,
-                                                  carouselItem[e].linkToExtra),
+                                              AppRouter.cmsWidgetPageNavigator(
+                                                  cmsPageNavigatorModel:
+                                                      CmsPageNavigatorModel(
+                                                context: context,
+                                                linkType: carouselItem[index]
+                                                    .linkType,
+                                                linkTo:
+                                                    carouselItem[index].linkTo,
+                                                linkToExtra: carouselItem[index]
+                                                    .linkToExtra,
+                                              )),
                                             },
                                             child: ClipRRect(
                                               borderRadius:

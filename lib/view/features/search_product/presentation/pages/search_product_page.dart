@@ -70,7 +70,9 @@ class SearchProductPageState extends BaseStatefulPage {
 
   @override
   Widget buildView(BuildContext context) {
-    final focusFiled = (ModalRoute.of(context)!.settings.arguments ?? 0) as int;
+    int? focusFiled = ModalRoute.of(context)!.settings.arguments == null
+        ? null
+        : ModalRoute.of(context)!.settings.arguments as int;
     return Scaffold(
         appBar: CustomAppBar(
           isInterActive: true,
@@ -170,16 +172,17 @@ class SearchProductPageState extends BaseStatefulPage {
           listener: (ctx, state) {
             if (state is ShowDistributorsLockedPageState) {
               if (state.isPartyLockedByDist == 1) {
-                showBinaryButtonAlertDialog(context,
-                    subTitle: "context.localizedString",
-                    firstButtonTitle: context.localizedString.ok);
+                showBinaryButtonAlertDialog(
+                  ctx,
+                  subTitle: context.localizedString.partyLockedDistributor,
+                  firstButtonTitle: context.localizedString.ok,
+                );
               } else if (state.isPartyLocked == 1) {
                 showBinaryButtonAlertDialog(
-                  context,
+                  ctx,
                   subTitle: context.localizedString.partySoonMsg,
                   firstButtonTitle: context.localizedString.ok,
                 );
-                searchProductCubit.emitInitialState();
               }
             }
           },
@@ -235,6 +238,8 @@ class SearchProductPageState extends BaseStatefulPage {
             } else if (state is ShowCompanyPageState) {
               return CompanyScreenPageMobileView(
                   companyId: state.comapanyId, companyName: state.companyName);
+            } else if (state is ShowDistributorsLockedPageState) {
+              return const NullSearchPageMobileView();
             } else if (state is DistributorsEmptyState) {
               return Container(
                   color: AppColors.white,

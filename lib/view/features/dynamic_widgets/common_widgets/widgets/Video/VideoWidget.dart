@@ -20,7 +20,7 @@ Widget buildVideoWidget(dynamic children) {
         return videoWidgetModel.assetUrl != ""
             ? Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 23, vertical: 10.0),
+                    const EdgeInsets.symmetric(horizontal: 23, vertical: 0.0),
                 child: Column(
                   children: [
                     Row(
@@ -52,6 +52,7 @@ Widget buildVideoWidget(dynamic children) {
                     ),
                     VideoPlayerWidget(
                       videoUrl: videoWidgetModel.assetUrl,
+                      autoPlay: videoWidgetModel.autoPlay,
                     ),
                   ],
                 ))
@@ -65,8 +66,10 @@ Widget buildVideoWidget(dynamic children) {
 
 class VideoPlayerWidget extends StatefulWidget {
   final String videoUrl;
+  final bool autoPlay;
 
-  const VideoPlayerWidget({super.key, required this.videoUrl});
+  const VideoPlayerWidget(
+      {super.key, required this.videoUrl, required this.autoPlay});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -76,6 +79,7 @@ class VideoPlayerWidget extends StatefulWidget {
 class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   late VideoPlayerController _controller;
   bool letsPlay = false;
+  bool playIconeHide = false;
 
   @override
   void initState() {
@@ -85,7 +89,44 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         setState(() {});
       });
     _controller.setLooping(true);
+    if (widget.autoPlay) {
+      _controller.play();
+    } else {
+      setState(() {
+        letsPlay = false;
+      });
+      _controller.pause();
+    }
     _controller.initialize().then((_) => setState(() {}));
+    autoHidePlayButton();
+  }
+
+  autoHidePlayButton() async {
+    if (!letsPlay) {
+      await Future.delayed(const Duration(seconds: 2));
+      setState(() {
+        playIconeHide = true;
+      });
+    } else {
+      setState(() {
+        playIconeHide = false;
+      });
+    }
+  }
+
+  void _onPlayPauseEvenet() {
+    if (letsPlay) {
+      setState(() {
+        letsPlay = false;
+      });
+      _controller.play();
+    } else {
+      setState(() {
+        letsPlay = true;
+      });
+      _controller.pause();
+    }
+    autoHidePlayButton();
   }
 
   @override
@@ -108,77 +149,61 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                 ? AspectRatio(
                     aspectRatio: _controller.value.aspectRatio,
                     child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            letsPlay = !letsPlay;
-                            if (letsPlay) {
-                              _controller.play();
-                            } else {
-                              _controller.pause();
-                            }
-                          });
-                        },
+                        onTap: _onPlayPauseEvenet,
                         child: VideoPlayer(_controller)),
                   )
                 : AspectRatio(
                     aspectRatio: 1.8,
                     child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          letsPlay = !letsPlay;
-                          if (letsPlay) {
-                            _controller.play();
-                          } else {
-                            _controller.pause();
-                          }
-                        });
-                      },
-                      child: Container(
-                        color: Colors.black,
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.pause,
-                            size: 50.0,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              letsPlay = !letsPlay;
-                              if (letsPlay) {
-                                _controller.play();
-                              } else {
-                                _controller.pause();
-                              }
-                            });
-                          },
-                        ),
-                      ),
+                      onTap: _onPlayPauseEvenet,
+                      child: playIconeHide
+                          ? Container()
+                          : Container(
+                              color: Colors.black,
+                              child: letsPlay
+                                  ? IconButton(
+                                      icon: const Icon(
+                                        Icons.play_arrow_rounded,
+                                        size: 50.0,
+                                        color:
+                                            Color.fromARGB(158, 255, 255, 255),
+                                      ),
+                                      onPressed: _onPlayPauseEvenet)
+                                  : IconButton(
+                                      icon: const Icon(
+                                        Icons.pause_rounded,
+                                        size: 50.0,
+                                        color:
+                                            Color.fromARGB(158, 255, 255, 255),
+                                      ),
+                                      onPressed: _onPlayPauseEvenet),
+                            ),
                     ),
                   ),
             _controller.value.isInitialized
                 ? AspectRatio(
                     aspectRatio: _controller.value.aspectRatio,
-                    child: Center(
-                      child: letsPlay
-                          ? Container()
-                          : IconButton(
-                              icon: const Icon(
-                                Icons.pause,
-                                size: 50.0,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  letsPlay = !letsPlay;
-                                  if (letsPlay) {
-                                    _controller.play();
-                                  } else {
-                                    _controller.pause();
-                                  }
-                                });
-                              },
-                            ),
-                    ),
+                    child: playIconeHide
+                        ? Container()
+                        : Center(
+                            child: letsPlay
+                                ? IconButton(
+                                    icon: const Icon(
+                                      Icons.play_arrow_rounded,
+                                      size: 50.0,
+                                      color: Color.fromARGB(158, 255, 255, 255),
+                                    ),
+                                    onPressed: _onPlayPauseEvenet,
+                                  )
+                                : IconButton(
+                                    icon: const Icon(
+                                      Icons.pause_rounded,
+                                      size: 50.0,
+                                      color: Color.fromARGB(158, 255, 255, 255),
+                                    ),
+                                    onPressed: _onPlayPauseEvenet,
+                                  ),
+                          ),
                   )
                 : Container(),
           ],

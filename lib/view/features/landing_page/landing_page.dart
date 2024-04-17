@@ -130,8 +130,9 @@ class _PageRouter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey<NavigatorState> navigatorKeys = GlobalKey<NavigatorState>();
     return Navigator(
-      key: navigatorKey,
+      key: navigatorKeys,
       onGenerateRoute: (RouteSettings settings) {
         return MaterialPageRoute(
           settings: settings,
