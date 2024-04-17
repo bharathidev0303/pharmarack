@@ -9,34 +9,47 @@ import 'package:pharmarack/view/features/distributor_connection/stockiest_priori
 import 'package:pharmarack/view/features/distributor_connection/stockiest_priority/domain/use_case/stockiest_priority_use_case.dart';
 
 void initDashboardDi() {
-  getIt.registerFactory<StockiestPriorityApiService>(
-    () => StockiestPriorityApiService(
-      getIt<Dio>(instanceName: AppConstants.legacyBaseUrlDioConstant),
-    ),
-    instanceName: "dashboardApi",
-  );
+  if (!getIt.isRegistered<StockiestPriorityApiService>(
+      instanceName: "dashboardApi")) {
+    getIt.registerFactory<StockiestPriorityApiService>(
+      () => StockiestPriorityApiService(
+        getIt<Dio>(instanceName: AppConstants.legacyBaseUrlDioConstant),
+      ),
+      instanceName: "dashboardApi",
+    );
+  }
 
-  getIt.registerFactory<StockiestPriorityRemoteDataSource>(
-    () => StockiestPriorityRemoteDataSource(
-      getIt<StockiestPriorityApiService>(instanceName: "dashboardApi"),
-    ),
-    instanceName: "dashboardRemote",
-  );
+  if (!getIt.isRegistered<StockiestPriorityRemoteDataSource>(
+      instanceName: "dashboardRemote")) {
+    getIt.registerFactory<StockiestPriorityRemoteDataSource>(
+      () => StockiestPriorityRemoteDataSource(
+        getIt<StockiestPriorityApiService>(instanceName: "dashboardApi"),
+      ),
+      instanceName: "dashboardRemote",
+    );
+  }
 
-  getIt.registerFactory<StockiestPriorityRepository>(
-    () => StockiestPriorityRepositoryImpl(
-      getIt<StockiestPriorityRemoteDataSource>(instanceName: "dashboardRemote"),
-    ),
-    instanceName: "dashboardStockiestRepo",
-  );
+  if (!getIt.isRegistered<StockiestPriorityRepository>(
+      instanceName: "dashboardStockiestRepo")) {
+    getIt.registerFactory<StockiestPriorityRepository>(
+      () => StockiestPriorityRepositoryImpl(
+        getIt<StockiestPriorityRemoteDataSource>(
+            instanceName: "dashboardRemote"),
+      ),
+      instanceName: "dashboardStockiestRepo",
+    );
+  }
 
-  getIt.registerFactory<StockiestPriorityUseCase>(
-    () => StockiestPriorityUseCase(
-      getIt<StockiestPriorityRepository>(
-          instanceName: "dashboardStockiestRepo"),
-    ),
-    instanceName: "dashboardPriorityUseCase",
-  );
+  if (!getIt.isRegistered<StockiestPriorityUseCase>(
+      instanceName: "dashboardPriorityUseCase")) {
+    getIt.registerFactory<StockiestPriorityUseCase>(
+      () => StockiestPriorityUseCase(
+        getIt<StockiestPriorityRepository>(
+            instanceName: "dashboardStockiestRepo"),
+      ),
+      instanceName: "dashboardPriorityUseCase",
+    );
+  }
 }
 
 void clearDashboardDi() {

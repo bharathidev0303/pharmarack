@@ -87,15 +87,23 @@ class AddProductToCartUseCase extends BaseUseCase<BaseError,
         ),
       );
     } else if (data?.isPartyLockedSoonByDist == 1) {
-      Navigator.pop(context);
-      showBinaryButtonAlertDialog(context,
-          subTitle: context.localizedString.partySoonMsg,
-          firstButtonTitle: context.localizedString.ok);
+      return Left(
+        AppError(
+          error: ErrorInfo(
+            description: 'isPartyLockedSoonByDist',
+            message: context.localizedString.partyLockedDistributor,
+          ),
+        ),
+      );
     } else if (data?.isPartyLocked == 1) {
-      Navigator.pop(context);
-      showBinaryButtonAlertDialog(context,
-          subTitle: context.localizedString.partySoonMsg,
-          firstButtonTitle: context.localizedString.ok);
+      return Left(
+        AppError(
+          error: ErrorInfo(
+            description: 'isPartyLocked',
+            message: context.localizedString.partySoonMsg,
+          ),
+        ),
+      );
     } else if (double.parse(data!.minAmountLimit!) != 0 &&
         double.parse(data.minAmountLimit!) >
             productData.mrp! * double.parse(value)) {

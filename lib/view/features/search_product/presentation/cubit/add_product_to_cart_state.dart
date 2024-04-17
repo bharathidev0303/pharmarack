@@ -13,6 +13,14 @@ class AddProductToCartLoadingState extends AddProductToCartState {}
 
 class AddProductToCartErrorState extends AddProductToCartState {}
 
+class DistributorsPartyLockedState extends AddProductToCartState {
+  final String message;
+
+  const DistributorsPartyLockedState(this.message);
+  @override
+  List<Object?> get props => [message];
+}
+
 class AddProductToCartDataState extends AddProductToCartState {
   final AddProductToCartModel addProductToCartModel;
 

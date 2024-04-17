@@ -35,6 +35,7 @@ class SearchProductListModel {
   String? scheme;
   int? storeId;
   String? productCode;
+  String? displayProductCode;
   double? hiddenPtr;
   double? netRate;
   bool? productLock;
@@ -69,6 +70,7 @@ class SearchProductListModel {
       this.scheme,
       this.storeId,
       this.productCode,
+      this.displayProductCode,
       this.hiddenPtr,
       this.netRate,
       this.productLock,

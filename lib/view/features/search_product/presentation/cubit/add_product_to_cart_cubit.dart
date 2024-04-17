@@ -29,7 +29,11 @@ class AddProductToCartCubit extends Cubit<AddProductToCartState> {
               addProductToCartParam: AddProductToCartParams(
                   storeId: productDetails.storeId ?? 0,
                   quantity: quantity,
-                  productCode: productDetails.productCode ?? '',
+                  productCode: (productDetails.productCode == null ||
+                              productDetails.productCode == ''
+                          ? productDetails.displayProductCode ?? ''
+                          : productDetails.productCode)
+                      .toString(),
                   ptr: productDetails.ptr ?? 0.0,
                   hiddenPTR: productDetails.hiddenPtr ?? 0.0,
                   gSTPercentage: productDetails.storeProductGST ?? 0.0,
@@ -77,8 +81,14 @@ class AddProductToCartCubit extends Cubit<AddProductToCartState> {
     _addProductToCartUseCase
         .validateQuantity(quantity, productDetails, context)
         .fold((l) {
+      final description = l.error.description;
       final message = l.error.message;
-      emit(QuantityValidatorState(message));
+      if (description == 'isPartyLocked' ||
+          description == 'isPartyLockedSoonByDist') {
+        emit(DistributorsPartyLockedState(message));
+      } else {
+        emit(QuantityValidatorState(message));
+      }
     }, (r) {
       addProductToCartRequest(
           productDetails: productDetails, quantity: int.parse(quantity));

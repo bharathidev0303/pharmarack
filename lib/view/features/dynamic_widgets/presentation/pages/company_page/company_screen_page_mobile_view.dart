@@ -62,8 +62,13 @@ class _CompanyScreenPageMobileViewState
               ),
             );
           } else if (state is CompanyPageDataState) {
-            state.companyPageModel.widget
-                .insert(0, companyPageTittle(context, widget.companyName));
+            if (state.companyPageModel.widget.first
+                    .toString()
+                    .substring(0, 7) !=
+                "Padding") {
+              state.companyPageModel.widget
+                  .insert(0, companyPageTittle(context, widget.companyName));
+            }
             return ListView(
               children: state.companyPageModel.widget,
             );
@@ -84,7 +89,7 @@ class _CompanyScreenPageMobileViewState
 
 Widget companyPageTittle(context, companyName) {
   return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
       child: Row(
         children: [
           Expanded(

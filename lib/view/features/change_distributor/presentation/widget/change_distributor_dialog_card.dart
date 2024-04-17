@@ -113,7 +113,11 @@ class _ChangeDistributorDialogCardState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 8),
-          OfferText(name: state.offerName ?? '', value: state.offerValue ?? ''),
+          OfferText(
+            name: state.offerName ?? '',
+            value: state.offerValue ?? '',
+            offersCount: 0,
+          ),
           const SizedBox(height: 8),
           DistributorsDropdownMenu(
             titleText: context.localizedString.distributor,

@@ -138,15 +138,15 @@ class PlaceOrderSuccessfulPageState extends State<PlaceOrderSuccessfulPage> {
           ),
           Row(
             children: [
-              // Expanded(
-              //   child: buildCancelOrderButton(
-              //       context: context,
-              //       buttonTitle: context.localizedString.cancelOrder,
-              //       isCancelEnable: isCancelEnable),
-              // ),
-              // const SizedBox(
-              //   width: 8,
-              // ),
+              Expanded(
+                child: buildCancelOrderButton(
+                    context: context,
+                    buttonTitle: context.localizedString.cancelOrder,
+                    isCancelEnable: isCancelEnable),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
               Expanded(
                 child: buildViewOrderButton(
                     context: context,

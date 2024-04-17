@@ -278,6 +278,11 @@ class AppRouter {
 
   static cmsWidgetPageNavigator(
       {required CmsPageNavigatorModel cmsPageNavigatorModel}) {
+    PageConfigModel pageConfigModel = PageConfigModel();
+    if (getIt.isRegistered<PageConfigModel>()) {
+      pageConfigModel = getIt<PageConfigModel>();
+    }
+    getIt.unregister<SearchContextModel>();
     if (cmsPageNavigatorModel.linkType == 'internal') {
       switch (cmsPageNavigatorModel.linkTo) {
         case '/distributorPage':
@@ -287,10 +292,6 @@ class AppRouter {
                   contextType: "Distributors",
                   storeId: cmsPageNavigatorModel.storeId ?? 0,
                   storeName: cmsPageNavigatorModel.storeName ?? ""));
-          PageConfigModel pageConfigModel = PageConfigModel();
-          if (getIt.isRegistered<PageConfigModel>()) {
-            pageConfigModel = getIt<PageConfigModel>();
-          }
           if (pageConfigModel.page == "null_search_page") {
             Navigator.push(
                 cmsPageNavigatorModel.context,
@@ -335,16 +336,42 @@ class AppRouter {
                 settings: const RouteSettings(arguments: 0)),
           );
         case '/BannerProductSearch':
-          getIt.unregister<SearchContextModel>();
-          getIt.registerLazySingleton<SearchContextModel>(
-              () => SearchContextModel(
-                    contextType: "BannerProduct",
+          if (pageConfigModel.page == "distributor_page") {
+            getIt.registerLazySingleton<SearchContextModel>(() =>
+                SearchContextModel(
+                    contextType: "Distributors",
                     searchText: cmsPageNavigatorModel.linkToExtra,
-                  ));
-          Navigator.push(
-            cmsPageNavigatorModel.context,
-            MaterialPageRoute(builder: (context) => const SearchProductPage()),
-          );
+                    storeId: pageConfigModel.storeId ?? 0,
+                    storeName: pageConfigModel.storeName ?? ""));
+            Navigator.push(
+              cmsPageNavigatorModel.context,
+              MaterialPageRoute(
+                  builder: (context) => const SearchProductPage()),
+            );
+          } else if (pageConfigModel.page == "company_page") {
+            getIt.registerLazySingleton<SearchContextModel>(() =>
+                SearchContextModel(
+                    contextType: "Company",
+                    searchText: cmsPageNavigatorModel.linkToExtra,
+                    companyId: pageConfigModel.companyId ?? 0,
+                    companyName: pageConfigModel.companyName ?? ""));
+            Navigator.push(
+              cmsPageNavigatorModel.context,
+              MaterialPageRoute(
+                  builder: (context) => const SearchProductPage()),
+            );
+          } else {
+            getIt.registerLazySingleton<SearchContextModel>(
+                () => SearchContextModel(
+                      contextType: "BannerProduct",
+                      searchText: cmsPageNavigatorModel.linkToExtra,
+                    ));
+            Navigator.push(
+              cmsPageNavigatorModel.context,
+              MaterialPageRoute(
+                  builder: (context) => const SearchProductPage()),
+            );
+          }
         case '/MappedDistributorsPage':
           Navigator.push(
             cmsPageNavigatorModel.context,

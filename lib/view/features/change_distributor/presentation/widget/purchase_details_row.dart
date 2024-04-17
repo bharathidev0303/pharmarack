@@ -10,6 +10,7 @@ class PurchaseDetailsRow extends StatelessWidget {
   final double? mrp;
   final int? stockQuantity;
   final String? scheme;
+  final int? schemeListCount;
   final String? rStockVisibility;
 
   const PurchaseDetailsRow({
@@ -18,6 +19,7 @@ class PurchaseDetailsRow extends StatelessWidget {
     required this.mrp,
     required this.stockQuantity,
     this.scheme,
+    this.schemeListCount,
     this.rStockVisibility,
   });
 
@@ -101,6 +103,7 @@ class PurchaseDetailsRow extends StatelessWidget {
             ? OfferText(
                 name: '${context.localizedString.scheme}:',
                 value: scheme!,
+                offersCount: schemeListCount ?? 0,
               )
             : const SizedBox.shrink(),
       ],

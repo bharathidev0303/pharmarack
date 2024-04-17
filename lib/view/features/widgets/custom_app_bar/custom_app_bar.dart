@@ -281,20 +281,18 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         onPressed: () {
                           deInitDI();
                           closeDropdown();
-                          if (selectedDistributorId != 0 &&
-                              selectedStoreName != "" &&
-                              selectedCompanyName.isEmpty) {
-                            widget.productAndDistributorCallBack
-                                ?.call("", 0, "", "", "", "");
-                          } else if (selectedCompanyName != "" &&
-                              selectedCompanyId != "") {
+                          if (selectedCompanyName.isNotEmpty &&
+                              selectedCompanyId.isNotEmpty) {
                             widget.productAndDistributorCallBack?.call(
                                 "",
                                 selectedDistributorId,
                                 selectedStoreName,
-                                selectedCompanyId,
-                                selectedCompanyName,
+                                "",
+                                "",
                                 contextType);
+                          } else {
+                            widget.productAndDistributorCallBack
+                                ?.call("", 0, "", "", "", "");
                           }
                           Navigator.pop(context);
                         },

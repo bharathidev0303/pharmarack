@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
+import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/processing_request_dialog.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/request_failed_dialog.dart';
+import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/simple_dialog_with_binary_buttons.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/success_custom_dialog.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/widgets/error_message_widget.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/widgets/title_and_value_row_item.dart';
@@ -69,6 +71,7 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
               current is ResetQuantityValidatorState ||
               current is AddProductToCartLoadingState ||
               current is AddProductToCartDataState ||
+              current is DistributorsPartyLockedState ||
               current is AddProductToCartErrorState;
         },
         builder: (context, state) {
@@ -86,6 +89,31 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
             );
           } else if (state is AddProductToCartErrorState) {
             return const RequestFailedWidget();
+          } else if (state is DistributorsPartyLockedState) {
+            // Navigator.pop(context);
+            return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.22,
+                child: AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  backgroundColor: Colors.white,
+                  surfaceTintColor: Colors.white,
+                  contentPadding: EdgeInsets.zero,
+                  insetPadding: EdgeInsets.zero,
+                  titlePadding: EdgeInsets.zero,
+                  iconPadding: EdgeInsets.zero,
+                  actionsPadding: EdgeInsets.zero,
+                  buttonPadding: EdgeInsets.zero,
+                  content: SimpleAlertDialogWithBinaryButton(
+                    title: '',
+                    subTitle: state.message,
+                    onFirstButtonClick: () {
+                      Navigator.pop(context);
+                    },
+                    firstButtonTitle: context.localizedString.ok,
+                    secondButtonTitle: '',
+                  ),
+                ));
           } else {
             String errorMessage = "";
             Color borderColor = Colors.transparent;
@@ -97,11 +125,11 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
 
             return Container(
               height: schemeList.isNotEmpty
-                  ? MediaQuery.of(context).size.height * 0.32
+                  ? errorMessage.isNotEmpty
+                      ? MediaQuery.of(context).size.height * 0.34
+                      : MediaQuery.of(context).size.height * 0.32
                   : errorMessage.isNotEmpty
-                      ? errorMessage.length > 60
-                          ? MediaQuery.of(context).size.height * 0.35
-                          : MediaQuery.of(context).size.height * 0.32
+                      ? MediaQuery.of(context).size.height * 0.32
                       : MediaQuery.of(context).size.height * 0.26,
               clipBehavior: Clip.antiAlias,
               decoration: ShapeDecoration(
@@ -216,6 +244,8 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
                             scheme: schemeList.isNotEmpty
                                 ? schemeList[0]
                                 : widget.productDetails.scheme,
+                            schemeListCount:
+                                schemeList.isNotEmpty ? schemeList.length : 0,
                           ),
                         ),
                       ),

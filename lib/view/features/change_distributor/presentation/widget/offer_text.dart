@@ -4,11 +4,13 @@ import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart
 class OfferText extends StatelessWidget {
   final String name;
   final String value;
+  final int offersCount;
 
   const OfferText({
     super.key,
     required this.name,
     required this.value,
+    required this.offersCount,
   });
 
   @override
@@ -38,7 +40,15 @@ class OfferText extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-        )
+        ),
+        offersCount > 1
+            ? Text(
+                " +${offersCount - 1} offers",
+                style: context.textStyles.header12Medium?.copyWith(
+                    color: context.colors.offers,
+                    overflow: TextOverflow.ellipsis),
+              )
+            : Container()
       ],
     );
   }

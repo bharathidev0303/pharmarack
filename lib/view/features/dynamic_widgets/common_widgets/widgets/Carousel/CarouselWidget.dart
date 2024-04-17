@@ -3,11 +3,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/main/navigation/app_router.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CarouselWidgetModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CommonModule.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/pageConfigModel.dart';
 
 Future<CarouselWidgetModel> _loadCarouselData(jsonData) async {
   try {
@@ -169,7 +171,7 @@ class DynamicCarouselSliderState extends State<DynamicCarouselSlider> {
                   enlargeCenterPage: false,
                   height: (widget.carouselData.carousel[0].mobileAssestDimension
                           .height) *
-                      0.34,
+                      0.32,
                   autoPlayInterval: Duration(
                       milliseconds: widget.carouselData.duration != ""
                           ? int.parse(widget.carouselData.duration)
@@ -372,12 +374,11 @@ class DynamicCarouselSliderState extends State<DynamicCarouselSlider> {
                                                   cmsPageNavigatorModel:
                                                       CmsPageNavigatorModel(
                                                 context: context,
-                                                linkType: carouselItem[index]
-                                                    .linkType,
-                                                linkTo:
-                                                    carouselItem[index].linkTo,
-                                                linkToExtra: carouselItem[index]
-                                                    .linkToExtra,
+                                                linkType:
+                                                    carouselItem[e].linkType,
+                                                linkTo: carouselItem[e].linkTo,
+                                                linkToExtra:
+                                                    carouselItem[e].linkToExtra,
                                               )),
                                             },
                                             child: ClipRRect(
@@ -568,12 +569,11 @@ class DynamicCarouselSliderState extends State<DynamicCarouselSlider> {
                                                   cmsPageNavigatorModel:
                                                       CmsPageNavigatorModel(
                                                 context: context,
-                                                linkType: carouselItem[index]
-                                                    .linkType,
-                                                linkTo:
-                                                    carouselItem[index].linkTo,
-                                                linkToExtra: carouselItem[index]
-                                                    .linkToExtra,
+                                                linkType:
+                                                    carouselItem[e].linkType,
+                                                linkTo: carouselItem[e].linkTo,
+                                                linkToExtra:
+                                                    carouselItem[e].linkToExtra,
                                               )),
                                             },
                                             child: ClipRRect(
