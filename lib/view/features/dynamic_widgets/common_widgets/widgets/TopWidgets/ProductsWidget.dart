@@ -138,7 +138,8 @@ Widget productListWidget(context, List<ProductListModel> productsItems) {
                     stock: productItem.stock ?? 0,
                     margin: 0.0,
                     scheme: productItem.scheme ?? "",
-                    stepUpValue: 0);
+                    stepUpValue: 0,
+                    qty: 0);
                 return AddProductToCartPopup(
                   productDetails: data,
                 );

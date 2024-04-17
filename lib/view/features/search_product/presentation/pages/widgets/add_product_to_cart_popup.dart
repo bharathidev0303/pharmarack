@@ -41,7 +41,8 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
     super.initState();
     intCartDI();
     addProductToCartCubit = getIt<AddProductToCartCubit>();
-    if (widget.productDetails.existingQty != 0) {
+    if (widget.productDetails.existingQty != null &&
+        widget.productDetails.existingQty != 0) {
       addProductToCartCubit.quantityController.text =
           widget.productDetails.existingQty.toString();
     }

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pharmarack/auth/user_auth_manager.dart';
+import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/login_entity.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/packages/core_flutter/utils/app_constants.dart';
@@ -267,7 +268,7 @@ void initChangePasswordDependency(GetIt getIt) {
   );
 }
 
-void initProfileCubit(GetIt getIt) {
+void initProfileCubit() {
   if (!getIt.isRegistered<ProfileCubit>()) {
     getIt.registerSingleton<ProfileCubit>(ProfileCubit());
   }
@@ -276,6 +277,11 @@ void initProfileCubit(GetIt getIt) {
         UpdateRetailerProfileUsecase(onboardingRepository: onboardingDI()),
         UploadDrugLicenceUseCase(onboardingDI())));
   }
+}
+
+void clearProfileCubit() {
+  getIt.unregister<ProfileCubit>();
+  getIt.unregister<EditProfileCubit>();
 }
 
 /// Common data use case

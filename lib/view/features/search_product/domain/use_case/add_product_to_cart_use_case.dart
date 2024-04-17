@@ -38,6 +38,7 @@ class AddProductToCartUseCase extends BaseUseCase<BaseError,
         .stores
         .where((element) => element.storeId == productData.storeId)
         .length;
+
     if (value.isEmpty) {
       return Left(AppError(
         error: ErrorInfo(
@@ -54,7 +55,8 @@ class AddProductToCartUseCase extends BaseUseCase<BaseError,
           ),
         ),
       );
-    } else if (productData.stepUpValue != 0 &&
+    } else if (productData.stepUpValue != null &&
+        productData.stepUpValue != 0 &&
         int.parse(value) % productData.stepUpValue! != 0) {
       return Left(
         AppError(
@@ -64,7 +66,8 @@ class AddProductToCartUseCase extends BaseUseCase<BaseError,
           ),
         ),
       );
-    } else if (productData.allowMinQty! != 0 &&
+    } else if (productData.allowMinQty != null &&
+        productData.allowMinQty != 0 &&
         productData.allowMinQty! > int.parse(value)) {
       return Left(
         AppError(
@@ -73,7 +76,8 @@ class AddProductToCartUseCase extends BaseUseCase<BaseError,
           ),
         ),
       );
-    } else if (productData.allowMaxQty! != 0 &&
+    } else if (productData.allowMaxQty != null &&
+        productData.allowMaxQty != 0 &&
         productData.allowMaxQty! < int.parse(value)) {
       return Left(
         AppError(

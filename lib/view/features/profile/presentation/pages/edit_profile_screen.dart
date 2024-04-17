@@ -47,6 +47,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     _initiateEditProfielDetails();
+    editProfileCubit.initialStateEmit();
     super.initState();
   }
 
@@ -58,125 +59,152 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Profile'),
-        bottomOpacity: 0.1,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: InkWell(
-              child: Text(
-                context.localizedString.delete,
-                style: AppTextStyles.blueLinkTextStyle,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(51),
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.10),
+                spreadRadius: 6,
+                blurRadius: 6,
+                offset: Offset(0, -3),
               ),
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Dialog(
-                      backgroundColor: Colors.white,
-                      surfaceTintColor: Colors.white,
-                      insetPadding: EdgeInsets.zero,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(10),
-                        child: SizedBox(
-                            width: ResponsiveWrapper.of(context).isMobile
-                                ? MediaQuery.of(context).size.width * 0.9
-                                : 360,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Row(
+            ],
+          ),
+          child: AppBar(
+            title: const Text('Edit Profile'),
+            iconTheme: const IconThemeData(
+              color: AppColors.blueButtonColor,
+            ),
+            titleSpacing: 0.0,
+            bottomOpacity: 0.1,
+            backgroundColor: AppColors.appBarColor,
+            surfaceTintColor: Colors.transparent,
+            elevation: 0.0,
+            scrolledUnderElevation: 0.0,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: InkWell(
+                  child: Text(
+                    context.localizedString.delete,
+                    style: AppTextStyles.blueLinkTextStyle,
+                  ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          backgroundColor: Colors.white,
+                          surfaceTintColor: Colors.white,
+                          insetPadding: EdgeInsets.zero,
+                          child: Material(
+                            borderRadius: BorderRadius.circular(10),
+                            child: SizedBox(
+                                width: ResponsiveWrapper.of(context).isMobile
+                                    ? MediaQuery.of(context).size.width * 0.9
+                                    : 360,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Text(
-                                        context.localizedString.deleteAccount,
-                                        style: AppTextStyles
-                                            .dialogTitleStyle16W400
-                                            .copyWith(
-                                                color: AppColors
-                                                    .blackTextFieldText,
-                                                fontWeight: FontWeight.bold),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            context
+                                                .localizedString.deleteAccount,
+                                            style: AppTextStyles
+                                                .dialogTitleStyle16W400
+                                                .copyWith(
+                                                    color: AppColors
+                                                        .blackTextFieldText,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          ),
+                                          const Spacer(),
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: AppAssets.png.close.image(
+                                              width: 24,
+                                              height: 24,
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                      const Spacer(),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: AppAssets.png.close.image(
-                                          width: 24,
-                                          height: 24,
-                                        ),
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      Text(
+                                        context.localizedString
+                                            .deleteAlertContentMessage,
+                                        style: AppTextStyles.style12W500Black(
+                                                color: AppColors.mediumGreyText)
+                                            .copyWith(
+                                                fontWeight: FontWeight.w400),
+                                      ),
+                                      const SizedBox(
+                                        height: 25,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: CommonDialogButton(
+                                                text: 'DELETE',
+                                                textStyle: AppTextStyles
+                                                    .style12W500Black(
+                                                        color: AppColors
+                                                            .blueButtonColor),
+                                                buttonColor: AppColors
+                                                    .secondaryButtonColor,
+                                                onPressed: () async {
+                                                  Navigator.of(context).pop();
+                                                  Navigator.of(context)
+                                                      .pushNamedAndRemoveUntil(
+                                                    RoutePaths
+                                                        .deleteAccountOtpScreen,
+                                                    (route) => false,
+                                                  );
+                                                }),
+                                          ),
+                                          const SizedBox(
+                                            width: 9,
+                                          ),
+                                          Expanded(
+                                            child: CommonDialogButton(
+                                                text: 'CANCEL',
+                                                textStyle: AppTextStyles
+                                                    .style12W500Black(
+                                                        color: AppColors.white),
+                                                buttonColor:
+                                                    AppColors.blueButtonColor,
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                }),
+                                          ),
+                                        ],
                                       )
                                     ],
                                   ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(
-                                    context.localizedString
-                                        .deleteAlertContentMessage,
-                                    style: AppTextStyles.style12W500Black(
-                                            color: AppColors.mediumGreyText)
-                                        .copyWith(fontWeight: FontWeight.w400),
-                                  ),
-                                  const SizedBox(
-                                    height: 25,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: CommonDialogButton(
-                                            text: 'DELETE',
-                                            textStyle:
-                                                AppTextStyles.style12W500Black(
-                                                    color: AppColors
-                                                        .blueButtonColor),
-                                            buttonColor:
-                                                AppColors.secondaryButtonColor,
-                                            onPressed: () async {
-                                              Navigator.of(context).pop();
-                                              Navigator.of(context)
-                                                  .pushNamedAndRemoveUntil(
-                                                RoutePaths
-                                                    .deleteAccountOtpScreen,
-                                                (route) => false,
-                                              );
-                                            }),
-                                      ),
-                                      const SizedBox(
-                                        width: 9,
-                                      ),
-                                      Expanded(
-                                        child: CommonDialogButton(
-                                            text: 'CANCEL',
-                                            textStyle:
-                                                AppTextStyles.style12W500Black(
-                                                    color: AppColors.white),
-                                            buttonColor:
-                                                AppColors.blueButtonColor,
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            }),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            )),
-                      ),
+                                )),
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       body: BlocProvider(
-        create: (context) => GetIt.instance.get<EditProfileCubit>(),
+        create: (context) => getIt.get<EditProfileCubit>(),
         child: BlocConsumer<EditProfileCubit, EditProfileState>(
           builder: (context, state) => _buildEditProfile(context, state),
           listener: (context, state) => _onBlocListener(context, state),
@@ -799,7 +827,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   _onBlocListener(BuildContext context, EditProfileState state) {
-    if (state.userMessages.contains(UserMessage.updateProfileInitial)) {
+    if (state.userMessages.contains(UserMessage.updateProfileLoading)) {
       showProcessingRequestDialog(context, userRootNavigator: false);
     } else if (state.userMessages.contains(UserMessage.updateProfileSuccess)) {
       Navigator.push(

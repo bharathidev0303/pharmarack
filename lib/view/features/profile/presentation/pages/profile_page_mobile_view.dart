@@ -34,16 +34,14 @@ class ProfilePageMobileView extends StatefulWidget {
 class _ProfilePageMobileViewState extends State<ProfilePageMobileView> {
   @override
   void initState() {
-    initProfileCubit(getIt);
+    initProfileCubit();
     getIt.get<ProfileCubit>().getUserInfo();
     super.initState();
   }
 
   @override
   void dispose() {
-    getIt.unregister<ProfileCubit>();
-    getIt.unregister<EditProfileCubit>();
-
+    clearProfileCubit();
     super.dispose();
   }
 
@@ -61,8 +59,7 @@ class _ProfilePageMobileViewState extends State<ProfilePageMobileView> {
             );
           } else if (state is ProfileEmptyState) {
             return Center(
-              child:
-                  AppAssets.png.noRecordsFound.image(package: 'core_flutter'),
+              child: AppAssets.png.noRecordsFound.image(),
             );
           } else if (state is ProfileDataState) {
             return Expanded(
@@ -89,34 +86,6 @@ class _ProfilePageMobileViewState extends State<ProfilePageMobileView> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const EditProfileScreen()));
-                                    // openEditProfileDialog(
-                                    //   context,
-                                    //   MyProfileConstants.loginId,
-                                    //   MyProfileConstants.businessTypeName,
-                                    //   MyProfileConstants.shopFirmFullName,
-                                    //   MyProfileConstants.shopAddress,
-                                    //   MyProfileConstants.pinCode,
-                                    //   MyProfileConstants.city,
-                                    //   MyProfileConstants.state,
-                                    //   MyProfileConstants.stateId,
-                                    //   MyProfileConstants.telephone,
-                                    //   MyProfileConstants.drugLicenseNumber,
-                                    //   MyProfileConstants.drugLicenseNumber2,
-                                    //   MyProfileConstants.drugLicenseNumber3,
-                                    //   MyProfileConstants.gstin,
-                                    //   MyProfileConstants.panNumber,
-                                    //   MyProfileConstants.upiId,
-                                    //   MyProfileConstants.bankName,
-                                    //   MyProfileConstants.accountType,
-                                    //   MyProfileConstants.bankAccountNumber,
-                                    //   MyProfileConstants.bankAccountHolderName,
-                                    //   MyProfileConstants.ifsc,
-                                    //   MyProfileConstants.userName,
-                                    //   MyProfileConstants.mobileNo,
-                                    //   MyProfileConstants.emailId,
-                                    //   MyProfileConstants.imageUrl.toString(),
-                                    //   MyProfileConstants.displayImagesLength,
-                                    // );
                                   }),
                             ],
                           ),

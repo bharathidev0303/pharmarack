@@ -77,7 +77,8 @@ class SearchProductListModel {
       this.allowMaxQty,
       this.allowMinQty,
       this.isPartyLocked,
-      this.isPartyLockedSoonByDist});
+      this.isPartyLockedSoonByDist,
+      this.existingQty});
 
   @override
   String toString() {
