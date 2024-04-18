@@ -12,12 +12,11 @@ buildscript {
     }
 }
 
-
 allprojects {
     repositories {
         google()
-        mavenCentral()
-         maven {
+        mavenCentral() 
+        maven {
            url 'https://jitpack.io'
            credentials { username authToken }
        }

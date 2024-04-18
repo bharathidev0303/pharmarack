@@ -1,5 +1,6 @@
 plugins {
     id "com.android.application"
+    id 'com.google.gms.google-services'
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -23,8 +24,8 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.pharmarack.revamp.pharmarack"
-    compileSdk flutter.compileSdkVersion
+    namespace "com.growthaccel.pharmarack_retailer.pharmarack_retailer"
+    compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -42,7 +43,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.pharmarack.revamp.pharmarack"
+        applicationId "com.growthaccel.pharmarack_retailer.pharmarack_retailer"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 24
@@ -50,7 +51,6 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
-
 
     flavorDimensions "app"
     productFlavors {
@@ -76,6 +76,8 @@ android {
 
     buildTypes {
         release {
+            minifyEnabled  true
+            shrinkResources  true
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
@@ -88,10 +90,13 @@ flutter {
 }
 
 dependencies {
-        implementation "androidx.core:core-splashscreen:1.0.1"
-//    implementation 'androidx.appcompat:appcompat:1.6.1'
-//    implementation 'androidx.appcompat:appcompat-resources:1.6.1'
-//    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
-//    implementation("com.google.firebase:firebase-analytics")
-////    api 'com.github.roid-software:flyy-sdk:1.4.54.97'
+    implementation "androidx.core:core-splashscreen:1.0.1"
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat-resources:1.6.1'
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    api 'com.github.roid-software:flyy-sdk:1.4.54'
 }
+
+apply plugin: 'com.google.gms.google-services'

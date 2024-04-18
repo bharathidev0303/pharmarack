@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "45625223527",
+    "firebase_url": "https://pr-retailer2-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "pr-retailer2",
+    "storage_bucket": "pr-retailer2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45625223527:android:bb111b932c69d537fe67c2",
+        "android_client_info": {
+          "package_name": "com.growthaccel.pharmarack_retailer.pharmarack_retailer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcLgAvE5D_RioKwd3PKU4GOjTzse6k_bE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45625223527:android:a45c3065b45bb9b1fe67c2",
+        "android_client_info": {
+          "package_name": "com.growthaccel.pharmarack_retailer.pharmarack_retailer.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcLgAvE5D_RioKwd3PKU4GOjTzse6k_bE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45625223527:android:ac02a718602efa64fe67c2",
+        "android_client_info": {
+          "package_name": "com.growthaccel.pharmarack_retailer.pharmarack_retailer.qa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcLgAvE5D_RioKwd3PKU4GOjTzse6k_bE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
