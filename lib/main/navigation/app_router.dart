@@ -43,6 +43,7 @@ import 'package:pharmarack/view/dashboard/cart/presentation/pages/cart_detail_pa
 import 'package:pharmarack/view/dashboard/cart/presentation/pages/place_order_successful_page.dart';
 import 'package:pharmarack/view/dashboard/order_history/presentation/pages/order_history_details/order_details_page.dart';
 import 'package:pharmarack/view/dashboard/order_history/presentation/pages/order_history_page.dart';
+import 'package:pharmarack/view/dashboard_tile/rapl.dart';
 import 'package:pharmarack/view/features/distributor_connection/presentation/widget/distributor_connection_page.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/pageConfigModel.dart';
@@ -422,7 +423,7 @@ class AppRouter {
         case '/RaplPage':
           Navigator.push(
             cmsPageNavigatorModel.context,
-            MaterialPageRoute(builder: (context) => const RewardsPage()),
+            MaterialPageRoute(builder: (context) => Rapl()),
           );
         default:
           debugPrint("linkToNotFount ${cmsPageNavigatorModel.linkTo}");
