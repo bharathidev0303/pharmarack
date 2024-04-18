@@ -1582,4 +1582,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get applicationNotAvailable => 'This application is currently not available in your region. Please download the alternate version of Pharmarack to proceed';
+
+  @override
+  String get callUsMsg => 'For help, please \ncall on below number';
 }
