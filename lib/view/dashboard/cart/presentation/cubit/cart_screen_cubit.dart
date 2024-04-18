@@ -188,29 +188,29 @@ class CartScreenCubit extends Cubit<CartScreenState> {
     response.fold((l) {
       emit(const CartScreenErrorState());
     }, (r) {
-      var stores = getIt<DraggableCartScreenCubit>().stores;
-      if (stores.isNotEmpty) {
-        stores.remove(0);
-      }
+      // var stores = getIt<DraggableCartScreenCubit>().stores;
+      // if (stores.isNotEmpty) {
+      //   stores.remove(0);
+      // }
 
-      getCartDetails(showLoader: false);
-      if (r == null || r.statusCode != 200) {
-        emit(const CartScreenErrorState());
-      } else if (stores.isEmpty) {
-        emit(CartScreenNoDataState());
-      } else {
-        emit(CartScreenDataState(r, false, true, stores.length));
-      }
+      // getCartDetails(showLoader: false);
       // if (r == null || r.statusCode != 200) {
       //   emit(const CartScreenErrorState());
-      // } else if (r.stores.isEmpty) {
-      //   getIt<DraggableCartScreenCubit>().stores.clear();
+      // } else if (stores.isEmpty) {
       //   emit(CartScreenNoDataState());
       // } else {
-      //   getIt<DraggableCartScreenCubit>().stores.clear();
-      //   getIt<DraggableCartScreenCubit>().stores.addAll(r.stores);
-      //   emit(CartScreenDataState(r, false, true, r.stores.length));
+      //   emit(CartScreenDataState(r, false, true, stores.length));
       // }
+      if (r == null || r.statusCode != 200) {
+        emit(const CartScreenErrorState());
+      } else if (r.stores.isEmpty) {
+        getIt<DraggableCartScreenCubit>().stores.clear();
+        emit(CartScreenNoDataState());
+      } else {
+        getIt<DraggableCartScreenCubit>().stores.clear();
+        getIt<DraggableCartScreenCubit>().stores.addAll(r.stores);
+        emit(CartScreenDataState(r, false, true, r.stores.length));
+      }
     });
   }
 
@@ -379,6 +379,7 @@ class CartScreenCubit extends Cubit<CartScreenState> {
         product.totalAmount = double.parse(product.mrp!) * int.parse(value);
       }
     }
+
     emit(CartScreenDataState(cartDetailsModel, cartDetailsModel.isAllExpanded,
         cartDetailsModel.isAllSelected, cartDetailsModel.totalSelectedStores,
         isListUpdate: getListUpdateFlag()));
