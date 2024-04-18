@@ -3168,6 +3168,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You have already used this password'**
   String get failedToPreviouspasswordChanage;
+
+  /// No description provided for @applicationNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This application is currently not available in your region. Please download the alternate version of Pharmarack to proceed'**
+  String get applicationNotAvailable;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

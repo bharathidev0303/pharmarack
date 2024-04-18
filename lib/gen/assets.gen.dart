@@ -287,6 +287,9 @@ class $AssetsSvgGen {
   SvgGenImage get blueArrowUpRight =>
       const SvgGenImage('assets/svg/Blue_Arrow_Up_Right.svg');
 
+  /// File path: assets/svg/NotAllowed.svg
+  SvgGenImage get notAllowed => const SvgGenImage('assets/svg/NotAllowed.svg');
+
   /// File path: assets/svg/arrow_down.svg
   SvgGenImage get arrowDown => const SvgGenImage('assets/svg/arrow_down.svg');
 
@@ -561,6 +564,7 @@ class $AssetsSvgGen {
   /// List of all assets
   List<SvgGenImage> get values => [
         blueArrowUpRight,
+        notAllowed,
         arrowDown,
         arrowRight,
         arrowUp,

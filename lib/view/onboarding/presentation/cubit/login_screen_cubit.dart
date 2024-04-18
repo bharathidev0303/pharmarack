@@ -55,28 +55,32 @@ class LoginScreenCubit extends Cubit<LoginScreenState> {
         emit(LoginScreenErrorState(statusMessage: l.error.message));
       }
     }, (r) {
-      if (onboardingDI.isRegistered<String>(
-          instanceName: OnboardingConstants.loginUserName)) {
-        onboardingDI.unregister<String>(
+      if (r.version == 1) {
+        emit(VersionOneUserState());
+      } else {
+        if (onboardingDI.isRegistered<String>(
+            instanceName: OnboardingConstants.loginUserName)) {
+          onboardingDI.unregister<String>(
+              instanceName: OnboardingConstants.loginUserName);
+        }
+        if (onboardingDI.isRegistered<String>(
+            instanceName: OnboardingConstants.loginPassword)) {
+          onboardingDI.unregister<String>(
+              instanceName: OnboardingConstants.loginPassword);
+        }
+        if (onboardingDI.isRegistered<String>(
+            instanceName: OnboardingConstants.mobileNumberDiConstant)) {
+          onboardingDI.unregister<String>(
+              instanceName: OnboardingConstants.mobileNumberDiConstant);
+        }
+        onboardingDI.registerSingleton<String>(userNameController.text,
             instanceName: OnboardingConstants.loginUserName);
-      }
-      if (onboardingDI.isRegistered<String>(
-          instanceName: OnboardingConstants.loginPassword)) {
-        onboardingDI.unregister<String>(
+        onboardingDI.registerSingleton<String>(passwordController.text,
             instanceName: OnboardingConstants.loginPassword);
-      }
-      if (onboardingDI.isRegistered<String>(
-          instanceName: OnboardingConstants.mobileNumberDiConstant)) {
-        onboardingDI.unregister<String>(
+        onboardingDI.registerSingleton<String>(r.mobileNumber ?? '9091000000',
             instanceName: OnboardingConstants.mobileNumberDiConstant);
+        emit(const LoginScreenDataState());
       }
-      onboardingDI.registerSingleton<String>(userNameController.text,
-          instanceName: OnboardingConstants.loginUserName);
-      onboardingDI.registerSingleton<String>(passwordController.text,
-          instanceName: OnboardingConstants.loginPassword);
-      onboardingDI.registerSingleton<String>(r.mobileNumber ?? '9091000000',
-          instanceName: OnboardingConstants.mobileNumberDiConstant);
-      emit(const LoginScreenDataState());
     });
   }
 

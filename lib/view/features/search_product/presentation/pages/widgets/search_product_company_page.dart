@@ -11,7 +11,6 @@ class SearchProductCompanyPage extends StatefulWidget {
 class _SearchProductCompanyPageState extends State<SearchProductCompanyPage> {
   @override
   void initState() {
-    print("ddjkdjkdjkdjkdjdkdj");
     super.initState();
   }
 

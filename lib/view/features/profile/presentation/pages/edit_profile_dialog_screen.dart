@@ -931,7 +931,6 @@ class _EditProfileDialogScreenState extends State<EditProfileDialogScreen> {
       setState(() {
         DisplayImage displayImage = DisplayImage(imageUrl: file.path);
         onboardingDI<RetailerInfoEntity>().displayImages!.add(displayImage);
-        print("displayImage ${file.path}");
         //selectedFile!.add(File(file.path));
       });
     }

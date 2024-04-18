@@ -1579,4 +1579,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get failedToPreviouspasswordChanage => 'You have already used this password';
+
+  @override
+  String get applicationNotAvailable => 'This application is currently not available in your region. Please download the alternate version of Pharmarack to proceed';
 }

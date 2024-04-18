@@ -52,12 +52,13 @@ class RetailerRegistrationStepThreeCubit
         isLoading: false,
       ));
     }, (r) {
-      // if (r.toLowerCase().contains('true')) {
-      emit(state.copyWith(moveToHomePage: true));
-      if (r.mobileNumber!.isNotEmpty) {
-        // emit(state.copyWith(moveToHomePage: true));
-        // updateHeader();
-        requestLogin();
+      if (r.version == 1) {
+        emit(state.copyWith(versionOneUser: true));
+      } else {
+        emit(state.copyWith(moveToHomePage: true));
+        if (r.mobileNumber!.isNotEmpty) {
+          requestLogin();
+        }
       }
     });
   }

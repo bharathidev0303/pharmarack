@@ -331,9 +331,7 @@ class AppRouter {
                   storeName: pageConfigModel.storeName ?? ""));
           Navigator.push(
             cmsPageNavigatorModel.context,
-            MaterialPageRoute(
-                builder: (context) => const SearchProductPage(),
-                settings: const RouteSettings(arguments: 0)),
+            MaterialPageRoute(builder: (context) => const SearchProductPage()),
           );
         case '/BannerProductSearch':
           if (pageConfigModel.page == "distributor_page") {

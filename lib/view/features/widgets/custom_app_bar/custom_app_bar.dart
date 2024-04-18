@@ -287,8 +287,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                 "",
                                 selectedDistributorId,
                                 selectedStoreName,
-                                "",
-                                "",
+                                selectedCompanyId,
+                                selectedCompanyName,
                                 contextType);
                           } else {
                             widget.productAndDistributorCallBack

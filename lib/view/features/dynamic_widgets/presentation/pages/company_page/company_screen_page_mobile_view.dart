@@ -31,7 +31,8 @@ class _CompanyScreenPageMobileViewState
         pageName: "company_page",
         companyId: widget.companyId,
         companyName: widget.companyName);
-    companyPageScreenCubit.fetchCompanyPage(cId: widget.companyId.toString());
+    companyPageScreenCubit.fetchCompanyPage(
+        cId: widget.companyId.toString(), companyName: widget.companyName);
   }
 
   @override
@@ -62,13 +63,6 @@ class _CompanyScreenPageMobileViewState
               ),
             );
           } else if (state is CompanyPageDataState) {
-            if (state.companyPageModel.widget.first
-                    .toString()
-                    .substring(0, 7) !=
-                "Padding") {
-              state.companyPageModel.widget
-                  .insert(0, companyPageTittle(context, widget.companyName));
-            }
             return ListView(
               children: state.companyPageModel.widget,
             );
@@ -87,7 +81,7 @@ class _CompanyScreenPageMobileViewState
   }
 }
 
-Widget companyPageTittle(context, companyName) {
+Widget companyPageTittle(companyName) {
   return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
       child: Row(

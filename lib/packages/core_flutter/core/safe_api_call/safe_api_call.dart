@@ -11,7 +11,6 @@ Future<Either<NetworkError, T>> safeApiCall<T>(Future<T> apiCall) async {
     if (!eitherResponse.isSuccessful()) {
       return Left(getError(apiResponse: eitherResponse.response));
     } else {
-      // debugPrint("original response $originalResponse");
       return Right(originalResponse);
     }
   } on Exception catch (throwable) {

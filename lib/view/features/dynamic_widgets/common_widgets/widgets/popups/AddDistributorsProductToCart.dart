@@ -648,7 +648,6 @@ class _AddDistributorsProductToCartState
                                     disProductDetails.scheme = "20+2";
                                     disProductDetails.stock = 300;
                                   });
-                                  print("${widget.productDetails}");
                                   distributorTextController.text =
                                       "Pradeep Distributors";
                                   closeDropdown();

@@ -220,7 +220,6 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
         ),
       );
     } else {
-      print("djdkjdkdkd $error");
       emit(
         state.copyWith(
           isLoading: false,

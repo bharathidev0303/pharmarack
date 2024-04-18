@@ -51,7 +51,8 @@ class _DistributorScreenPageMobileViewState
           storeId: distributorInfo!.storeId,
           storeName: distributorInfo!.storeName);
       distributorsPageScreenCubit.fetchDistributorPage(
-          sId: distributorInfo!.storeId.toString());
+          sId: distributorInfo!.storeId.toString(),
+          distributorInfo: distributorInfo!);
     }
     return SafeArea(
       child: Scaffold(
@@ -83,13 +84,6 @@ class _DistributorScreenPageMobileViewState
                   ),
                 );
               } else if (state is DistributorsPageDataState) {
-                if (state.distributorsPageModel.widget.first
-                        .toString()
-                        .substring(0, 7) !=
-                    "Padding") {
-                  state.distributorsPageModel.widget
-                      .insert(0, distributorsTittle(context, distributorInfo));
-                }
                 return ListView(
                   children: state.distributorsPageModel.widget,
                 );
@@ -121,13 +115,7 @@ class _DistributorScreenPageMobileViewState
   }
 }
 
-Widget distributorsTittle(context, distributorInfo) {
-  if (distributorInfo!.address1 == "null") {
-    distributorInfo!.address1 = "Sadashiv Peth";
-  }
-  if (distributorInfo!.city == "null") {
-    distributorInfo!.address1 = "Pune";
-  }
+Widget distributorsTittle(distributorInfo) {
   return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
       child: Column(

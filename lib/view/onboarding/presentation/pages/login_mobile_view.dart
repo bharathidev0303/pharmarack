@@ -15,6 +15,7 @@ import 'package:pharmarack/view/onboarding/presentation/widgets/input_text_field
 import 'package:pharmarack/view/onboarding/presentation/widgets/login_create_account_widget.dart';
 import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_common_button.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
+import 'package:pharmarack/view/onboarding/utils/version_one_app_launcher.dart';
 
 class LoginScreenMobileView extends StatelessWidget {
   final LoginScreenCubit loginScreenCubit;
@@ -55,6 +56,16 @@ class LoginScreenMobileView extends StatelessWidget {
                       context.localizedString.loginSuccessDialogSubtitleText),
               instanceName: OnboardingConstants.showDialogDiConstant);
           Navigator.of(context).pushNamed(RoutePaths.onBoardingOtp);
+        }
+        if (state is VersionOneUserState) {
+          CommonDialogs.closeCommonDialog(context: context);
+          showWarningDialog(context,
+              title: "Application not available!",
+              subtitle: context.localizedString.applicationNotAvailable,
+              buttonTitle: "DOWNLOAD",
+              hideCloseIcon: true, onButtonClick: () {
+            openPharmaRetailerApp();
+          });
         }
         if (state is LoginScreenLoadingState) {
           showProcessingRequestDialog(context);

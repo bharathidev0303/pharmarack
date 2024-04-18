@@ -26,6 +26,7 @@ class RetailerRegistrationStepThreeState extends Equatable {
   final String privacyPolicyCheckbox;
   final String whatsappConsentCheckbox;
   final DrugLicenseError drugLicenseError;
+  final bool versionOneUser;
   const RetailerRegistrationStepThreeState({
     required this.gstNumber,
     required this.panNumber,
@@ -48,6 +49,7 @@ class RetailerRegistrationStepThreeState extends Equatable {
     this.drugLicenseError = DrugLicenseError.empty,
     this.privacyPolicyCheckbox = '0',
     this.whatsappConsentCheckbox = '0',
+    required this.versionOneUser,
   });
 
   RetailerRegistrationStepThreeState copyWith({
@@ -72,6 +74,7 @@ class RetailerRegistrationStepThreeState extends Equatable {
     DrugLicenseError? drugLicenseError,
     String? privacyPolicyCheckbox,
     String? whatsappConsentCheckbox,
+    bool? versionOneUser,
   }) {
     return RetailerRegistrationStepThreeState(
       gstNumber: gstNumber ?? this.gstNumber,
@@ -92,6 +95,7 @@ class RetailerRegistrationStepThreeState extends Equatable {
       hasDrugLicenseFile1: hasDrugLicenseFile1 ?? this.hasDrugLicenseFile1,
       hasDrugLicenseFile2: hasDrugLicenseFile2 ?? this.hasDrugLicenseFile2,
       hasDrugLicenseFile3: hasDrugLicenseFile3 ?? this.hasDrugLicenseFile3,
+      versionOneUser: versionOneUser ?? this.versionOneUser,
       drugLicenseError: drugLicenseError ?? this.drugLicenseError,
       privacyPolicyCheckbox:
           privacyPolicyCheckbox ?? this.privacyPolicyCheckbox,
@@ -102,14 +106,14 @@ class RetailerRegistrationStepThreeState extends Equatable {
 
   factory RetailerRegistrationStepThreeState.initial() {
     return const RetailerRegistrationStepThreeState(
-      gstNumber: '',
-      panNumber: '',
-      referralCode: '',
-      drugLicenseNum1: '',
-      drugLicenseNum2: '',
-      drugLicenseNum3: '',
-      drugLicenseCount: 1,
-    );
+        gstNumber: '',
+        panNumber: '',
+        referralCode: '',
+        drugLicenseNum1: '',
+        drugLicenseNum2: '',
+        drugLicenseNum3: '',
+        drugLicenseCount: 1,
+        versionOneUser: false);
   }
 
   @override
@@ -134,6 +138,7 @@ class RetailerRegistrationStepThreeState extends Equatable {
         hasDrugLicenseFile3,
         drugLicenseError,
         privacyPolicyCheckbox,
-        whatsappConsentCheckbox
+        whatsappConsentCheckbox,
+        versionOneUser
       ];
 }

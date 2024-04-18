@@ -6,6 +6,8 @@ part 'login_response_entity.g.dart';
 class LoginResponseEntity {
   @JsonKey(name: "mobileNumber")
   String? mobileNumber;
+  @JsonKey(name: "version")
+  int? version;
 
   LoginResponseEntity({this.mobileNumber});
 

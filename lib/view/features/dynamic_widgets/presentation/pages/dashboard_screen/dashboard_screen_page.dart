@@ -78,7 +78,6 @@ class DashboardScreenPageSate extends BaseStatefulPage {
       type: AppBarType.dashBoard,
       isInterActive: false,
       callbackForHamburger: (action) {
-        print("checkSearchBarClick:-  $action");
         handleMenuClick(action, getIt.get<DrawerRouterPaths>());
       },
       onPressNotifications: () {

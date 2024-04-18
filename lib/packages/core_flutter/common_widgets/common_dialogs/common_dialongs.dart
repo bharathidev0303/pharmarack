@@ -8,6 +8,7 @@ import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/r
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/simple_dialog.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/simple_dialog_with_binary_buttons.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/success_custom_dialog.dart';
+import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/warning_dialog_card.dart';
 import 'package:pharmarack/packages/core_flutter/core/ui/device_detector_widget.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/utils/app_constants.dart';
@@ -90,6 +91,35 @@ Future showSuccessDialog(
         title: title,
         subTitle: subtitle,
         onCloseClick: closeClick,
+      );
+    },
+  );
+}
+
+Future showWarningDialog(
+  BuildContext context, {
+  required String title,
+  required String subtitle,
+  required String buttonTitle,
+  bool? hideCloseIcon,
+  VoidCallback? closeClick,
+  VoidCallback? onButtonClick,
+  bool barrierDismissible = false,
+  bool userRootNavigator = true,
+}) {
+  return showDialog(
+    context: context,
+    barrierDismissible: barrierDismissible,
+    useRootNavigator: userRootNavigator,
+    builder: (context) {
+      return WarningDialog(
+        key: const Key(AppConstants.commonSuccessDialogKey),
+        title: title,
+        subTitle: subtitle,
+        onCloseClick: closeClick,
+        hideCloseIcon: hideCloseIcon,
+        buttonTitle: buttonTitle,
+        onButtonClick: onButtonClick,
       );
     },
   );

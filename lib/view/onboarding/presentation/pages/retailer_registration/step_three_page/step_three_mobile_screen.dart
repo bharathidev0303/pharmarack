@@ -20,6 +20,7 @@ import 'package:pharmarack/view/onboarding/presentation/widgets/onboarding_valid
 import 'package:pharmarack/view/onboarding/presentation/widgets/registration_stepper.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
 import 'package:pharmarack/view/onboarding/utils/onboarding_validators.dart';
+import 'package:pharmarack/view/onboarding/utils/version_one_app_launcher.dart';
 
 import '../../../cubit/referral_t_and_c_cubit.dart';
 import '../../../cubit/update_retailer_profile_cubit.dart';
@@ -405,7 +406,6 @@ class _StepThreeMobileScreenState extends State<StepThreeMobileScreen> {
     } else {
       CommonDialogs.closeCommonDialog(context: context);
     }
-
     if (state.registrationStatus) {
       /// Navigate to OTP Screen
       onboardingDI.registerSingleton<CommonSuccessDialogInfoModel>(
@@ -418,6 +418,16 @@ class _StepThreeMobileScreenState extends State<StepThreeMobileScreen> {
           .pushNamedAndRemoveUntil(RoutePaths.onBoardingOtp, (route) => false);
     }
 
+    if (state.versionOneUser == true) {
+      CommonDialogs.closeCommonDialog(context: context);
+      showWarningDialog(context,
+          title: "Application not available!",
+          subtitle: context.localizedString.applicationNotAvailable,
+          buttonTitle: "DOWNLOAD",
+          hideCloseIcon: true, onButtonClick: () {
+        openPharmaRetailerApp();
+      });
+    }
     if (state.moveToHomePage) {
       if (onboardingDI.isRegistered<LoginEntity>()) {
         onboardingDI.unregister<LoginEntity>();
