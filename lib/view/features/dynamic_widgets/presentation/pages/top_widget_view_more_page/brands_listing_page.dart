@@ -96,9 +96,7 @@ class _BrandsListingPageState extends State<BrandsListingPage> {
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-          pageBuilder: (a, b, c) => TopWidgetsViewMoreListPage(
-                topWidgetModel: widget.topWidgetModel,
-              )),
+          pageBuilder: (a, b, c) => const TopWidgetsViewMoreListPage()),
     );
     return;
   }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pharmarack/di/app_provider.dart';
+import 'package:pharmarack/main/navigation/app_router.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CommonModule.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/topWidgetModels/TopWidgetModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/widgets/TopWidgets/BrandsWidget.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/widgets/TopWidgets/DistributorsWidget.dart';
@@ -72,13 +75,16 @@ Widget topTitleWidget(TopWidgetModel topWidgetData, context) {
                 flex: 3,
                 child: InkWell(
                   onTap: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TopWidgetsViewMoreListPage(
-                                topWidgetModel: topWidgetData,
-                              )),
-                    ),
+                    getIt.unregister<TopWidgetModel>(),
+                    getIt.registerLazySingleton<TopWidgetModel>(
+                        () => topWidgetData),
+                    AppRouter.cmsWidgetPageNavigator(
+                        cmsPageNavigatorModel: CmsPageNavigatorModel(
+                      context: context,
+                      linkType: topWidgetData.linkType,
+                      linkTo: topWidgetData.viewMoreLinkTo,
+                      linkToExtra: topWidgetData.viewMoreLinkToExtra,
+                    )),
                   },
                   child:
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [

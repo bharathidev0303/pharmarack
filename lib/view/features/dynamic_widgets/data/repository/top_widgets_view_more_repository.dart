@@ -1,5 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:pharmarack/packages/core_flutter/error/network_error.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/topWidgetModels/ProductListModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/data/data_source/top_widgets_remote_datasource.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/model/TopBrandsList.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/model/TopDistributorsList.dart';
@@ -19,5 +20,11 @@ class TopWidgetsViewMoreRepository {
       {required int page, required int limit}) {
     return _topWidgetsViewMoreRemoteDataSource.fetchDistributorsList(
         page: page, limit: limit);
+  }
+
+  Future<Either<NetworkError, List<ProductListModel>>> fetchTopWidgetsProducts(
+      {required int companyId, required int storeId, required String context}) {
+    return _topWidgetsViewMoreRemoteDataSource.fetchTopWidgetsProducts(
+        companyId: companyId, storeId: storeId, context: context);
   }
 }

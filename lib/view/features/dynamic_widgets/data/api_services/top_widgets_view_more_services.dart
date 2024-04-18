@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/topWidgetModels/ProductListModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/data/endpoints_constants/top_widgets_view_more/top_widgets_view_more_endpoints.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/data/endpoints_constants/top_widgets_view_more/top_widgets_view_more_options.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/data/model/top_widgets_view_more_entity.dart';
@@ -20,4 +21,27 @@ abstract class TopWidgetsViewMoreApiService {
       {@Query(TopWidgetsViewMoreOptions.retailerId) required int rId,
       @Query(TopWidgetsViewMoreOptions.page) required int page,
       @Query(TopWidgetsViewMoreOptions.limit) int? limit});
+}
+
+@RestApi()
+abstract class TopWidgetsViewMoreCmsApiService {
+  factory TopWidgetsViewMoreCmsApiService(Dio dio) =
+      _TopWidgetsViewMoreCmsApiService;
+
+  @GET("/cms/api/topPicks")
+  Future<HttpResponse> fetchTopPicksProducts({
+    @Query(TopWidgetsViewMoreOptions.rid) required int rId,
+  });
+
+  @GET("/cms/api/topPicks")
+  Future<HttpResponse> fetchTopPickStoreProducts({
+    @Query(TopWidgetsViewMoreOptions.rid) required int rId,
+    @Query(TopWidgetsViewMoreOptions.storeId) required int storeId,
+  });
+
+  @GET("/cms/api/topOffered")
+  Future<HttpResponse> fetchTopOffersProducts({
+    @Query(TopWidgetsViewMoreOptions.rid) required int rId,
+    @Query(TopWidgetsViewMoreOptions.companyId) required int companyId,
+  });
 }

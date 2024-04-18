@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/topWidgetModels/ProductListModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/model/TopBrandsList.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/model/TopDistributorsList.dart';
 
@@ -40,13 +41,13 @@ class TopWidgetsDistributorsDataState extends TopWidgetsViewMoreState {
       ];
 }
 
-// class TopWidgetsProductsDataState extends TopWidgetsViewMoreState {
-//   final List<BrandsItems> products;
+class TopWidgetsProductsDataState extends TopWidgetsViewMoreState {
+  final List<ProductListModel> products;
 
-//   const TopWidgetsProductsDataState({required this.products});
+  const TopWidgetsProductsDataState({required this.products});
 
-//   @override
-//   List<Object?> get props => [
-//         products,
-//       ];
-// }
+  @override
+  List<Object?> get props => [
+        products,
+      ];
+}
