@@ -1,6 +1,6 @@
 {
-    "name": "pharmarack",
-    "short_name": "pharmarack",
+    "name": "pharmarack_retailer",
+    "short_name": "pharmarack_retailer",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
