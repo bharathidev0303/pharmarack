@@ -84,12 +84,16 @@ class OtpScreenCubit extends Cubit<OtpScreenState> {
       emit(OtpVerificationDeleteAccountState());
     } else {
       emit(OtpScreenLoadingState());
+      final oneSignalId = prefs.getString('oneSignalId');
       final userOtp = otpFieldController.text;
       final userMobileNumber = onboardingDI<String>(
           instanceName: OnboardingConstants.loginMobileNumberDiConstant);
       final verifyOtpResponse = await _verifyOtpUseCase.execute(
           params: VerifyOtpUseCaseParams(
-              mobileNumber: userMobileNumber, module: "login", otp: userOtp));
+              mobileNumber: userMobileNumber,
+              module: "login",
+              otp: userOtp,
+              oneSignalId: oneSignalId));
       verifyOtpResponse.fold((l) {
         if (l.error.message ==
             'You\'ve exceed the number of attempts for OTP verification. Please try again after 2 mins.') {

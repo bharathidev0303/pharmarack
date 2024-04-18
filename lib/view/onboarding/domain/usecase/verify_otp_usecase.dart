@@ -22,7 +22,11 @@ class VerifyOtpUseCaseParams extends Params {
   String mobileNumber;
   String module;
   String otp;
+  String? oneSignalId;
 
   VerifyOtpUseCaseParams(
-      {required this.mobileNumber, required this.module, required this.otp});
+      {required this.mobileNumber,
+      required this.module,
+      required this.otp,
+      required this.oneSignalId});
 }

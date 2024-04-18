@@ -18,6 +18,7 @@ import 'package:pharmarack/view/onboarding/domain/usecase/store_header_use_case.
 import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/forgot_password/otp_screen/forgot_password_otp_screen_state.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../domain/usecase/save_success_verify_otp_response_usecase.dart';
 import '../../../../domain/usecase/validate_otp_usecase.dart';
@@ -82,12 +83,15 @@ class ForgotPasswordOtpScreenCubit extends Cubit<ForgotPasswordOtpScreenState> {
 
   Future<void> requestVerifyOtpOld(String errorMessage) async {
     emit(ForgotPasswordOtpScreenLoadingState());
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String oneSignal = pref.get('oneSignalId').toString();
     final response = await _verifyOtpUseCase.execute(
         params: VerifyOtpUseCaseParams(
             mobileNumber: onboardingDI<String>(
                 instanceName: OnboardingConstants.mobileNumberDiConstant),
             module: "login",
-            otp: otpTextFieldController.text));
+            otp: otpTextFieldController.text,
+            oneSignalId: oneSignal));
     response.fold(
       (l) =>
           emit(ForgotPasswordOtpScreenErrorState(statusMessage: errorMessage)),

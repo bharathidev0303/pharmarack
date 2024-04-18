@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-
 import 'package:fpdart/fpdart.dart';
 import 'package:pharmarack/packages/core_flutter/core/base_usecase/base_usecase.dart';
 import 'package:pharmarack/packages/core_flutter/core/base_usecase/params.dart';
@@ -10,6 +9,7 @@ import 'package:pharmarack/view/onboarding/domain/model/registration_model.dart'
 import 'package:pharmarack/view/onboarding/domain/model/registration_response_model.dart';
 import 'package:pharmarack/view/onboarding/domain/repository/onboarding_repository.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RetailerRegistrationUserCase extends BaseUseCase<BaseError,
     RetailerRegistrationParams, RegistrationResponseModel> {
@@ -123,11 +123,13 @@ class RetailerRegistrationUserCase extends BaseUseCase<BaseError,
 
   @override
   Future<Either<BaseError, RegistrationResponseModel>> execute(
-      {required params}) {
-    return _onboardingRepository.registerRetailer(getRequestString());
+      {required params}) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String oneSignal = pref.get('oneSignalId').toString();
+    return _onboardingRepository.registerRetailer(getRequestString(oneSignal));
   }
 
-  Map<String, dynamic> getRequestString() {
+  Map<String, dynamic> getRequestString(String oneSignalId) {
     /// Encoded fields - RetailerName, Address1, Address2, 3 License Numbers, GST number.
     /// UserId, RetailerId will always be static 0
     /// IsNewApp = 1, NewApp = true
@@ -192,7 +194,7 @@ class RetailerRegistrationUserCase extends BaseUseCase<BaseError,
           },
         ]
       },
-      'gcmregistration': '6732bd09-f2ba-44e2-b81e-a32672f029b5',
+      'gcmregistration': oneSignalId,
       'IsNewApp': '1',
       'IsRetailerNameEncoded': '1',
       'deviceplatform': platform,

@@ -118,7 +118,7 @@ class CartRemoteDataSource {
           cartEntity.productWiseGSTAmount,
           cartEntity.cartSource,
           cartEntity.schemeType,
-          cartEntity.mrp);
+          cartEntity.mrp ?? "");
 
       Store store = stores.firstWhere(
           (store) => store.storeId == cartEntity.storeId, orElse: () {

@@ -12,6 +12,8 @@ VerifyOtpRequestEntity _$VerifyOtpRequestEntityFromJson(
       mobileNo: json['mobileno'] as String?,
       moduleName: json['modulename'] as String?,
       otp: json['otp'] as String?,
+      oneSignalId: json['oneSignalMobileId'] as String?,
+      password: json['password'] as String?,
     );
 
 Map<String, dynamic> _$VerifyOtpRequestEntityToJson(
@@ -20,4 +22,6 @@ Map<String, dynamic> _$VerifyOtpRequestEntityToJson(
       'mobileno': instance.mobileNo,
       'modulename': instance.moduleName,
       'otp': instance.otp,
+      'oneSignalMobileId': instance.oneSignalId,
+      'password': instance.password,
     };

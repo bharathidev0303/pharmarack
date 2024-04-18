@@ -13,6 +13,7 @@ import 'package:pharmarack/view/onboarding/domain/usecase/retailer_registration/
 import 'package:pharmarack/view/onboarding/domain/usecase/store_header_use_case.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_three/retailer_registration_step_three_state.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../domain/usecase/request_login_usecase.dart';
 import '../../login_screen_state.dart';
@@ -42,10 +43,11 @@ class RetailerRegistrationStepThreeCubit
 
   Future<void> registerUser() async {
     emit(state.copyWith(isLoading: true));
-
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String oneSignal = pref.get('oneSignalId').toString();
     final response = await _retailerRegistrationUserCase.execute(
         params: RetailerRegistrationParams(
-            _retailerRegistrationUserCase.getRequestString()));
+            _retailerRegistrationUserCase.getRequestString(oneSignal)));
 
     response.fold((l) {
       emit(state.copyWith(

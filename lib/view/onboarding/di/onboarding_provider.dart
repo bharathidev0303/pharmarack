@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:pharmarack/auth/user_auth_manager.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/login_entity.dart';
@@ -43,6 +45,8 @@ import 'package:pharmarack/view/onboarding/presentation/cubit/otp_screen/otp_scr
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_one/retailer_registration_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_three/retailer_registration_step_three_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/retailer_registration/step_two/retailer_registration_step_two_cubit.dart';
+import 'package:pharmarack/view/onboarding/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/repository/change_password_repository.dart';
 import '../domain/usecase/check_password_update_uescase.dart';
@@ -395,4 +399,24 @@ void unregisterIfRegistered<T extends Object>() {
   if (onboardingDI.isRegistered<T>()) {
     onboardingDI.unregister<T>();
   }
+}
+
+Future<void> initOneSignal() async {
+  late final SharedPreferences _prefs;
+
+  final _prefsFuture = SharedPreferences.getInstance().then((v) => _prefs = v);
+  OneSignal.Debug.setLogLevel(
+    kDebugMode ? OSLogLevel.verbose : OSLogLevel.none,
+  );
+
+  OneSignal.initialize(OnboardingConstants.oneSignalDashboardKey);
+  Future.delayed(const Duration(seconds: 3), () {
+    final id = OneSignal.User.pushSubscription.id;
+    print("sksjsks $id");
+    if (id != null) {
+      _prefs.setString('oneSignalId', id);
+    }
+  });
+
+  await OneSignal.Notifications.requestPermission(true);
 }

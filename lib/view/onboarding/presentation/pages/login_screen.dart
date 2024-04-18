@@ -35,8 +35,13 @@ class LoginScreenState extends BaseStatefulPage {
   void initState() {
     super.initState();
     unregisterDI();
+    initOneSignalLogin();
     initDependency();
     _loginScreenCubit = onboardingDI<LoginScreenCubit>();
+  }
+
+  Future initOneSignalLogin() async {
+    await initOneSignal();
   }
 
   @override

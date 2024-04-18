@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/packages/core/network/interceptor/dio_interceptor.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/login_entity.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
@@ -53,6 +54,8 @@ class OnboardingRemoteDataSource {
 
   Future<Either<NetworkError, LoginResponseEntity>> requestLogin(
       String userName, String password) async {
+    getIt.unregister<String>(instanceName: "GetUserPassword");
+    getIt.registerSingleton<String>(password, instanceName: "GetUserPassword");
     final response = await safeApiCall(
         _onboardingApiService.requestLogin(userName, password));
     return response.fold((l) => left(l), (r) {
@@ -87,11 +90,14 @@ class OnboardingRemoteDataSource {
 
   Future<Either<NetworkError, VerifyOtpResponseEntity>> verifyOtp(
       VerifyOtpUseCaseParams verifyOtpUseCaseParams) async {
+    final password = getIt<String>(instanceName: "GetUserPassword");
     final response = await safeApiCall(_onboardingApiService.verifyOtp(
         VerifyOtpRequestEntity(
                 mobileNo: verifyOtpUseCaseParams.mobileNumber,
                 moduleName: verifyOtpUseCaseParams.module,
-                otp: verifyOtpUseCaseParams.otp)
+                otp: verifyOtpUseCaseParams.otp,
+                password: password,
+                oneSignalId: verifyOtpUseCaseParams.oneSignalId)
             .toJson()));
     return response.fold((l) {
       if (l.error.code == 406) {

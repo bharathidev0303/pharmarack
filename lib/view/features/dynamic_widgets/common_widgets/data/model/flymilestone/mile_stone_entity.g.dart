@@ -42,6 +42,7 @@ MileStoneOffers _$MileStoneOffersFromJson(Map<String, dynamic> json) =>
       milestones: (json['milestones'] as List<dynamic>?)
           ?.map((e) => MileStones.fromJson(e as Map<String, dynamic>))
           .toList(),
+      isTCVisible: json['isTCVisible'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$MileStoneOffersToJson(MileStoneOffers instance) =>
@@ -60,6 +61,7 @@ Map<String, dynamic> _$MileStoneOffersToJson(MileStoneOffers instance) =>
       'milestone_events': instance.milestoneEvents,
       'show_history_icon': instance.showHistoryIcon,
       'milestones': instance.milestones,
+      'isTCVisible': instance.isTCVisible,
     };
 
 MilestoneEvents _$MilestoneEventsFromJson(Map<String, dynamic> json) =>

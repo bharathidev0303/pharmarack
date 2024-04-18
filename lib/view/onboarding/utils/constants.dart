@@ -106,6 +106,8 @@ class OnboardingConstants {
   static const String accountNumber = "accountNumber";
   static const String accountHolderName = "accountHolderName";
   static const String ifsc = "ifsc";
+  static const String oneSignalDashboardKey =
+      '31d03b5b-bee9-4c20-8abd-0c19e37bc61c';
 }
 
 enum VerificationStatus { emptyOtp, otpMatch, otpMismatch }

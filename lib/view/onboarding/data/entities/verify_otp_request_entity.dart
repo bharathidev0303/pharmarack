@@ -10,8 +10,17 @@ class VerifyOtpRequestEntity {
   String? moduleName;
   @JsonKey(name: "otp")
   String? otp;
+  @JsonKey(name: "oneSignalMobileId")
+  String? oneSignalId;
+  @JsonKey(name: "password")
+  String? password;
 
-  VerifyOtpRequestEntity({this.mobileNo, this.moduleName, this.otp});
+  VerifyOtpRequestEntity(
+      {this.mobileNo,
+      this.moduleName,
+      this.otp,
+      this.oneSignalId,
+      this.password});
 
   factory VerifyOtpRequestEntity.fromJson(Map<String, dynamic> json) =>
       _$VerifyOtpRequestEntityFromJson(json);
