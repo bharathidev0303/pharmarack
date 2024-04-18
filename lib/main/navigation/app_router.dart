@@ -46,6 +46,7 @@ import 'package:pharmarack/view/features/distributor_connection/presentation/wid
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/pageConfigModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/dashboard_screen/dashboard_screen_page.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/top_widget_view_more_page/top_widgets_view_more_page.dart';
 import 'package:pharmarack/view/features/landing_page/landing_page.dart';
 import 'package:pharmarack/view/features/profile/presentation/pages/edit_profile_screen.dart';
 import 'package:pharmarack/view/features/profile/presentation/pages/profile_page.dart';
@@ -399,6 +400,12 @@ class AppRouter {
             cmsPageNavigatorModel.context,
             MaterialPageRoute(
                 builder: (context) => const DashboardScreenPage()),
+          );
+        case '/TopWidgetsViewMoreListPage':
+          Navigator.push(
+            cmsPageNavigatorModel.context,
+            MaterialPageRoute(
+                builder: (context) => const TopWidgetsViewMoreListPage()),
           );
         default:
           debugPrint("linkToNotFount ${cmsPageNavigatorModel.linkTo}");

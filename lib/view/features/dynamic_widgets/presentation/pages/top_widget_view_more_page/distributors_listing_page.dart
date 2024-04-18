@@ -99,9 +99,7 @@ class _DistributorsListingPageState extends State<DistributorsListingPage> {
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-          pageBuilder: (a, b, c) => TopWidgetsViewMoreListPage(
-                topWidgetModel: widget.topWidgetModel,
-              )),
+          pageBuilder: (a, b, c) => const TopWidgetsViewMoreListPage()),
     );
     return;
   }

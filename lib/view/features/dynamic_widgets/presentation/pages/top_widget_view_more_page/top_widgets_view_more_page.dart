@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pharmarack/main/navigation/route_paths.dart';
+import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CommonModule.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/topWidgetModels/TopWidgetModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/top_widget_view_more_page/brands_listing_page.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/top_widget_view_more_page/distributors_listing_page.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/top_widget_view_more_page/view_all_product_listing.dart';
 import 'package:pharmarack/view/features/widgets/custom_app_bar/custom_app_bar.dart';
 
 /// This class [TopWidgetsViewMoreListPage] which is UI screen which display interact with the user
 class TopWidgetsViewMoreListPage extends StatefulWidget {
-  final TopWidgetModel topWidgetModel;
-
-  const TopWidgetsViewMoreListPage({super.key, required this.topWidgetModel});
+  const TopWidgetsViewMoreListPage({super.key});
 
   @override
   TopWidgetsViewMoreListPageState createState() =>
@@ -20,8 +19,10 @@ class TopWidgetsViewMoreListPage extends StatefulWidget {
 
 class TopWidgetsViewMoreListPageState
     extends State<TopWidgetsViewMoreListPage> {
+  late TopWidgetModel topWidgetModel;
   @override
   void initState() {
+    topWidgetModel = getIt<TopWidgetModel>();
     super.initState();
   }
 
@@ -35,7 +36,7 @@ class TopWidgetsViewMoreListPageState
     return SafeArea(
       child: Scaffold(
         appBar: buildAppbar(),
-        body: buildViewMoreWidget(widget.topWidgetModel),
+        body: buildViewMoreWidget(topWidgetModel),
         backgroundColor: AppColors.screenContainerBackgroundColor,
       ),
     );
@@ -60,7 +61,7 @@ Widget buildViewMoreWidget(TopWidgetModel topWidgetModel) {
     );
   }
   if (topWidgetModel.type == "products") {
-    return DistributorsListingPage(
+    return ProductListingPage(
       topWidgetModel: topWidgetModel,
     );
   } else if (topWidgetModel.type == "distributors") {

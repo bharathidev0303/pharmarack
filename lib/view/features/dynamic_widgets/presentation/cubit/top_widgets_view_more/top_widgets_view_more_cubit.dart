@@ -32,4 +32,18 @@ class TopWidgetsViewMoreCubit extends Cubit<TopWidgetsViewMoreState> {
       emit(TopWidgetsDistributorsDataState(distributors: r));
     });
   }
+
+  void fetchTopWidgetsProducts(
+      {required int companyId,
+      required int stoteId,
+      required String context}) async {
+    emit(TopWidgetsViewMoreLoadingState());
+    final value = await _topWidgetsViewMoreUseCase.executeTopPicksProducts(
+        companyId: companyId, storeId: stoteId, context: context);
+    value.fold((l) {
+      emit(TopWidgetsViewMoreErrorState());
+    }, (r) {
+      emit(TopWidgetsProductsDataState(products: r));
+    });
+  }
 }

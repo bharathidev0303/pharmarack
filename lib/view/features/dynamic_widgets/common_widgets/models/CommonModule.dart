@@ -1,9 +1,4 @@
-import 'dart:async';
-import 'dart:io';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/banner_products_list_page/banner_product_list.dart';
 
 hexStringToHexInt(String hex) {
   hex = hex.replaceFirst('#', '');
@@ -24,37 +19,6 @@ calculateImageDimension(String img, double defaultHeight) {
     ),
   );
   return height;
-}
-
-widgetPageNavigator(context, String tittle, String linkType, String linkTo,
-    String linkToExtra) {
-  switch (linkType) {
-    case 'internal':
-      if (linkTo == "/searchProduct" && linkToExtra != "") {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BannerProductsListPage(
-              tittle: tittle,
-              productIds: linkToExtra,
-            ),
-          ),
-        );
-      } else if (linkTo == "/cashbackDeals") {
-        // FlyyFlutterPlugin.openFlyyOffersPage();
-      } else if (linkTo == "/rewards") {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => const RewardsPage()),
-        // );
-      } else {
-        print(linkTo);
-      }
-    // case 'external':
-    //   Navigator.pushReplacementNamed(context, externalLink);
-    default:
-      print(linkType);
-  }
 }
 
 extension StringCasingExtension on String {

@@ -1,5 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:pharmarack/packages/core_flutter/error/base_error.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/topWidgetModels/ProductListModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/data/repository/top_widgets_view_more_repository.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/model/TopBrandsList.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/model/TopDistributorsList.dart';
@@ -21,5 +22,11 @@ class TopWidgetsViewMoreUseCase {
       {required int page, required int limit}) {
     return _topWidgetsViewMoreRepository.fetchDistributorsList(
         page: page, limit: limit);
+  }
+
+  Future<Either<BaseError, List<ProductListModel>>> executeTopPicksProducts(
+      {required int companyId, required int storeId, required String context}) {
+    return _topWidgetsViewMoreRepository.fetchTopWidgetsProducts(
+        companyId: companyId, storeId: storeId, context: context);
   }
 }

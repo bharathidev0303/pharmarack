@@ -13,10 +13,15 @@ void initTopWidgetsViewMoreDi() {
     () => TopWidgetsViewMoreApiService(
         getIt<Dio>(instanceName: AppConstants.baseUrlDioConstant)),
   );
+  getIt.registerFactory<TopWidgetsViewMoreCmsApiService>(
+    () => TopWidgetsViewMoreCmsApiService(
+        getIt<Dio>(instanceName: AppConstants.cmsGatewayBaseUrlDioConstant)),
+  );
 
   getIt.registerFactory<TopWidgetsViewMoresRemoteDataSource>(
     () => TopWidgetsViewMoresRemoteDataSource(
-        getIt<TopWidgetsViewMoreApiService>()),
+        getIt<TopWidgetsViewMoreApiService>(),
+        getIt<TopWidgetsViewMoreCmsApiService>()),
   );
 
   getIt.registerFactory<TopWidgetsViewMoreRepository>(() =>
@@ -43,6 +48,7 @@ final topWidgetsViewMoreCubit = getIt.isRegistered<TopWidgetsViewMoreCubit>()
 
 void clearTopWidgetsViewMorsDi() {
   getIt.unregister<TopWidgetsViewMoreApiService>();
+  getIt.unregister<TopWidgetsViewMoreCmsApiService>();
   getIt.unregister<TopWidgetsViewMoresRemoteDataSource>();
   getIt.unregister<TopWidgetsViewMoreRepository>();
   getIt.unregister<TopWidgetsViewMoreUseCase>();
