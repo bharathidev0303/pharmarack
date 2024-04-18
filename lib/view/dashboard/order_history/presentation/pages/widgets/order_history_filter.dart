@@ -295,7 +295,7 @@ class _OrderHistoryFilterState extends State<OrderHistoryFilter> {
     if (picked != null && picked != selectedDate) {
       const sDateFormat = "dd/MM/yy";
       final date = AppUtils.getFormat(sDateFormat, picked);
-      if (title.toUpperCase() == 'FROM DATE') {
+      if (title.toUpperCase() == 'FROM') {
         setState(() {
           fromDate = picked;
         });
