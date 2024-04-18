@@ -22,7 +22,7 @@ import 'navigation/route_paths.dart';
 
 void mainCommon(Flavor flavor) async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await AppProviders().initFlySDK(flavor);
+  await AppProviders().initFlySDK(flavor);
   HttpOverrides.global = MyHttpOverrides();
   LogUtil.initializeLogger(shouldEnableLogs: !kReleaseMode);
   await AppProviders().init(flavor);

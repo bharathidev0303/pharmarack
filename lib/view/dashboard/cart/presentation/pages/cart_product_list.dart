@@ -12,6 +12,7 @@ import 'package:pharmarack/view/dashboard/cart/di/cart_provider.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/model/cart_details_model.dart';
 import 'package:pharmarack/view/dashboard/cart/presentation/widgets/cart_item_options_popup.dart';
 import 'package:pharmarack/view/features/change_distributor/presentation/widget/change_distributor_dialog_card.dart';
+import 'package:pharmarack/view/features/search_product/presentation/pages/search_product_page.dart';
 import '../../../../features/change_distributor/presentation/widget/purchase_details_row.dart';
 import '../cubit/cart_screen_cubit.dart';
 import '../widgets/add_single_product_in_cart_popup.dart';
@@ -168,8 +169,10 @@ class _ProductListSectionHeader extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  //TODO apply add product dialog here
-                  openAddProductDialog(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SearchProductPage()));
                 },
                 child: Text(
                   '+ ${context.localizedString.addProduct}',

@@ -38,7 +38,7 @@ Widget buildCrmBarWidget(Map<String, dynamic> children) {
                     context: context,
                     title: crmBarItem.title,
                     linkType: crmBarItem.linkType,
-                    linkTo: crmBarItem.linkTo,
+                    linkTo: "/OfferPage",
                     linkToExtra: crmBarItem.linkToExtra,
                   ));
                 },

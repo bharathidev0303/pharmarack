@@ -72,6 +72,10 @@ dependencies:
   video_player: ^2.8.2
   circular_countdown_timer: ^0.2.3
   flutter_rating_bar: ^4.0.1
+  flyy_flutter_plugin: 1.1.70
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.8
+  firebase_analytics: ^10.8.9
 
 dev_dependencies:
   flutter_test:

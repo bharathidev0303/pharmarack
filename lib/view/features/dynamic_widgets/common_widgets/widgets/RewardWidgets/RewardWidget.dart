@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CommonModule.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/RewordsWidgetModel.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/widgets/RewardWidgets/MileStone/mileStoneWidget.dart';
 
 Future<RewordsWidgetModel> _loadRewordsWidgetData(jsonData) async {
   try {
@@ -28,12 +29,11 @@ Widget buildRewordsWidget(children) {
                   ],
                 ));
           case 'milestone':
-            return Container();
-          // return Padding(
-          //   padding:
-          //       const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
-          //   child: MileStoneWidget(rewordsWidgetModel: rewordsWidgetModel),
-          // );
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
+              child: MileStoneWidget(rewordsWidgetModel: rewordsWidgetModel),
+            );
           case 'offers':
             return Padding(
                 padding: const EdgeInsets.all(20.0),

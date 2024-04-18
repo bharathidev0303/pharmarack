@@ -55,6 +55,8 @@ class MileStoneOffers {
   bool? showHistoryIcon;
   @JsonKey(name: 'milestones')
   List<MileStones>? milestones;
+  @JsonKey(name: 'isTCVisible')
+  bool? isTCVisible;
 
   MileStoneOffers({
     this.id,
@@ -71,6 +73,7 @@ class MileStoneOffers {
     this.milestoneEvents,
     this.showHistoryIcon,
     this.milestones,
+    this.isTCVisible = false,
   });
 
   factory MileStoneOffers.fromJson(Map<String, dynamic> json) =>
@@ -93,6 +96,7 @@ class MileStoneOffers {
     List<MilestoneEvents>? milestoneEvents,
     bool? showHistoryIcon,
     List<MileStones>? milestones,
+    bool? isTCVisible = false,
   }) {
     return MileStoneOffers(
       id: id ?? this.id,
@@ -109,6 +113,7 @@ class MileStoneOffers {
       milestoneEvents: milestoneEvents ?? this.milestoneEvents,
       showHistoryIcon: showHistoryIcon ?? this.showHistoryIcon,
       milestones: milestones ?? this.milestones,
+      isTCVisible: isTCVisible ?? this.isTCVisible,
     );
   }
 }

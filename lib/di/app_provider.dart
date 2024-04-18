@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flyy_flutter_plugin/flyy_flutter_plugin.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pharmarack/auth/user_auth_manager.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
@@ -204,24 +205,24 @@ class AppProviders {
   }
 
   initFlySDK(Flavor flavor) async {
-    // if (flavor.env == Env.dev ||
-    //     flavor.env == Env.qa ||
-    //     flavor.env == Env.uat) {
-    //   FlyyFlutterPlugin.setPackageName("pr.com.retailer");
-    //   FlyyFlutterPlugin.initFlyySDK(
-    //       "f941335e1d8a27af91f8", FlyyFlutterPlugin.STAGE);
-    //   FlyyFlutterPlugin.setThemeColor("#1439BB", "#1439BB");
+    if (flavor.env == Env.dev ||
+        flavor.env == Env.qa ||
+        flavor.env == Env.uat) {
+      FlyyFlutterPlugin.setPackageName("pr.com.retailer");
+      FlyyFlutterPlugin.initFlyySDK(
+          "f941335e1d8a27af91f8", FlyyFlutterPlugin.STAGE);
+      FlyyFlutterPlugin.setThemeColor("#1439BB", "#1439BB");
 
-    //   getIt.registerSingleton<Dio>(
-    //     DioInterceptor.createDio(
-    //       DioBaseOption(
-    //         baseUrl: flavor.flyBaseUrl,
-    //         proxyBaseUrl: flavor.proxyBaseUrl,
-    //       ),
-    //     ),
-    //     instanceName: AppConstants.flyBaseUrlDioConstant,
-    //   );
-    // }
+      getIt.registerSingleton<Dio>(
+        DioInterceptor.createDio(
+          DioBaseOption(
+            baseUrl: flavor.flyBaseUrl,
+            proxyBaseUrl: flavor.proxyBaseUrl,
+          ),
+        ),
+        instanceName: AppConstants.flyBaseUrlDioConstant,
+      );
+    }
     return "Initiated";
   }
 }

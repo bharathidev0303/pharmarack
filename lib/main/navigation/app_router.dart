@@ -34,6 +34,7 @@
 // import '../../features/terms_and_conditions/presentation/pages/terms_and_condition_page.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flyy_flutter_plugin/flyy_flutter_plugin.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/feedback/presentation/pages/feedback_request_dialog.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
@@ -48,6 +49,7 @@ import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/p
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/dashboard_screen/dashboard_screen_page.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/top_widget_view_more_page/top_widgets_view_more_page.dart';
 import 'package:pharmarack/view/features/landing_page/landing_page.dart';
+import 'package:pharmarack/view/features/offers_and_rewards/presentation/rewards_page.dart';
 import 'package:pharmarack/view/features/profile/presentation/pages/edit_profile_screen.dart';
 import 'package:pharmarack/view/features/profile/presentation/pages/profile_page.dart';
 import 'package:pharmarack/view/features/search_product/domain/model/search_context_model.dart';
@@ -179,10 +181,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const RetailerRegistrationStepThreeScreen(),
         );
-      // case RoutePaths.rewards:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const RewardsPage(),
-      //   );
+      case RoutePaths.rewards:
+        return MaterialPageRoute(
+          builder: (context) => const RewardsPage(),
+        );
       // case RoutePaths.termsAndConditions:
       //   return MaterialPageRoute(
       //     builder: (context) => const TermsAndConditionPage(),
@@ -406,6 +408,21 @@ class AppRouter {
             cmsPageNavigatorModel.context,
             MaterialPageRoute(
                 builder: (context) => const TopWidgetsViewMoreListPage()),
+          );
+        case '/OfferPage':
+          FlyyFlutterPlugin.setThemeColor("#1439BB", "#1439BB");
+          FlyyFlutterPlugin.setFlyyUser(
+              getIt<RetailerInfoEntity>().userId.toString());
+          FlyyFlutterPlugin.openFlyyOffersPage();
+        case '/RewardsPage':
+          Navigator.push(
+            cmsPageNavigatorModel.context,
+            MaterialPageRoute(builder: (context) => const RewardsPage()),
+          );
+        case '/RaplPage':
+          Navigator.push(
+            cmsPageNavigatorModel.context,
+            MaterialPageRoute(builder: (context) => const RewardsPage()),
           );
         default:
           debugPrint("linkToNotFount ${cmsPageNavigatorModel.linkTo}");

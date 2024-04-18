@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
@@ -26,8 +27,6 @@ class _MileStoneWidgetState extends State<MileStoneWidget> {
     initFlyMileStoneDi();
     mileStoneCubit.fetchMileStone();
   }
-
-  bool isTCVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -149,10 +148,10 @@ class _MileStoneWidgetState extends State<MileStoneWidget> {
                                         GestureDetector(
                                           onTap: () {
                                             setState(() {
-                                              if (isTCVisible) {
-                                                isTCVisible = false;
+                                              if (cashback.isTCVisible!) {
+                                                cashback.isTCVisible = false;
                                               } else {
-                                                isTCVisible = true;
+                                                cashback.isTCVisible = true;
                                               }
                                             });
                                           },
@@ -172,7 +171,7 @@ class _MileStoneWidgetState extends State<MileStoneWidget> {
                                                 width: 5,
                                               ),
                                               Icon(
-                                                  (isTCVisible)
+                                                  (cashback.isTCVisible!)
                                                       ? Icons.keyboard_arrow_up
                                                       : Icons
                                                           .keyboard_arrow_down,
@@ -210,7 +209,7 @@ class _MileStoneWidgetState extends State<MileStoneWidget> {
                                 )
                               ]),
                           Visibility(
-                            visible: isTCVisible,
+                            visible: cashback.isTCVisible!,
                             child: Card(
                                 shape: RoundedRectangleBorder(
                                   side: const BorderSide(
@@ -272,11 +271,13 @@ class _MileStoneWidgetState extends State<MileStoneWidget> {
                                         child: Stack(
                                             alignment: Alignment.center,
                                             children: [
-                                              Image.asset(
-                                                "assets/TooltipTop.png",
-                                                fit: BoxFit.fill,
-                                                width: 33,
-                                              ),
+                                              AppAssets.png.tooltipTop
+                                                  .image(height: 32, width: 32),
+                                              // AssetImage.p.asset(
+                                              //   "assets/TooltipTop.png",
+                                              //   fit: BoxFit.fill,
+                                              //   width: 33,
+                                              // ),
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.fromLTRB(
