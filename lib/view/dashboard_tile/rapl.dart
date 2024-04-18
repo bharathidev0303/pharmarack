@@ -7,11 +7,17 @@ import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/loader_dialog.dart';
+import 'package:pharmarack/packages/core_flutter/common_widgets/dashboard/secondary_app_bar.dart';
+import 'package:pharmarack/packages/core_flutter/core/ui/base_view.dart';
+import 'package:pharmarack/packages/core_flutter/core/ui/drawer_router_paths.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
+import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/dls/widget/no_records_found.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../packages/core_flutter/common_widgets/side_navigation_legacy/model/legacy_menu.dart';
 
 Future<String?> fetchUrlFromApi() async {
   var retailer = getIt<RetailerInfoEntity>();
@@ -46,29 +52,31 @@ Future<String?> fetchUrlFromApi() async {
   }
 }
 
-class Rapl extends StatefulWidget {
+class Rapl extends BasePage<RaplSate> {
+  const Rapl({super.key});
+
   @override
-  RaplState createState() => RaplState();
+  RaplSate createState() => RaplSate();
 }
 
-WebViewController controller = WebViewController()
-  ..setJavaScriptMode(JavaScriptMode.unrestricted)
-  ..setBackgroundColor(const Color(0x00000000))
-  ..setNavigationDelegate(
-    NavigationDelegate(
-      onProgress: (int progress) {
-        // Update loading bar.
-      },
-      onPageStarted: (String url) {},
-      onPageFinished: (String url) {},
-      onWebResourceError: (WebResourceError error) {},
-      onNavigationRequest: (NavigationRequest request) {
-        return NavigationDecision.navigate;
-      },
-    ),
-  );
+class RaplSate extends BaseStatefulPage {
+  WebViewController controller = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..setBackgroundColor(const Color(0x00000000))
+    ..setNavigationDelegate(
+      NavigationDelegate(
+        onProgress: (int progress) {
+          // Update loading bar.
+        },
+        onPageStarted: (String url) {},
+        onPageFinished: (String url) {},
+        onWebResourceError: (WebResourceError error) {},
+        onNavigationRequest: (NavigationRequest request) {
+          return NavigationDecision.navigate;
+        },
+      ),
+    );
 
-class RaplState extends State<Rapl> {
   late Future<String?> _raplUrl;
   String currentUrl = "";
 
@@ -92,37 +100,30 @@ class RaplState extends State<Rapl> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            context.localizedString.patshala,
-            style: TextStyle(fontSize: 18),
-          ),
-        ),
-        body: currentUrl.startsWith("https://d2rsandbox.raplqa.com")
-            ? WebViewWidget(controller: controller)
-            : currentUrl != ""
-                ? Container(
-                    color: AppColors.white,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: Align(
-                        alignment: Alignment.topCenter,
-                        child: NoRecordsFound(
-                          icons: AppAssets.png.callus.image(
-                            width: 82,
-                            height: 79,
-                          ),
-                          buttonTitle: "020-67660011",
-                          message: context.localizedString.callUsMsg,
-                          buttonCallBack: () {
-                            launch("tel://020-67660011");
-                          },
-                        )))
-                : LoaderDialog(
-                    title: context.localizedString.patshala,
-                    subTitle: context.localizedString.pleaseWait));
+  Widget buildView(BuildContext context) {
+    return currentUrl.startsWith("https://d2rsandbox.raplqa.com")
+        ? WebViewWidget(controller: controller)
+        : currentUrl != ""
+            ? Container(
+                color: AppColors.white,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: Align(
+                    alignment: Alignment.topCenter,
+                    child: NoRecordsFound(
+                      icons: AppAssets.png.callus.image(
+                        width: 82,
+                        height: 79,
+                      ),
+                      buttonTitle: "020-67660011",
+                      message: context.localizedString.callUsMsg,
+                      buttonCallBack: () {
+                        launch("tel://020-67660011");
+                      },
+                    )))
+            : LoaderDialog(
+                title: context.localizedString.patshala,
+                subTitle: context.localizedString.pleaseWait);
   }
 
   void updateUrl(String url) {
@@ -130,10 +131,19 @@ class RaplState extends State<Rapl> {
       currentUrl = url; // Update the current URL
     });
   }
-}
 
-// void main() {
-//   runApp(MaterialApp(
-//     home: Rapl(),
-//   ));
-// }
+  @override
+  Color scaffoldBackgroundColor() {
+    return context.colors.screenBackground!;
+  }
+
+  @override
+  PreferredSizeWidget? buildAppbar() {
+    return SecondaryAppBar(
+      titleText: context.localizedString.patshala,
+      onPressBackButton: () => {
+        Navigator.pop(context),
+      },
+    );
+  }
+}

@@ -43,12 +43,7 @@ class _RewardsPageMobileViewState extends State<RewardsPageMobileView> {
                 child: CircularProgressIndicator(),
               );
             } else if (state is RewardsPageErrorState) {
-              return Center(
-                child: Container(
-                  child: AppAssets.svg.icInfoCircleError
-                      .svg(package: 'core_flutter', width: 30, height: 30),
-                ),
-              );
+              return Container();
             } else if (state is RewardsPageDataState) {
               return ListView(
                 children: state.rewardsPageModel.widget,
