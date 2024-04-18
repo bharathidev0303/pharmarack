@@ -294,7 +294,7 @@ DisplayRetailer _$DisplayRetailerFromJson(Map<String, dynamic> json) =>
       stateName: json['StateName'] as String?,
       panNumber: json['PanNumber'] as String?,
       gstinNumber: json['GSTINNumber'] as String?,
-    );
+    )..domainKey = json['DomainKey'] as String?;
 
 Map<String, dynamic> _$DisplayRetailerToJson(DisplayRetailer instance) =>
     <String, dynamic>{
@@ -311,6 +311,7 @@ Map<String, dynamic> _$DisplayRetailerToJson(DisplayRetailer instance) =>
       'StateName': instance.stateName,
       'PanNumber': instance.panNumber,
       'GSTINNumber': instance.gstinNumber,
+      'DomainKey': instance.domainKey,
     };
 
 RetailerPaymentConfig _$RetailerPaymentConfigFromJson(

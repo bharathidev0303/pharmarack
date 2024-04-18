@@ -40,6 +40,7 @@ class RetailerInfoEntity {
   List<LoginResponseStores>? stores;
   @JsonKey(name: "segmentList")
   SegmentList? segmentList;
+  
 
   RetailerInfoEntity({
     this.userId,
@@ -546,6 +547,8 @@ class DisplayRetailer {
   String? panNumber;
   @JsonKey(name: "GSTINNumber")
   String? gstinNumber;
+   @JsonKey(name: "DomainKey")
+  String? domainKey;
 
   DisplayRetailer({
     this.retailerId,

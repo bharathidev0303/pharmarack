@@ -75,6 +75,9 @@ class $AssetsPngGen {
   AssetGenImage get byProductSeachMenu =>
       const AssetGenImage('assets/png/byProductSeachMenu.png');
 
+  /// File path: assets/png/callus.png
+  AssetGenImage get callus => const AssetGenImage('assets/png/callus.png');
+
   /// File path: assets/png/checkedCelebration.png
   AssetGenImage get checkedCelebration =>
       const AssetGenImage('assets/png/checkedCelebration.png');
@@ -239,6 +242,7 @@ class $AssetsPngGen {
         byGenericSearchMeun,
         byProductMenu,
         byProductSeachMenu,
+        callus,
         checkedCelebration,
         close,
         dealsOfTheDayMenu,
