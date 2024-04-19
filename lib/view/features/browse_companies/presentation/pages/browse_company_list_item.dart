@@ -36,6 +36,8 @@ class BrowseCompanyListItem extends StatelessWidget {
             fit: BoxFit.cover,
             width: 40,
             height: 40,
+            fadeOutDuration: const Duration(milliseconds: 100),
+            fadeInDuration: const Duration(milliseconds: 100),
             errorWidget: (context, url, error) =>
                 AppAssets.png.emptyCompanyLogo.image(
               width: 40,

@@ -61,8 +61,12 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   String? panNumberErrorText;
   String? drugLicenseNumberErrorText;
   String? drugLicenseErrorText;
+  String? onSubmitValidateErrorText;
 
   void checkNameValue(String? value, String errorMessage) {
+    onSubmitValidateErrorText = null;
+    emit(state.copyWith(onSubmitValidateErrorText: ""));
+    emit(state.copyWith(onSubmitValidateErrorText: null));
     if (value == null || value.isEmpty) {
       nameErrorText = errorMessage;
     } else {
@@ -71,6 +75,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   }
 
   void checkDrugLicenseNewFile(XFile? value, String errorMessage) {
+    onSubmitValidateErrorText = null;
+    emit(state.copyWith(onSubmitValidateErrorText: ""));
     if (value != null) {
       if (value.path.isEmpty) {
         emit(state.copyWith(
@@ -91,6 +97,8 @@ class EditProfileCubit extends Cubit<EditProfileState> {
   }
 
   void checkPanNumberValue(String? value, String errorMessage) {
+    onSubmitValidateErrorText = null;
+    emit(state.copyWith(onSubmitValidateErrorText: ""));
     RegExp regExp = RegExp(r"^[A-Z]{5}[0-9]{4}[A-Z]{1}$");
     if (value == null ||
         value.isEmpty ||
@@ -103,15 +111,9 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     }
   }
 
-  void checkUPIValue(String? value, String errorMessage) {
-    if (value == null || value.isEmpty) {
-      upiErrorText = errorMessage;
-    } else {
-      upiErrorText = null;
-    }
-  }
-
   void checkdrugLicenseNumberValue(String? value, String errorMessage) {
+    onSubmitValidateErrorText = null;
+    emit(state.copyWith(onSubmitValidateErrorText: ""));
     if (value == null || value.isEmpty) {
       drugLicenseNumberErrorText = errorMessage;
     } else {
@@ -140,17 +142,20 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     if (reqMap[EditProfileConstants.drugLicenseImageField] == null ||
         reqMap[EditProfileConstants.drugLicenseImageField] == "") {
       drugLicenseErrorText = context.localizedString.drugLicenseFileError;
-      emit(state.copyWith(drugLicenseFileError: drugLicenseErrorText));
       count++;
     }
     if (reqMap[EditProfileConstants.drugLicenseImageField] == null &&
         state.drugLicenseNewFile == null &&
         state.drugLicenseFileUploaded == true) {
       drugLicenseErrorText = context.localizedString.drugLicenseFileError;
-      emit(state.copyWith(drugLicenseFileError: drugLicenseErrorText));
       count++;
     }
 
+    if (count > 0) {
+      onSubmitValidateErrorText = "Please fill the required fields above.";
+      emit(
+          state.copyWith(onSubmitValidateErrorText: onSubmitValidateErrorText));
+    }
     return count;
   }
 }

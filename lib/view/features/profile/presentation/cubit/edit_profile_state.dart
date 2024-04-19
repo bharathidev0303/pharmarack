@@ -10,6 +10,7 @@ class EditProfileState extends Equatable {
   final bool moveToMyProfilePage;
   final XFile? drugLicenseNewFile;
   final String? drugLicenseFileError;
+  final String? onSubmitValidateErrorText;
 
   const EditProfileState({
     required this.isLoading,
@@ -19,6 +20,7 @@ class EditProfileState extends Equatable {
     required this.moveToMyProfilePage,
     required this.drugLicenseNewFile,
     required this.drugLicenseFileError,
+    required this.onSubmitValidateErrorText,
   });
 
   factory EditProfileState.initial() {
@@ -31,6 +33,7 @@ class EditProfileState extends Equatable {
       moveToMyProfilePage: false,
       drugLicenseNewFile: null,
       drugLicenseFileError: null,
+      onSubmitValidateErrorText: null,
     );
   }
 
@@ -44,6 +47,7 @@ class EditProfileState extends Equatable {
       moveToMyProfilePage: false,
       drugLicenseNewFile: null,
       drugLicenseFileError: null,
+      onSubmitValidateErrorText: null,
     );
   }
   factory EditProfileState.success() {
@@ -56,6 +60,7 @@ class EditProfileState extends Equatable {
       moveToMyProfilePage: false,
       drugLicenseNewFile: null,
       drugLicenseFileError: null,
+      onSubmitValidateErrorText: null,
     );
   }
   factory EditProfileState.error() {
@@ -68,6 +73,7 @@ class EditProfileState extends Equatable {
       moveToMyProfilePage: false,
       drugLicenseNewFile: null,
       drugLicenseFileError: null,
+      onSubmitValidateErrorText: null,
     );
   }
 
@@ -80,6 +86,7 @@ class EditProfileState extends Equatable {
         moveToMyProfilePage,
         drugLicenseNewFile,
         drugLicenseFileError,
+        onSubmitValidateErrorText,
       ];
 
   EditProfileState copyWith({
@@ -90,6 +97,7 @@ class EditProfileState extends Equatable {
     bool? moveToMyProfilePage,
     XFile? drugLicenseNewFile,
     String? drugLicenseFileError,
+    String? onSubmitValidateErrorText,
   }) {
     return EditProfileState(
       isLoading: isLoading ?? this.isLoading,
@@ -101,6 +109,8 @@ class EditProfileState extends Equatable {
       moveToMyProfilePage: moveToMyProfilePage ?? this.moveToMyProfilePage,
       drugLicenseNewFile: drugLicenseNewFile ?? this.drugLicenseNewFile,
       drugLicenseFileError: drugLicenseFileError ?? this.drugLicenseFileError,
+      onSubmitValidateErrorText:
+          onSubmitValidateErrorText ?? this.onSubmitValidateErrorText,
     );
   }
 }

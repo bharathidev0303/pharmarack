@@ -25,7 +25,7 @@ class SuccessDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (autoClose == true && hideCloseIcon == false) {
+    if (autoClose == true) {
       autoClosePopUp(context, secondsToclose!);
     }
 

@@ -18,6 +18,7 @@ import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/i
 import 'package:pharmarack/packages/core_flutter/common_widgets/dialog_card_two_button.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
+import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/utils/image_picker_util.dart';
 import 'package:pharmarack/view/features/profile/presentation/constants/edit_profile_constants.dart';
@@ -50,6 +51,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (!getIt.isRegistered<EditProfileCubit>()) {
       initProfileCubit();
     }
+
     editProfileCubit = getIt<EditProfileCubit>();
     retailerInfoEntity = getIt<RetailerInfoEntity>();
     _initiateEditProfielDetails();
@@ -229,7 +231,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               onClickSaveAction: () async {
                 var validateReqFields =
                     await editProfileCubit.validateReqFields(context, reqMap);
-
+                _formKey.currentState?.validate();
                 if (validateReqFields == 0) {
                   editProfileCubit.saveUserInputFieldsData(reqMap);
                 }
@@ -396,8 +398,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       //emailId
                       ValidatorDisabledInputTextNew(
                         labelText: context.localizedString.emailId,
-                        defaultValue:
-                            reqMap[EditProfileConstants.mobileNumberField],
+                        defaultValue: reqMap[EditProfileConstants.emailField],
                         key: MyProfileConstants.keyMobileNumber,
                         onChangeCallBack: (value) {},
                         enable: false,
@@ -414,7 +415,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       //mobile number
                       ValidatorDisabledInputTextNew(
                         labelText: context.localizedString.mobileNo,
-                        defaultValue: reqMap[EditProfileConstants.emailField],
+                        defaultValue:
+                            reqMap[EditProfileConstants.mobileNumberField],
                         key: MyProfileConstants.keyEmailId,
                         onChangeCallBack: (value) {},
                         enable: false,
@@ -499,6 +501,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             reqMap[EditProfileConstants.panNumberField],
                         key: MyProfileConstants.keyPanNumber,
                         onChangeCallBack: (value) {
+                          reqMap[EditProfileConstants.panNumberField] =
+                              value.toUpperCase();
                           editProfileCubit.checkPanNumberValue(
                               value, context.localizedString.panError);
                           _formKey.currentState?.validate();
@@ -526,9 +530,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         key: MyProfileConstants.keyUpiId,
                         onChangeCallBack: (value) {
                           reqMap[EditProfileConstants.uPIIdField] = value;
-                          editProfileCubit.checkUPIValue(
-                              value, context.localizedString.upiIdError);
-                          _formKey.currentState?.validate();
                         },
                         enable: true,
                         validator: (value) {
@@ -822,11 +823,35 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                 ),
                                               ),
                                       ),
-                                const SizedBox(height: 16),
                               ]),
                             )
                           : Container(),
-                      const SizedBox(height: 25),
+                      editProfileCubit.onSubmitValidateErrorText != null
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 2, right: 2),
+                                  child: Icon(
+                                    Icons.info_outline,
+                                    size: 12,
+                                    color: AppColors.redErrorColor,
+                                  ),
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    editProfileCubit.onSubmitValidateErrorText!,
+                                    style: context.textStyles.header11Medium
+                                        ?.copyWith(
+                                            color: AppColors.redErrorColor,
+                                            overflow: TextOverflow.ellipsis),
+                                    maxLines: 2,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : const SizedBox.shrink(),
+                      const SizedBox(height: 15),
                     ],
                   ))),
         ));
@@ -849,6 +874,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         subtitle: "Your profile has been updated successfully.",
       );
     } else if (state.userMessages.contains(UserMessage.updateProfileFailure)) {
+      CommonDialogs.closeCommonDialog(context: context);
       showFailedRequestDialog(context, title: "Unable to update");
     }
   }
@@ -880,10 +906,69 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   _initiateEditProfielDetails() {
     reqMap[EditProfileConstants.loginIdField] =
         (retailerInfoEntity.userId ?? "").toString();
-    reqMap[EditProfileConstants.retailerNameField] =
-        retailerInfoEntity.displayRetailers![0].retailerName ?? "";
-    reqMap[EditProfileConstants.businessTypeField] =
-        retailerInfoEntity.displayRetailers![0].businessTypeName ?? "";
+    if (retailerInfoEntity.retailerPaymentConfig!.isNotEmpty) {
+      reqMap[EditProfileConstants.uPIIdField] =
+          retailerInfoEntity.retailerPaymentConfig![0].upiId ?? "";
+      reqMap[EditProfileConstants.bankNameField] =
+          retailerInfoEntity.retailerPaymentConfig![0].bankName ?? "";
+      reqMap[EditProfileConstants.bankAcNameField] =
+          retailerInfoEntity.retailerPaymentConfig![0].bankAcName ?? "";
+      reqMap[EditProfileConstants.bankAcNumberField] =
+          retailerInfoEntity.retailerPaymentConfig![0].bankAcNumber ?? "";
+      reqMap[EditProfileConstants.bankAccountTypeField] =
+          retailerInfoEntity.retailerPaymentConfig![0].bankAccountType ?? "";
+      reqMap[EditProfileConstants.accountTypeField] =
+          retailerInfoEntity.retailerPaymentConfig![0].bankAccountType ?? "";
+      reqMap[EditProfileConstants.iFSCField] =
+          retailerInfoEntity.retailerPaymentConfig![0].ifsc ?? "";
+    } else {
+      reqMap[EditProfileConstants.uPIIdField] = "";
+      reqMap[EditProfileConstants.bankNameField] = "";
+      reqMap[EditProfileConstants.bankAcNameField] = "";
+      reqMap[EditProfileConstants.bankAcNumberField] = "";
+      reqMap[EditProfileConstants.bankAccountTypeField] = "";
+      reqMap[EditProfileConstants.accountTypeField] = "";
+      reqMap[EditProfileConstants.iFSCField] = "";
+    }
+
+    if (retailerInfoEntity.displayRetailers!.isNotEmpty) {
+      reqMap[EditProfileConstants.retailerNameField] =
+          retailerInfoEntity.displayRetailers![0].retailerName ?? "";
+      reqMap[EditProfileConstants.businessTypeField] =
+          retailerInfoEntity.displayRetailers![0].businessTypeName ?? "";
+      reqMap[EditProfileConstants.regionIdField] =
+          (retailerInfoEntity.displayRetailers![0].regionId ?? "").toString();
+      reqMap[EditProfileConstants.stateIdField] =
+          (retailerInfoEntity.displayRetailers![0].stateId ?? "").toString();
+      reqMap[EditProfileConstants.stateNameField] =
+          retailerInfoEntity.displayRetailers![0].stateName ?? "";
+      reqMap[EditProfileConstants.gSTINNumberField] =
+          (retailerInfoEntity.displayRetailers![0].gstinNumber ?? "")
+              .toString();
+      reqMap[EditProfileConstants.gSTINOptionField] =
+          retailerInfoEntity.displayRetailers![0].gstinOption ?? "";
+      reqMap[EditProfileConstants.retailerIdField] =
+          (retailerInfoEntity.displayRetailers![0].retailerId ?? "").toString();
+      reqMap[EditProfileConstants.retailerNameField] =
+          retailerInfoEntity.displayRetailers![0].retailerName ?? "";
+      reqMap[EditProfileConstants.licenseNumberField] =
+          (retailerInfoEntity.displayRetailers![0].licenseNumber ?? "")
+              .toString();
+      reqMap[EditProfileConstants.panNumberField] =
+          (retailerInfoEntity.displayRetailers![0].panNumber ?? "").toString();
+    } else {
+      reqMap[EditProfileConstants.retailerNameField] = "";
+      reqMap[EditProfileConstants.businessTypeField] = "";
+      reqMap[EditProfileConstants.regionIdField] = "";
+      reqMap[EditProfileConstants.stateIdField] = "";
+      reqMap[EditProfileConstants.stateNameField] = "";
+      reqMap[EditProfileConstants.gSTINNumberField] = "";
+      reqMap[EditProfileConstants.gSTINOptionField] = "";
+      reqMap[EditProfileConstants.retailerIdField] = "";
+      reqMap[EditProfileConstants.retailerNameField] = "";
+      reqMap[EditProfileConstants.licenseNumberField] = "";
+      reqMap[EditProfileConstants.panNumberField] = "";
+    }
     reqMap[EditProfileConstants.shopFullAddressField] = makeShopeFullAddress(
         retailerInfoEntity.userdetail!.address1,
         retailerInfoEntity.userdetail!.address2,
@@ -892,12 +977,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         retailerInfoEntity.userdetail!.city ?? "";
     reqMap[EditProfileConstants.pincodeField] =
         (retailerInfoEntity.userdetail!.pincode ?? "").toString();
-    reqMap[EditProfileConstants.regionIdField] =
-        (retailerInfoEntity.displayRetailers![0].regionId ?? "").toString();
-    reqMap[EditProfileConstants.stateIdField] =
-        (retailerInfoEntity.displayRetailers![0].stateId ?? "").toString();
-    reqMap[EditProfileConstants.stateNameField] =
-        retailerInfoEntity.displayRetailers![0].stateName ?? "";
     reqMap[EditProfileConstants.firstNameField] =
         retailerInfoEntity.firstname ?? "";
     reqMap[EditProfileConstants.lastNameField] =
@@ -905,46 +984,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     reqMap[EditProfileConstants.emailField] = retailerInfoEntity.email ?? "";
     reqMap[EditProfileConstants.mobileNumberField] =
         retailerInfoEntity.mobileNumber ?? "";
-    reqMap[EditProfileConstants.gSTINNumberField] =
-        (retailerInfoEntity.displayRetailers![0].gstinNumber ?? "").toString();
-    reqMap[EditProfileConstants.gSTINOptionField] =
-        retailerInfoEntity.displayRetailers![0].gstinOption ?? "";
     reqMap[EditProfileConstants.telephoneField] =
         retailerInfoEntity.telephone ?? "";
-    reqMap[EditProfileConstants.retailerIdField] =
-        (retailerInfoEntity.displayRetailers![0].retailerId ?? "").toString();
-    reqMap[EditProfileConstants.retailerNameField] =
-        retailerInfoEntity.displayRetailers![0].retailerName ?? "";
     reqMap[EditProfileConstants.address1Field] =
         retailerInfoEntity.userdetail!.address1 ?? "";
     reqMap[EditProfileConstants.address2Field] =
         retailerInfoEntity.userdetail!.address2 ?? "";
-    reqMap[EditProfileConstants.licenseNumberField] =
-        (retailerInfoEntity.displayRetailers![0].licenseNumber ?? "")
-            .toString();
-    reqMap[EditProfileConstants.panNumberField] =
-        (retailerInfoEntity.displayRetailers![0].panNumber ?? "").toString();
-
-    reqMap[EditProfileConstants.uPIIdField] =
-        retailerInfoEntity.retailerPaymentConfig![0].upiId ?? "";
-    reqMap[EditProfileConstants.bankNameField] =
-        retailerInfoEntity.retailerPaymentConfig![0].bankName ?? "";
-    reqMap[EditProfileConstants.bankAcNameField] =
-        retailerInfoEntity.retailerPaymentConfig![0].bankAcName ?? "";
-    reqMap[EditProfileConstants.bankAcNumberField] =
-        retailerInfoEntity.retailerPaymentConfig![0].bankAcNumber ?? "";
-    reqMap[EditProfileConstants.bankAccountTypeField] =
-        retailerInfoEntity.retailerPaymentConfig![0].bankAccountType ?? "";
-    reqMap[EditProfileConstants.accountTypeField] =
-        retailerInfoEntity.retailerPaymentConfig![0].bankAccountType ?? "";
-    reqMap[EditProfileConstants.iFSCField] =
-        retailerInfoEntity.retailerPaymentConfig![0].ifsc ?? "";
-    reqMap[EditProfileConstants.drugLicenseImageField] =
-        retailerInfoEntity.displayImages![0].imageUrl ?? "";
-    reqMap[EditProfileConstants.contactPersonField] =
-        retailerInfoEntity.stores?.isNotEmpty ?? false
-            ? retailerInfoEntity.stores![0].contactPerson.toString()
-            : retailerInfoEntity.username.toString();
+    if (retailerInfoEntity.displayImages!.isNotEmpty) {
+      reqMap[EditProfileConstants.drugLicenseImageField] =
+          retailerInfoEntity.displayImages![0].imageUrl ?? "";
+    } else {
+      reqMap[EditProfileConstants.drugLicenseImageField] = "";
+    }
+    if (retailerInfoEntity.stores!.isNotEmpty) {
+      reqMap[EditProfileConstants.contactPersonField] =
+          retailerInfoEntity.stores?.isNotEmpty ?? false
+              ? retailerInfoEntity.stores![0].contactPerson.toString()
+              : retailerInfoEntity.username.toString();
+    } else {
+      reqMap[EditProfileConstants.contactPersonField] = "";
+    }
   }
 
   makeShopeFullAddress(address1, address2, city) {

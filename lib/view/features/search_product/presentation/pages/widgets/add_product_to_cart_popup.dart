@@ -256,84 +256,85 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
                       SizedBox(
                         height: schemeList.isNotEmpty ? 10 : 0,
                       ),
-                      schemeList.isNotEmpty
-                          ? SizedBox(
-                              height: 32,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: schemeList.length,
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      selectedScheme = index;
-                                      addProductToCartCubit
-                                              .quantityController.text =
-                                          schemeList[index]
-                                              .toString()
-                                              .split('+')[0];
-                                      addProductToCartCubit
-                                          .resetQuantityField();
-                                      addProductToCartCubit.updateFreeValue(
-                                          int.parse(schemeList[index]
-                                              .toString()
-                                              .split('+')[0]));
-                                      // setState(() {
-                                      // });
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(3),
-                                          color: AppColors.secondaryButtonColor,
-                                          border: selectedScheme == index
-                                              ? Border.all(
-                                                  color: AppColors
-                                                      .secondaryButtonTextColor)
-                                              : null),
-                                      //height: 30,
-                                      width: 70,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 4, vertical: 2),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 4),
-                                      child: Center(
-                                        child: /*Text(
-                                    schemeList[index],
-                                    style: context.textStyles.header12Medium?.copyWith(
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  )*/
-                                            RichText(
-                                          text: TextSpan(
-                                            text:
-                                                '${schemeList[index].toString().split('+')[0]} + ',
-                                            style: AppTextStyles
-                                                .textFieldNameStyle11W500
-                                                .copyWith(
-                                              color: AppColors.primaryColor,
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                text:
-                                                    ' ${schemeList[index].toString().split('+')[1]}',
-                                                style: AppTextStyles
-                                                    .textFieldNameStyle11W500
-                                                    .copyWith(
-                                                  color: AppColors
-                                                      .primaryOrangeColor,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            )
-                          : const SizedBox.shrink()
+                      defaultCountRow()
+                      // schemeList.isNotEmpty
+                      //     ? SizedBox(
+                      //         height: 32,
+                      //         child: ListView.builder(
+                      //           scrollDirection: Axis.horizontal,
+                      //           itemCount: schemeList.length,
+                      //           itemBuilder: (context, index) {
+                      //             return GestureDetector(
+                      //               onTap: () {
+                      //                 selectedScheme = index;
+                      //                 addProductToCartCubit
+                      //                         .quantityController.text =
+                      //                     schemeList[index]
+                      //                         .toString()
+                      //                         .split('+')[0];
+                      //                 addProductToCartCubit
+                      //                     .resetQuantityField();
+                      //                 addProductToCartCubit.updateFreeValue(
+                      //                     int.parse(schemeList[index]
+                      //                         .toString()
+                      //                         .split('+')[0]));
+                      //                 // setState(() {
+                      //                 // });
+                      //               },
+                      //               child: Container(
+                      //                 decoration: BoxDecoration(
+                      //                     borderRadius:
+                      //                         BorderRadius.circular(3),
+                      //                     color: AppColors.secondaryButtonColor,
+                      //                     border: selectedScheme == index
+                      //                         ? Border.all(
+                      //                             color: AppColors
+                      //                                 .secondaryButtonTextColor)
+                      //                         : null),
+                      //                 //height: 30,
+                      //                 width: 70,
+                      //                 padding: const EdgeInsets.symmetric(
+                      //                     horizontal: 4, vertical: 2),
+                      //                 margin: const EdgeInsets.symmetric(
+                      //                     horizontal: 4),
+                      //                 child: Center(
+                      //                   child: /*Text(
+                      //               schemeList[index],
+                      //               style: context.textStyles.header12Medium?.copyWith(
+                      //                 color: Colors.white,
+                      //               ),
+                      //               textAlign: TextAlign.center,
+                      //             )*/
+                      //                       RichText(
+                      //                     text: TextSpan(
+                      //                       text:
+                      //                           '${schemeList[index].toString().split('+')[0]} + ',
+                      //                       style: AppTextStyles
+                      //                           .textFieldNameStyle11W500
+                      //                           .copyWith(
+                      //                         color: AppColors.primaryColor,
+                      //                       ),
+                      //                       children: [
+                      //                         TextSpan(
+                      //                           text:
+                      //                               ' ${schemeList[index].toString().split('+')[1]}',
+                      //                           style: AppTextStyles
+                      //                               .textFieldNameStyle11W500
+                      //                               .copyWith(
+                      //                             color: AppColors
+                      //                                 .primaryOrangeColor,
+                      //                           ),
+                      //                         ),
+                      //                       ],
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //             );
+                      //           },
+                      //         ),
+                      //       )
+                      //     : const SizedBox.shrink()
                     ]),
               ),
             );

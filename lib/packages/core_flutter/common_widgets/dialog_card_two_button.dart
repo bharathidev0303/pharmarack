@@ -62,77 +62,75 @@ class DialogCardTwoButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SizedBox(
-        width: width,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              body,
-              Visibility(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: FilledButton(
-                        key: keyDialogCardCancelActionButton,
-                        onPressed: showProgress ? null : onClickCancelAction,
-                        style: FilledButton.styleFrom(
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          backgroundColor: AppColors.secondaryButtonColor,
-                          foregroundColor: AppColors.blueLinkTextColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        child: Text(
-                          cancelActionText?.toUpperCase() ?? '',
-                          style: AppTextStyles.blueLinkTextStyle,
+    return SizedBox(
+      width: width,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            body,
+            Visibility(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: FilledButton(
+                      key: keyDialogCardCancelActionButton,
+                      onPressed: showProgress ? null : onClickCancelAction,
+                      style: FilledButton.styleFrom(
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        backgroundColor: AppColors.secondaryButtonColor,
+                        foregroundColor: AppColors.blueLinkTextColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: FilledButton(
-                        key: keyDialogCardSaveActionButton,
-                        onPressed: showProgress ? null : onClickSaveAction,
-                        style: FilledButton.styleFrom(
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          backgroundColor:
-                              AppColors.dialogActionEnabledBackground,
-                          foregroundColor: AppColors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        child: Text(
-                          saveActionText?.toUpperCase() ?? '',
-                          style: AppTextStyles.dialogActionStyle12W500,
-                        ),
+                      child: Text(
+                        cancelActionText?.toUpperCase() ?? '',
+                        style: AppTextStyles.blueLinkTextStyle,
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Visibility(
-                visible: showProgress,
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: SpinKitFadingCircle(
-                    color: AppColors.blueButtonColor,
-                    size: 50.0,
                   ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: FilledButton(
+                      key: keyDialogCardSaveActionButton,
+                      onPressed: showProgress ? null : onClickSaveAction,
+                      style: FilledButton.styleFrom(
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        backgroundColor:
+                            AppColors.dialogActionEnabledBackground,
+                        foregroundColor: AppColors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      child: Text(
+                        saveActionText?.toUpperCase() ?? '',
+                        style: AppTextStyles.dialogActionStyle12W500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Visibility(
+              visible: showProgress,
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: SpinKitFadingCircle(
+                  color: AppColors.blueButtonColor,
+                  size: 50.0,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

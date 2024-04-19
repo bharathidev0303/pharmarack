@@ -40,11 +40,10 @@ class DashboardScreenPageSate extends BaseStatefulPage {
         showSuccessDialog(context,
             title: successDialogInfo.title,
             subtitle: successDialogInfo.subtitle,
-            hideCloseIcon: false,
+            hideCloseIcon: true,
             autoClose: true,
             secondsToclose: 2);
       });
-
       getIt.unregister<CommonSuccessDialogInfoModel>(
           instanceName: OnboardingConstants.showDialogDiConstant);
     }
