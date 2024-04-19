@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
@@ -55,26 +56,32 @@ class DistributorConnectionPageState extends BaseStatefulPage {
           create: (context) => getIt<DistributorMappedTabCubit>(),
         )
       ],
-      child: CustomTabWithDivider(
-        selectedIndex: index,
-        tabs: [
-          CustomTabItem(
-            tabName: context.localizedString.mappedTabTitle.toUpperCase(),
-            shouldAddDivider: true,
-          ),
-          CustomTabItem(
-            tabName: context.localizedString.nonMappedTabTitle.toUpperCase(),
-            shouldAddDivider: true,
-          ),
-          CustomTabItem(
-            tabName: context.localizedString.referTabTitle.toUpperCase(),
-          ),
-        ],
-        tabBarViews: [
-          const StockiestPriorityPageMobileView(),
-          const DistributorConnectionRequestTab(),
-          DistributorConnectionAddTab(),
-        ],
+      child: AnnotatedRegion(
+        value: const SystemUiOverlayStyle(
+          statusBarColor: AppColors.appBarColor,
+          statusBarIconBrightness: Brightness.dark,
+        ),
+        child: CustomTabWithDivider(
+          selectedIndex: index,
+          tabs: [
+            CustomTabItem(
+              tabName: context.localizedString.mappedTabTitle.toUpperCase(),
+              shouldAddDivider: true,
+            ),
+            CustomTabItem(
+              tabName: context.localizedString.nonMappedTabTitle.toUpperCase(),
+              shouldAddDivider: true,
+            ),
+            CustomTabItem(
+              tabName: context.localizedString.referTabTitle.toUpperCase(),
+            ),
+          ],
+          tabBarViews: [
+            const StockiestPriorityPageMobileView(),
+            const DistributorConnectionRequestTab(),
+            DistributorConnectionAddTab(),
+          ],
+        ),
       ),
     );
   }

@@ -412,7 +412,6 @@ Future<void> initOneSignal() async {
   OneSignal.initialize(OnboardingConstants.oneSignalDashboardKey);
   Future.delayed(const Duration(seconds: 3), () {
     final id = OneSignal.User.pushSubscription.id;
-    print("sksjsks $id");
     if (id != null) {
       _prefs.setString('oneSignalId', id);
     }
