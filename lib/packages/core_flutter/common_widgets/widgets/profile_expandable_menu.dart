@@ -59,6 +59,7 @@ class CustomNavDrawerState extends State<CustomNavDrawer> {
       slivers: [
         SliverToBoxAdapter(
           child: Container(
+            margin: const EdgeInsets.only(bottom: 20),
             decoration: BoxDecoration(
                 border: Border.all(color: AppColors.borderColor),
                 borderRadius: const BorderRadius.all(Radius.circular(10))),

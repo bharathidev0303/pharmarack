@@ -36,7 +36,7 @@ class SuccessWidget extends StatelessWidget {
           children: [
             Stack(
               children: [
-                hideCloseIcon == null
+                hideCloseIcon == null || hideCloseIcon == true
                     ? Positioned(
                         top: 0,
                         right: 0,

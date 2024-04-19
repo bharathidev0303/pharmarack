@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/success_widget.dart';
 
@@ -8,16 +10,25 @@ class SuccessDialog extends StatelessWidget {
   final String? subTitle;
   final VoidCallback? onCloseClick;
   final bool? hideCloseIcon;
+  final bool? autoClose;
+  final int? secondsToclose;
 
-  const SuccessDialog(
-      {super.key,
-      required this.title,
-      this.subTitle,
-      this.onCloseClick,
-      this.hideCloseIcon});
+  const SuccessDialog({
+    super.key,
+    required this.title,
+    this.subTitle,
+    this.onCloseClick,
+    this.hideCloseIcon,
+    this.autoClose,
+    this.secondsToclose,
+  });
 
   @override
   Widget build(BuildContext context) {
+    if (autoClose == true && hideCloseIcon == false) {
+      autoClosePopUp(context, secondsToclose!);
+    }
+
     return Dialog(
       surfaceTintColor: AppColors.dialogBackground,
       shape: RoundedRectangleBorder(
@@ -34,5 +45,11 @@ class SuccessDialog extends StatelessWidget {
         hideCloseIcon: hideCloseIcon,
       ),
     );
+  }
+
+  autoClosePopUp(BuildContext context, int secondsToclose) async {
+    await Future.delayed(
+        Duration(seconds: secondsToclose != 0 ? secondsToclose : 3));
+    Navigator.pop(context);
   }
 }

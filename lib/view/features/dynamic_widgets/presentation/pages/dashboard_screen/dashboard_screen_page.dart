@@ -28,24 +28,27 @@ class DashboardScreenPageSate extends BaseStatefulPage {
   void initState() {
     super.initState();
     initDashboardDi();
+    showModelPopup();
+  }
+
+  void showModelPopup() async {
     if (getIt.isRegistered<CommonSuccessDialogInfoModel>(
         instanceName: OnboardingConstants.showDialogDiConstant)) {
       final successDialogInfo = getIt<CommonSuccessDialogInfoModel>(
           instanceName: OnboardingConstants.showDialogDiConstant);
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        showSuccessDialog(
-          context,
-          title: successDialogInfo.title,
-          subtitle: successDialogInfo.subtitle,
-        );
+        showSuccessDialog(context,
+            title: successDialogInfo.title,
+            subtitle: successDialogInfo.subtitle,
+            hideCloseIcon: false,
+            autoClose: true,
+            secondsToclose: 2);
       });
+
       getIt.unregister<CommonSuccessDialogInfoModel>(
           instanceName: OnboardingConstants.showDialogDiConstant);
     }
-
     draggableCartScreenCubit.getCartDetails();
-    // FlyyFlutterPlugin.setFlyyUser(
-    //     getIt<RetailerInfoEntity>().userId.toString());
   }
 
   @override

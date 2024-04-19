@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/login_entity.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/failure_custom_dialog.dart';
@@ -80,6 +82,9 @@ Future showSuccessDialog(
   VoidCallback? closeClick,
   bool barrierDismissible = true,
   bool userRootNavigator = true,
+  bool hideCloseIcon = false,
+  bool? autoClose = false,
+  int? secondsToclose = 0,
 }) {
   return showDialog(
     context: context,
@@ -91,6 +96,9 @@ Future showSuccessDialog(
         title: title,
         subTitle: subtitle,
         onCloseClick: closeClick,
+        hideCloseIcon: hideCloseIcon,
+        autoClose: autoClose,
+        secondsToclose: secondsToclose,
       );
     },
   );

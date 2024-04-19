@@ -1,3 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
+
+import '../../../../../di/app_provider.dart';
+
 class CrmBarWidgetModel {
   final String title;
   final String titleAlignment;
@@ -21,6 +26,7 @@ class CrmBarWidgetModel {
   });
 
   factory CrmBarWidgetModel.fromJson(Map<String, dynamic> json) {
+    var retailer = getIt<RetailerInfoEntity>();
     final String title = json['title'] ?? "";
     final String titleAlignment = json['title_alignment'] ?? "";
     final String titleColor = json['title_color'] ?? "";
@@ -30,8 +36,27 @@ class CrmBarWidgetModel {
     final String backgroundType = json['background_type'] ?? "";
     final String background = json['background'] ?? "";
     final List<dynamic> crmBarsJson = json['childrens'] ?? [];
-    final List<CrmBar> crmBars =
-        crmBarsJson.map((crmBarJson) => CrmBar.fromJson(crmBarJson)).toList();
+    final List<CrmBar> crmBars = List.empty(growable: true);
+
+    for (var json in crmBarsJson) {
+      if (json["link_to"] == "/RaplPage" &&
+          retailer.displayRetailers?[0].isLMSActive == 0) {
+      } else {
+        crmBars.add(CrmBar(
+          label: json['label'] ?? "",
+          title: json['title'] ?? "",
+          titleAlignment: json['title_alignment'] ?? "",
+          titleColor: json['title_color'] ?? "",
+          titleSize: json['title_size'] ?? "",
+          assetUrl: json['asset_url'] ?? "",
+          linkType: json['link_type'] ?? "",
+          linkTo: json['link_to'] ?? "",
+          linkToExtra: json['link_to_extra'] ?? "",
+          backgroundType: json['background_type'] ?? "",
+          background: json['background'] ?? "",
+        ));
+      }
+    }
 
     return CrmBarWidgetModel(
         title: title,

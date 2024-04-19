@@ -40,6 +40,7 @@ class BrowseCompanyListItem extends StatelessWidget {
                 AppAssets.png.emptyCompanyLogo.image(
               width: 40,
               height: 40,
+              fit: BoxFit.cover,
             ),
           ),
           const SizedBox(width: 10),

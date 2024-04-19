@@ -375,7 +375,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 widget.productAndDistributorCallBack?.call(
                     text,
                     selectedDistributorId,
-                    distributorTextController.text,
+                    distributorTextController.text != "All"
+                        ? distributorTextController.text
+                        : "",
                     selectedCompanyId,
                     selectedCompanyName,
                     contextType);
@@ -480,10 +482,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   selectedCompanyId,
                   selectedCompanyName,
                   contextType);
-
-              distributorTextController.text = storeName;
-
               _distributorFocusNode.unfocus();
+
+              distributorTextController.text =
+                  storeName == "" ? "All" : storeName;
+
               // appBarCubit.distributorTextFieldTapped(isTapped: false);
               appBarCubit.distributorSelected(isSelected: true);
             },

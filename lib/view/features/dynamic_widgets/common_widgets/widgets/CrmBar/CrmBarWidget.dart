@@ -21,7 +21,7 @@ Widget buildCrmBarWidget(Map<String, dynamic> children) {
     builder: (context, AsyncSnapshot<CrmBarWidgetModel> snapshot) {
       if (snapshot.connectionState == ConnectionState.done) {
         CrmBarWidgetModel crmBarModel = snapshot.requireData;
-        debugPrint('LENGTH: ${crmBarModel.crmBars.length}');
+        debugPrint('CRM LENGTH: ${crmBarModel.crmBars.length}');
         return SizedBox(
           height: 100,
           width: double.infinity,

@@ -1,38 +1,3 @@
-// import 'package:feedback/presentation/pages/feedback_request_dialog.dart';
-// import 'package:flutter/material.dart';
-// import 'package:fulfilment_partner/presentation/pages/fulfilment_partner_page/fulfilment_partner_page.dart';
-// import 'package:fulfilment_partner/presentation/pages/mapping_page/mapping_page.dart';
-// import 'package:fulfilment_partner/presentation/pages/settings_page/settings_page.dart';
-// import 'package:onboarding/presentation/pages/forgot_password/forgot_password_screen.dart';
-// import 'package:onboarding/presentation/pages/forgot_password/otp_screen/forgot_password_otp_screen.dart';
-// import 'package:onboarding/presentation/pages/forgot_password/reset_password/reset_password_screen.dart';
-// import 'package:onboarding/presentation/pages/login_screen.dart';
-// import 'package:onboarding/presentation/pages/otp_auth/delete_account_otp_screen.dart';
-// import 'package:onboarding/presentation/pages/otp_auth/otp_screen.dart';
-// import 'package:onboarding/presentation/pages/retailer_registration/landing_page/retailer_registration_landing_screen.dart';
-// import 'package:onboarding/presentation/pages/retailer_registration/step_one_page/registration_step_one_screen.dart';
-// import 'package:onboarding/presentation/pages/retailer_registration/step_three_page/registration_step_three_screen.dart';
-// import 'package:onboarding/presentation/pages/retailer_registration/step_two_page/registration_step_two_screen.dart';
-// import 'package:onboarding/presentation/pages/ops_screen/operations_page.dart';
-// import 'package:retailer/features/bounced_orders/presentation/pages/get_bounced_orders_page.dart';
-// import 'package:retailer/features/browse_companies/presentation/pages/browse_companies_page.dart';
-// import 'package:retailer/features/distributor_connection/presentation/widget/distributor_connection_page.dart';
-// import 'package:retailer/features/dynamic_widgets/BannerPage.dart';
-// import 'package:retailer/features/landing_page/landing_page.dart';
-// import 'package:retailer/features/offers_and_rewards/presentation/rewards_page.dart';
-// import 'package:retailer/features/order_history/presentation/pages/order_history_details/order_details_page.dart';
-// import 'package:retailer/features/order_history/presentation/pages/order_history_page.dart';
-// import 'package:retailer/features/profile/presentation/pages/profile_page.dart';
-// import 'package:retailer/features/search_product/presentation/pages/search_product_page.dart';
-// import 'package:retailer/main/navigation/route_paths.dart';
-
-// import '../../features/bounced_orders/presentation/pages/view_bounced_order_details_page.dart';
-// import '../../features/cart/presentation/pages/place_order_successful_page.dart';
-// import '../../features/dynamic_widgets/presentation/pages/company_page/company_screen_page.dart';
-// import '../../features/notifications/presentation/widget/notifications_screen.dart';
-// import '../../features/terms_and_conditions/presentation/pages/privacy_policy_page.dart';
-// import '../../features/terms_and_conditions/presentation/pages/terms_and_condition_page.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flyy_flutter_plugin/flyy_flutter_plugin.dart';
 import 'package:pharmarack/di/app_provider.dart';

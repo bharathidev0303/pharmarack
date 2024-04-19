@@ -40,7 +40,6 @@ class RetailerInfoEntity {
   List<LoginResponseStores>? stores;
   @JsonKey(name: "segmentList")
   SegmentList? segmentList;
-  
 
   RetailerInfoEntity({
     this.userId,
@@ -547,8 +546,12 @@ class DisplayRetailer {
   String? panNumber;
   @JsonKey(name: "GSTINNumber")
   String? gstinNumber;
-   @JsonKey(name: "DomainKey")
+  @JsonKey(name: "isLMSActive")
+  int? isLMSActive;
+  @JsonKey(name: "DomainKey")
   String? domainKey;
+  @JsonKey(name: "SecretKey")
+  String? secretKey;
 
   DisplayRetailer({
     this.retailerId,
@@ -564,6 +567,9 @@ class DisplayRetailer {
     this.stateName,
     this.panNumber,
     this.gstinNumber,
+    this.isLMSActive,
+    this.domainKey,
+    this.secretKey,
   });
 
   factory DisplayRetailer.fromJson(Map<String, dynamic> json) =>
