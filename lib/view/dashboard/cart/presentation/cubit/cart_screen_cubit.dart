@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/packages/core/log_util/log_util.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
+import 'package:pharmarack/view/dashboard/cart/data/model/cart_detail.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/model/add_product_to_cart_param.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/model/cart_details_model.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/usecase/add_change_cart_usecase.dart';
@@ -102,7 +103,7 @@ class CartScreenCubit extends Cubit<CartScreenState> {
   }
 
   validateQuantityField({
-    required CartListItemModel cartItem,
+    required CartListItemEntity cartItem,
     required String quantity,
   }) {
     _changeProductQuantity.validateQuantity(quantity, cartItem).fold((l) {
@@ -133,7 +134,7 @@ class CartScreenCubit extends Cubit<CartScreenState> {
   }
 
   void onProductQuantityChange(
-      String quantityText, CartListItemModel cartItem) async {
+      String quantityText, CartListItemEntity cartItem) async {
     emit(CartScreenLoadingState());
     int quantity = 0;
     try {
@@ -310,7 +311,7 @@ class CartScreenCubit extends Cubit<CartScreenState> {
     late List<PlaceOrderApiRequest> request = [];
     double amount = 0;
     double gstAmount = 0;
-    Iterable<CartListItemModel> productList;
+    Iterable<CartListItemEntity> productList;
     for (var element in cartDetailsModel.stores) {
       if (element.isSelected) {
         productList =
@@ -368,15 +369,15 @@ class CartScreenCubit extends Cubit<CartScreenState> {
     emit(const CancelOrderEnableState());
   }
 
-  void updateCartItemAmount(CartListItemModel cartItem, String value) {
+  void updateCartItemAmount(CartListItemEntity cartItem, String value) {
     final cartDetailsModel = _cartDetailsUseCase.getCartDetailsData()!;
-    Iterable<CartListItemModel> productList;
+    Iterable<CartListItemEntity> productList;
     for (var element in cartDetailsModel.stores) {
       productList =
           element.cartItemList.where((val) => val.storeId == element.storeId);
       for (var product in productList) {
         //product.mrp=product.mrp! * int.parse(value);
-        product.totalAmount = double.parse(product.mrp!) * int.parse(value);
+        product.productWiseAmount = product.ptr! * int.parse(value);
       }
     }
 

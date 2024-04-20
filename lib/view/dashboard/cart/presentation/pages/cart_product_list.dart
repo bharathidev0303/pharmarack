@@ -8,6 +8,7 @@ import 'package:pharmarack/packages/core_flutter/common_widgets/widgets/primary_
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
+import 'package:pharmarack/view/dashboard/cart/data/model/cart_detail.dart';
 import 'package:pharmarack/view/dashboard/cart/di/cart_provider.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/model/cart_details_model.dart';
 import 'package:pharmarack/view/dashboard/cart/presentation/widgets/cart_item_options_popup.dart';
@@ -205,7 +206,7 @@ class _ProductListSectionHeader extends StatelessWidget {
 }
 
 class _CartProductListItem extends StatelessWidget {
-  final CartListItemModel cartProduct;
+  final CartListItemEntity cartProduct;
 
   const _CartProductListItem(this.cartProduct);
 
@@ -292,7 +293,7 @@ class _CartProductListItem extends StatelessWidget {
                     child: Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          " ₹ ${cartProduct.totalAmount.toStringAsFixed(2)}",
+                          " ₹ ${cartProduct.productWiseAmount?.toStringAsFixed(2)}",
                           style: AppTextStyles.style16W700Black(),
                         )),
                   ),

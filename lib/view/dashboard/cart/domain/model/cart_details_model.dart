@@ -24,7 +24,7 @@ class CartDetailsModel {
 class Store {
   final int storeId;
   final String storeName;
-  final List<CartListItemModel> cartItemList;
+  final List<CartListItemEntity> cartItemList;
   bool isSelected = true;
   bool isExpanded = true;
   double total = 0.0;

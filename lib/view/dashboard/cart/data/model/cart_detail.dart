@@ -11,7 +11,9 @@ class CartDetailEntity {
   @JsonKey(name: 'Message')
   String? message;
   @JsonKey(name: 'IList')
-  List<CartListItemEntity>? cartListItem;
+  List<CartstoreEntity>? cartListItem;
+  @JsonKey(name: 'cartTotal')
+  CarttotalEntity? cartTotal;
 
   CartDetailEntity(this.statusCode, this.message, this.cartListItem);
 
@@ -24,6 +26,7 @@ class CartDetailEntity {
         'StatusCode': statusCode,
         'Message': message,
         'IList': cartListItem?.map((v) => v.toJson()).toList(),
+        'cartTotal': cartTotal,
       };
 
   static String serialize(CartDetailEntity cartDetailEntity) =>
@@ -31,22 +34,58 @@ class CartDetailEntity {
 
   static CartDetailEntity deserialize(String json) =>
       CartDetailEntity.fromJson(jsonDecode(json));
+
+  Object? map(Function(dynamic message) param0) {}
+}
+
+@JsonSerializable()
+class CartstoreEntity {
+  @JsonKey(name: 'StoreId')
+  int? storeId;
+  @JsonKey(name: 'StoreName')
+  String? storeName;
+  @JsonKey(name: 'RetailerId')
+  int? retailerId;
+  @JsonKey(name: 'DeliveryPersonList')
+  List<DeliveryPersonEntity>? deliveryPersonList;
+  @JsonKey(name: 'lineItems')
+  List<CartListItemEntity>? cartItemList;
+  @JsonKey(name: 'lineTotal')
+  double? total;
+  @JsonKey(name: 'isSelected')
+  bool? isSelected;
+  @JsonKey(name: 'isExpanded')
+  bool? isExpanded;
+  CartstoreEntity(
+      this.storeId,
+      this.storeName,
+      this.retailerId,
+      this.deliveryPersonList,
+      this.cartItemList,
+      this.total,
+      this.isSelected,
+      this.isExpanded);
+
+  factory CartstoreEntity.fromJson(Map<String, dynamic> json) =>
+      _$CartstoreEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CartstoreEntityToJson(this);
+
+  static String serialize(CartListItemEntity cartListItemEntity) =>
+      json.encode(cartListItemEntity.toJson());
+
+  static CartListItemEntity deserialize(String json) =>
+      CartListItemEntity.fromJson(jsonDecode(json));
 }
 
 @JsonSerializable()
 class CartListItemEntity {
-  @JsonKey(name: 'StoreId')
-  int? storeId;
   @JsonKey(name: 'ProductId')
   int? productId;
-  @JsonKey(name: 'StoreName')
-  String? storeName;
   @JsonKey(name: 'PartyCode')
   String? partyCode;
   @JsonKey(name: 'ProductCode')
   String? productCode;
-  @JsonKey(name: 'RetailerId')
-  int? retailerId;
   @JsonKey(name: 'Quantity')
   int? quantity;
   @JsonKey(name: 'PTR')
@@ -137,8 +176,6 @@ class CartListItemEntity {
   int? orderDeliveryModeStatus;
   @JsonKey(name: 'OrderRemarks')
   int? orderRemarks;
-  @JsonKey(name: 'DeliveryPersonList')
-  List<DeliveryPersonEntity>? deliveryPersonList;
   @JsonKey(name: 'SpecialRate')
   double? specialRate;
   @JsonKey(name: 'Stock')
@@ -173,78 +210,81 @@ class CartListItemEntity {
   int? rateValidity;
   @JsonKey(name: 'MRP')
   String? mrp;
+  bool? isValid = true;
+  String? errorMessage;
+  @JsonKey(name: 'StoreId')
+  int? storeId;
+  double? totalAmount = 0;
 
   CartListItemEntity(
-    this.storeId,
-    this.productId,
-    this.storeName,
-    this.partyCode,
-    this.productCode,
-    this.retailerId,
-    this.quantity,
-    this.ptr,
-    this.free,
-    this.hiddenPtr,
-    this.netRate,
-    this.scheme,
-    this.schemeType,
-    this.gstPercentage,
-    this.itemGSTValue,
-    this.cartSource,
-    this.deliveryOption,
-    this.remarkForStore,
-    this.productAddedBy,
-    this.priority,
-    this.orderPlaced,
-    this.orderPlacedBy,
-    this.createdBy,
-    this.createdDate,
-    this.modifiedBy,
-    this.modifiedDate,
-    this.productName,
-    this.productWiseAmount,
-    this.productWiseGSTAmount,
-    this.storeWiseAmount,
-    this.storeWiseGSTAmount,
-    this.isDeleted,
-    this.allowMinQty,
-    this.allowMaxQty,
-    this.stepUpValue,
-    this.allowMOQ,
-    this.minItemLimit,
-    this.maxItemLimit,
-    this.minAmountLimit,
-    this.maxAmountLimit,
-    this.dODIsPrefenceSet,
-    this.displayHalfSchemeOn,
-    this.displayHalfScheme,
-    this.retailerSchemePreference,
-    this.halfSchemeValueToRetailer,
-    this.roundOffDisplayHS,
-    this.minOrderQuantity,
-    this.maxOrderQuantity,
-    this.isDODProduct,
-    this.orderDeliveryModeStatus,
-    this.orderRemarks,
-    this.deliveryPersonList,
-    this.specialRate,
-    this.stock,
-    this.rShowPtr,
-    this.isPartyLocked,
-    this.rewardSchemeId,
-    this.isProductChecked,
-    this.deliveryPerson,
-    this.deliveryPersonCode,
-    this.schemeFrom,
-    this.schemeTo,
-    this.dateFormat,
-    this.rShowPtrForAllCompanies,
-    this.company,
-    this.isGroupWisePTR,
-    this.isGroupWisePTRRetailer,
-    this.rateValidity,
-    this.mrp,
-  );
+      this.productId,
+      this.partyCode,
+      this.productCode,
+      this.quantity,
+      this.ptr,
+      this.free,
+      this.hiddenPtr,
+      this.netRate,
+      this.scheme,
+      this.schemeType,
+      this.gstPercentage,
+      this.itemGSTValue,
+      this.cartSource,
+      this.deliveryOption,
+      this.remarkForStore,
+      this.productAddedBy,
+      this.priority,
+      this.orderPlaced,
+      this.orderPlacedBy,
+      this.createdBy,
+      this.createdDate,
+      this.modifiedBy,
+      this.modifiedDate,
+      this.productName,
+      this.productWiseAmount,
+      this.productWiseGSTAmount,
+      this.storeWiseAmount,
+      this.storeWiseGSTAmount,
+      this.isDeleted,
+      this.allowMinQty,
+      this.allowMaxQty,
+      this.stepUpValue,
+      this.allowMOQ,
+      this.minItemLimit,
+      this.maxItemLimit,
+      this.minAmountLimit,
+      this.maxAmountLimit,
+      this.dODIsPrefenceSet,
+      this.displayHalfSchemeOn,
+      this.displayHalfScheme,
+      this.retailerSchemePreference,
+      this.halfSchemeValueToRetailer,
+      this.roundOffDisplayHS,
+      this.minOrderQuantity,
+      this.maxOrderQuantity,
+      this.isDODProduct,
+      this.orderDeliveryModeStatus,
+      this.orderRemarks,
+      this.specialRate,
+      this.stock,
+      this.rShowPtr,
+      this.isPartyLocked,
+      this.rewardSchemeId,
+      this.isProductChecked,
+      this.deliveryPerson,
+      this.deliveryPersonCode,
+      this.schemeFrom,
+      this.schemeTo,
+      this.dateFormat,
+      this.rShowPtrForAllCompanies,
+      this.company,
+      this.isGroupWisePTR,
+      this.isGroupWisePTRRetailer,
+      this.rateValidity,
+      this.mrp,
+      this.isValid,
+      this.errorMessage,
+      this.totalAmount);
 
   factory CartListItemEntity.fromJson(Map<String, dynamic> json) =>
       _$CartListItemEntityFromJson(json);
@@ -301,4 +341,29 @@ class DeliveryPersonEntity {
 
   static DeliveryPersonEntity deserialize(String json) =>
       DeliveryPersonEntity.fromJson(jsonDecode(json));
+}
+
+@JsonSerializable()
+class CarttotalEntity {
+  @JsonKey(name: 'CartTotal')
+  String? totalCartValue;
+  @JsonKey(name: 'CartGSTTotal')
+  String? cartgst;
+  @JsonKey(name: 'TotalProductsQty')
+  int? totalItems;
+  int? totalSelectedStores = 0;
+
+  CarttotalEntity(this.totalCartValue, this.cartgst, this.totalItems,
+      this.totalSelectedStores);
+
+  factory CarttotalEntity.fromJson(Map<String, dynamic> json) =>
+      _$CarttotalEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CarttotalEntityToJson(this);
+
+  static String serialize(CartListItemEntity cartListItemEntity) =>
+      json.encode(cartListItemEntity.toJson());
+
+  static CartListItemEntity deserialize(String json) =>
+      CartListItemEntity.fromJson(jsonDecode(json));
 }

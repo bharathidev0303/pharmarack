@@ -4,6 +4,7 @@ import 'package:pharmarack/packages/core_flutter/core/base_usecase/base_usecase.
 import 'package:pharmarack/packages/core_flutter/core/base_usecase/params.dart';
 import 'package:pharmarack/packages/core_flutter/error/base_error.dart';
 import 'package:pharmarack/utils/retailer_utils.dart';
+import 'package:pharmarack/view/dashboard/cart/data/model/cart_detail.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/model/cart_details_model.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/repository/cart_repository.dart';
 
@@ -158,7 +159,7 @@ class CartDetailsUseCase
 
     CartDetailsModel? cartDetails = _cartRepository.getCartDetailsData();
     for (Store store in cartDetails?.stores ?? []) {
-      for (CartListItemModel cartItem in store.cartItemList) {
+      for (CartListItemEntity cartItem in store.cartItemList) {
         totalQuantity += cartItem.quantity!;
         if (cartItem.scheme != null && cartItem.scheme != '') {
           final calculatedScheme = RetailerUtils.getFreeTabletsCountAsPerScheme(

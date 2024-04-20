@@ -32,7 +32,7 @@ class _CartApiService implements CartApiService {
     )
             .compose(
               _dio.options,
-              '/cart/api/v1/GetUserCartDetails',
+              '/cart/api/v1/GetUserCartDetailsV2',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -66,7 +66,7 @@ class _CartApiService implements CartApiService {
     )
             .compose(
               _dio.options,
-              '/cart/api/v1/DeleteUserCartDetailByStoreId',
+              '/cart/api/v1/DeleteUserCartDetailByStoreIdV2',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -116,7 +116,7 @@ class _CartApiService implements CartApiService {
     )
             .compose(
               _dio.options,
-              '/cart/api/v1/AddUserProductCartDetail',
+              '/cart/api/v1/AddUserProductCartDetailV2',
               queryParameters: queryParameters,
               data: _data,
             )

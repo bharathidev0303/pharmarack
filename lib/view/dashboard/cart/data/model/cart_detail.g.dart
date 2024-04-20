@@ -11,25 +11,53 @@ CartDetailEntity _$CartDetailEntityFromJson(Map<String, dynamic> json) =>
       json['StatusCode'] as int?,
       json['Message'] as String?,
       (json['IList'] as List<dynamic>?)
-          ?.map((e) => CartListItemEntity.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => CartstoreEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
-    );
+    )..cartTotal = json['cartTotal'] == null
+        ? null
+        : CarttotalEntity.fromJson(json['cartTotal'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$CartDetailEntityToJson(CartDetailEntity instance) =>
     <String, dynamic>{
       'StatusCode': instance.statusCode,
       'Message': instance.message,
       'IList': instance.cartListItem,
+      'cartTotal': instance.cartTotal,
+    };
+
+CartstoreEntity _$CartstoreEntityFromJson(Map<String, dynamic> json) =>
+    CartstoreEntity(
+      json['StoreId'] as int?,
+      json['StoreName'] as String?,
+      json['RetailerId'] as int?,
+      (json['DeliveryPersonList'] as List<dynamic>?)
+          ?.map((e) => DeliveryPersonEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      (json['lineItems'] as List<dynamic>?)
+          ?.map((e) => CartListItemEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      (json['lineTotal'] as num?)?.toDouble(),
+      json['isSelected'] as bool?,
+      json['isExpanded'] as bool?,
+    );
+
+Map<String, dynamic> _$CartstoreEntityToJson(CartstoreEntity instance) =>
+    <String, dynamic>{
+      'StoreId': instance.storeId,
+      'StoreName': instance.storeName,
+      'RetailerId': instance.retailerId,
+      'DeliveryPersonList': instance.deliveryPersonList,
+      'lineItems': instance.cartItemList,
+      'lineTotal': instance.total,
+      'isSelected': instance.isSelected,
+      'isExpanded': instance.isExpanded,
     };
 
 CartListItemEntity _$CartListItemEntityFromJson(Map<String, dynamic> json) =>
     CartListItemEntity(
-      json['StoreId'] as int?,
       json['ProductId'] as int?,
-      json['StoreName'] as String?,
       json['PartyCode'] as String?,
       json['ProductCode'] as String?,
-      json['RetailerId'] as int?,
       json['Quantity'] as int?,
       (json['PTR'] as num?)?.toDouble(),
       json['Free'] as int?,
@@ -75,9 +103,6 @@ CartListItemEntity _$CartListItemEntityFromJson(Map<String, dynamic> json) =>
       json['IsDODProduct'] as int?,
       json['OrderDeliveryModeStatus'] as int?,
       json['OrderRemarks'] as int?,
-      (json['DeliveryPersonList'] as List<dynamic>?)
-          ?.map((e) => DeliveryPersonEntity.fromJson(e as Map<String, dynamic>))
-          .toList(),
       (json['SpecialRate'] as num?)?.toDouble(),
       json['Stock'] as int?,
       json['RShowPtr'] as int?,
@@ -95,16 +120,16 @@ CartListItemEntity _$CartListItemEntityFromJson(Map<String, dynamic> json) =>
       json['IsGroupWisePTRRetailer'] as int?,
       json['RateValidity'] as int?,
       json['MRP'] as String?,
-    );
+      json['isValid'] as bool?,
+      json['errorMessage'] as String?,
+      (json['totalAmount'] as num?)?.toDouble(),
+    )..storeId = json['StoreId'] as int?;
 
 Map<String, dynamic> _$CartListItemEntityToJson(CartListItemEntity instance) =>
     <String, dynamic>{
-      'StoreId': instance.storeId,
       'ProductId': instance.productId,
-      'StoreName': instance.storeName,
       'PartyCode': instance.partyCode,
       'ProductCode': instance.productCode,
-      'RetailerId': instance.retailerId,
       'Quantity': instance.quantity,
       'PTR': instance.ptr,
       'Free': instance.free,
@@ -150,7 +175,6 @@ Map<String, dynamic> _$CartListItemEntityToJson(CartListItemEntity instance) =>
       'IsDODProduct': instance.isDODProduct,
       'OrderDeliveryModeStatus': instance.orderDeliveryModeStatus,
       'OrderRemarks': instance.orderRemarks,
-      'DeliveryPersonList': instance.deliveryPersonList,
       'SpecialRate': instance.specialRate,
       'Stock': instance.stock,
       'RShowPtr': instance.rShowPtr,
@@ -168,6 +192,10 @@ Map<String, dynamic> _$CartListItemEntityToJson(CartListItemEntity instance) =>
       'IsGroupWisePTRRetailer': instance.isGroupWisePTRRetailer,
       'RateValidity': instance.rateValidity,
       'MRP': instance.mrp,
+      'isValid': instance.isValid,
+      'errorMessage': instance.errorMessage,
+      'StoreId': instance.storeId,
+      'totalAmount': instance.totalAmount,
     };
 
 DeliveryPersonEntity _$DeliveryPersonEntityFromJson(
@@ -196,4 +224,20 @@ Map<String, dynamic> _$DeliveryPersonEntityToJson(
       'ModifiedBy': instance.modifiedBy,
       'ModifiedDate': instance.modifiedDate,
       'Store': instance.store,
+    };
+
+CarttotalEntity _$CarttotalEntityFromJson(Map<String, dynamic> json) =>
+    CarttotalEntity(
+      json['CartTotal'] as String?,
+      json['CartGSTTotal'] as String?,
+      json['TotalProductsQty'] as int?,
+      json['totalSelectedStores'] as int?,
+    );
+
+Map<String, dynamic> _$CarttotalEntityToJson(CarttotalEntity instance) =>
+    <String, dynamic>{
+      'CartTotal': instance.totalCartValue,
+      'CartGSTTotal': instance.cartgst,
+      'TotalProductsQty': instance.totalItems,
+      'totalSelectedStores': instance.totalSelectedStores,
     };

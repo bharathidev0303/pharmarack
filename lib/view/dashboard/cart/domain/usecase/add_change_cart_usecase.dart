@@ -6,6 +6,7 @@ import 'package:pharmarack/packages/core_flutter/error/base_error.dart';
 import 'package:pharmarack/packages/core_flutter/error/error_info.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/packages/utils/retailer_app_constants.dart';
+import 'package:pharmarack/view/dashboard/cart/data/model/cart_detail.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/repository/cart_repository.dart';
 import '../model/add_product_to_cart_param.dart';
 import '../model/cart_details_model.dart';
@@ -23,7 +24,7 @@ class AddChangeCartUseCase
   }
 
   Either<AppError, bool> validateQuantity(
-      String value, CartListItemModel cartItem) {
+      String value, CartListItemEntity cartItem) {
     if (value.isEmpty) {
       return Left(AppError(
         error: ErrorInfo(

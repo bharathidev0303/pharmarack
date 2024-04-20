@@ -60,111 +60,22 @@ class CartRemoteDataSource {
 
   Future<CartDetailsModel> _mapCartDetails(
       CartDetailEntity cartDetailEntity) async {
-    List<Store> stores = [];
-    double totalCartValue = 0.0;
-    for (CartListItemEntity cartEntity in cartDetailEntity.cartListItem ?? []) {
-      var (freeCount, scheme) = RetailerUtils.getAppliedSchemeAndFreeCount(
-          cartEntity.scheme, cartEntity.quantity ?? 0);
-      CartListItemModel cartItem = CartListItemModel(
-          cartEntity.storeId,
-          cartEntity.productId ?? 0,
-          cartEntity.storeName,
-          cartEntity.partyCode,
-          cartEntity.productCode,
-          cartEntity.retailerId,
-          cartEntity.quantity,
-          cartEntity.ptr,
-          cartEntity.hiddenPtr,
-          (cartEntity.quantity ?? 0) * (double.parse(cartEntity.mrp!)),
-          freeCount,
-          cartEntity.netRate,
-          scheme,
-          cartEntity.gstPercentage,
-          cartEntity.itemGSTValue,
-          cartEntity.deliveryOption,
-          cartEntity.remarkForStore,
-          cartEntity.productAddedBy,
-          cartEntity.priority,
-          cartEntity.productName,
-          cartEntity.productWiseAmount,
-          cartEntity.isDeleted,
-          cartEntity.allowMinQty,
-          cartEntity.allowMaxQty,
-          cartEntity.stepUpValue,
-          cartEntity.allowMOQ,
-          cartEntity.minItemLimit,
-          cartEntity.maxItemLimit,
-          cartEntity.minAmountLimit,
-          cartEntity.maxAmountLimit,
-          cartEntity.minOrderQuantity,
-          cartEntity.maxOrderQuantity,
-          cartEntity.orderDeliveryModeStatus,
-          cartEntity.orderRemarks,
-          cartEntity.deliveryPersonList,
-          cartEntity.specialRate,
-          cartEntity.stock,
-          cartEntity.rShowPtr,
-          cartEntity.deliveryPerson,
-          cartEntity.deliveryPersonCode,
-          cartEntity.dateFormat,
-          cartEntity.rShowPtrForAllCompanies,
-          (cartEntity.company != null && cartEntity.company!.isNotEmpty)
-              ? cartEntity.company
-              : null,
-          cartEntity.isGroupWisePTR,
-          cartEntity.isGroupWisePTRRetailer,
-          cartEntity.rateValidity,
-          cartEntity.storeWiseAmount,
-          cartEntity.productWiseGSTAmount,
-          cartEntity.cartSource,
-          cartEntity.schemeType,
-          cartEntity.mrp ?? "");
+    final List<Store> stores = cartDetailEntity.cartListItem!
+        .map((store) => Store(store.storeId!, store.storeName!,
+            store.cartItemList!, store.total!, true, false))
+        .toList();
 
-      Store store = stores.firstWhere(
-          (store) => store.storeId == cartEntity.storeId, orElse: () {
-        return Store(cartEntity.storeId ?? -1, cartEntity.storeName ?? "",
-            [cartItem], 0.0, true, false);
-      });
-      if (!stores.contains(store)) {
-        store.total += (cartEntity.quantity ?? 0) * (cartEntity.ptr ?? 0);
-        stores.add(store);
-      } else {
-        store.cartItemList.add(cartItem);
-        store.total += (cartEntity.quantity ?? 0) * (cartEntity.ptr ?? 0);
-      }
-      totalCartValue += (cartEntity.quantity ?? 0) * (cartEntity.ptr ?? 0);
-    }
+    double totalCartValue =
+        double.parse(cartDetailEntity.cartTotal?.totalCartValue as String);
+    print(totalCartValue);
 
-    if (cartDetailEntity.cartListItem!.isNotEmpty) {
-      final lastProduct = cartDetailEntity.cartListItem?.last;
-
-      return CartDetailsModel(
-        statusCode: cartDetailEntity.statusCode,
-        stores: stores,
-        totalSelectedStores: stores.length,
-        totalItems: cartDetailEntity.cartListItem?.length ?? 0,
-        totalCartValue: totalCartValue,
-        lastAddedProduct: CartLastItemModel(
-          productName: lastProduct?.productName,
-          quantity: lastProduct?.quantity,
-          scheme: lastProduct?.scheme,
-          quantityWithScheme: RetailerUtils.getFreeTabletsCountAsPerScheme(
-                      lastProduct?.scheme ?? '', lastProduct?.quantity ?? 0) ==
-                  'HS'
-              ? 0
-              : int.parse(RetailerUtils.getFreeTabletsCountAsPerScheme(
-                  lastProduct?.scheme ?? '', lastProduct?.quantity ?? 0)),
-        ),
-      );
-    } else {
-      return CartDetailsModel(
-        statusCode: cartDetailEntity.statusCode,
-        stores: stores,
-        totalSelectedStores: stores.length,
-        totalItems: cartDetailEntity.cartListItem?.length ?? 0,
-        totalCartValue: totalCartValue,
-      );
-    }
+    return CartDetailsModel(
+      statusCode: cartDetailEntity.statusCode,
+      stores: stores,
+      totalSelectedStores: stores.length,
+      totalItems: cartDetailEntity.cartTotal?.totalItems ?? 0,
+      totalCartValue: totalCartValue,
+    );
   }
 
   Future<Either<NetworkError, CartDetailsModel>> getStoreDetails(
