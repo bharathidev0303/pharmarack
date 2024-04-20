@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/dashboard/secondary_app_bar.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
+import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
 import 'package:pharmarack/view/features/profile/presentation/pages/profile_page_mobile_view.dart';
 
 /// This class [ProfilePage] which is UI screen which display interact with the user
 class ProfilePage extends StatefulWidget {
-  final VoidCallback? onPressBackButton;
-
-  const ProfilePage({super.key, this.onPressBackButton});
+  const ProfilePage({super.key});
 
   @override
   ProfilePageState createState() => ProfilePageState();
@@ -23,7 +23,7 @@ class ProfilePageState extends State<ProfilePage> {
       appBar: SecondaryAppBar(
         titleText: context.localizedString.profile,
         onPressBackButton: () {
-          widget.onPressBackButton?.call();
+          getIt<BottomNavigationCubit>().updateBottomNavigationIndex(0);
         },
         actions: [
           InkWell(onTap: () {}, child: AppAssets.svg.icNotification.svg()),

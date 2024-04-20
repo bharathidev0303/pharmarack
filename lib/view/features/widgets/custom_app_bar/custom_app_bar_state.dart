@@ -10,6 +10,13 @@ class CustomAppBarInitState extends CustomAppBarState {
   const CustomAppBarInitState();
 }
 
+class CustomAppBarRefreshState extends CustomAppBarState {
+  final bool refresh;
+  const CustomAppBarRefreshState({this.refresh = false});
+  @override
+  List<Object?> get props => [refresh];
+}
+
 class StartDistributorSearch extends CustomAppBarState {
   final bool isStarted;
   const StartDistributorSearch({this.isStarted = false});

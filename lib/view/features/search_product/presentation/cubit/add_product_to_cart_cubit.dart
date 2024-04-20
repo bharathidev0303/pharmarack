@@ -43,32 +43,8 @@ class AddProductToCartCubit extends Cubit<AddProductToCartState> {
                   isDODProductSelected: 0)));
 
       response.fold((l) => emit(AddProductToCartErrorState()), (r) {
-        emit(AddProductToCartDataState(r));
+        emit(AddProductToCartDataState(r, true));
         getIt<DraggableCartScreenCubit>().getCartDetails(isUpdate: false);
-
-        //ShowDistributorPageState
-
-        if (getIt<SearchProductCubit>().isDistributor &&
-            getIt<SearchProductCubit>().selectedDistributorName != '') {
-          Future.delayed(
-            const Duration(
-              milliseconds: 500,
-            ),
-            () {
-              getIt<SearchProductCubit>().emitDistributorState();
-            },
-          );
-        } else {
-          Future.delayed(
-            const Duration(
-              milliseconds: 500,
-            ),
-            () {
-              getIt<SearchProductCubit>().emitInitialState();
-            },
-          );
-        }
-        getIt.get<CustomAppBarCubit>().resetAppBar();
       });
     } catch (e) {}
   }

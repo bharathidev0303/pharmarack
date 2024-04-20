@@ -26,9 +26,11 @@ class SearchProductCubit extends Cubit<SearchProductState> {
   late String searchQuery = "";
   late bool isDistributor = false;
   late String selectedDistributorName = '';
+  late String selectedContextType = '';
   late int selectedDistributorId = 0;
   late String selectedCompanyId = '';
   late String selectedCompanyName = '';
+  late bool? disableLoader = false;
   SearchProductListModel? productListModel;
 
   SearchProductCubit(
@@ -49,6 +51,9 @@ class SearchProductCubit extends Cubit<SearchProductState> {
       String? contextType}) {
     selectedDistributorName = storeName ?? "";
     selectedDistributorId = id ?? 0;
+    selectedContextType = contextType ?? "";
+    selectedCompanyName = companyName ?? "";
+    selectedCompanyId = companyId ?? "";
     searchQuery = query;
 
     if (query.length >= 3) {
@@ -67,6 +72,10 @@ class SearchProductCubit extends Cubit<SearchProductState> {
       }
     }
   }
+
+  // refreshSearchText({required bool isRefresh}) {
+  //   emit(SearchProductRefereshCardState(isRefresh: isRefresh));
+  // }
 
   emitInitialState() {
     emit(SearchProductInitialState());
@@ -116,7 +125,9 @@ class SearchProductCubit extends Cubit<SearchProductState> {
   fetchProductFromElastic({required String query, String? storeName}) async {
     String? cartSource;
     List<String> storeArr = [];
-    emit(SearchProductLoadingState());
+    if (disableLoader != true) {
+      emit(SearchProductLoadingState());
+    }
     if (storeName == null || storeName.isEmpty) {
       cartSource = 'MOVP';
     } else {
@@ -165,8 +176,9 @@ class SearchProductCubit extends Cubit<SearchProductState> {
     if (storeName!.isNotEmpty) {
       storeArr.add(storeName);
     }
-    emit(SearchProductLoadingState());
-
+    if (disableLoader != true) {
+      emit(SearchProductLoadingState());
+    }
     try {
       final request = ElasticSearchCompanyApiRequest(
           searchKeyword: query,
@@ -208,8 +220,9 @@ class SearchProductCubit extends Cubit<SearchProductState> {
     if (storeName!.isNotEmpty) {
       storeArr.add(storeName);
     }
-    emit(SearchProductLoadingState());
-
+    if (disableLoader != true) {
+      emit(SearchProductLoadingState());
+    }
     try {
       final request = ElasticSearchTheropyApiRequest(
           therapyName: query,
