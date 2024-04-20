@@ -357,7 +357,7 @@ class _OnboardingApiService implements OnboardingApiService {
   }
 
   @override
-  Future<HttpResponse<CommonResponseEntity<String>>> uploadDLServer(
+  Future<HttpResponse<RetailerImageUploadEntity>> uploadDLServer(
     FormData formData,
     String type,
     String userId,
@@ -371,7 +371,7 @@ class _OnboardingApiService implements OnboardingApiService {
     _headers.removeWhere((k, v) => v == null);
     final _data = formData;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<CommonResponseEntity<String>>>(Options(
+        _setStreamType<HttpResponse<RetailerImageUploadEntity>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -388,10 +388,7 @@ class _OnboardingApiService implements OnboardingApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CommonResponseEntity<String>.fromJson(
-      _result.data!,
-      (json) => json as String,
-    );
+    final value = RetailerImageUploadEntity.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

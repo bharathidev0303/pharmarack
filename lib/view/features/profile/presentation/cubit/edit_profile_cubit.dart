@@ -8,6 +8,7 @@ import 'package:pharmarack/packages/core_flutter/localization/localization_exten
 import 'package:pharmarack/packages/utils/auto_login_utils.dart';
 import 'package:pharmarack/view/features/profile/presentation/constants/edit_profile_constants.dart';
 import 'package:pharmarack/view/features/profile/presentation/cubit/edit_profile_state.dart';
+import 'package:pharmarack/view/onboarding/data/entities/retailer_Image_upload_entity.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/retailer_registration/update_retailer_profile_usecase.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/retailer_registration/upload_drug_licence_number.dart';
 
@@ -20,10 +21,13 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     this._drugLicenceUseCase,
   ) : super(EditProfileState.initial());
 
-  void saveChanges(Map<String, dynamic> reqData) async {
+  void saveChanges(Map<String, dynamic> reqData,
+      ImageUploadResponceEntity drugLisenseImage) async {
     emit(EditProfileState.loading());
     final response = await _updateRetailerProfileUsecase.execute(
-        params: UpdateRetailerUseCaseParams(reqData), reqData: reqData);
+        params: UpdateRetailerUseCaseParams(reqData),
+        reqData: reqData,
+        drugLisenseImage: drugLisenseImage);
 
     response.fold((l) {
       emit(EditProfileState.error());
@@ -37,23 +41,19 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     emit(EditProfileState.initial());
   }
 
-  void saveUserInputFieldsData(Map<String, String> reqData) {
-    uploadUserDL(state.drugLicenseNewFile ?? XFile(""),
-        reqData[EditProfileConstants.loginIdField] ?? "0");
-    saveChanges(reqData);
-  }
-
-  Future<void> uploadUserDL(XFile file, String userId) async {
-    List<Future<dynamic>> futures = [];
-    if (file.path.isNotEmpty) {
+  void saveUserInputFieldsData(Map<String, String> reqData) async {
+    if (state.drugLicenseNewFile!.path.isNotEmpty) {
       UploadDLParams params = UploadDLParams(
-          drugLicenceFilePath: file.path, type: 'DL1', userId: userId);
-      futures.add(_drugLicenceUseCase.execute(params: params));
+          drugLicenceFilePath: state.drugLicenseNewFile!.path,
+          type: 'DL1',
+          userId: reqData[EditProfileConstants.loginIdField] ?? "0");
+      var response = await _drugLicenceUseCase.execute(params: params);
+      response.fold(
+          (l) => {},
+          (r) => {
+                if (r.data != null) {saveChanges(reqData, r.data!)}
+              });
     }
-
-    Future<List<dynamic>> allResults = Future.wait(futures);
-
-    allResults.then((value) {});
   }
 
   String? nameErrorText;

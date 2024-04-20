@@ -168,26 +168,6 @@ class RetailerRegistrationStepOneCubit
       count++;
     }
 
-    // if (reqMap[OnboardingConstants.region] != null) {
-    //   if (count == 9) {
-    //     debugPrint(
-    //         'PR-> reqMap[OnboardingConstants.region] != null count 9 ${reqMap[OnboardingConstants.region] != null}');
-    //     debugPrint('PR-> true reqMap.length${reqMap.length} and count $count');
-    //     emit(state.copyWith(softValidate: true));
-    //   }
-    // } else if (count >= 8) {
-    //   debugPrint(
-    //       'PR-> reqMap[OnboardingConstants.region] != null count 8 ${reqMap[OnboardingConstants.region] != null}');
-    //
-    //   debugPrint('PR-> true reqMap.length${reqMap.length} and count $count');
-    //   emit(state.copyWith(softValidate: true));
-    // } else {
-    //   debugPrint(
-    //       'PR-> reqMap[OnboardingConstants.region] != null  else  ${reqMap[OnboardingConstants.region] != null}');
-    //   debugPrint('PR-> false reqMap.length${reqMap.length}  and count $count');
-    //   emit(state.copyWith(softValidate: false));
-    // }
-
     if ((count == 9 &&
         state.pincodeData.registrationRegion != null &&
         (state.pincodeData.registrationRegion ?? []).length >= 2)) {

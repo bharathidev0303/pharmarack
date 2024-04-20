@@ -4,8 +4,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:pharmarack/packages/core/network/interceptor/dio_interceptor.dart';
 import 'package:pharmarack/packages/core_flutter/utils/app_constants.dart';
+import 'package:pharmarack/view/onboarding/data/entities/retailer_Image_upload_entity.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/retailer_registration/check_gst_number.dart';
 import 'package:pharmarack/view/onboarding/domain/usecase/retailer_registration/retailer_registration_use_case.dart';
@@ -45,22 +47,33 @@ class RetailerRegistrationStepThreeCubit
     emit(state.copyWith(isLoading: true));
     SharedPreferences pref = await SharedPreferences.getInstance();
     String oneSignal = pref.get('oneSignalId').toString();
-    final response = await _retailerRegistrationUserCase.execute(
-        params: RetailerRegistrationParams(
-            _retailerRegistrationUserCase.getRequestString(oneSignal)));
+    UploadDLParams params = UploadDLParams(
+        drugLicenceFilePath: state.drugLicenseFile1?.path ?? '',
+        type: 'DL1',
+        userId: "0");
+    var response = await _drugLicenceUseCase.execute(params: params);
+    response.fold((l) => left(l), (r) async {
+      if (r.data != null) {
+        final response = await _retailerRegistrationUserCase.execute(
+            params: RetailerRegistrationParams(
+                _retailerRegistrationUserCase.getRequestString(
+                    oneSignal, r.data!),
+                r.data!));
 
-    response.fold((l) {
-      emit(state.copyWith(
-        isLoading: false,
-      ));
-    }, (r) {
-      if (r.version == 1) {
-        emit(state.copyWith(versionOneUser: true));
-      } else {
-        emit(state.copyWith(moveToHomePage: true));
-        if (r.mobileNumber!.isNotEmpty) {
-          requestLogin();
-        }
+        response.fold((l) {
+          emit(state.copyWith(
+            isLoading: false,
+          ));
+        }, (r) {
+          if (r.version == 1) {
+            emit(state.copyWith(versionOneUser: true));
+          } else {
+            emit(state.copyWith(moveToHomePage: true));
+            if (r.mobileNumber!.isNotEmpty) {
+              requestLogin();
+            }
+          }
+        });
       }
     });
   }

@@ -7,6 +7,7 @@ import 'package:pharmarack/packages/core_flutter/error/database_error.dart';
 import 'package:pharmarack/packages/core_flutter/error/local_error.dart';
 import 'package:pharmarack/packages/core_flutter/error/network_error.dart';
 import 'package:pharmarack/view/onboarding/data/entities/otp_login_api_payload_entity.dart';
+import 'package:pharmarack/view/onboarding/data/entities/retailer_Image_upload_entity.dart';
 import 'package:pharmarack/view/onboarding/domain/model/delete_account_otp_model.dart';
 import 'package:pharmarack/view/onboarding/domain/model/forget_password_model.dart';
 import 'package:pharmarack/view/onboarding/domain/model/login_model.dart';
@@ -84,7 +85,7 @@ abstract class OnboardingRepository {
   Future<Either<NetworkError, RegistrationResponseModel>> registerRetailer(
       Map<String, dynamic> registrationModel);
 
-  Future<Either<NetworkError, String>> uploadDLServer(
+  Future<Either<NetworkError, RetailerImageUploadEntity>> uploadDLServer(
       FormData formData, String type, String userId);
 
   Future<Either<NetworkError, List<String>>> getReferralTAndCResponse();

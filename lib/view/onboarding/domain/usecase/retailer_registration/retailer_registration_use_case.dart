@@ -5,6 +5,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:pharmarack/packages/core_flutter/core/base_usecase/base_usecase.dart';
 import 'package:pharmarack/packages/core_flutter/core/base_usecase/params.dart';
 import 'package:pharmarack/packages/core_flutter/error/base_error.dart';
+import 'package:pharmarack/view/onboarding/data/entities/retailer_Image_upload_entity.dart';
 import 'package:pharmarack/view/onboarding/domain/model/registration_model.dart';
 import 'package:pharmarack/view/onboarding/domain/model/registration_response_model.dart';
 import 'package:pharmarack/view/onboarding/domain/repository/onboarding_repository.dart';
@@ -126,10 +127,13 @@ class RetailerRegistrationUserCase extends BaseUseCase<BaseError,
       {required params}) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     String oneSignal = pref.get('oneSignalId').toString();
-    return _onboardingRepository.registerRetailer(getRequestString(oneSignal));
+
+    return _onboardingRepository.registerRetailer(
+        getRequestString(oneSignal, params.druglicenseEntity));
   }
 
-  Map<String, dynamic> getRequestString(String oneSignalId) {
+  Map<String, dynamic> getRequestString(
+      String oneSignalId, ImageUploadResponceEntity drugLisceseImage) {
     /// Encoded fields - RetailerName, Address1, Address2, 3 License Numbers, GST number.
     /// UserId, RetailerId will always be static 0
     /// IsNewApp = 1, NewApp = true
@@ -153,7 +157,11 @@ class RetailerRegistrationUserCase extends BaseUseCase<BaseError,
       },
       'BusinessType': '${regModel.businessType}',
       "drugLicenseImages": [
-        {"imageUrl": "string", "imageDbPath": "string", "type": "string"}
+        {
+          "imageUrl": drugLisceseImage!.imageUrl,
+          "imageDbPath": drugLisceseImage.imageDbPath,
+          "type": drugLisceseImage.type
+        }
       ],
       'newretailer': {
         "RetailerName": "${regModel.newretailer?.retailerName}",
@@ -206,6 +214,7 @@ class RetailerRegistrationUserCase extends BaseUseCase<BaseError,
 
 class RetailerRegistrationParams extends Params {
   Map<String, dynamic> postRequest;
+  ImageUploadResponceEntity druglicenseEntity;
 
-  RetailerRegistrationParams(this.postRequest);
+  RetailerRegistrationParams(this.postRequest, this.druglicenseEntity);
 }

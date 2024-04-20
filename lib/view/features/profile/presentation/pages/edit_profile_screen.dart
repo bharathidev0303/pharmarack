@@ -235,15 +235,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 if (validateReqFields == 0) {
                   editProfileCubit.saveUserInputFieldsData(reqMap);
                 }
-                // if (_formKey.currentState?.validate() ?? false) {
-                //   if (selectedFile != null && MyProfileConstants.drugLicenseNumber!=null) {
-                //
-                // cubit.saveUserInputFieldsData(reqMap);
-                //     print('FILE SUCK Success'); // Both conditions are met, print success
-                //   } else {
-                //     print('FILE SUCK False'); // Either selectedFile is null or drugLicenseNumber1 is empty, print false
-                //   }
-                // }
               },
               onClickCancelAction: () => Navigator.of(context).pop(),
               body: Form(

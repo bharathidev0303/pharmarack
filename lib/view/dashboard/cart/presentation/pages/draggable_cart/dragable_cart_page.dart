@@ -66,7 +66,6 @@ class DraggableCartPageState extends State<DraggableCartPage>
                     child: GestureDetector(
                       onTap: () {
                         _expandCart();
-                        print(cartDetails);
                       },
                       child: Container(
                         color: AppColors.draggableCartColor,

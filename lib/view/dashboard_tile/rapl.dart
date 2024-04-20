@@ -43,11 +43,9 @@ Future<String?> fetchUrlFromApi() async {
     if (response.statusCode == 200)
       return response.data['url'] as String;
     else {
-      print('Error fetching URL: ${response.statusCode}');
       return "User not found";
     }
   } catch (e) {
-    print('Error fetching URL: $e');
     return e.toString();
   }
 }

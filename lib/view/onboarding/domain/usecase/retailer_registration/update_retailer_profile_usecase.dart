@@ -7,6 +7,7 @@ import 'package:pharmarack/packages/core_flutter/error/base_error.dart';
 import 'package:pharmarack/packages/core_flutter/error/network_error.dart';
 import 'package:pharmarack/view/features/profile/presentation/constants/edit_profile_constants.dart';
 import 'package:pharmarack/view/features/profile/presentation/constants/my_profile_constants.dart';
+import 'package:pharmarack/view/onboarding/data/entities/retailer_Image_upload_entity.dart';
 import 'package:pharmarack/view/onboarding/domain/model/update_retailer_model.dart';
 import 'package:pharmarack/view/onboarding/domain/repository/onboarding_repository.dart';
 
@@ -16,10 +17,13 @@ class UpdateRetailerProfileUsecase extends BaseUseCase<BaseError,
   UpdateRetailerProfileUsecase({required this.onboardingRepository});
   final UpdateRetailerModel updateRetailerModel = UpdateRetailerModel();
 
+  @override
   Future<Either<NetworkError, UpdateRetailerModel>> execute(
-      {required params, reqData}) async {
-    return onboardingRepository
-        .updateRetailerProfile(getRequestUpdateString(reqData));
+      {required params,
+      reqData,
+      ImageUploadResponceEntity? drugLisenseImage}) async {
+    return onboardingRepository.updateRetailerProfile(
+        getRequestUpdateString(reqData, drugLisenseImage));
   }
 
   void updateProfileData(Map<String, String> reqData) {
@@ -63,126 +67,119 @@ class UpdateRetailerProfileUsecase extends BaseUseCase<BaseError,
     // MyProfileConstants.ifsc = reqData[OnboardingConstants.ifsc]?.trim() ?? '';
   }
 
-  Map<String, dynamic> getRequestString() {
-    var reqMap = {
-      "updateuser": {
-        "FirstName": "${MyProfileConstants.firstName}" ?? "",
-        "LastName": "${MyProfileConstants.lastName}" ?? "",
-        "Email": "${MyProfileConstants.emailId}" ?? "",
-        "Partyname": "${MyProfileConstants.partyNameEncoded}" ?? "",
-        "MobileNumber": "${MyProfileConstants.mobileNo}" ?? "",
-        "Telephone": "${MyProfileConstants.telephone}" ?? ""
-      },
-      "updateretailer": {
-        "RetailerId": MyProfileConstants.retailerId ?? 0,
-        "RetailerName": "${MyProfileConstants.retailerNameEncoded}" ?? "",
-        "Address1": "${MyProfileConstants.address1Encoded}" ?? "",
-        "Address2": "${MyProfileConstants.address2Encoded}" ?? "",
-        "City": "${MyProfileConstants.cityEncoded}" ?? "",
-        "Pincode": "${MyProfileConstants.pinCode}" ?? "",
-        "RegionId": "${MyProfileConstants.regionId}" ?? "",
-        "StateId": "${MyProfileConstants.stateId}" ?? "",
-        "MobileNumber": "${MyProfileConstants.mobileNo}" ?? "",
-        "Telephone": "${MyProfileConstants.telephone}" ?? "",
-        "email": "${MyProfileConstants.emailId}" ?? "",
-        "LicenseNumber": "${MyProfileConstants.drugLicenseNumberEncoded}" ?? "",
-        "SecondDLNumber":
-            "${MyProfileConstants.drugLicenseNumber2Encoded}" ?? "",
-        "ThirdDLNumber":
-            "${MyProfileConstants.drugLicenseNumber3Encoded}" ?? "",
-        "GSTINNumber": "${MyProfileConstants.gstin}" ?? "",
-        "ContactPerson": "${MyProfileConstants.contactPerson}" ?? "",
-        "BusinessType": "${MyProfileConstants.businessType}" ?? "",
-        "PanNumber": "${MyProfileConstants.panNumber}" ?? "",
-        "IsWhatsappConsentAgree": 1
-      },
-      "retailerPaymentConfig": {
-        "UPIId": "${MyProfileConstants.upiId}" ?? "",
-        "BankName": "${MyProfileConstants.bankName}" ?? "",
-        "BankAccountType": "${MyProfileConstants.accountType}" ?? "",
-        "AccountType": "${MyProfileConstants.accountType}" ?? "",
-        "BankAcNumber": "${MyProfileConstants.bankAccountNumber}" ?? "",
-        "BankAcName": "${MyProfileConstants.bankName}" ?? "",
-        "IFSC": "${MyProfileConstants.ifsc}" ?? "",
-        "IsUPIVerified": "${MyProfileConstants.isUpiVerified}" ?? ""
-      },
-      "IsImageChanged": "null",
-      "IsRetailerNameEncoded": "1",
-      "GSTINOption": MyProfileConstants.gstin ?? '',
-      "NewApp": true,
-      "gcmregistration": "yes",
-    };
-    return reqMap;
-  }
+  // Map<String, dynamic> getRequestString() {
+  //   var reqMap = {
+  //     "updateuser": {
+  //       "FirstName": "${MyProfileConstants.firstName}" ?? "",
+  //       "LastName": "${MyProfileConstants.lastName}" ?? "",
+  //       "Email": "${MyProfileConstants.emailId}" ?? "",
+  //       "Partyname": "${MyProfileConstants.partyNameEncoded}" ?? "",
+  //       "MobileNumber": "${MyProfileConstants.mobileNo}" ?? "",
+  //       "Telephone": "${MyProfileConstants.telephone}" ?? ""
+  //     },
+  //     "updateretailer": {
+  //       "RetailerId": MyProfileConstants.retailerId ?? 0,
+  //       "RetailerName": "${MyProfileConstants.retailerNameEncoded}" ?? "",
+  //       "Address1": "${MyProfileConstants.address1Encoded}" ?? "",
+  //       "Address2": "${MyProfileConstants.address2Encoded}" ?? "",
+  //       "City": "${MyProfileConstants.cityEncoded}" ?? "",
+  //       "Pincode": "${MyProfileConstants.pinCode}" ?? "",
+  //       "RegionId": "${MyProfileConstants.regionId}" ?? "",
+  //       "StateId": "${MyProfileConstants.stateId}" ?? "",
+  //       "MobileNumber": "${MyProfileConstants.mobileNo}" ?? "",
+  //       "Telephone": "${MyProfileConstants.telephone}" ?? "",
+  //       "email": "${MyProfileConstants.emailId}" ?? "",
+  //       "LicenseNumber": "${MyProfileConstants.drugLicenseNumberEncoded}" ?? "",
+  //       "SecondDLNumber":
+  //           "${MyProfileConstants.drugLicenseNumber2Encoded}" ?? "",
+  //       "ThirdDLNumber":
+  //           "${MyProfileConstants.drugLicenseNumber3Encoded}" ?? "",
+  //       "GSTINNumber": "${MyProfileConstants.gstin}" ?? "",
+  //       "ContactPerson": "${MyProfileConstants.contactPerson}" ?? "",
+  //       "BusinessType": "${MyProfileConstants.businessType}" ?? "",
+  //       "PanNumber": "${MyProfileConstants.panNumber}" ?? "",
+  //       "IsWhatsappConsentAgree": 1
+  //     },
+  //     "retailerPaymentConfig": {
+  //       "UPIId": "${MyProfileConstants.upiId}" ?? "",
+  //       "BankName": "${MyProfileConstants.bankName}" ?? "",
+  //       "BankAccountType": "${MyProfileConstants.accountType}" ?? "",
+  //       "AccountType": "${MyProfileConstants.accountType}" ?? "",
+  //       "BankAcNumber": "${MyProfileConstants.bankAccountNumber}" ?? "",
+  //       "BankAcName": "${MyProfileConstants.bankName}" ?? "",
+  //       "IFSC": "${MyProfileConstants.ifsc}" ?? "",
+  //       "IsUPIVerified": "${MyProfileConstants.isUpiVerified}" ?? ""
+  //     },
+  //     "IsImageChanged": "null",
+  //     "IsRetailerNameEncoded": "1",
+  //     "GSTINOption": MyProfileConstants.gstin ?? '',
+  //     "NewApp": true,
+  //     "gcmregistration": "yes",
+  //   };
+  //   return reqMap;
+  // }
 
-  Map<String, dynamic> getRequestUpdateString(Map<String, dynamic> reqData) {
+  Map<String, dynamic> getRequestUpdateString(Map<String, dynamic> reqData,
+      ImageUploadResponceEntity? drugLisenseImage) {
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     var reqMap = {
       "updateuser": {
-        "FirstName": "${reqData[EditProfileConstants.firstNameField]}" ?? "",
-        "LastName": "${reqData[EditProfileConstants.lastNameField]}" ?? "",
-        "Email": "${reqData[EditProfileConstants.emailField]}" ?? "",
+        "FirstName": "${reqData[EditProfileConstants.firstNameField]}",
+        "LastName": "${reqData[EditProfileConstants.lastNameField]}",
+        "Email": "${reqData[EditProfileConstants.emailField]}",
         "Partyname": stringToBase64
-                .encode(reqData[EditProfileConstants.retailerNameField])
-                .trim() ??
-            "",
-        "MobileNumber":
-            "${reqData[EditProfileConstants.mobileNumberField]}" ?? "",
-        "Telephone": "${reqData[EditProfileConstants.telephoneField]}" ?? ""
+            .encode(reqData[EditProfileConstants.retailerNameField])
+            .trim(),
+        "MobileNumber": "${reqData[EditProfileConstants.mobileNumberField]}",
+        "Telephone": "${reqData[EditProfileConstants.telephoneField]}"
       },
       "updateretailer": {
         "RetailerId": reqData[EditProfileConstants.retailerIdField] ?? 0,
         "RetailerName": stringToBase64
-                .encode(reqData[EditProfileConstants.retailerNameField])
-                .trim() ??
-            "",
+            .encode(reqData[EditProfileConstants.retailerNameField])
+            .trim(),
         "Address1": stringToBase64
-                .encode(reqData[EditProfileConstants.address1Field])
-                .trim() ??
-            "",
+            .encode(reqData[EditProfileConstants.address1Field])
+            .trim(),
         "Address2": stringToBase64
-                .encode(reqData[EditProfileConstants.address2Field])
-                .trim() ??
-            "",
+            .encode(reqData[EditProfileConstants.address2Field])
+            .trim(),
         "City": stringToBase64
-                .encode(reqData[EditProfileConstants.cityField])
-                .trim() ??
-            "",
-        "Pincode": "${reqData[EditProfileConstants.pincodeField]}" ?? "",
-        "RegionId": "${reqData[EditProfileConstants.regionIdField]}" ?? "",
-        "StateId": "${reqData[EditProfileConstants.stateIdField]}" ?? "",
-        "MobileNumber":
-            "${reqData[EditProfileConstants.mobileNumberField]}" ?? "",
-        "Telephone": "${reqData[EditProfileConstants.telephoneField]}" ?? "",
-        "email": "${reqData[EditProfileConstants.emailField]}" ?? "",
+            .encode(reqData[EditProfileConstants.cityField])
+            .trim(),
+        "Pincode": "${reqData[EditProfileConstants.pincodeField]}",
+        "RegionId": "${reqData[EditProfileConstants.regionIdField]}",
+        "StateId": "${reqData[EditProfileConstants.stateIdField]}",
+        "MobileNumber": "${reqData[EditProfileConstants.mobileNumberField]}",
+        "Telephone": "${reqData[EditProfileConstants.telephoneField]}",
+        "email": "${reqData[EditProfileConstants.emailField]}",
         "LicenseNumber": stringToBase64
-                .encode(reqData[EditProfileConstants.licenseNumberField])
-                .trim() ??
-            "",
-        "SecondDLNumber": "" ?? "",
-        "ThirdDLNumber": "" ?? "",
-        "GSTINNumber":
-            "${reqData[EditProfileConstants.gSTINNumberField]}" ?? "",
-        "ContactPerson":
-            "${reqData[EditProfileConstants.contactPersonField]}" ?? "",
-        "BusinessType":
-            "${reqData[EditProfileConstants.businessTypeField]}" ?? "",
-        "PanNumber": "${reqData[EditProfileConstants.panNumberField]}" ?? "",
+            .encode(reqData[EditProfileConstants.licenseNumberField])
+            .trim(),
+        "SecondDLNumber": "",
+        "ThirdDLNumber": "",
+        "GSTINNumber": "${reqData[EditProfileConstants.gSTINNumberField]}",
+        "ContactPerson": "${reqData[EditProfileConstants.contactPersonField]}",
+        "BusinessType": "${reqData[EditProfileConstants.businessTypeField]}",
+        "PanNumber": "${reqData[EditProfileConstants.panNumberField]}",
         "IsWhatsappConsentAgree": 1
       },
+      "drugLicenseImages": [
+        {
+          "imageUrl": drugLisenseImage!.imageUrl,
+          "imageDbPath": drugLisenseImage.imageDbPath,
+          "type": drugLisenseImage.type
+        }
+      ],
       "retailerPaymentConfig": {
-        "UPIId": "${reqData[EditProfileConstants.uPIIdField]}" ?? "",
-        "BankName": "${reqData[EditProfileConstants.bankNameField]}" ?? "",
-        "BankAccountType":
-            "${reqData[EditProfileConstants.accountTypeField]}" ?? "",
-        "AccountType":
-            "${reqData[EditProfileConstants.accountTypeField]}" ?? "",
-        "BankAcNumber":
-            "${reqData[EditProfileConstants.bankAcNumberField]}" ?? "",
-        "BankAcName": "${reqData[EditProfileConstants.bankAcNameField]}" ?? "",
-        "IFSC": "${reqData[EditProfileConstants.iFSCField]}" ?? "",
-        "IsUPIVerified":
-            "${reqData[EditProfileConstants.isUPIVerifiedField]}" ?? ""
+        "UPIId": "${reqData[EditProfileConstants.uPIIdField]}",
+        "BankName": "${reqData[EditProfileConstants.bankNameField]}",
+        "BankAccountType": "${reqData[EditProfileConstants.accountTypeField]}",
+        "AccountType": "${reqData[EditProfileConstants.accountTypeField]}",
+        "BankAcNumber": "${reqData[EditProfileConstants.bankAcNumberField]}",
+        "BankAcName": "${reqData[EditProfileConstants.bankAcNameField]}",
+        "IFSC": "${reqData[EditProfileConstants.iFSCField]}",
+        "IsUPIVerified": "${reqData[EditProfileConstants.isUPIVerifiedField]}"
       },
       "IsImageChanged": "null",
       "IsRetailerNameEncoded": "1",

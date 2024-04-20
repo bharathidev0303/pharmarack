@@ -12,6 +12,7 @@ import 'package:pharmarack/packages/core_flutter/utils/app_constants.dart';
 import 'package:pharmarack/view/onboarding/data/api_service/onboarding_api_service.dart';
 import 'package:pharmarack/view/onboarding/data/api_service/onboarding_legacy_api_service.dart';
 import 'package:pharmarack/view/onboarding/data/entities/otp_login_api_payload_entity.dart';
+import 'package:pharmarack/view/onboarding/data/entities/retailer_Image_upload_entity.dart';
 import 'package:pharmarack/view/onboarding/data/entities/verify_otp_request_entity.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/onboarding/domain/model/delete_account_otp_model.dart';
@@ -248,13 +249,13 @@ class OnboardingRemoteDataSource {
     });
   }
 
-  Future<Either<NetworkError, String>> uploadDLServer(
+  Future<Either<NetworkError, RetailerImageUploadEntity>> uploadDLServer(
       FormData formData, String type, String userId) async {
     final response = await safeApiCall(
         _onboardingApiService.uploadDLServer(formData, type, userId));
 
     return response.fold((l) => left(l), (r) {
-      return right(r.data.data!);
+      return right(r.data);
     });
   }
 

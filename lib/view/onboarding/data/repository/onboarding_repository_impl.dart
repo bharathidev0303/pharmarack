@@ -8,6 +8,7 @@ import 'package:pharmarack/packages/core_flutter/error/local_error.dart';
 import 'package:pharmarack/packages/core_flutter/error/network_error.dart';
 import 'package:pharmarack/view/onboarding/data/data_source/remote_data_source/remote_data_source.dart';
 import 'package:pharmarack/view/onboarding/data/entities/otp_login_api_payload_entity.dart';
+import 'package:pharmarack/view/onboarding/data/entities/retailer_Image_upload_entity.dart';
 import 'package:pharmarack/view/onboarding/domain/model/delete_account_otp_model.dart';
 import 'package:pharmarack/view/onboarding/domain/model/forget_password_model.dart';
 import 'package:pharmarack/view/onboarding/domain/model/login_model.dart';
@@ -151,7 +152,7 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
   }
 
   @override
-  Future<Either<NetworkError, String>> uploadDLServer(
+  Future<Either<NetworkError, RetailerImageUploadEntity>> uploadDLServer(
       FormData formData, String type, String userId) {
     return _onboardingRemoteDataSource.uploadDLServer(formData, type, userId);
   }

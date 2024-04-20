@@ -14,8 +14,6 @@ Future<Either<NetworkError, T>> safeApiCall<T>(Future<T> apiCall) async {
       return Right(originalResponse);
     }
   } on Exception catch (throwable) {
-    // print('error is ${throwable.toString()}');
-
     if (throwable is DioException) {
       final DioException error = throwable;
       String? message;

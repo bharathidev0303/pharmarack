@@ -8,6 +8,7 @@ import 'package:pharmarack/view/onboarding/data/endpoints_constants/onboarding_e
 import 'package:pharmarack/view/onboarding/data/endpoints_constants/onboarding_options.dart';
 import 'package:pharmarack/view/onboarding/data/entities/delete_account_otp_entity.dart';
 import 'package:pharmarack/view/onboarding/data/entities/login_response_entity.dart';
+import 'package:pharmarack/view/onboarding/data/entities/retailer_Image_upload_entity.dart';
 import 'package:pharmarack/view/onboarding/domain/model/retailer_registration/delete_profile_model.dart';
 import 'package:retrofit/retrofit.dart';
 import '../../domain/model/registration_response_model.dart';
@@ -84,7 +85,7 @@ abstract class OnboardingApiService {
   // @Headers(<String, String>{'Content-Type': 'multipart/form-data'})
   @Headers(<String, String>{'Content-Type': 'application/json'})
   @POST(OnboardingEndpoints.uploadDL)
-  Future<HttpResponse<CommonResponseEntity<String>>> uploadDLServer(
+  Future<HttpResponse<RetailerImageUploadEntity>> uploadDLServer(
     @Body() FormData formData,
     @Query("type") String type,
     @Query("UserId") String userId,

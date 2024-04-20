@@ -327,11 +327,6 @@ class _EditProfileDialogScreenState extends State<EditProfileDialogScreen> {
             //   if (selectedFile != null && MyProfileConstants.drugLicenseNumber!=null) {
             //
             cubit.saveUserInputFieldsData(reqMap);
-            //     print('FILE SUCK Success'); // Both conditions are met, print success
-            //   } else {
-            //     print('FILE SUCK False'); // Either selectedFile is null or drugLicenseNumber1 is empty, print false
-            //   }
-            // }
           },
           onClickCancelAction: () => Navigator.of(context).pop(),
           showProgress: state.isLoading,
