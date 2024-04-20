@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pharmarack/di/app_provider.dart';
+import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/product_list_item/product_list_item.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/utils/extensions.dart';
@@ -85,7 +86,8 @@ class _ProductsWidgetState extends State<ProductsWidget> {
   }
 }
 
-Widget productListWidget(context, List<ProductListModel> productsItems) {
+Widget productListWidget(
+    BuildContext context, List<ProductListModel> productsItems) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     children: productsItems.asMap().entries.map((entry) {

@@ -39,7 +39,8 @@ class CartScreenCubit extends Cubit<CartScreenState> {
     this._cancelOrderUseCase,
   ) : super(CartScreenInitialState());
 
-  void getCartDetails({bool? showLoader = true}) async {
+  void getCartDetails(
+      {bool? showLoader = true, bool? closePreviousPopUp = false}) async {
     if (showLoader!) {
       emit(CartScreenLoadingState());
     }
@@ -56,7 +57,8 @@ class CartScreenCubit extends Cubit<CartScreenState> {
       } else {
         getIt<DraggableCartScreenCubit>().stores.clear();
         getIt<DraggableCartScreenCubit>().stores.addAll(r.stores);
-        emit(CartScreenDataState(r, false, true, r.stores.length));
+        emit(CartScreenDataState(r, false, true, r.stores.length,
+            closePreviousPopUp: closePreviousPopUp));
       }
     });
   }
@@ -189,19 +191,6 @@ class CartScreenCubit extends Cubit<CartScreenState> {
     response.fold((l) {
       emit(const CartScreenErrorState());
     }, (r) {
-      // var stores = getIt<DraggableCartScreenCubit>().stores;
-      // if (stores.isNotEmpty) {
-      //   stores.remove(0);
-      // }
-
-      // getCartDetails(showLoader: false);
-      // if (r == null || r.statusCode != 200) {
-      //   emit(const CartScreenErrorState());
-      // } else if (stores.isEmpty) {
-      //   emit(CartScreenNoDataState());
-      // } else {
-      //   emit(CartScreenDataState(r, false, true, stores.length));
-      // }
       if (r == null || r.statusCode != 200) {
         emit(const CartScreenErrorState());
       } else if (r.stores.isEmpty) {
@@ -225,6 +214,7 @@ class CartScreenCubit extends Cubit<CartScreenState> {
       var json = jsonDecode(r!);
       if (json['StatusCode'] != 200) {
         emit(CartScreenErrorState(errorMessage: json['Message']));
+        getCartDetails(closePreviousPopUp: true, showLoader: false);
       } else {
         emit(PlaceOrderSuccess());
       }
@@ -277,14 +267,13 @@ class CartScreenCubit extends Cubit<CartScreenState> {
           flag = false;
           product.errorMessage =
               'Your maximum order amount limit for this products is ₹${product.maxAmountLimit}';
-        }
-        /*else if (product.orderDeliveryModeStatus == 0) {
+        } else if (product.orderDeliveryModeStatus == 0) {
           flag = false;
           product.errorMessage = 'Delivery mode is not valid';
         } else if (product.stock! < product.quantity!) {
           flag = false;
           product.errorMessage = 'Out of stock. change distributor.';
-        }*/
+        }
 
         if (!flag) {
           product.isValid = false;

@@ -4,6 +4,7 @@ import 'package:pharmarack/main/navigation/app_router.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/CommonModule.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/pageConfigModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/topWidgetModels/TopWidgetModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/widgets/TopWidgets/BrandsWidget.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/widgets/TopWidgets/DistributorsWidget.dart';

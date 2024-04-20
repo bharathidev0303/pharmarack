@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
-import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
@@ -47,6 +46,7 @@ class _DistributorScreenPageMobileViewState
           ?.where((e) => e.storeId == widget.distributorId)
           .first;
       initPageConfigDi(
+          context: context,
           pageName: "distributor_page",
           storeId: distributorInfo!.storeId,
           storeName: distributorInfo!.storeName);

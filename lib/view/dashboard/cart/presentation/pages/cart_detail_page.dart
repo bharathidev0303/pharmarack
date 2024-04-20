@@ -55,7 +55,9 @@ class CartPageState extends State<CartDetailPage> {
                     context.localizedString.somethingWentWrong),
               );
             } else if (state is CartScreenDataState) {
-              CommonDialogs.closeCommonDialog(context: context);
+              if (!state.closePreviousPopUp!) {
+                CommonDialogs.closeCommonDialog(context: context);
+              }
             } else if (state is PlaceOrderSuccess) {
               CommonDialogs.closeCommonDialog(context: context);
               Navigator.pushNamed(context, RoutePaths.placeOrderSuccessFulPage)

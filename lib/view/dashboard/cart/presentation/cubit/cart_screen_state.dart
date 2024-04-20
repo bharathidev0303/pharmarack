@@ -19,6 +19,7 @@ class CartScreenDataState extends CartScreenState {
   final bool isAllExpanded;
   final bool isAllSelected;
   final bool? isListUpdate;
+  final bool? closePreviousPopUp;
   final int totalSelectedStores;
 
   @override
@@ -32,7 +33,7 @@ class CartScreenDataState extends CartScreenState {
 
   const CartScreenDataState(this.cartDetails, this.isAllExpanded,
       this.isAllSelected, this.totalSelectedStores,
-      {this.isListUpdate});
+      {this.isListUpdate, this.closePreviousPopUp});
 }
 
 class CartDistributorSelectedState extends CartScreenState {

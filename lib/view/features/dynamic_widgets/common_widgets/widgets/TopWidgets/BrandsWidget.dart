@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pharmarack/main/navigation/app_router.dart';
+import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/cms_page_navigator_model.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/topWidgetModels/BrandsWidgetModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/models/topWidgetModels/TopWidgetModel.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/common_widgets/widgets/TopWidgets/TopWidgets.dart';
@@ -53,6 +55,18 @@ class _BrandsWidgetState extends State<BrandsWidget> {
                                   children: <Widget>[
                                     item.companyName != ""
                                         ? InkWell(
+                                            onTap: () {
+                                              print(
+                                                  "skjdjdkjdkd, ${item.companyName}");
+                                              AppRouter.cmsWidgetPageNavigator(
+                                                  cmsPageNavigatorModel:
+                                                      CmsPageNavigatorModel(
+                                                context: context,
+                                                linkType: "internal",
+                                                linkTo: "/BannerProductSearch",
+                                                linkToExtra: item.companyName,
+                                              ));
+                                            },
                                             child: Card(
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
