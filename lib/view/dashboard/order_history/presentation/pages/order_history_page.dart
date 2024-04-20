@@ -13,13 +13,14 @@ import 'package:pharmarack/view/dashboard/order_history/presentation/cubit/order
 import 'package:pharmarack/view/dashboard/order_history/presentation/cubit/order_history_list_state.dart';
 import 'package:pharmarack/view/dashboard/order_history/presentation/pages/display_order_list_item.dart';
 import 'package:pharmarack/view/dashboard/order_history/presentation/pages/widgets/order_history_filter.dart';
-import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
 import 'package:pharmarack/view/features/search_product/presentation/cubit/search_product_cubit.dart';
 import 'package:pharmarack/view/features/widgets/custom_app_bar/custom_app_bar.dart';
 import 'package:pharmarack/view/features/widgets/custom_app_bar/custom_app_bar_cubit.dart';
 
 class OrderHistoryPage extends StatefulWidget {
-  const OrderHistoryPage({super.key});
+  final VoidCallback? onPressBackButton;
+
+  const OrderHistoryPage({super.key, this.onPressBackButton});
 
   @override
   OrderHistoryPageState createState() => OrderHistoryPageState();
@@ -52,7 +53,11 @@ class OrderHistoryPageState extends State<OrderHistoryPage> {
       appBar: SecondaryAppBar(
           titleText: context.localizedString.myOrders,
           onPressBackButton: () {
-            getIt<BottomNavigationCubit>().updateBottomNavigationIndex(0);
+            if (widget.onPressBackButton != null) {
+              widget.onPressBackButton?.call();
+            } else {
+              Navigator.pop(context);
+            }
           },
           actions: [
             InkWell(

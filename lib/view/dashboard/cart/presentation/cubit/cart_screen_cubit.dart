@@ -65,7 +65,8 @@ class CartScreenCubit extends Cubit<CartScreenState> {
 
   void refreshScreenData() {
     final details = _cartDetailsUseCase.getCartDetailsData()!;
-    emit(CartScreenDataState(details, false, true, details.stores.length));
+    emit(CartScreenDataState(details, false, true, details.stores.length,
+        closePreviousPopUp: false));
   }
 
   void onAllStoreItemsExpandCollapse(bool isExpand) async {
@@ -73,7 +74,8 @@ class CartScreenCubit extends Cubit<CartScreenState> {
         _cartDetailsUseCase.onAllStoreItemsExpandCollapse(isExpand);
     if (cartDetails != null) {
       emit(CartScreenDataState(cartDetails, isExpand, cartDetails.isAllSelected,
-          cartDetails.stores.length));
+          cartDetails.stores.length,
+          closePreviousPopUp: false));
     }
   }
 
@@ -82,7 +84,8 @@ class CartScreenCubit extends Cubit<CartScreenState> {
         _cartDetailsUseCase.onStoreItemsExpanded(storeId, isExpanded);
     if (cartDetails != null) {
       emit(CartScreenDataState(cartDetails, cartDetails.isAllExpanded,
-          cartDetails.isAllSelected, cartDetails.totalSelectedStores));
+          cartDetails.isAllSelected, cartDetails.totalSelectedStores,
+          closePreviousPopUp: false));
     }
   }
 
@@ -91,7 +94,8 @@ class CartScreenCubit extends Cubit<CartScreenState> {
         _cartDetailsUseCase.onAllStoreSelected(selected);
     if (cartDetails != null) {
       emit(CartScreenDataState(cartDetails, cartDetails.isAllExpanded, selected,
-          cartDetails.stores.length));
+          cartDetails.stores.length,
+          closePreviousPopUp: false));
     }
   }
 
@@ -100,7 +104,8 @@ class CartScreenCubit extends Cubit<CartScreenState> {
         _cartDetailsUseCase.onStoreSelected(storeId, isSelected);
     if (cartDetails != null) {
       emit(CartScreenDataState(cartDetails, cartDetails.isAllExpanded,
-          cartDetails.isAllSelected, cartDetails.totalSelectedStores));
+          cartDetails.isAllSelected, cartDetails.totalSelectedStores,
+          closePreviousPopUp: true));
     }
   }
 
@@ -129,7 +134,8 @@ class CartScreenCubit extends Cubit<CartScreenState> {
       }
       emit(CartScreenDataState(cartDetailsModel, cartDetailsModel.isAllExpanded,
           cartDetailsModel.isAllSelected, cartDetailsModel.totalSelectedStores,
-          isListUpdate: getListUpdateFlag()));
+          isListUpdate: getListUpdateFlag(),
+          closePreviousPopUp: getListUpdateFlag()));
     }, (r) {
       onProductQuantityChange(quantity, cartItem);
     });
@@ -165,7 +171,8 @@ class CartScreenCubit extends Cubit<CartScreenState> {
         } else {
           getIt<DraggableCartScreenCubit>().stores.clear();
           getIt<DraggableCartScreenCubit>().stores.addAll(r.stores);
-          emit(CartScreenDataState(r, false, true, r.stores.length));
+          emit(CartScreenDataState(r, false, true, r.stores.length,
+              closePreviousPopUp: false));
         }
       });
     } on FormatException {
@@ -199,7 +206,8 @@ class CartScreenCubit extends Cubit<CartScreenState> {
       } else {
         getIt<DraggableCartScreenCubit>().stores.clear();
         getIt<DraggableCartScreenCubit>().stores.addAll(r.stores);
-        emit(CartScreenDataState(r, false, true, r.stores.length));
+        emit(CartScreenDataState(r, false, true, r.stores.length,
+            closePreviousPopUp: false));
       }
     });
   }
@@ -242,8 +250,8 @@ class CartScreenCubit extends Cubit<CartScreenState> {
     bool flag = true;
     double amount = 0;
     for (var element in cartDetailsModel.stores) {
-      var productList = element.cartItemList.where((val) =>
-          val.storeId == element.storeId && element.isSelected == true);
+      var productList =
+          element.cartItemList.where((val) => val.storeId == element.storeId);
       for (var product in productList) {
         amount = 0;
         amount = amount + product.productWiseAmount!;
@@ -267,13 +275,14 @@ class CartScreenCubit extends Cubit<CartScreenState> {
           flag = false;
           product.errorMessage =
               'Your maximum order amount limit for this products is ₹${product.maxAmountLimit}';
-        } else if (product.orderDeliveryModeStatus == 0) {
-          flag = false;
-          product.errorMessage = 'Delivery mode is not valid';
-        } else if (product.stock! < product.quantity!) {
-          flag = false;
-          product.errorMessage = 'Out of stock. change distributor.';
         }
+        // else if (product.orderDeliveryModeStatus == 0) {
+        //   flag = false;
+        //   product.errorMessage = 'Delivery is not available';
+        // } else if (product.stock! < product.quantity!) {
+        //   flag = false;
+        //   product.errorMessage = 'Out of stock. change distributor.';
+        // }
 
         if (!flag) {
           product.isValid = false;
@@ -287,10 +296,11 @@ class CartScreenCubit extends Cubit<CartScreenState> {
         element.isStoreValid = false;
       }
     }
+
     if (!flag) {
       emit(CartScreenDataState(cartDetailsModel, cartDetailsModel.isAllExpanded,
           cartDetailsModel.isAllSelected, cartDetailsModel.totalSelectedStores,
-          isListUpdate: getListUpdateFlag()));
+          isListUpdate: getListUpdateFlag(), closePreviousPopUp: true));
     }
     return flag;
   }
@@ -374,7 +384,7 @@ class CartScreenCubit extends Cubit<CartScreenState> {
 
     emit(CartScreenDataState(cartDetailsModel, cartDetailsModel.isAllExpanded,
         cartDetailsModel.isAllSelected, cartDetailsModel.totalSelectedStores,
-        isListUpdate: getListUpdateFlag()));
+        isListUpdate: getListUpdateFlag(), closePreviousPopUp: false));
   }
 
   getListUpdateFlag() {

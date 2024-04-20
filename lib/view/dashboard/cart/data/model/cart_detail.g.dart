@@ -55,6 +55,8 @@ Map<String, dynamic> _$CartstoreEntityToJson(CartstoreEntity instance) =>
 
 CartListItemEntity _$CartListItemEntityFromJson(Map<String, dynamic> json) =>
     CartListItemEntity(
+      json['StoreId'] as int?,
+      json['StoreName'] as String?,
       json['ProductId'] as int?,
       json['PartyCode'] as String?,
       json['ProductCode'] as String?,
@@ -123,10 +125,12 @@ CartListItemEntity _$CartListItemEntityFromJson(Map<String, dynamic> json) =>
       json['isValid'] as bool?,
       json['errorMessage'] as String?,
       (json['totalAmount'] as num?)?.toDouble(),
-    )..storeId = json['StoreId'] as int?;
+    );
 
 Map<String, dynamic> _$CartListItemEntityToJson(CartListItemEntity instance) =>
     <String, dynamic>{
+      'StoreId': instance.storeId,
+      'StoreName': instance.storeName,
       'ProductId': instance.productId,
       'PartyCode': instance.partyCode,
       'ProductCode': instance.productCode,
@@ -194,7 +198,6 @@ Map<String, dynamic> _$CartListItemEntityToJson(CartListItemEntity instance) =>
       'MRP': instance.mrp,
       'isValid': instance.isValid,
       'errorMessage': instance.errorMessage,
-      'StoreId': instance.storeId,
       'totalAmount': instance.totalAmount,
     };
 

@@ -127,6 +127,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
             productTextController.text = searchText;
           }
         }
+        appBarCubit.distributorTextFieldTapped(isTapped: false);
+        widget.onDropDownOpenCallBackForDistributor?.call(false);
+        _distributorFocusNode.unfocus();
       }
     }
 
@@ -269,6 +272,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           productTextController.clear();
           isProductActive = false;
         }
+
         return Row(
           children: [
             isDashboard
@@ -374,9 +378,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 widget.productAndDistributorCallBack?.call(
                     text,
                     selectedDistributorId,
-                    distributorTextController.text != "All"
-                        ? distributorTextController.text
-                        : "",
+                    distributorTextController.text,
                     selectedCompanyId,
                     selectedCompanyName,
                     contextType);
@@ -481,11 +483,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   selectedCompanyId,
                   selectedCompanyName,
                   contextType);
+
+              distributorTextController.text = storeName;
+
               _distributorFocusNode.unfocus();
-
-              distributorTextController.text =
-                  storeName == "" ? "All" : storeName;
-
               // appBarCubit.distributorTextFieldTapped(isTapped: false);
               appBarCubit.distributorSelected(isSelected: true);
             },

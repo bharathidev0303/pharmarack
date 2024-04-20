@@ -80,6 +80,10 @@ class CartstoreEntity {
 
 @JsonSerializable()
 class CartListItemEntity {
+  @JsonKey(name: 'StoreId')
+  int? storeId;
+  @JsonKey(name: 'StoreName')
+  String? storeName;
   @JsonKey(name: 'ProductId')
   int? productId;
   @JsonKey(name: 'PartyCode')
@@ -212,11 +216,11 @@ class CartListItemEntity {
   String? mrp;
   bool? isValid = true;
   String? errorMessage;
-  @JsonKey(name: 'StoreId')
-  int? storeId;
   double? totalAmount = 0;
 
   CartListItemEntity(
+      this.storeId,
+      this.storeName,
       this.productId,
       this.partyCode,
       this.productCode,

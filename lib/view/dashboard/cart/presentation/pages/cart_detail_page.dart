@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
@@ -11,12 +10,12 @@ import 'package:pharmarack/packages/core_flutter/localization/localization_exten
 import 'package:pharmarack/packages/core_flutter/utils/extensions.dart';
 import 'package:pharmarack/view/dashboard/cart/di/cart_provider.dart';
 import 'package:pharmarack/view/dashboard/cart/presentation/cubit/cart_screen_cubit.dart';
-import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
 import '../cubit/cart_screen_state.dart';
 import '../widgets/cart_widgets.dart';
 
 class CartDetailPage extends StatefulWidget {
-  const CartDetailPage({super.key});
+  final VoidCallback? onPressBackButton;
+  const CartDetailPage({super.key, this.onPressBackButton});
 
   @override
   CartPageState createState() => CartPageState();
@@ -37,7 +36,11 @@ class CartPageState extends State<CartDetailPage> {
       appBar: SecondaryAppBar(
         titleText: context.localizedString.cart,
         onPressBackButton: () {
-          getIt<BottomNavigationCubit>().updateBottomNavigationIndex(0);
+          if (widget.onPressBackButton != null) {
+            widget.onPressBackButton?.call();
+          } else {
+            Navigator.pop(context);
+          }
         },
       ),
       backgroundColor: AppColors.appBackgroundColor,
