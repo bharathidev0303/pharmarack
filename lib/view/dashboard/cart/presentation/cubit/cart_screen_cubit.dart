@@ -252,9 +252,10 @@ class CartScreenCubit extends Cubit<CartScreenState> {
     bool flag = true;
     double amount = 0;
     for (var element in cartDetailsModel.stores) {
-      var productList =
-          element.cartItemList.where((val) => val.storeId == element.storeId);
+      var productList = element.cartItemList.where((val) =>
+          val.storeId == element.storeId && element.isSelected == true);
       for (var product in productList) {
+        amount = 0;
         amount = amount + product.productWiseAmount!;
         if (product.allowMinQty! != 0 &&
             product.allowMinQty! > product.quantity!) {
@@ -373,8 +374,9 @@ class CartScreenCubit extends Cubit<CartScreenState> {
     final cartDetailsModel = _cartDetailsUseCase.getCartDetailsData()!;
     Iterable<CartListItemEntity> productList;
     for (var element in cartDetailsModel.stores) {
-      productList =
-          element.cartItemList.where((val) => val.storeId == element.storeId);
+      productList = element.cartItemList.where((val) =>
+          val.storeId == element.storeId &&
+          val.productCode == cartItem.productCode);
       for (var product in productList) {
         //product.mrp=product.mrp! * int.parse(value);
         product.productWiseAmount = product.ptr! * int.parse(value);

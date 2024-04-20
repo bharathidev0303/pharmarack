@@ -6,8 +6,6 @@ import 'package:pharmarack/view/dashboard/cart/presentation/cubit/draggable_cart
 import 'package:pharmarack/view/features/search_product/domain/model/search_product/search_product_model.dart';
 import 'package:pharmarack/view/features/search_product/domain/use_case/add_product_to_cart_use_case.dart';
 import 'package:pharmarack/view/features/search_product/presentation/cubit/add_product_to_cart_state.dart';
-import 'package:pharmarack/view/features/search_product/presentation/cubit/search_product_cubit.dart';
-import 'package:pharmarack/view/features/widgets/custom_app_bar/custom_app_bar_cubit.dart';
 
 class AddProductToCartCubit extends Cubit<AddProductToCartState> {
   final AddProductToCartUseCase _addProductToCartUseCase;

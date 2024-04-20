@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
@@ -52,12 +54,13 @@ class CartProductList extends StatelessWidget {
                     header: (bool isExpanded, Animation<double> iconTurns,
                         Animation<double> heightFactor) {
                       return _ProductListSectionHeader(
-                          isExpanded,
-                          store.isSelected,
-                          store.storeName,
-                          store.storeId,
-                          store.cartItemList.length,
-                          store.total);
+                          isExpanded: isExpanded,
+                          isSelected: store.isSelected,
+                          distributorName: store.storeName,
+                          storeId: store.storeId,
+                          items: store.cartItemList.length,
+                          total: store.total,
+                          stores: stores);
                     },
                     childrenBody: ListView.builder(
                         physics: const ClampingScrollPhysics(),
@@ -87,16 +90,35 @@ class CartProductList extends StatelessWidget {
   }
 }
 
-class _ProductListSectionHeader extends StatelessWidget {
-  final bool _isExpanded;
-  final bool _isSelected;
-  final String _distributorName;
+class _ProductListSectionHeader extends StatefulWidget {
+  final bool isExpanded;
+  final bool isSelected;
+  final String distributorName;
   final int storeId;
-  final int _items;
-  final double _total;
+  final int items;
+  final double total;
+  final List<Store> stores;
 
-  const _ProductListSectionHeader(this._isExpanded, this._isSelected,
-      this._distributorName, this.storeId, this._items, this._total);
+  const _ProductListSectionHeader(
+      {super.key,
+      required this.isExpanded,
+      required this.isSelected,
+      required this.distributorName,
+      required this.storeId,
+      required this.items,
+      required this.total,
+      required this.stores});
+
+  @override
+  State<_ProductListSectionHeader> createState() =>
+      __ProductListSectionHeaderState();
+}
+
+class __ProductListSectionHeaderState extends State<_ProductListSectionHeader> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,12 +128,12 @@ class _ProductListSectionHeader extends StatelessWidget {
           Row(
             children: [
               ExpandCollapseTitle(
-                  isExpanded: _isExpanded,
+                  isExpanded: widget.isExpanded,
                   expandedLabel: Text(
-                    _distributorName.trim(),
+                    widget.distributorName.trim(),
                     style: AppTextStyles.style16W700Black(),
                   ),
-                  collapsedLabel: Text(_distributorName.trim(),
+                  collapsedLabel: Text(widget.distributorName.trim(),
                       style: AppTextStyles.style16W700Black()),
                   onExpandOrCollapse: null),
               const Expanded(
@@ -120,9 +142,9 @@ class _ProductListSectionHeader extends StatelessWidget {
               )),
               PrimaryCheckBox(
                 checkBoxText: null,
-                isChecked: _isSelected,
+                isChecked: widget.isSelected,
                 onChanged: (bool isSelected) {
-                  cartScreenCubit.onStoreSelected(storeId, isSelected);
+                  cartScreenCubit.onStoreSelected(widget.storeId, isSelected);
                 },
               ),
             ],
@@ -142,7 +164,7 @@ class _ProductListSectionHeader extends StatelessWidget {
                               color: AppColors.lightGrey,
                             )),
                         TextSpan(
-                            text: _items.toString(),
+                            text: widget.items.toString(),
                             style: AppTextStyles.style11W500MedGrey(
                               color: AppColors.primaryTextColor,
                             )),
@@ -159,7 +181,7 @@ class _ProductListSectionHeader extends StatelessWidget {
                               color: AppColors.lightGrey,
                             )),
                         TextSpan(
-                            text: '₹ ${_total.toStringAsFixed(2)}',
+                            text: '₹ ${widget.total.toStringAsFixed(2)}',
                             style: AppTextStyles.style12W700Black(
                               color: AppColors.primaryTextColor,
                             )),
@@ -194,8 +216,8 @@ class _ProductListSectionHeader extends StatelessWidget {
       context: context,
       builder: (context) {
         return AddSingleProductInCartPopup(
-          distributorName: _distributorName,
-          storeId: storeId,
+          distributorName: widget.distributorName,
+          storeId: widget.storeId,
           callBack: () {
             cartScreenCubit.getCartDetails();
           },
@@ -204,6 +226,139 @@ class _ProductListSectionHeader extends StatelessWidget {
     );
   }
 }
+
+// class _ProductListSectionHeader extends StatelessWidget {
+//   final bool _isExpanded;
+//   final bool _isSelected;
+//   final String _distributorName;
+//   final int storeId;
+//   final int _items;
+//   final double _total;
+//   final List<Store> stores;
+
+//   const _ProductListSectionHeader(
+//       this._isExpanded,
+//       this._isSelected,
+//       this._distributorName,
+//       this.storeId,
+//       this._items,
+//       this._total,
+//       this.stores);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Expanded(
+//       child: Column(
+//         children: [
+//           Row(
+//             children: [
+//               ExpandCollapseTitle(
+//                   isExpanded: _isExpanded,
+//                   expandedLabel: Text(
+//                     _distributorName.trim(),
+//                     style: AppTextStyles.style16W700Black(),
+//                   ),
+//                   collapsedLabel: Text(_distributorName.trim(),
+//                       style: AppTextStyles.style16W700Black()),
+//                   onExpandOrCollapse: null),
+//               const Expanded(
+//                   child: SizedBox(
+//                 width: double.infinity,
+//               )),
+//               PrimaryCheckBox(
+//                 checkBoxText: null,
+//                 isChecked: _isSelectedLC,
+//                 onChanged: (bool isSelected) {
+//                   _isSelectedLC = isSelected;
+//                   stores
+//                       .where((element) => element.storeId == storeId)
+//                       .first
+//                       .isSelected = isSelected;
+
+//                   print(
+//                       "testsjkdjsk ${stores.where((element) => element.isSelected == true).length}");
+//                   // cartScreenCubit.onStoreSelected(storeId, isSelected);
+//                 },
+//               ),
+//             ],
+//           ),
+//           const SizedBox(height: 10.0),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Row(
+//                 children: [
+//                   Text.rich(
+//                     TextSpan(
+//                       children: [
+//                         TextSpan(
+//                             text: '${context.localizedString.items}: ',
+//                             style: AppTextStyles.style11W400Red(
+//                               color: AppColors.lightGrey,
+//                             )),
+//                         TextSpan(
+//                             text: _items.toString(),
+//                             style: AppTextStyles.style11W500MedGrey(
+//                               color: AppColors.primaryTextColor,
+//                             )),
+//                       ],
+//                     ),
+//                   ),
+//                   const SizedBox(width: 15),
+//                   Text.rich(
+//                     TextSpan(
+//                       children: [
+//                         TextSpan(
+//                             text: '${context.localizedString.total}: ',
+//                             style: AppTextStyles.style11W400Red(
+//                               color: AppColors.lightGrey,
+//                             )),
+//                         TextSpan(
+//                             text: '₹ ${_total.toStringAsFixed(2)}',
+//                             style: AppTextStyles.style12W700Black(
+//                               color: AppColors.primaryTextColor,
+//                             )),
+//                       ],
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               GestureDetector(
+//                 onTap: () {
+//                   Navigator.push(
+//                       context,
+//                       MaterialPageRoute(
+//                           builder: (context) => const SearchProductPage()));
+//                 },
+//                 child: Text(
+//                   '+ ${context.localizedString.addProduct}',
+//                   style: AppTextStyles.listItemValueStyle12W500
+//                       .copyWith(color: AppColors.secondaryButtonTextColor),
+//                 ),
+//               )
+//             ],
+//           ),
+//           const SizedBox(height: 5.0),
+//         ],
+//       ),
+//     );
+//   }
+
+//   void openAddProductDialog(BuildContext context) {
+//     showDialog(
+//       context: context,
+//       builder: (context) {
+//         return AddSingleProductInCartPopup(
+//           distributorName: _distributorName,
+//           storeId: storeId,
+//           callBack: () {
+//             cartScreenCubit.getCartDetails();
+//           },
+//         );
+//       },
+//     );
+//   }
+// }
 
 class _CartProductListItem extends StatelessWidget {
   final CartListItemEntity cartProduct;

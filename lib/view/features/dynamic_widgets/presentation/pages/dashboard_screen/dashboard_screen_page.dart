@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/di/app_provider.dart';
-import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/common_model/common_success_dialog_info_model.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/side_navigation_legacy/model/legacy_menu.dart';
@@ -28,6 +27,7 @@ class DashboardScreenPageSate extends BaseStatefulPage {
   void initState() {
     super.initState();
     initDashboardDi();
+    draggableCartScreenCubit.getCartDetails();
     showModelPopup();
   }
 
@@ -47,7 +47,6 @@ class DashboardScreenPageSate extends BaseStatefulPage {
       getIt.unregister<CommonSuccessDialogInfoModel>(
           instanceName: OnboardingConstants.showDialogDiConstant);
     }
-    draggableCartScreenCubit.getCartDetails();
   }
 
   @override

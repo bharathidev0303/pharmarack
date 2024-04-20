@@ -11,6 +11,7 @@ import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.d
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/utils/app_constants.dart';
 import 'package:pharmarack/view/dashboard/cart/merchandising_widget/widget_1/presentation/product_item.dart';
+import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
 import '../../di/cart_provider.dart';
 import '../cubit/cart_screen_cubit.dart';
 import '../cubit/cart_screen_state.dart';
@@ -205,7 +206,7 @@ class PlaceOrderSuccessfulPageState extends State<PlaceOrderSuccessfulPage> {
       required bool isCancelEnable}) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, RoutePaths.orderHistory);
+        getIt<BottomNavigationCubit>().updateBottomNavigationIndex(2);
       },
       child: Container(
         padding: EdgeInsets.only(

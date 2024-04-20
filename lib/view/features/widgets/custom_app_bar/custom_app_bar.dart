@@ -269,7 +269,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
           productTextController.clear();
           isProductActive = false;
         }
-
         return Row(
           children: [
             isDashboard

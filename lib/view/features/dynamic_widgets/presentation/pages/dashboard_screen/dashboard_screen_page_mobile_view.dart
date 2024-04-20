@@ -3,11 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
-import 'package:pharmarack/view/features/dynamic_widgets/di/dashboard_screen_providers.dart';
+import 'package:pharmarack/view/dashboard/cart/di/cart_provider.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/di/home_page_providers.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/di/page_config_providers.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/cubit/home_page/home_page_state.dart';
-import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/dashboard_screen/dashboard_screen_page.dart';
 
 class DashboardScreenPageMobileView extends StatefulWidget {
   const DashboardScreenPageMobileView({super.key});
@@ -82,13 +81,8 @@ class _DashboardScreenPageMobileViewState
   }
 
   Future<void> _refreshPage() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    clearDashboardDi();
-    // ignore: use_build_context_synchronously
-    Navigator.pushReplacement(
-      context,
-      PageRouteBuilder(pageBuilder: (a, b, c) => const DashboardScreenPage()),
-    );
+    homePageScreenCubit.fetchHomePage();
+    draggableCartScreenCubit.getCartDetails();
     return;
   }
 }

@@ -29,10 +29,6 @@ class CustomAppBarCubit extends Cubit<CustomAppBarState> {
     emit(const ResetState());
   }
 
-  refreshAppBar({required bool refresh}) {
-    emit(CustomAppBarRefreshState(refresh: refresh));
-  }
-
   closeDistributorDropdown() {
     emit(const CloseDistributorDropdownState());
   }

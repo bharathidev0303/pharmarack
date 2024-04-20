@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/product_list_item/product_list_item.dart';
@@ -128,35 +127,6 @@ class _SearchProductPageMobileViewState
   }
 
   Widget alreadyAddedWidget(
-      SearchProductListModel product, BuildContext context) {
-    return product.isAlreadyAdded != null && product.isAlreadyAdded == true
-        ? Positioned(
-            top: 2,
-            right: 8,
-            child: Container(
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: AppColors.statusTextColor),
-                padding:
-                    const EdgeInsets.only(right: 8, left: 5, bottom: 2, top: 2),
-                // width: 70,
-                child: Row(
-                  children: [
-                    AppAssets.svg.tickSelected.svg(color: AppColors.white),
-                    Text(
-                      context.localizedString.added,
-                      style: AppTextStyles.style12W700Black(
-                          fontSize: 11, color: AppColors.white),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                )),
-          )
-        : const SizedBox.shrink();
-  }
-
-  Widget refreshAlreadyAddedWidget(
       SearchProductListModel product, BuildContext context) {
     return product.isAlreadyAdded != null && product.isAlreadyAdded == true
         ? Positioned(
