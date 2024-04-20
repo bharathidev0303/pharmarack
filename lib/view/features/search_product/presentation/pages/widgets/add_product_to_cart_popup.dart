@@ -20,14 +20,16 @@ import 'package:pharmarack/view/features/search_product/di/search_product_provid
 import 'package:pharmarack/view/features/search_product/domain/model/search_product/search_product_model.dart';
 import 'package:pharmarack/view/features/search_product/presentation/cubit/add_product_to_cart_cubit.dart';
 import 'package:pharmarack/view/features/search_product/presentation/cubit/add_product_to_cart_state.dart';
+import 'package:pharmarack/view/features/widgets/custom_app_bar/custom_app_bar_cubit.dart';
 
 class AddProductToCartPopup extends StatefulWidget {
   final SearchProductListModel productDetails;
+  final Function(bool)? addProductCardRefrechCallBack;
 
-  const AddProductToCartPopup({
-    super.key,
-    required this.productDetails,
-  });
+  const AddProductToCartPopup(
+      {super.key,
+      required this.productDetails,
+      this.addProductCardRefrechCallBack});
 
   @override
   State<AddProductToCartPopup> createState() => _AddProductToCartPopupState();
@@ -78,6 +80,7 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
           if (state is AddProductToCartLoadingState) {
             return const ProcessingRequestWidget();
           } else if (state is AddProductToCartDataState) {
+            widget.addProductCardRefrechCallBack?.call(state.isRefresh!);
             Future.delayed(const Duration(seconds: 2))
                 .then((value) => Navigator.pop(context));
             return SizedBox(
@@ -130,7 +133,7 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
                       : MediaQuery.of(context).size.height * 0.32
                   : errorMessage.isNotEmpty
                       ? MediaQuery.of(context).size.height * 0.32
-                      : MediaQuery.of(context).size.height * 0.26,
+                      : MediaQuery.of(context).size.height * 0.30,
               clipBehavior: Clip.antiAlias,
               decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(

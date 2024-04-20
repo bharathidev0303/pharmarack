@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/product_list_item/product_list_item.dart';
@@ -13,12 +14,28 @@ import 'package:pharmarack/view/features/search_product/presentation/cubit/searc
 import 'package:pharmarack/view/features/search_product/presentation/pages/widgets/add_product_to_cart_popup.dart';
 
 /// This class [SearchProductPageMobileView] which specifically used to render Mobile UI
-class SearchProductPageMobileView extends StatelessWidget {
+///
+
+class SearchProductPageMobileView extends StatefulWidget {
   final List<SearchProductListModel> productList;
   final SearchProductCubit searchProductCubit;
 
-  const SearchProductPageMobileView(
-      {super.key, required this.productList, required this.searchProductCubit});
+  const SearchProductPageMobileView({
+    super.key,
+    required this.productList,
+    required this.searchProductCubit,
+  });
+  @override
+  State<SearchProductPageMobileView> createState() =>
+      _SearchProductPageMobileViewState();
+}
+
+class _SearchProductPageMobileViewState
+    extends State<SearchProductPageMobileView> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +43,7 @@ class SearchProductPageMobileView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.appBackgroundColor,
         body: BlocBuilder(
-          bloc: searchProductCubit,
+          bloc: widget.searchProductCubit,
           buildWhen: (previous, current) {
             return current is SearchProductBlurState;
           },
@@ -57,9 +74,9 @@ class SearchProductPageMobileView extends StatelessWidget {
         child: ListView.builder(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           shrinkWrap: true,
-          itemCount: productList.length,
+          itemCount: widget.productList.length,
           itemBuilder: (context, index) {
-            final product = productList[index];
+            final product = widget.productList[index];
             return Stack(
               children: [
                 Container(
@@ -90,6 +107,10 @@ class SearchProductPageMobileView extends StatelessWidget {
                         context: context,
                         builder: (context) {
                           return AddProductToCartPopup(
+                            addProductCardRefrechCallBack: (isRefresh) {
+                              WidgetsBinding.instance.addPostFrameCallback(
+                                  (_) => product.isAlreadyAdded = true);
+                            },
                             productDetails: product,
                           );
                         },
@@ -97,7 +118,7 @@ class SearchProductPageMobileView extends StatelessWidget {
                     },
                   ),
                 ),
-                alreadyAddedWidget(product, context),
+                alreadyAddedWidget(product, context)
               ],
             );
           },
@@ -107,6 +128,35 @@ class SearchProductPageMobileView extends StatelessWidget {
   }
 
   Widget alreadyAddedWidget(
+      SearchProductListModel product, BuildContext context) {
+    return product.isAlreadyAdded != null && product.isAlreadyAdded == true
+        ? Positioned(
+            top: 2,
+            right: 8,
+            child: Container(
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: AppColors.statusTextColor),
+                padding:
+                    const EdgeInsets.only(right: 8, left: 5, bottom: 2, top: 2),
+                // width: 70,
+                child: Row(
+                  children: [
+                    AppAssets.svg.tickSelected.svg(color: AppColors.white),
+                    Text(
+                      context.localizedString.added,
+                      style: AppTextStyles.style12W700Black(
+                          fontSize: 11, color: AppColors.white),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                )),
+          )
+        : const SizedBox.shrink();
+  }
+
+  Widget refreshAlreadyAddedWidget(
       SearchProductListModel product, BuildContext context) {
     return product.isAlreadyAdded != null && product.isAlreadyAdded == true
         ? Positioned(

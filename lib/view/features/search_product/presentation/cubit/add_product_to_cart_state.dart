@@ -23,8 +23,9 @@ class DistributorsPartyLockedState extends AddProductToCartState {
 
 class AddProductToCartDataState extends AddProductToCartState {
   final AddProductToCartModel addProductToCartModel;
+  final bool? isRefresh;
 
-  const AddProductToCartDataState(this.addProductToCartModel);
+  const AddProductToCartDataState(this.addProductToCartModel, this.isRefresh);
 }
 
 class FreeValueUpdateState extends AddProductToCartState {
