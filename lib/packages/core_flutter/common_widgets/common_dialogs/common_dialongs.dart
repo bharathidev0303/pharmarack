@@ -141,7 +141,7 @@ void showBinaryButtonAlertDialog(BuildContext context,
     VoidCallback? onSecondButtonClick,
     String? firstButtonTitle,
     String? secondButtonTitle,
-    isCrossIconHide}) {
+    bool? isCrossIconHide}) {
   showAdaptiveDialog(
       context: context,
       builder: (ctx) {
@@ -164,6 +164,7 @@ void showBinaryButtonAlertDialog(BuildContext context,
             onSecondButtonClick: onSecondButtonClick,
             firstButtonTitle: firstButtonTitle ?? '',
             secondButtonTitle: secondButtonTitle ?? '',
+            isCrossIconHide: isCrossIconHide,
           ),
         );
       });
@@ -240,7 +241,8 @@ void showFailureDialog(
   );
 }
 
-void showAlertDialog(BuildContext context, String action) async {
+void showAlertDialog(
+    BuildContext context, String action, bool crossIconHide) async {
   showBinaryButtonAlertDialog(
     context,
     title: context.localizedString.logOutAlertTitle,
@@ -248,6 +250,7 @@ void showAlertDialog(BuildContext context, String action) async {
     subTitle: context.localizedString.logOutAlertSubTitle,
     firstButtonTitle: context.localizedString.dialogCommonCancelText,
     secondButtonTitle: context.localizedString.dialogLogOutText,
+    isCrossIconHide: crossIconHide,
     onFirstButtonClick: () {
       Navigator.of(context, rootNavigator: true).pop();
     },

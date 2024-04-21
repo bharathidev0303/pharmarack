@@ -5,6 +5,7 @@ import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/app_drop_down/app_drop_down.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
+import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_fonts.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
 import 'package:pharmarack/packages/core_flutter/dls/widget/primary_button.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
@@ -111,8 +112,14 @@ class DraggableCartPageState extends State<DraggableCartPage>
                 children: [
                   TextSpan(
                       text: "${context.localizedString.lastAdded}: ",
-                      style: AppTextStyles.style12W700Black(
-                          fontSize: 13, color: AppColors.blackTextFieldText)),
+                      style: TextStyle(
+                          color: AppColors.blackTextFieldText,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: AppFonts.helveticaNeue,
+                          fontStyle: FontStyle.normal,
+                          overflow: TextOverflow.ellipsis,
+                          height: 0)),
                   TextSpan(
                       text: "${lastAddedProduct?.productName}",
                       style: AppTextStyles.searchFilterTitleStyleW300.copyWith(

@@ -8,6 +8,7 @@ import 'package:pharmarack/packages/core_flutter/error/network_error.dart';
 import 'package:pharmarack/view/features/profile/presentation/constants/edit_profile_constants.dart';
 import 'package:pharmarack/view/features/profile/presentation/constants/my_profile_constants.dart';
 import 'package:pharmarack/view/onboarding/data/entities/retailer_Image_upload_entity.dart';
+import 'package:pharmarack/view/onboarding/domain/model/registration_model.dart';
 import 'package:pharmarack/view/onboarding/domain/model/update_retailer_model.dart';
 import 'package:pharmarack/view/onboarding/domain/repository/onboarding_repository.dart';
 
@@ -19,9 +20,7 @@ class UpdateRetailerProfileUsecase extends BaseUseCase<BaseError,
 
   @override
   Future<Either<NetworkError, UpdateRetailerModel>> execute(
-      {required params,
-      reqData,
-      ImageUploadResponceEntity? drugLisenseImage}) async {
+      {required params, reqData, DrugLicenseImages? drugLisenseImage}) async {
     return onboardingRepository.updateRetailerProfile(
         getRequestUpdateString(reqData, drugLisenseImage));
   }
@@ -119,8 +118,8 @@ class UpdateRetailerProfileUsecase extends BaseUseCase<BaseError,
   //   return reqMap;
   // }
 
-  Map<String, dynamic> getRequestUpdateString(Map<String, dynamic> reqData,
-      ImageUploadResponceEntity? drugLisenseImage) {
+  Map<String, dynamic> getRequestUpdateString(
+      Map<String, dynamic> reqData, DrugLicenseImages? drugLisenseImage) {
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
     var reqMap = {
       "updateuser": {

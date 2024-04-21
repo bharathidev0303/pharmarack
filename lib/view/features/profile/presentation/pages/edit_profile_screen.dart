@@ -4,10 +4,8 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get_it/get_it.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
@@ -55,6 +53,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     editProfileCubit = getIt<EditProfileCubit>();
     retailerInfoEntity = getIt<RetailerInfoEntity>();
     _initiateEditProfielDetails();
+    if (retailerInfoEntity.displayImages != null) {
+      editProfileCubit.emitDrugLisenseImage(
+          imageUrl: retailerInfoEntity.displayImages![0].imageUrl ?? "",
+          type: retailerInfoEntity.displayImages![0].retailerImageType ?? "",
+          imageDbPath: "",
+          localFile: false);
+    }
     super.initState();
   }
 
@@ -645,7 +650,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                       const SizedBox(height: 25),
                       //DL Image BOX
-                      reqMap[EditProfileConstants.drugLicenseImageField] != null
+                      state.drugLicenseImage != null
                           ? SizedBox(
                               height: 300,
                               child: Column(children: [
@@ -676,10 +681,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                           const SizedBox(
                                             width: 45,
                                           ),
-                                          state.drugLicenseFileUploaded == true
+                                          state.drugLicenseLocalFile == true
                                               ? InkWell(
                                                   onTap: () {
-                                                    clearDrugLicenceFile();
+                                                    editProfileCubit
+                                                        .checkDrugLicenseNewFile(
+                                                            "");
                                                   },
                                                   child: const Icon(
                                                     Icons.close,
@@ -694,7 +701,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 16),
-                                state.drugLicenseFileUploaded == true
+                                state.drugLicenseLocalFile == true
                                     ? Container(
                                         height: 240,
                                         decoration: BoxDecoration(
@@ -711,9 +718,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(5)),
                                         alignment: Alignment.center,
-                                        child: state.drugLicenseNewFile != null
-                                            ? Image.file(File(
-                                                state.drugLicenseNewFile!.path))
+                                        child: state.drugLicenseImage!
+                                                    .imageUrl !=
+                                                null
+                                            ? Image.file(File(state
+                                                .drugLicenseImage!.imageUrl!))
                                             : const Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
@@ -749,14 +758,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                             borderRadius:
                                                 BorderRadius.circular(5)),
                                         alignment: Alignment.center,
-                                        child: reqMap[EditProfileConstants
-                                                    .drugLicenseImageField] !=
-                                                null
+                                        child: state.drugLicenseImage != null
                                             ? CachedNetworkImage(
-                                                imageUrl: reqMap[
-                                                        EditProfileConstants
-                                                            .drugLicenseImageField] ??
-                                                    "",
+                                                imageUrl: state
+                                                    .drugLicenseImage!
+                                                    .imageUrl!,
                                                 fit: BoxFit.fill,
                                                 placeholder: (_, __) {
                                                   return const Center(
@@ -866,13 +872,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       );
     } else if (state.userMessages.contains(UserMessage.updateProfileFailure)) {
       CommonDialogs.closeCommonDialog(context: context);
-      showFailedRequestDialog(context, title: "Unable to update");
+      showFailedRequestDialog(context,
+          title: "Details Not Found Please Contact Site Admin");
     }
-  }
-
-  clearDrugLicenceFile() {
-    reqMap[EditProfileConstants.drugLicenseImageField] = "";
-    editProfileCubit.checkDrugLicenseNewFile(null, "");
   }
 
   Future handleMediaSelection(
@@ -885,9 +887,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         : await ImagePickerUtil.pickImageFromCamera();
 
     if (file != null) {
-      reqMap[EditProfileConstants.drugLicenseImageField] = file.path ?? "";
+      editProfileCubit.emitDrugLisenseImage(
+          imageUrl: file.path, imageDbPath: "", type: "DL1", localFile: true);
       editProfileCubit.checkDrugLicenseNewFile(
-          file, context.localizedString.drugLicenseFileError);
+          context.localizedString.drugLicenseFileError);
       _formKey.currentState?.validate();
     }
 
@@ -981,12 +984,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         retailerInfoEntity.userdetail!.address1 ?? "";
     reqMap[EditProfileConstants.address2Field] =
         retailerInfoEntity.userdetail!.address2 ?? "";
-    if (retailerInfoEntity.displayImages!.isNotEmpty) {
-      reqMap[EditProfileConstants.drugLicenseImageField] =
-          retailerInfoEntity.displayImages![0].imageUrl ?? "";
-    } else {
-      reqMap[EditProfileConstants.drugLicenseImageField] = "";
-    }
     if (retailerInfoEntity.stores!.isNotEmpty) {
       reqMap[EditProfileConstants.contactPersonField] =
           retailerInfoEntity.stores?.isNotEmpty ?? false

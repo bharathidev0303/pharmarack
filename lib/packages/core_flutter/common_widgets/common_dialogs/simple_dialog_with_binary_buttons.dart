@@ -38,7 +38,7 @@ class SimpleAlertDialogWithBinaryButton extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              title.isEmpty && isCrossIconHide != null
+              title != "" && isCrossIconHide == false
                   ? Row(
                       children: [
                         Text(
@@ -61,7 +61,7 @@ class SimpleAlertDialogWithBinaryButton extends StatelessWidget {
                     )
                   : const SizedBox.shrink(),
               SizedBox(
-                height: title.isEmpty && isCrossIconHide != null ? 15 : 0,
+                height: title != "" && isCrossIconHide == false ? 15 : 0,
               ),
               Text(
                 subTitle,

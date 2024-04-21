@@ -31,7 +31,6 @@ class EditProfileConstants {
   static const String bankAcNameField = "bankAcNameField";
   static const String iFSCField = "iFSCField";
   static const String isUPIVerifiedField = "isUPIVerifiedField";
-  static const String drugLicenseImageField = "drugLicenseImageField";
   static const String isImageChangedField = "isImageChanged";
   static const String isRetailerNameEncodedField = "isRetailerNameEncoded";
   static const String newAppField = "newAppField";

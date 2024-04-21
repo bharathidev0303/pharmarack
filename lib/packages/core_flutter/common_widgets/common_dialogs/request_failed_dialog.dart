@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
@@ -63,7 +62,6 @@ class RequestFailedWidget extends StatelessWidget {
                   semanticsLabel: "Close",
                   width: 24,
                   height: 24,
-                  
                 ),
               ),
             ),
@@ -77,12 +75,12 @@ class RequestFailedWidget extends StatelessWidget {
                   AppAssets.svg.close.svg(
                     width: 42,
                     height: 42,
-                    
                   ),
                   const SizedBox(height: 10),
                   Text(
                     title ?? context.localizedString.requestFailed,
                     style: AppTextStyles.dialogTitleTextStyle20W700,
+                    textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 10),
                   Visibility(

@@ -199,7 +199,7 @@ void handleProfileMenuClick(
   }
 
   if (action == drawerRouterPaths.getLoginScreenPath()) {
-    showAlertDialog(context, action);
+    showAlertDialog(context, action, false);
   }
 
   if (action == drawerRouterPaths.getOrderHistoryPath()) {

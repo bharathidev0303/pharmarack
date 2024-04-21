@@ -1,14 +1,15 @@
 import 'dart:collection';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pharmarack/view/onboarding/domain/model/registration_model.dart';
 
 class EditProfileState extends Equatable {
   final bool isLoading;
   final HashSet<UserMessage> userMessages;
   final bool isActionButtonEnabled;
-  final bool drugLicenseFileUploaded;
+  final bool drugLicenseLocalFile;
   final bool moveToMyProfilePage;
-  final XFile? drugLicenseNewFile;
+  final DrugLicenseImages? drugLicenseImage;
   final String? drugLicenseFileError;
   final String? onSubmitValidateErrorText;
 
@@ -16,9 +17,9 @@ class EditProfileState extends Equatable {
     required this.isLoading,
     required this.userMessages,
     required this.isActionButtonEnabled,
-    required this.drugLicenseFileUploaded,
+    required this.drugLicenseLocalFile,
     required this.moveToMyProfilePage,
-    required this.drugLicenseNewFile,
+    required this.drugLicenseImage,
     required this.drugLicenseFileError,
     required this.onSubmitValidateErrorText,
   });
@@ -29,9 +30,9 @@ class EditProfileState extends Equatable {
       userMessages: HashSet<UserMessage>()
         ..add(UserMessage.updateProfileInitial),
       isActionButtonEnabled: false,
-      drugLicenseFileUploaded: false,
+      drugLicenseLocalFile: false,
       moveToMyProfilePage: false,
-      drugLicenseNewFile: null,
+      drugLicenseImage: null,
       drugLicenseFileError: null,
       onSubmitValidateErrorText: null,
     );
@@ -43,9 +44,9 @@ class EditProfileState extends Equatable {
       userMessages: HashSet<UserMessage>()
         ..add(UserMessage.updateProfileLoading),
       isActionButtonEnabled: false,
-      drugLicenseFileUploaded: false,
+      drugLicenseLocalFile: false,
       moveToMyProfilePage: false,
-      drugLicenseNewFile: null,
+      drugLicenseImage: null,
       drugLicenseFileError: null,
       onSubmitValidateErrorText: null,
     );
@@ -56,9 +57,9 @@ class EditProfileState extends Equatable {
       userMessages: HashSet<UserMessage>()
         ..add(UserMessage.updateProfileSuccess),
       isActionButtonEnabled: false,
-      drugLicenseFileUploaded: false,
+      drugLicenseImage: null,
+      drugLicenseLocalFile: false,
       moveToMyProfilePage: false,
-      drugLicenseNewFile: null,
       drugLicenseFileError: null,
       onSubmitValidateErrorText: null,
     );
@@ -69,9 +70,9 @@ class EditProfileState extends Equatable {
       userMessages: HashSet<UserMessage>()
         ..add(UserMessage.updateProfileFailure),
       isActionButtonEnabled: false,
-      drugLicenseFileUploaded: false,
+      drugLicenseLocalFile: false,
+      drugLicenseImage: null,
       moveToMyProfilePage: false,
-      drugLicenseNewFile: null,
       drugLicenseFileError: null,
       onSubmitValidateErrorText: null,
     );
@@ -82,9 +83,9 @@ class EditProfileState extends Equatable {
         isLoading,
         userMessages,
         isActionButtonEnabled,
-        drugLicenseFileUploaded,
+        drugLicenseImage,
+        drugLicenseLocalFile,
         moveToMyProfilePage,
-        drugLicenseNewFile,
         drugLicenseFileError,
         onSubmitValidateErrorText,
       ];
@@ -93,9 +94,9 @@ class EditProfileState extends Equatable {
     bool? isLoading,
     HashSet<UserMessage>? userMessages,
     bool? isActionButtonEnabled,
-    bool? drugLicenseFileUploaded,
+    bool? drugLicenseLocalFile,
+    DrugLicenseImages? drugLicenseImage,
     bool? moveToMyProfilePage,
-    XFile? drugLicenseNewFile,
     String? drugLicenseFileError,
     String? onSubmitValidateErrorText,
   }) {
@@ -104,10 +105,9 @@ class EditProfileState extends Equatable {
       userMessages: userMessages ?? this.userMessages,
       isActionButtonEnabled:
           isActionButtonEnabled ?? this.isActionButtonEnabled,
-      drugLicenseFileUploaded:
-          drugLicenseFileUploaded ?? this.drugLicenseFileUploaded,
+      drugLicenseLocalFile: drugLicenseLocalFile ?? this.drugLicenseLocalFile,
       moveToMyProfilePage: moveToMyProfilePage ?? this.moveToMyProfilePage,
-      drugLicenseNewFile: drugLicenseNewFile ?? this.drugLicenseNewFile,
+      drugLicenseImage: drugLicenseImage ?? this.drugLicenseImage,
       drugLicenseFileError: drugLicenseFileError ?? this.drugLicenseFileError,
       onSubmitValidateErrorText:
           onSubmitValidateErrorText ?? this.onSubmitValidateErrorText,

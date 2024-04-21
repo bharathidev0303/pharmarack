@@ -66,6 +66,7 @@ class SimpleAlertDialogWithImageButton extends StatelessWidget {
                         title,
                         style: AppTextStyles.style16W600Black(
                             color: AppColors.blackTextFieldText),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                     Padding(

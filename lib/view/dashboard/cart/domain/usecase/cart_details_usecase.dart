@@ -174,7 +174,14 @@ class CartDetailsUseCase
 
   CartLastItemModel? getLastAddedProduct() {
     CartDetailsModel? cartDetails = _cartRepository.getCartDetailsData();
-    return cartDetails?.lastAddedProduct;
+    CartLastItemModel lastAddedProduct = CartLastItemModel(
+      productName: cartDetails?.stores.last.cartItemList.last.productName,
+      quantity: cartDetails?.stores.last.cartItemList.last.quantity,
+      scheme: cartDetails?.stores.last.cartItemList.last.scheme,
+      quantityWithScheme:
+          cartDetails?.stores.last.cartItemList.last.halfSchemeValueToRetailer,
+    );
+    return lastAddedProduct;
   }
 
   CartDetailsModel? getAllDistributorAndProductList() {
