@@ -26,7 +26,6 @@ class SearchProductCubit extends Cubit<SearchProductState> {
   late String searchQuery = "";
   late bool isDistributor = false;
   late String selectedDistributorName = '';
-  late String selectedContextType = '';
   late int selectedDistributorId = 0;
   late String selectedCompanyId = '';
   late String selectedCompanyName = '';
@@ -47,12 +46,11 @@ class SearchProductCubit extends Cubit<SearchProductState> {
       String? storeName,
       String? companyId,
       String? companyName,
-      String? contextType}) {
+      String? contextType,
+      bool? loaderEnable}) {
     selectedDistributorName = storeName ?? "";
     selectedDistributorId = id ?? 0;
-    selectedContextType = contextType ?? "";
-    selectedCompanyName = companyName ?? "";
-    selectedCompanyId = companyId ?? "";
+    searchQuery = query;
 
     if (query.length >= 3) {
       if (contextType == "Company" && companyName!.isNotEmpty) {
@@ -87,7 +85,6 @@ class SearchProductCubit extends Cubit<SearchProductState> {
   showDistributorsPage(String distributorName, int id) {
     selectedDistributorName = distributorName;
     selectedDistributorId = id;
-
     if (getIt<RetailerInfoEntity>().stores != null) {
       var data = getIt<RetailerInfoEntity>()
           .stores
@@ -148,7 +145,7 @@ class SearchProductCubit extends Cubit<SearchProductState> {
                   emit(SearchProductErrorMessageState(l.getFriendlyMessage())),
               (r) => emit(SearchProductFilteredDataState(r[0], r[1])));
         } else {
-          emit(SearchProductDataEmptyListState());
+          emit(const SearchProductFilteredDataState([], []));
         }
       });
     } catch (e) {
@@ -191,7 +188,7 @@ class SearchProductCubit extends Cubit<SearchProductState> {
                   emit(SearchProductErrorMessageState(l.getFriendlyMessage())),
               (r) => emit(SearchProductFilteredDataState(r[0], r[1])));
         } else {
-          emit(SearchProductDataEmptyListState());
+          emit(const SearchProductFilteredDataState([], []));
         }
       });
     } catch (e) {
@@ -234,7 +231,7 @@ class SearchProductCubit extends Cubit<SearchProductState> {
                   emit(SearchProductErrorMessageState(l.getFriendlyMessage())),
               (r) => emit(SearchProductFilteredDataState(r[0], r[1])));
         } else {
-          emit(SearchProductDataEmptyListState());
+          emit(const SearchProductFilteredDataState([], []));
         }
       });
     } catch (e) {

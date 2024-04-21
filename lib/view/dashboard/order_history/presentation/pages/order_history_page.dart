@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
@@ -20,7 +22,8 @@ import 'package:pharmarack/view/features/widgets/custom_app_bar/custom_app_bar.d
 import 'package:pharmarack/view/features/widgets/custom_app_bar/custom_app_bar_cubit.dart';
 
 class OrderHistoryPage extends StatefulWidget {
-  const OrderHistoryPage({super.key});
+  final VoidCallback? onPressBackButton;
+  const OrderHistoryPage({super.key, this.onPressBackButton});
 
   @override
   OrderHistoryPageState createState() => OrderHistoryPageState();
@@ -55,8 +58,12 @@ class OrderHistoryPageState extends State<OrderHistoryPage> {
       appBar: SecondaryAppBar(
           titleText: context.localizedString.myOrders,
           onPressBackButton: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const LandingPage()));
+            if (widget.onPressBackButton != null) {
+              widget.onPressBackButton?.call();
+            } else {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LandingPage()));
+            }
           },
           actions: [
             InkWell(

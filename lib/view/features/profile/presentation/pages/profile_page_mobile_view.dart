@@ -14,6 +14,7 @@ import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.d
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/utils/url_launcher_utils.dart';
 import 'package:pharmarack/packages/utils/retailer_app_constants.dart';
+import 'package:pharmarack/view/dashboard/order_history/presentation/pages/order_history_page.dart';
 import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
 import 'package:pharmarack/view/features/profile/presentation/constants/my_profile_constants.dart';
 import 'package:pharmarack/view/features/profile/presentation/cubit/profile_cubit.dart';
@@ -203,8 +204,15 @@ void handleProfileMenuClick(
   }
 
   if (action == drawerRouterPaths.getOrderHistoryPath()) {
-    getIt<BottomNavigationCubit>().updateBottomNavigationIndex(2);
-    // Navigator.pushNamed(context, drawerRouterPaths.getOrderHistoryPath());
+    // getIt<BottomNavigationCubit>().updateBottomNavigationIndex(2);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => OrderHistoryPage(
+                  onPressBackButton: () {
+                    Navigator.pop(context);
+                  },
+                )));
   }
   if (action == drawerRouterPaths.getFeedbackRequestDialogPath()) {
     Navigator.pushNamed(

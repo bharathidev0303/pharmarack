@@ -7,12 +7,14 @@ import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
 import 'package:pharmarack/packages/core_flutter/dls/theme/app_theme_colors.dart';
+import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/utils/app_constants.dart';
 import 'package:pharmarack/view/features/search_product/di/search_product_providers.dart';
 import 'package:pharmarack/view/features/search_product/domain/model/search_context_model.dart';
 import 'package:pharmarack/view/features/search_product/presentation/cubit/search_product_cubit.dart';
 import 'package:pharmarack/view/features/widgets/custom_app_bar/custom_app_bar_cubit.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import '../dropdown/custom_drop_down.dart';
 import '../dropdown/distributor_drop_down/cubit/distributor_drop_down_cubit.dart';
 import '../dropdown/distributor_drop_down/distributor_drop_down_view.dart';
@@ -57,7 +59,11 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   State<CustomAppBar> createState() => _CustomAppBarState();
 
   @override
-  Size get preferredSize => const Size.fromHeight(61);
+  Size get preferredSize => searchContextModel != null &&
+          (searchContextModel!.contextType == "Theropy") &&
+          type == AppBarType.secondaryAppBar
+      ? const Size.fromHeight(106)
+      : const Size.fromHeight(61);
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
@@ -123,7 +129,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
         }
         if (widget.searchContextModel!.searchText != "" ||
             widget.searchContextModel!.searchText != null) {
-          if (searchText.length >= 3) {
+          if (searchText.length >= 3 &&
+              widget.searchContextModel != null &&
+              widget.searchContextModel!.contextType != "Theropy") {
             productTextController.text = searchText;
           }
         }
@@ -175,20 +183,39 @@ class _CustomAppBarState extends State<CustomAppBar> {
       );
     } else if (widget.type == AppBarType.secondaryAppBar) {
       return Container(
-        decoration:
-            const BoxDecoration(color: AppColors.appBarColor, boxShadow: [
-          BoxShadow(
-            color: Color.fromARGB(71, 175, 173, 173),
-            offset: Offset(
-              0,
-              1,
+          decoration:
+              const BoxDecoration(color: AppColors.appBarColor, boxShadow: [
+            BoxShadow(
+              color: Color.fromARGB(71, 175, 173, 173),
+              offset: Offset(
+                0,
+                1,
+              ),
+              blurRadius: 0.1,
+              spreadRadius: 0.1,
             ),
-            blurRadius: 0.1,
-            spreadRadius: 0.1,
-          ),
-        ]),
-        child: _buildSearchBar(),
-      );
+          ]),
+          child: PopScope(
+            canPop: true,
+            onPopInvoked: (pop) {
+              if (pop) {
+                if (selectedCompanyName.isNotEmpty &&
+                    selectedCompanyId.isNotEmpty) {
+                  widget.productAndDistributorCallBack?.call(
+                      "",
+                      selectedDistributorId,
+                      selectedStoreName,
+                      selectedCompanyId,
+                      selectedCompanyName,
+                      contextType);
+                } else {
+                  widget.productAndDistributorCallBack
+                      ?.call("", 0, "", "", "", "");
+                }
+              }
+            },
+            child: _buildSearchBar(),
+          ));
     } else {
       return _buildSearchView(false, false, false);
     }
@@ -273,61 +300,210 @@ class _CustomAppBarState extends State<CustomAppBar> {
           isProductActive = false;
         }
 
-        return Row(
+        if (searchText == "" &&
+            selectedCompanyId != "" &&
+            selectedDistributorId != 0) {
+          isProductActive = false;
+        }
+
+        return Column(
           children: [
-            isDashboard
-                ? Container()
-                : Container(
+            Row(
+              children: [
+                isDashboard
+                    ? Container()
+                    : Container(
+                        color: AppColors.appBarColor,
+                        height: widget.searchContextModel != null &&
+                                widget.searchContextModel!.contextType ==
+                                    "Theropy" &&
+                                widget.type == AppBarType.secondaryAppBar
+                            ? widget.preferredSize.height - 45
+                            : widget.preferredSize.height,
+                        child: IconButton(
+                            onPressed: () {
+                              deInitDI();
+                              closeDropdown();
+                              _distributorFocusNode.unfocus();
+                              if (selectedCompanyName.isNotEmpty &&
+                                  selectedCompanyId.isNotEmpty) {
+                                widget.productAndDistributorCallBack?.call(
+                                    "",
+                                    selectedDistributorId,
+                                    selectedStoreName,
+                                    selectedCompanyId,
+                                    selectedCompanyName,
+                                    contextType);
+                              } else {
+                                widget.productAndDistributorCallBack
+                                    ?.call("", 0, "", "", "", "");
+                              }
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              color: AppColors.blueButtonColor,
+                            ))),
+                Expanded(
+                  child: Container(
                     color: AppColors.appBarColor,
-                    height: widget.preferredSize.height,
-                    child: IconButton(
-                        onPressed: () {
-                          deInitDI();
-                          closeDropdown();
-                          if (selectedCompanyName.isNotEmpty &&
-                              selectedCompanyId.isNotEmpty) {
-                            widget.productAndDistributorCallBack?.call(
-                                "",
-                                selectedDistributorId,
-                                selectedStoreName,
-                                selectedCompanyId,
-                                selectedCompanyName,
-                                contextType);
-                          } else {
-                            widget.productAndDistributorCallBack
-                                ?.call("", 0, "", "", "", "");
-                          }
-                          Navigator.pop(context);
+                    width: double.infinity,
+                    height: widget.searchContextModel != null &&
+                            widget.searchContextModel!.contextType ==
+                                "Theropy" &&
+                            widget.type == AppBarType.secondaryAppBar
+                        ? widget.preferredSize.height - 45
+                        : widget.preferredSize.height,
+                    child: InkWell(
+                      onTap: () {
+                        /// Navigate to search screen / merchandise screenews4es4re
+                      },
+                      child: _buildSearchView(
+                          isItemSelected, isDistributorActive, false),
+                    ),
+                  ),
+                ),
+                !isDashboard // Add filter icon only if the AppBarType is not Dashboard
+                    ? Container(
+                        height: widget.searchContextModel != null &&
+                                widget.searchContextModel!.contextType ==
+                                    "Theropy" &&
+                                widget.type == AppBarType.secondaryAppBar
+                            ? widget.preferredSize.height - 45
+                            : widget.preferredSize.height,
+                        color: AppColors.appBarColor,
+                        child: IconButton(
+                            onPressed: () {
+                              widget.onFilterClick?.call();
+                            },
+                            icon: AppAssets.svg.icFilterSettings.svg()),
+                      )
+                    : Container(),
+              ],
+            ),
+            Visibility(
+              visible: widget.searchContextModel != null &&
+                  widget.searchContextModel!.contextType == "Theropy" &&
+                  widget.type == AppBarType.secondaryAppBar,
+              child: SizedBox(
+                height: 37,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: 1,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (ctx, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 10, left: 48),
+                            child: Chip(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 1,
+                                    color: context.colors.inputField!),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              label: Text(
+                                searchText,
+                                style: context.textStyles.paragraph1Regular,
+                              ),
+                              onDeleted: () {
+                                searchText = "";
+                                if (selectedCompanyName.isNotEmpty &&
+                                    selectedCompanyId.isNotEmpty) {
+                                  widget.productAndDistributorCallBack?.call(
+                                      "",
+                                      selectedDistributorId,
+                                      selectedStoreName,
+                                      selectedCompanyId,
+                                      selectedCompanyName,
+                                      contextType);
+                                } else {
+                                  widget.productAndDistributorCallBack
+                                      ?.call("", 0, "", "", "", "");
+                                }
+                                Navigator.pop(context);
+                              },
+                              deleteIcon: AppAssets.svg.icClose.svg(
+                                width: 12,
+                                height: 12,
+                              ),
+                            ),
+                          );
                         },
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: AppColors.blueButtonColor,
-                        ))),
-            Expanded(
-              child: Container(
-                color: AppColors.appBarColor,
-                width: double.infinity,
-                height: widget.preferredSize.height,
-                child: InkWell(
-                  onTap: () {
-                    /// Navigate to search screen / merchandise screenews4es4re
-                  },
-                  child: _buildSearchView(
-                      isItemSelected, isDistributorActive, isProductActive),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            !isDashboard // Add filter icon only if the AppBarType is not Dashboard
-                ? Container(
-                    height: widget.preferredSize.height,
-                    color: AppColors.appBarColor,
-                    child: IconButton(
-                        onPressed: () {
-                          widget.onFilterClick?.call();
-                        },
-                        icon: AppAssets.svg.icFilterSettings.svg()),
+            // Visibility(
+            //   visible: widget.searchContextModel != null &&
+            //       widget.searchContextModel!.contextType == "Company" &&
+            //       widget.type == AppBarType.secondaryAppBar &&
+            //       productTextController.text.isNotEmpty,
+            //   child: SizedBox(
+            //     height: 37,
+            //     child: Row(
+            //       children: [
+            //         Expanded(
+            //           child: ListView.builder(
+            //             itemCount: 1,
+            //             shrinkWrap: true,
+            //             scrollDirection: Axis.horizontal,
+            //             itemBuilder: (ctx, index) {
+            //               return Padding(
+            //                 padding: const EdgeInsets.only(right: 10, left: 48),
+            //                 child: Chip(
+            //                   shape: RoundedRectangleBorder(
+            //                     side: BorderSide(
+            //                         width: 1,
+            //                         color: context.colors.inputField!),
+            //                     borderRadius: BorderRadius.circular(10),
+            //                   ),
+            //                   label: Text(
+            //                     searchText,
+            //                     style: context.textStyles.paragraph1Regular,
+            //                   ),
+            //                   onDeleted: () {
+            //                     searchText = "";
+            //                     if (selectedCompanyName.isNotEmpty &&
+            //                         selectedCompanyId.isNotEmpty) {
+            //                       widget.productAndDistributorCallBack?.call(
+            //                           "",
+            //                           selectedDistributorId,
+            //                           selectedStoreName,
+            //                           selectedCompanyId,
+            //                           selectedCompanyName,
+            //                           contextType);
+            //                     } else {
+            //                       widget.productAndDistributorCallBack
+            //                           ?.call("", 0, "", "", "", "");
+            //                     }
+            //                     Navigator.pop(context);
+            //                   },
+            //                   deleteIcon: AppAssets.svg.icClose.svg(
+            //                     width: 12,
+            //                     height: 12,
+            //                   ),
+            //                 ),
+            //               );
+            //             },
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+
+            widget.searchContextModel != null &&
+                    widget.searchContextModel!.contextType == "Theropy" &&
+                    widget.type == AppBarType.secondaryAppBar
+                ? const SizedBox(
+                    height: 5,
                   )
-                : Container(),
+                : const SizedBox.shrink(),
           ],
         );
       },
@@ -362,9 +538,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               imagePath: AppAssets.svg.icSearch,
               focusNode: _productSearchFocusNode,
               type: widget.page,
-              hintText: widget.page == 'order_history'
-                  ? context.localizedString.product
-                  : context.localizedString.product,
+              hintText: context.localizedString.product,
               context: context,
               onTap: () {
                 if (_overlayEntry != null) {
@@ -486,6 +660,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
               if (storeName == "All" || storeName == "") {
                 distributorTextController.text = "All";
+              } else {
+                distributorTextController.text = storeName;
               }
               selectedStoreName = storeName;
 
