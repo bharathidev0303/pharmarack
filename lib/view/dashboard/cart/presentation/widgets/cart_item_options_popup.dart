@@ -95,25 +95,25 @@ class _CartOptions extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            InkWell(
-              onTap: onClickChangeDistributor,
-              child: Row(
-                children: [
-                  AppAssets.svg.icArrowReload.svg(
-                    width: 14,
-                    height: 14,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    context.localizedString.changeDistributor,
-                    style: context.textStyles.paragraph2Medium?.copyWith(
-                      color: context.colors.primary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 10),
+            // InkWell(
+            //   onTap: onClickChangeDistributor,
+            //   child: Row(
+            //     children: [
+            //       AppAssets.svg.icArrowReload.svg(
+            //         width: 14,
+            //         height: 14,
+            //       ),
+            //       const SizedBox(width: 4),
+            //       Text(
+            //         context.localizedString.changeDistributor,
+            //         style: context.textStyles.paragraph2Medium?.copyWith(
+            //           color: context.colors.primary,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // const SizedBox(height: 10),
             InkWell(
               onTap: onClickDeleteItem,
               child: Row(

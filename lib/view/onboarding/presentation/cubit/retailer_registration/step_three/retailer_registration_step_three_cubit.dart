@@ -49,7 +49,10 @@ class RetailerRegistrationStepThreeCubit
     reqMap[OnboardingConstants.drugLicenseNum3] = state.drugLicenseNum3;
     reqMap[OnboardingConstants.whatsappConsentCheckbox] =
         state.whatsappConsentCheckbox;
+    reqMap[OnboardingConstants.termsAndConditions] =
+        state.privacyPolicyCheckbox;
     reqMap[OnboardingConstants.referralCode] = state.referralCode;
+    print("djdkdjdk ${reqMap}");
     _retailerRegistrationUserCase.setStepThreeRegistrationData(reqMap);
   }
 

@@ -378,7 +378,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 widget.productAndDistributorCallBack?.call(
                     text,
                     selectedDistributorId,
-                    distributorTextController.text,
+                    selectedStoreName == "All" ? "" : selectedStoreName,
                     selectedCompanyId,
                     selectedCompanyName,
                     contextType);
@@ -405,7 +405,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
               onTap: () async {
                 if (distributorTextController.text != '' &&
                     distributorTextController.text.contains('...')) {
-                  distributorTextController.text = selectedStoreName;
+                  distributorTextController.text =
+                      selectedStoreName == "All" ? "" : selectedStoreName;
                 }
 
                 widget.onDropDownOpenCallBackForDistributor?.call(true);
@@ -472,7 +473,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
             cubit: distributorDropDownCubit,
             inputWidth: renderBox.size.width,
             getIdCallback: (id, storeName, companyId) {
-              selectedStoreName = storeName;
               selectedDistributorId = id;
               closeDropdown(isTapped: true);
               widget.onDropDownOpenCallBackForDistributor?.call(true);
@@ -484,7 +484,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   selectedCompanyName,
                   contextType);
 
-              distributorTextController.text = storeName;
+              if (storeName == "All" || storeName == "") {
+                distributorTextController.text = "All";
+              }
+              selectedStoreName = storeName;
 
               _distributorFocusNode.unfocus();
               // appBarCubit.distributorTextFieldTapped(isTapped: false);

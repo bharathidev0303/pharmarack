@@ -376,6 +376,7 @@ class _StepThreeMobileScreenState extends State<StepThreeMobileScreen> {
                       const SizedBox(height: 4),
                       InkWell(
                         onTap: () {
+                          cubit.saveUserInputFieldsData();
                           Navigator.pop(context);
                         },
                         child: Container(
