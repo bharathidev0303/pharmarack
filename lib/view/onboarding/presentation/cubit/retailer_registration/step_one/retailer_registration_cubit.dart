@@ -80,7 +80,8 @@ class RetailerRegistrationStepOneCubit
             area: '',
             city: '',
             region: '',
-            stateName: ''));
+            stateName: '',
+            resetState: false));
       } else {
         // var cities = r.registrationCities;
         // var cityInstance = (cities?.length == 1) ? cities?.first.cityName : '';
@@ -94,9 +95,23 @@ class RetailerRegistrationStepOneCubit
             area: '',
             city: '',
             region: '',
-            stateName: ''));
+            stateName: '',
+            resetState: false));
       }
     });
+  }
+
+  Future<void> resetAddressByPincode() async {
+    emit(state.copyWith(
+        hasError: true,
+        isLoading: false,
+        enableStateDropdown: true,
+        pincodeData: PincodeDataModel(),
+        area: '',
+        city: '',
+        region: '',
+        stateName: '',
+        resetState: true));
   }
 
   void onAreaSelected(RegistrationDataModel area) {

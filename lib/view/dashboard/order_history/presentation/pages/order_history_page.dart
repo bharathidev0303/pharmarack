@@ -6,6 +6,7 @@ import 'package:pharmarack/packages/core_flutter/common_widgets/dashboard/second
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/widget/no_records_found.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
+import 'package:pharmarack/view/dashboard/cart/di/cart_provider.dart';
 import 'package:pharmarack/view/dashboard/order_history/di/order_history_provider.dart';
 import 'package:pharmarack/view/dashboard/order_history/domain/model/display_order_param.dart';
 import 'package:pharmarack/view/dashboard/order_history/domain/model/display_orders_model.dart';
@@ -43,6 +44,8 @@ class OrderHistoryPageState extends State<OrderHistoryPage> {
       _orderHistoryCubit
           .getDisplayOrders(); //filterParams: OrderHistoryFilterParams(fromDate: '08/02/24',toDate: '08/02/24',status: 'All')
     });
+
+    draggableCartScreenCubit.getCartDetails();
   }
 
   @override

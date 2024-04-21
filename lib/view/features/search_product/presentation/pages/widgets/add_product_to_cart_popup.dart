@@ -80,7 +80,7 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
           if (state is AddProductToCartLoadingState) {
             return const ProcessingRequestWidget();
           } else if (state is AddProductToCartDataState) {
-            widget.addProductCardRefrechCallBack?.call(state.isRefresh!);
+            widget.addProductCardRefrechCallBack?.call(true);
             Future.delayed(const Duration(seconds: 2))
                 .then((value) => Navigator.pop(context));
             return SizedBox(
@@ -561,6 +561,7 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
           InkWell(
             onTap: () => {
               addProductToCartCubit.quantityController.text = "30",
+              addProductToCartCubit.resetQuantityField(),
               addProductToCartCubit.updateFreeValue(30),
             },
             child: Card(
@@ -584,6 +585,7 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
           InkWell(
             onTap: () => {
               addProductToCartCubit.quantityController.text = "50",
+              addProductToCartCubit.resetQuantityField(),
               addProductToCartCubit.updateFreeValue(50),
             },
             child: Card(
@@ -607,6 +609,7 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
           InkWell(
             onTap: () => {
               addProductToCartCubit.quantityController.text = "100",
+              addProductToCartCubit.resetQuantityField(),
               addProductToCartCubit.updateFreeValue(100),
             },
             child: Card(

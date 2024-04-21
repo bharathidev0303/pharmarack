@@ -6,6 +6,7 @@ import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/packages/core/log_util/log_util.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/view/dashboard/cart/data/model/cart_detail.dart';
+import 'package:pharmarack/view/dashboard/cart/data/model/place_order_response.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/model/add_product_to_cart_param.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/model/cart_details_model.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/usecase/add_change_cart_usecase.dart';
@@ -13,6 +14,7 @@ import 'package:pharmarack/view/dashboard/cart/domain/usecase/cart_details_useca
 import 'package:pharmarack/view/dashboard/cart/domain/usecase/cencel_order_usecase.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/usecase/place_order_usecase.dart';
 import 'package:pharmarack/view/dashboard/cart/presentation/cubit/cart_screen_state.dart';
+import 'package:pharmarack/view/dashboard/order_history/domain/model/display_orders_model.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import '../../data/model/place_order_api_request.dart';
 import '../../domain/usecase/delete_product_usecase.dart';
@@ -208,6 +210,7 @@ class CartScreenCubit extends Cubit<CartScreenState> {
         getIt<DraggableCartScreenCubit>().stores.addAll(r.stores);
         emit(CartScreenDataState(r, false, true, r.stores.length,
             closePreviousPopUp: false));
+        getIt<DraggableCartScreenCubit>().getCartDetails();
       }
     });
   }
@@ -221,9 +224,18 @@ class CartScreenCubit extends Cubit<CartScreenState> {
     }, (r) {
       var json = jsonDecode(r!);
       if (json['StatusCode'] != 200) {
-        emit(CartScreenErrorState(errorMessage: json['Message']));
+        final errorMessage =
+            json['Message'] == '[""]' ? json["IList"] : json['Message'];
+        emit(CartScreenErrorState(errorMessage: errorMessage));
         getCartDetails(closePreviousPopUp: true, showLoader: false);
       } else {
+        var orderDetails = json["DisplayStoreOrder"] ?? [];
+        DisplayStoreOrder orderData =
+            DisplayStoreOrder.fromJson(orderDetails[0]);
+        getIt.unregister<DisplayStoreOrder>(
+            instanceName: "PlaceOrderProductDeatils");
+        getIt.registerLazySingleton<DisplayStoreOrder>(() => orderData,
+            instanceName: "PlaceOrderProductDeatils");
         emit(PlaceOrderSuccess());
       }
     });

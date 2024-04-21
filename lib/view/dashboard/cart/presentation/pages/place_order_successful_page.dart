@@ -10,6 +10,8 @@ import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/utils/app_constants.dart';
+import 'package:pharmarack/packages/core_flutter/utils/share_util.dart';
+import 'package:pharmarack/view/dashboard/cart/data/model/place_order_response.dart';
 import 'package:pharmarack/view/dashboard/cart/merchandising_widget/widget_1/presentation/product_item.dart';
 import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
 import '../../di/cart_provider.dart';
@@ -28,12 +30,28 @@ class PlaceOrderSuccessfulPage extends StatefulWidget {
 
 class PlaceOrderSuccessfulPageState extends State<PlaceOrderSuccessfulPage> {
   final CountDownController _controller = CountDownController();
-
+  late DisplayStoreOrder displayStoreOrder;
   @override
   void initState() {
     super.initState();
     getIt<DraggableCartScreenCubit>().getCartDetails(isUpdate: false);
     cartScreenCubit.isCancelEnable = true;
+
+    if (getIt.isRegistered<DisplayStoreOrder>(
+        instanceName: "PlaceOrderProductDeatils")) {
+      displayStoreOrder =
+          getIt<DisplayStoreOrder>(instanceName: "PlaceOrderProductDeatils");
+    } else {
+      displayStoreOrder = DisplayStoreOrder(
+          storeId: 0,
+          orderId: "",
+          orderNo: "",
+          lineItemCount: 0,
+          orderDeliveryModeText: "",
+          priority: "",
+          storeWiseAmount: 0,
+          mpToken: "");
+    }
     // Future.delayed(const Duration(microseconds: 150)).then((value) {
     //   _controller.start();
     //   cartScreenCubit.saveCurrentTimeStamp();
@@ -116,10 +134,17 @@ class PlaceOrderSuccessfulPageState extends State<PlaceOrderSuccessfulPage> {
       ),
       child: Column(
         children: [
-          Align(
-            alignment: Alignment.topRight,
-            child: InkWell(onTap: () {}, child: AppAssets.svg.icShare.svg()),
-          ),
+          displayStoreOrder.orderId != 0
+              ? Align(
+                  alignment: Alignment.topRight,
+                  child: InkWell(
+                      onTap: () {
+                        shareLink(
+                            "https://pharmretail-modernization-dev-api.pharmarack.com/order/api/v1/downloadInvoice?orderId=${displayStoreOrder.orderId}");
+                      },
+                      child: AppAssets.svg.icShare.svg()),
+                )
+              : const SizedBox.shrink(),
           AppAssets.svg.icSuccess.svg(),
           Text(
             context.localizedString.placedOrders.replaceAll('#', ''),

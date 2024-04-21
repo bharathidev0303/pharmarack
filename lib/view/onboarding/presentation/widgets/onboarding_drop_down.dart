@@ -12,6 +12,7 @@ class OnboardingDropDownNew extends StatefulWidget {
   final bool enable;
   final GlobalKey<FormFieldState>? dropDownState;
   final FormFieldValidator<String> validator;
+  final bool? resetValue;
 
   const OnboardingDropDownNew(
       {super.key,
@@ -21,6 +22,7 @@ class OnboardingDropDownNew extends StatefulWidget {
       this.defaultValue,
       this.enable = true,
       this.dropDownState,
+      this.resetValue = false,
       required this.validator});
 
   @override
@@ -32,7 +34,15 @@ class _OnboardingDropDownNewState extends State<OnboardingDropDownNew> {
   String? infoText;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (widget.resetValue!) {
+      selectedValue = null;
+    }
     var requiredBorder = OutlineInputBorder(
         borderSide: BorderSide(
             color: infoText == null

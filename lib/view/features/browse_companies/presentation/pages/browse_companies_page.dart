@@ -6,6 +6,7 @@ import 'package:pharmarack/packages/core_flutter/common_widgets/dashboard/second
 import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/packages/fulfilment_partner/presentation/cubit/search_cubit.dart';
+import 'package:pharmarack/view/dashboard/cart/di/cart_provider.dart';
 import 'package:pharmarack/view/features/browse_companies/presentation/cubit/browse_companies_cubit.dart';
 import 'package:pharmarack/view/features/browse_companies/presentation/pages/browse_companies_page_mobile_view.dart';
 
@@ -19,6 +20,12 @@ class BrowseCompaniesPage extends StatefulWidget {
 
 /// This class [BrowseCompaniesPageState] which consume by BrowseCompaniesPage as page state
 class BrowseCompaniesPageState extends State<BrowseCompaniesPage> {
+  @override
+  void initState() {
+    draggableCartScreenCubit.getCartDetails();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

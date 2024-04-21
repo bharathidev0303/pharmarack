@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
@@ -197,6 +198,8 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                 reqMap[OnboardingConstants.region] = "";
                                 cubit.getAddressByPincode(text, _formKey);
                                 reqMap[OnboardingConstants.pincode] = text;
+                              } else {
+                                cubit.resetAddressByPincode();
                               }
 
                               cubit.softValidateFields(reqMap);
@@ -214,6 +217,8 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                             inputFormatters: [
                               FilteringTextInputFormatter.deny(
                                   RegExp(r'[\s,.-]')),
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9 ]')),
                             ],
                           ),
                           const SizedBox(height: 8),
@@ -413,13 +418,16 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                     text, context.localizedString.stateError);
                                 _formKey.currentState?.validate();
                               },
+                              resetValue: cubit.state.resetState ? true : false,
                               enable: state.enableStateDropdown,
                               // defaultValue: state.stateName,
-                              dropdownItems: state.addressStates
-                                  .map((e) => DropdownMenuEntry(
-                                      label: e.stateName ?? '',
-                                      value: (e.stateId ?? 0).toString()))
-                                  .toList(),
+                              dropdownItems: cubit.state.resetState
+                                  ? []
+                                  : state.addressStates
+                                      .map((e) => DropdownMenuEntry(
+                                          label: e.stateName ?? '',
+                                          value: (e.stateId ?? 0).toString()))
+                                      .toList(),
                               dropDownState: addressStateState,
                               validator: (_) {
                                 return cubit.stateErrorText;
@@ -451,7 +459,6 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                 }
 
                                 cubit.saveUserInputFieldsData(reqMap);
-
                                 Navigator.pushNamed(context,
                                     RoutePaths.retailerRegistrationStepTwo);
                               }

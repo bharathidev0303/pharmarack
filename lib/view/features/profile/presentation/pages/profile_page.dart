@@ -4,6 +4,7 @@ import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/dashboard/secondary_app_bar.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
+import 'package:pharmarack/view/dashboard/cart/di/cart_provider.dart';
 import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
 import 'package:pharmarack/view/features/profile/presentation/pages/profile_page_mobile_view.dart';
 
@@ -17,6 +18,12 @@ class ProfilePage extends StatefulWidget {
 
 /// This class [ProfilePageState] which consume by ProfilePage as page state
 class ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    draggableCartScreenCubit.getCartDetails();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

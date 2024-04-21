@@ -3,7 +3,6 @@ import 'package:pharmarack/view/onboarding/domain/model/retailer_registration/bu
 import 'package:pharmarack/view/onboarding/domain/model/retailer_registration/pincode_data.dart';
 import 'package:pharmarack/view/onboarding/domain/model/retailer_registration/state.dart';
 
-
 ///Base state
 class RetailerRegistrationState extends Equatable {
   final List<BusinessTypeModel> businessTypes; // Dropdown
@@ -20,6 +19,7 @@ class RetailerRegistrationState extends Equatable {
   final String region;
   final String stateId;
   final String stateName;
+  final bool resetState;
   final String regionId;
   final bool isLoading;
   final bool hasError;
@@ -42,6 +42,7 @@ class RetailerRegistrationState extends Equatable {
     required this.stateId,
     required this.stateName,
     required this.regionId,
+    required this.resetState,
     this.isLoading = false,
     this.hasError = false,
     this.enableStateDropdown = true,
@@ -64,6 +65,7 @@ class RetailerRegistrationState extends Equatable {
     String? region,
     String? stateId,
     String? stateName,
+    bool? resetState,
     String? regionId,
     bool? isLoading,
     bool? hasError,
@@ -86,6 +88,7 @@ class RetailerRegistrationState extends Equatable {
       region: region ?? this.region,
       stateId: stateId ?? this.stateId,
       stateName: stateId ?? this.stateName,
+      resetState: resetState ?? this.resetState,
       regionId: regionId ?? this.regionId,
       isLoading: isLoading ?? this.isLoading,
       hasError: hasError ?? this.hasError,
@@ -112,6 +115,7 @@ class RetailerRegistrationState extends Equatable {
       stateId: '',
       stateName: '',
       regionId: '',
+      resetState: true,
     );
   }
 

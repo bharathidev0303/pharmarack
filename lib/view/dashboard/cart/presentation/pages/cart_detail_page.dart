@@ -54,6 +54,7 @@ class CartPageState extends State<CartDetailPage> {
                 subtitle: formatHtmlString(state.errorMessage ??
                     context.localizedString.somethingWentWrong),
               );
+              cartScreenCubit.getCartDetails(showLoader: false);
             } else if (state is CartScreenDataState) {
               if (!state.closePreviousPopUp!) {
                 CommonDialogs.closeCommonDialog(context: context);

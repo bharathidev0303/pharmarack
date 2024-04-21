@@ -146,7 +146,8 @@ class _DistributorMappedTabStateState extends State<DistributorMappedTabState> {
                                                 overflow: TextOverflow.ellipsis,
                                                 softWrap: true,
                                                 widget.stockiestList[index]
-                                                        .storeName ??
+                                                        .storeName!
+                                                        .trim() ??
                                                     "",
                                                 style: AppTextStyles
                                                     .searchHintTextStyleW400(
