@@ -235,6 +235,9 @@ class _StepThreeMobileScreenState extends State<StepThreeMobileScreen> {
                           CheckboxFormField(
                             widgetKey: const Key(
                                 OnboardingConstants.privacyPolicyCheckbox),
+                            initialValue: state.privacyPolicyCheckbox == "1"
+                                ? true
+                                : false,
                             title: RichText(
                               text: TextSpan(
                                 children: [
@@ -320,6 +323,9 @@ class _StepThreeMobileScreenState extends State<StepThreeMobileScreen> {
                           CheckboxFormField(
                             widgetKey: const Key(
                                 OnboardingConstants.whatsappConsentCheckbox),
+                            initialValue: state.whatsappConsentCheckbox == "1"
+                                ? true
+                                : false,
                             title: Text(
                               context.localizedString.whatsappConsentMessage,
                               maxLines: 3,
@@ -362,7 +368,7 @@ class _StepThreeMobileScreenState extends State<StepThreeMobileScreen> {
                               ? () {
                                   if (_formKey.currentState?.validate() ??
                                       false) {
-                                    cubit.saveUserInputFieldsData(reqMap);
+                                    cubit.saveUserInputFieldsData();
                                     cubit.registerUser();
                                   }
                                 }

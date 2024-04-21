@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
@@ -39,8 +40,17 @@ class RetailerRegistrationStepThreeCubit
     this._drugLicenceUseCase,
   ) : super(RetailerRegistrationStepThreeState.initial());
 
-  void saveUserInputFieldsData(Map<String, String> reqData) {
-    _retailerRegistrationUserCase.setStepThreeRegistrationData(reqData);
+  void saveUserInputFieldsData() {
+    Map<String, String> reqMap = HashMap();
+    reqMap[OnboardingConstants.panNumber] = state.panNumber;
+    reqMap[OnboardingConstants.gstinNumber] = state.gstNumber;
+    reqMap[OnboardingConstants.drugLicenseNum1] = state.drugLicenseNum1;
+    reqMap[OnboardingConstants.drugLicenseNum2] = state.drugLicenseNum2;
+    reqMap[OnboardingConstants.drugLicenseNum3] = state.drugLicenseNum3;
+    reqMap[OnboardingConstants.whatsappConsentCheckbox] =
+        state.whatsappConsentCheckbox;
+    reqMap[OnboardingConstants.referralCode] = state.referralCode;
+    _retailerRegistrationUserCase.setStepThreeRegistrationData(reqMap);
   }
 
   Future<void> registerUser() async {
