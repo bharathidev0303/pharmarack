@@ -169,7 +169,7 @@ class DynamicCarouselSliderState extends State<DynamicCarouselSlider> {
                   enlargeCenterPage: false,
                   height: (widget.carouselData.carousel[0].mobileAssestDimension
                           .height) *
-                      0.37,
+                      0.35,
                   autoPlayInterval: Duration(
                       milliseconds: widget.carouselData.duration != ""
                           ? int.parse(widget.carouselData.duration)
