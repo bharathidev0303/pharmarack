@@ -1,8 +1,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/feedback/presentation/cubit/feedback_input_state.dart';
+import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 
 class FeedbackInputCubit extends Cubit<FeedbackInputState> {
   double rating = 0;

@@ -1,6 +1,13 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:pharmarack/feedback/di/feedback_provider.dart';
+import 'package:pharmarack/feedback/presentation/cubit/feedback_input_cubit.dart';
+import 'package:pharmarack/feedback/presentation/cubit/feedback_input_state.dart';
+import 'package:pharmarack/feedback/presentation/cubit/feedback_screen_cubit.dart';
+import 'package:pharmarack/feedback/presentation/cubit/feedback_screen_state.dart';
+import 'package:pharmarack/feedback/utils/feedback_constants.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/dialog_card.dart';
@@ -8,12 +15,6 @@ import 'package:pharmarack/packages/core_flutter/core/ui/device_detector_widget.
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
-import 'package:pharmarack/feedback/di/feedback_provider.dart';
-import 'package:pharmarack/feedback/presentation/cubit/feedback_input_cubit.dart';
-import 'package:pharmarack/feedback/presentation/cubit/feedback_input_state.dart';
-import 'package:pharmarack/feedback/presentation/cubit/feedback_screen_cubit.dart';
-import 'package:pharmarack/feedback/presentation/cubit/feedback_screen_state.dart';
-import 'package:pharmarack/feedback/utils/feedback_constants.dart';
 
 class FeedbackRequestDialogScreen extends StatefulWidget {
   const FeedbackRequestDialogScreen({super.key});
@@ -133,9 +134,12 @@ class FeedbackRequestDialog extends StatelessWidget {
                   glow: false,
                   unratedColor: AppColors.ratingStarUnSelectedColor,
                   ratingWidget: RatingWidget(
-                    half: AppAssets.svg.feedbackStarHalf.svg(),
-                    full: AppAssets.svg.feedbackStarFull.svg(),
-                    empty: AppAssets.svg.feedbackStar.svg(),
+                    half: AppAssets.svg.feedbackStarHalf
+                        .svg(package: "core_flutter"),
+                    full: AppAssets.svg.feedbackStarFull
+                        .svg(package: "core_flutter"),
+                    empty:
+                        AppAssets.svg.feedbackStar.svg(package: "core_flutter"),
                   ),
                   onRatingUpdate: (rating) {
                     feedbackScreenCubit.feedbackInputCubit.updateRating(rating);
