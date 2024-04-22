@@ -181,6 +181,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const FeedbackRequestDialogScreen(),
         );
+      case RoutePaths.cart:
+        return MaterialPageRoute(
+          builder: (context) => const CartDetailPage(),
+        );
       case RoutePaths.editProfilePage:
         return MaterialPageRoute(
           builder: (context) => const EditProfileScreen(),

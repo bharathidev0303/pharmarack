@@ -94,6 +94,7 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.appcompat:appcompat-resources:1.6.1'
+    implementation 'com.onesignal:OneSignal:[5.0.0, 5.99.99]'
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-analytics")
     api 'com.github.roid-software:flyy-sdk:1.4.54'
