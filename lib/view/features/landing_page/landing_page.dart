@@ -45,30 +45,25 @@ class LandingPageState extends State<LandingPage> {
       bloc: getIt<BottomNavigationCubit>(),
       builder: (BuildContext context, int cubitIndex) {
         final rootWidget = getCurrentNavigationWidget(cubitIndex);
-        return AnnotatedRegion(
-          value: const SystemUiOverlayStyle(
-            statusBarColor: AppColors.appBarColor,
-            statusBarIconBrightness: Brightness.dark,
+        return WillPopScope(
+          onWillPop: () async {
+            final int tabIndex = _getSelectedTabIndex();
+            final isNestedRoutePopped = await _navigatorKeys[tabIndex]
+                .currentState!
+                .maybePop(); // returns true if popped
+            if (isNestedRoutePopped) {
+              return false; // don't exit the app
+            } else if (tabIndex == _defaultIndex) {
+              return true; // exit the app when we're already on the 'main' tab
+            } else {
+              _goToDashboard();
+              return false;
+            }
+          },
+          child: _PageRouter(
+            navigatorKey: _navigatorKeys[cubitIndex],
+            rootWidget: rootWidget,
           ),
-          child: WillPopScope(
-              onWillPop: () async {
-                final int tabIndex = _getSelectedTabIndex();
-                final isNestedRoutePopped = await _navigatorKeys[tabIndex]
-                    .currentState!
-                    .maybePop(); // returns true if popped
-                if (isNestedRoutePopped) {
-                  return false; // don't exit the app
-                } else if (tabIndex == _defaultIndex) {
-                  return true; // exit the app when we're already on the 'main' tab
-                } else {
-                  _goToDashboard();
-                  return false;
-                }
-              },
-              child: _PageRouter(
-                navigatorKey: _navigatorKeys[cubitIndex],
-                rootWidget: rootWidget,
-              )),
         );
       },
     );

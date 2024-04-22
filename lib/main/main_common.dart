@@ -3,8 +3,10 @@ import 'dart:io';
 // import 'package:core/log_util/log_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pharmarack/packages/core/log_util/log_util.dart';
+import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/theme/app_theme_data.dart';
 import 'package:pharmarack/packages/core_flutter/localization/app_localizations.dart';
 import 'package:pharmarack/di/app_provider.dart';
@@ -70,6 +72,14 @@ class RetailerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: AppColors.appBarColor,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.black,
+        systemNavigationBarIconBrightness: Brightness.light,
+      ),
+    );
     return MaterialApp(
       navigatorKey: retailerAppLevelKey,
       builder: (context, child) {

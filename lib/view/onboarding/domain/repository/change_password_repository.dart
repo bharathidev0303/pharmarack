@@ -27,23 +27,23 @@ class ChangePasswordRepository {
       "currentPassword": currentPassword,
       "newPassword": newPassword
     };
-    final response = await safeApiCall( _changePasswordApiService.changePassword(requestMap));
-     response.fold((l) {
-       if (l.error.code == 406) {
-      if (l.error.message == _oldPwdNoMatch) {
-        throw OldPasswordNoMatchException();
-      } else if (l.error.message == _invalidPassword) {
-        throw InvalidNewPasswordException();
-      } else if (l.error.message == _prew_password) {
-        throw PreviousPasswordException();
-      } else {
-        throw Exception(l.error.message);
+    final response =
+        await safeApiCall(_changePasswordApiService.changePassword(requestMap));
+    response.fold((l) {
+      if (l.error.code == 406) {
+        if (l.error.message == _oldPwdNoMatch) {
+          throw OldPasswordNoMatchException();
+        } else if (l.error.message == _invalidPassword) {
+          throw InvalidNewPasswordException();
+        } else if (l.error.message == _prew_password) {
+          throw PreviousPasswordException();
+        } else {
+          throw Exception(l.error.message);
+        }
       }
-    } 
       return left(l);
-     }, (r) {
+    }, (r) {
       return right(r.data);
     });
-    
   }
 }

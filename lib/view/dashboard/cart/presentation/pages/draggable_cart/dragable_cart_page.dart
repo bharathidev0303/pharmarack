@@ -108,18 +108,20 @@ class DraggableCartPageState extends State<DraggableCartPage>
           Flexible(
             flex: 9,
             child: Text.rich(
+              overflow: TextOverflow.ellipsis,
               TextSpan(
                 children: [
                   TextSpan(
-                      text: "${context.localizedString.lastAdded}: ",
-                      style: TextStyle(
-                          color: AppColors.blackTextFieldText,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: AppFonts.helveticaNeue,
-                          fontStyle: FontStyle.normal,
-                          overflow: TextOverflow.ellipsis,
-                          height: 0)),
+                    text: "${context.localizedString.lastAdded}: ",
+                    style: TextStyle(
+                        color: AppColors.blackTextFieldText,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: AppFonts.helveticaNeue,
+                        fontStyle: FontStyle.normal,
+                        overflow: TextOverflow.ellipsis,
+                        height: 0),
+                  ),
                   TextSpan(
                       text: "${lastAddedProduct?.productName}",
                       style: AppTextStyles.searchFilterTitleStyleW300.copyWith(

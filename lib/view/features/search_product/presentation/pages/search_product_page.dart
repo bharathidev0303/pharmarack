@@ -12,6 +12,7 @@ import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/dls/widget/no_records_found.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
+import 'package:pharmarack/view/dashboard/cart/presentation/pages/draggable_cart/dragable_cart_page.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/company_page/company_screen_page_mobile_view.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/distributor_page/distributor_page_mobile_view.dart';
 import 'package:pharmarack/view/features/dynamic_widgets/presentation/pages/null_search_page/null_search_page_mobile_view.dart';
@@ -154,112 +155,122 @@ class SearchProductPageState extends BaseStatefulPage {
                     ));
           },
         ),
-        body: BlocConsumer<SearchProductCubit, SearchProductState>(
-          bloc: searchProductCubit,
-          buildWhen: (previous, current) {
-            return (current is SearchProductDataState) ||
-                (current is SearchProductErrorState) ||
-                (current is SearchProductDataEmptyListState) ||
-                (current is SearchProductErrorMessageState) ||
-                (current is SearchProductInitialState) ||
-                (current is SearchProductLoadingState) ||
-                (current is SearchProductFilteredDataState) ||
-                (current is ShowDistributorsLockedPageState) ||
-                (current is ShowCompanyPageState) ||
-                (current is DistributorsEmptyState) ||
-                (current is ShowDistributorPageState);
-          },
-          listener: (ctx, state) {
-            if (state is ShowDistributorsLockedPageState) {
-              if (state.isPartyLockedByDist == 1) {
-                showBinaryButtonAlertDialog(
-                  ctx,
-                  subTitle: context.localizedString.partyLockedDistributor,
-                  firstButtonTitle: context.localizedString.ok,
-                );
-              } else if (state.isPartyLocked == 1) {
-                showBinaryButtonAlertDialog(
-                  ctx,
-                  subTitle: context.localizedString.partySoonMsg,
-                  firstButtonTitle: context.localizedString.ok,
-                );
-              }
-            }
-          },
-          builder: (context, state) {
-            if (state is SearchProductFilteredDataState) {
-              return DeviceDetectorWidget(
-                  webSiteView: () => SearchProductPageWebView(
-                      productList: state.mappedList ?? []),
-                  phoneView: () => SearchProductMappedUnMappedPage(
-                        mappedList: state.mappedList ?? [],
-                        unMappedList: state.unMappedList ?? [],
-                        searchProductCubit: searchProductCubit,
-                      ));
-            } else if (state is SearchProductErrorState) {
-              return Container(
-                  color: AppColors.white,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: Align(
-                      alignment: Alignment.topCenter,
-                      child: NoRecordsFound(
-                        icons: AppAssets.svg.noDataFound.svg(),
-                        message: context.localizedString.noDataFound,
-                      )));
-            } else if (state is SearchProductDataEmptyListState) {
-              return Container(
-                  color: AppColors.white,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: Align(
-                      alignment: Alignment.topCenter,
-                      child: NoRecordsFound(
-                        icons: AppAssets.svg.noDataFound.svg(),
-                        message: context.localizedString.noDataFound,
-                      )));
-            } else if (state is SearchProductErrorMessageState) {
-              // return showPopUp(state.errorMessage, context);\
-              return Container(
-                  color: AppColors.white,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: Align(
-                      alignment: Alignment.topCenter,
-                      child: NoRecordsFound(
-                        icons: AppAssets.svg.noDataFound.svg(),
-                        message: context.localizedString.noDataFound,
-                      )));
-            } else if (state is SearchProductInitialState) {
-              textLength = 0;
-              return const NullSearchPageMobileView();
-            } else if (state is ShowDistributorPageState) {
-              return DistributorScreenPageMobileView(distributorId: state.id);
-            } else if (state is ShowCompanyPageState) {
-              return CompanyScreenPageMobileView(
-                  companyId: state.comapanyId, companyName: state.companyName);
-            } else if (state is ShowDistributorsLockedPageState) {
-              return const NullSearchPageMobileView();
-            } else if (state is DistributorsEmptyState) {
-              return Container(
-                  color: AppColors.white,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: Align(
-                      alignment: Alignment.topCenter,
-                      child: NoRecordsFound(
-                        icons: AppAssets.svg.noDataFound.svg(),
-                        message: "Distributor Page Not Found",
-                      )));
-            } else {
-              // loading state
-              return const Center(
-                  child: SpinKitFadingCircle(
-                color: AppColors.blueButtonColor,
-                size: 50.0,
-              ));
-            }
-          },
+        body: Column(
+          children: [
+            Expanded(
+              child: BlocConsumer<SearchProductCubit, SearchProductState>(
+                bloc: searchProductCubit,
+                buildWhen: (previous, current) {
+                  return (current is SearchProductDataState) ||
+                      (current is SearchProductErrorState) ||
+                      (current is SearchProductDataEmptyListState) ||
+                      (current is SearchProductErrorMessageState) ||
+                      (current is SearchProductInitialState) ||
+                      (current is SearchProductLoadingState) ||
+                      (current is SearchProductFilteredDataState) ||
+                      (current is ShowDistributorsLockedPageState) ||
+                      (current is ShowCompanyPageState) ||
+                      (current is DistributorsEmptyState) ||
+                      (current is ShowDistributorPageState);
+                },
+                listener: (ctx, state) {
+                  if (state is ShowDistributorsLockedPageState) {
+                    if (state.isPartyLockedByDist == 1) {
+                      showBinaryButtonAlertDialog(
+                        ctx,
+                        subTitle:
+                            context.localizedString.partyLockedDistributor,
+                        firstButtonTitle: context.localizedString.ok,
+                      );
+                    } else if (state.isPartyLocked == 1) {
+                      showBinaryButtonAlertDialog(
+                        ctx,
+                        subTitle: context.localizedString.partySoonMsg,
+                        firstButtonTitle: context.localizedString.ok,
+                      );
+                    }
+                  }
+                },
+                builder: (context, state) {
+                  if (state is SearchProductFilteredDataState) {
+                    return DeviceDetectorWidget(
+                        webSiteView: () => SearchProductPageWebView(
+                            productList: state.mappedList ?? []),
+                        phoneView: () => SearchProductMappedUnMappedPage(
+                              mappedList: state.mappedList ?? [],
+                              unMappedList: state.unMappedList ?? [],
+                              searchProductCubit: searchProductCubit,
+                            ));
+                  } else if (state is SearchProductErrorState) {
+                    return Container(
+                        color: AppColors.white,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Align(
+                            alignment: Alignment.topCenter,
+                            child: NoRecordsFound(
+                              icons: AppAssets.svg.noDataFound.svg(),
+                              message: context.localizedString.noDataFound,
+                            )));
+                  } else if (state is SearchProductDataEmptyListState) {
+                    return Container(
+                        color: AppColors.white,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Align(
+                            alignment: Alignment.topCenter,
+                            child: NoRecordsFound(
+                              icons: AppAssets.svg.noDataFound.svg(),
+                              message: context.localizedString.noDataFound,
+                            )));
+                  } else if (state is SearchProductErrorMessageState) {
+                    // return showPopUp(state.errorMessage, context);\
+                    return Container(
+                        color: AppColors.white,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Align(
+                            alignment: Alignment.topCenter,
+                            child: NoRecordsFound(
+                              icons: AppAssets.svg.noDataFound.svg(),
+                              message: context.localizedString.noDataFound,
+                            )));
+                  } else if (state is SearchProductInitialState) {
+                    textLength = 0;
+                    return const NullSearchPageMobileView();
+                  } else if (state is ShowDistributorPageState) {
+                    return DistributorScreenPageMobileView(
+                        distributorId: state.id);
+                  } else if (state is ShowCompanyPageState) {
+                    return CompanyScreenPageMobileView(
+                        companyId: state.comapanyId,
+                        companyName: state.companyName);
+                  } else if (state is ShowDistributorsLockedPageState) {
+                    return const NullSearchPageMobileView();
+                  } else if (state is DistributorsEmptyState) {
+                    return Container(
+                        color: AppColors.white,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: Align(
+                            alignment: Alignment.topCenter,
+                            child: NoRecordsFound(
+                              icons: AppAssets.svg.noDataFound.svg(),
+                              message: "Distributor Page Not Found",
+                            )));
+                  } else {
+                    // loading state
+                    return const Center(
+                        child: SpinKitFadingCircle(
+                      color: AppColors.blueButtonColor,
+                      size: 50.0,
+                    ));
+                  }
+                },
+              ),
+            ),
+            const DraggableCartPage(),
+          ],
         ));
   }
 
