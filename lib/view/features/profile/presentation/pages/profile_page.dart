@@ -36,7 +36,14 @@ class ProfilePageState extends State<ProfilePage> {
           InkWell(onTap: () {}, child: AppAssets.svg.icNotification.svg()),
         ],
       ),
-      body: const ProfilePageMobileView(),
+      body: PopScope(
+          canPop: true,
+          onPopInvoked: (pop) {
+            if (pop) {
+              getIt<BottomNavigationCubit>().updateBottomNavigationIndex(0);
+            }
+          },
+          child: const ProfilePageMobileView()),
       backgroundColor: AppColors.screenContainerBackgroundColor,
     );
   }

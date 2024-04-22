@@ -81,8 +81,16 @@ class _OperationsPageState extends State<OperationsPage> {
                     children: [
                       CarouselSlider(
                         items: const [
-                          Expanded(child: BoxesWithContentOne()),
-                          Expanded(child: BoxesWithContentTwo())
+                          Column(
+                            children: [
+                              Expanded(child: BoxesWithContentOne()),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Expanded(child: BoxesWithContentTwo()),
+                            ],
+                          )
                         ],
                         options: CarouselOptions(
                           onPageChanged: (index, reason) {
