@@ -179,6 +179,7 @@ class _OrderHistoryFilterState extends State<OrderHistoryFilter> {
                           final String status = statusItem[index].name;
                           orderHistoryFilterCubit.updateStatusList(
                               index, isSelected, status);
+
                         },
                         child: _buildStatusItems(
                             title: statusItem[index].name,

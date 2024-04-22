@@ -47,7 +47,7 @@ class DisplayOrderListItem extends StatelessWidget {
                       style: AppTextStyles.textFieldNameStyle11W500,
                     ),
                     Text(
-                      order.orderId.toString(),
+                      order.orderId.toInt().toString(),
                       style: AppTextStyles.listItemValueStyle12W500,
                     ),
                     Padding(

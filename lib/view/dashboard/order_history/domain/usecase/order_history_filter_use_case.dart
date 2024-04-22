@@ -22,6 +22,8 @@ class OrderHistoryFilterUseCase {
     // StatusItem(name: "Cancel"),
     // StatusItem(name: "Hold")
   ];
+  final List<String> selectedList = [];
+
 
   String fromDate = '';
   String toDate = '';
@@ -32,24 +34,37 @@ class OrderHistoryFilterUseCase {
 
   List<StatusItem> updateTheStatusList(int index) {
     final statusItem = statusList;
-
     if (statusItem[index].name == 'All' &&
         statusItem[index].isSelected == false) {
       // Select all other items when "All" is selected
       for (var i = 1; i < statusItem.length; i++) {
         statusItem[i].isSelected = true;
+        selectedList.add(statusItem[i].name);
       }
     } else if (statusItem[index].name == 'All' &&
         statusItem[index].isSelected == true) {
       // Select all other items when "All" is selected
       for (var i = 1; i < statusItem.length; i++) {
         statusItem[i].isSelected = false;
+        selectedList.remove(statusItem[i].name);
       }
-    } else {
+    }
+    else {
       // Deselect "All" when any other item is selected
       statusItem[0].isSelected = false;
     }
+
     statusItem[index].isSelected = !statusItem[index].isSelected;
+    if(!selectedList.contains(statusItem[index].name) && statusItem[index].isSelected==true && statusItem[index].name.toLowerCase()!= 'all'){
+      selectedList.add(statusItem[index].name);
+    }else if(selectedList.contains(statusItem[index].name) && statusItem[index].isSelected==false && statusItem[index].name.toLowerCase()!= 'all'){
+      selectedList.remove(statusItem[index].name);
+    }
+    if(selectedList.length == statusItem.length-1 && !selectedList.contains('All')){
+      statusItem[0].isSelected=true;
+    }else if(selectedList.length != statusItem.length-1){
+      statusItem[0].isSelected=false;
+    }
 
     return statusItem;
   }
