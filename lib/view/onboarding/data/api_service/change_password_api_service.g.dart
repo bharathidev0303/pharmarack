@@ -19,7 +19,7 @@ class _ChangePasswordApiService implements ChangePasswordApiService {
   String? baseUrl;
 
   @override
-  Future<CommonResponseEntity<dynamic>> changePassword(
+  Future<HttpResponse<ResetPasswordEntity>> changePassword(
       Map<String, dynamic> requestBody) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -27,7 +27,7 @@ class _ChangePasswordApiService implements ChangePasswordApiService {
     final _data = <String, dynamic>{};
     _data.addAll(requestBody);
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CommonResponseEntity<dynamic>>(Options(
+        _setStreamType<HttpResponse<ResetPasswordEntity>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -43,11 +43,9 @@ class _ChangePasswordApiService implements ChangePasswordApiService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CommonResponseEntity<dynamic>.fromJson(
-      _result.data!,
-      (json) => json as dynamic,
-    );
-    return value;
+    final value = ResetPasswordEntity.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

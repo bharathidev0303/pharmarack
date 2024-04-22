@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/dialog_card.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/widgets/text_input_field.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
@@ -217,6 +218,8 @@ class ChangePasswordDialogCard extends StatelessWidget {
   _onBlocListener(BuildContext context, ChangePasswordState state) {
     if (state.userMessages.contains(UserMessage.changePasswordSuccess)) {
       Navigator.of(context).pop();
+      showSuccessDialog(context,
+          title: "Password Changed Successfully", subtitle: "");
     }
   }
 }

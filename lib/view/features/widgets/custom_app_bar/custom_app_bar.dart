@@ -363,22 +363,22 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     ),
                   ),
                 ),
-                !isDashboard // Add filter icon only if the AppBarType is not Dashboard
-                    ? Container(
-                        height: widget.searchContextModel != null &&
-                                widget.searchContextModel!.contextType ==
-                                    "Theropy" &&
-                                widget.type == AppBarType.secondaryAppBar
-                            ? widget.preferredSize.height - 45
-                            : widget.preferredSize.height,
-                        color: AppColors.appBarColor,
-                        child: IconButton(
-                            onPressed: () {
-                              widget.onFilterClick?.call();
-                            },
-                            icon: AppAssets.svg.icFilterSettings.svg()),
-                      )
-                    : Container(),
+                // !isDashboard // Add filter icon only if the AppBarType is not Dashboard
+                //     ? Container(
+                //         height: widget.searchContextModel != null &&
+                //                 widget.searchContextModel!.contextType ==
+                //                     "Theropy" &&
+                //                 widget.type == AppBarType.secondaryAppBar
+                //             ? widget.preferredSize.height - 45
+                //             : widget.preferredSize.height,
+                //         color: AppColors.appBarColor,
+                //         child: IconButton(
+                //             onPressed: () {
+                //               widget.onFilterClick?.call();
+                //             },
+                //             icon: AppAssets.svg.icFilterSettings.svg()),
+                //       )
+                //     : Container(),
               ],
             ),
             Visibility(
@@ -438,65 +438,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 ),
               ),
             ),
-            // Visibility(
-            //   visible: widget.searchContextModel != null &&
-            //       widget.searchContextModel!.contextType == "Company" &&
-            //       widget.type == AppBarType.secondaryAppBar &&
-            //       productTextController.text.isNotEmpty,
-            //   child: SizedBox(
-            //     height: 37,
-            //     child: Row(
-            //       children: [
-            //         Expanded(
-            //           child: ListView.builder(
-            //             itemCount: 1,
-            //             shrinkWrap: true,
-            //             scrollDirection: Axis.horizontal,
-            //             itemBuilder: (ctx, index) {
-            //               return Padding(
-            //                 padding: const EdgeInsets.only(right: 10, left: 48),
-            //                 child: Chip(
-            //                   shape: RoundedRectangleBorder(
-            //                     side: BorderSide(
-            //                         width: 1,
-            //                         color: context.colors.inputField!),
-            //                     borderRadius: BorderRadius.circular(10),
-            //                   ),
-            //                   label: Text(
-            //                     searchText,
-            //                     style: context.textStyles.paragraph1Regular,
-            //                   ),
-            //                   onDeleted: () {
-            //                     searchText = "";
-            //                     if (selectedCompanyName.isNotEmpty &&
-            //                         selectedCompanyId.isNotEmpty) {
-            //                       widget.productAndDistributorCallBack?.call(
-            //                           "",
-            //                           selectedDistributorId,
-            //                           selectedStoreName,
-            //                           selectedCompanyId,
-            //                           selectedCompanyName,
-            //                           contextType);
-            //                     } else {
-            //                       widget.productAndDistributorCallBack
-            //                           ?.call("", 0, "", "", "", "");
-            //                     }
-            //                     Navigator.pop(context);
-            //                   },
-            //                   deleteIcon: AppAssets.svg.icClose.svg(
-            //                     width: 12,
-            //                     height: 12,
-            //                   ),
-            //                 ),
-            //               );
-            //             },
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-
             widget.searchContextModel != null &&
                     widget.searchContextModel!.contextType == "Theropy" &&
                     widget.type == AppBarType.secondaryAppBar

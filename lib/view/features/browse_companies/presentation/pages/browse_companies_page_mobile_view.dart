@@ -95,60 +95,60 @@ class _BrowseCompaniesPageMobileViewState
                       },
                     ),
                   ),
-                  const SizedBox(width: 14),
-                  InkWell(
-                    key: const Key("filterKey"),
-                    onTap: () {
-                      _showFilterBottomSheet(context, state.therapies);
-                    },
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: state.therapies.isEmpty
-                          ? AppAssets.svg.settings.svg(
-                              key: ValueKey(state.therapies),
-                              width: 24,
-                              height: 24,
-                            )
-                          : SizedBox(
-                              key: ValueKey(state.therapies),
-                              width: 24,
-                              height: 24,
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    top: 0,
-                                    right: 0,
-                                    child: Container(
-                                      width: 12,
-                                      height: 12,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: context.colors.offers,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Text(
-                                        "${state.therapies.length}",
-                                        style: context.textStyles.header12Medium
-                                            ?.copyWith(
-                                          fontSize: 8,
-                                          color: AppColors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    left: 0,
-                                    bottom: 0,
-                                    child: AppAssets.svg.settings.svg(
-                                      width: 14,
-                                      height: 12,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                    ),
-                  )
+                  // const SizedBox(width: 14),
+                  // InkWell(
+                  //   key: const Key("filterKey"),
+                  //   onTap: () {
+                  //     _showFilterBottomSheet(context, state.therapies);
+                  //   },
+                  //   child: AnimatedSwitcher(
+                  //     duration: const Duration(milliseconds: 300),
+                  //     child: state.therapies.isEmpty
+                  //         ? AppAssets.svg.settings.svg(
+                  //             key: ValueKey(state.therapies),
+                  //             width: 24,
+                  //             height: 24,
+                  //           )
+                  //         : SizedBox(
+                  //             key: ValueKey(state.therapies),
+                  //             width: 24,
+                  //             height: 24,
+                  //             child: Stack(
+                  //               children: [
+                  //                 Positioned(
+                  //                   top: 0,
+                  //                   right: 0,
+                  //                   child: Container(
+                  //                     width: 12,
+                  //                     height: 12,
+                  //                     alignment: Alignment.center,
+                  //                     decoration: BoxDecoration(
+                  //                       color: context.colors.offers,
+                  //                       shape: BoxShape.circle,
+                  //                     ),
+                  //                     child: Text(
+                  //                       "${state.therapies.length}",
+                  //                       style: context.textStyles.header12Medium
+                  //                           ?.copyWith(
+                  //                         fontSize: 8,
+                  //                         color: AppColors.white,
+                  //                       ),
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 Positioned(
+                  //                   left: 0,
+                  //                   bottom: 0,
+                  //                   child: AppAssets.svg.settings.svg(
+                  //                     width: 14,
+                  //                     height: 12,
+                  //                   ),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //   ),
+                  // )
                 ],
               ),
               const SizedBox(height: 10),
