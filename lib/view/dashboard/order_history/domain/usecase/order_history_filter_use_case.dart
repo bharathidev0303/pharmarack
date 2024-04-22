@@ -1,4 +1,3 @@
-
 import 'package:fpdart/fpdart.dart';
 import 'package:pharmarack/packages/core_flutter/error/base_error.dart';
 import 'package:pharmarack/view/dashboard/order_history/domain/model/all_filter_model.dart';
@@ -24,7 +23,6 @@ class OrderHistoryFilterUseCase {
   ];
   final List<String> selectedList = [];
 
-
   String fromDate = '';
   String toDate = '';
 
@@ -48,22 +46,26 @@ class OrderHistoryFilterUseCase {
         statusItem[i].isSelected = false;
         selectedList.remove(statusItem[i].name);
       }
-    }
-    else {
+    } else {
       // Deselect "All" when any other item is selected
       statusItem[0].isSelected = false;
     }
 
     statusItem[index].isSelected = !statusItem[index].isSelected;
-    if(!selectedList.contains(statusItem[index].name) && statusItem[index].isSelected==true && statusItem[index].name.toLowerCase()!= 'all'){
+    if (!selectedList.contains(statusItem[index].name) &&
+        statusItem[index].isSelected == true &&
+        statusItem[index].name.toLowerCase() != 'all') {
       selectedList.add(statusItem[index].name);
-    }else if(selectedList.contains(statusItem[index].name) && statusItem[index].isSelected==false && statusItem[index].name.toLowerCase()!= 'all'){
+    } else if (selectedList.contains(statusItem[index].name) &&
+        statusItem[index].isSelected == false &&
+        statusItem[index].name.toLowerCase() != 'all') {
       selectedList.remove(statusItem[index].name);
     }
-    if(selectedList.length == statusItem.length-1 && !selectedList.contains('All')){
-      statusItem[0].isSelected=true;
-    }else if(selectedList.length != statusItem.length-1){
-      statusItem[0].isSelected=false;
+    if (selectedList.length == statusItem.length - 1 &&
+        !selectedList.contains('All')) {
+      statusItem[0].isSelected = true;
+    } else if (selectedList.length != statusItem.length - 1) {
+      statusItem[0].isSelected = false;
     }
 
     return statusItem;
