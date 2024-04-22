@@ -322,7 +322,7 @@ class _StepOneMobileScreenState extends State<StepOneMobileScreen> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: AppAssets.svg.icDown
-                                          .svg(height: 16, width: 16),
+                                          .svg(height: 20, width: 20),
                                     ),
                                   ),
                                 ]),
