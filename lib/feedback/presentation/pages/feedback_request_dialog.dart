@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -31,15 +30,15 @@ class _FeedbackRequestDialogScreenState
   @override
   void initState() {
     super.initState();
-    unregisterDI();
-    initDependency();
+    unregisterFeedbackDI();
+    initFeedbackDependency();
     feedbackScreenCubit = feedbackProvider<FeedbackScreenCubit>();
     Future(() => _showDialog(context));
   }
 
   @override
   void dispose() {
-    unregisterDI();
+    unregisterFeedbackDI();
     super.dispose();
   }
 

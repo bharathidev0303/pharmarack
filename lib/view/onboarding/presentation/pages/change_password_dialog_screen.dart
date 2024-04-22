@@ -219,7 +219,8 @@ class ChangePasswordDialogCard extends StatelessWidget {
     if (state.userMessages.contains(UserMessage.changePasswordSuccess)) {
       Navigator.of(context).pop();
       showSuccessDialog(context,
-          title: "Password Changed Successfully", subtitle: "");
+          title: "Password Changed!",
+          subtitle: "Your password changed successfully");
     }
   }
 }

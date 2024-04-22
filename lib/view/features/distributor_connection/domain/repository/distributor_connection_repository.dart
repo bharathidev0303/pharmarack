@@ -1,4 +1,7 @@
+import 'package:fpdart/fpdart.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
+import 'package:pharmarack/packages/core_flutter/core/safe_api_call/safe_api_call.dart';
+import 'package:pharmarack/packages/core_flutter/error/network_error.dart';
 import 'package:pharmarack/view/features/distributor_connection/data/api/distributor_connection_api_service.dart';
 import 'package:pharmarack/view/features/distributor_connection/data/model/distributor_store_status.dart';
 import 'package:pharmarack/view/features/distributor_connection/data/model/multiple_store_mapping_request_model.dart';
@@ -26,16 +29,20 @@ class DistributorConnectionRepository {
     return response.data;
   }
 
-  Future<MultipleStoreMappingResponseModel> requestStoreMapping(
+  Future<Either<NetworkError, MultipleStoreMappingResponseModel>>
+      requestStoreMapping(
     List<StoreStatusMappingRequestModel> mapRequests,
   ) async {
     var request = MultipleStoreMappingRequestModel(
       rid: _retailerInfoEntity.getRetailerId() ?? 0,
       maprequests: mapRequests,
     );
-    return await _apiService.requestStoreMapping(
+    var response = await safeApiCall(_apiService.requestStoreMapping(
       request.toJson(),
-    );
+    ));
+    return response.fold((l) => left(l), (r) {
+      return right(r.data);
+    });
   }
 
   Future<bool> saveRetailerStoreRequest(NewDistributorDetails details) async {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get_it/get_it.dart';
@@ -7,6 +8,7 @@ import 'package:pharmarack/packages/core_flutter/common_widgets/widgets/content_
 import 'package:pharmarack/packages/core_flutter/common_widgets/widgets/text_input_field.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
+import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/dls/widget/primary_button.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/view/features/distributor_connection/presentation/cubit/distributor_connection_add_tab_cubit.dart';
@@ -48,6 +50,12 @@ class DistributorConnectionAddTab extends StatelessWidget {
         _showSnackBar(
           context,
           context.localizedString.pleaseEnterValidContactNumber,
+        );
+        break;
+      case const (InvalidMobileNumberFormat):
+        _showSnackBar(
+          context,
+          context.localizedString.mobileNumInvalidStartDigit,
         );
         break;
       case const (AddDistributorFailure):
@@ -163,6 +171,10 @@ class _DistributorConnectionAddTabContentState
                   controller: widget.contactNumberController,
                   title: context.localizedString.mobileNo,
                   keyboardType: TextInputType.phone,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[\s0-9 ]')),
+                    LengthLimitingTextInputFormatter(10),
+                  ],
                 ),
                 const SizedBox(height: 15),
                 PrimaryButton(

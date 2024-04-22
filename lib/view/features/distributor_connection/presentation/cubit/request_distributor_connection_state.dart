@@ -4,6 +4,7 @@ import 'package:pharmarack/view/features/distributor_connection/presentation/cub
 class RequestDistributorConnectionState extends Equatable {
   final bool isLoading;
   final UserMessage? message;
+  final String? errorMessage;
   final List<DistributorStoreItem> storeItems;
   final MappingRequest? mappingRequest;
   final List<DistributorStoreItem>? searchResult;
@@ -12,6 +13,7 @@ class RequestDistributorConnectionState extends Equatable {
     this.isLoading,
     this.message,
     this.storeItems,
+    this.errorMessage,
     this.mappingRequest,
     this.searchResult,
   );
@@ -23,6 +25,7 @@ class RequestDistributorConnectionState extends Equatable {
       [],
       null,
       null,
+      null,
     );
   }
 
@@ -31,12 +34,14 @@ class RequestDistributorConnectionState extends Equatable {
     UserMessage? Function()? message,
     List<DistributorStoreItem>? storeItems,
     MappingRequest? Function()? mappingRequest,
+    String? errorMessage,
     List<DistributorStoreItem>? Function()? searchResult,
   }) {
     return RequestDistributorConnectionState(
       isLoading ?? this.isLoading,
       message != null ? message() : this.message,
       storeItems ?? this.storeItems,
+      errorMessage ?? this.errorMessage,
       mappingRequest != null ? mappingRequest() : this.mappingRequest,
       searchResult != null ? searchResult() : this.searchResult,
     );

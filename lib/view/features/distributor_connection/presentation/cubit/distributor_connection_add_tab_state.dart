@@ -35,6 +35,8 @@ class InvalidDistributorName extends UserMessage {}
 
 class InvalidContactNumber extends UserMessage {}
 
+class InvalidMobileNumberFormat extends UserMessage {}
+
 class AddDistributorSuccess extends UserMessage {}
 
 class AddDistributorFailure extends UserMessage {}

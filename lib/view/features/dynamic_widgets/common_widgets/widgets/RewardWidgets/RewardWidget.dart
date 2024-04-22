@@ -73,7 +73,7 @@ headerTittle(BuildContext context, RewordsWidgetModel rewordsWidgetModel) {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             softWrap: true,
-            textAlign: TextAlign.start,
+            textAlign: getTextAlignPosition(rewordsWidgetModel.titleAlignment!),
           ),
         ),
       ],

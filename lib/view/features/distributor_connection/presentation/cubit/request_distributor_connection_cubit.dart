@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/packages/core/log_util/log_util.dart';
+import 'package:pharmarack/packages/core_flutter/error/error_info.dart';
+import 'package:pharmarack/packages/core_flutter/error/network_error.dart';
 import 'package:pharmarack/view/features/distributor_connection/distributor_connection_constants.dart';
 import 'package:pharmarack/view/features/distributor_connection/presentation/cubit/request_distributor_connection_state.dart';
 
@@ -41,10 +43,14 @@ class RequestDistributorConnectionCubit
       ),
     ];
     emit(state.copyWith(mappingRequest: () => SendingMappingRequest()));
-    await _requestStoreMappingUseCase
-        .execute(request)
-        .then((response) => _onSuccessRequestStoreMapping(response.data))
-        .catchError((e, stack) => _onErrorRequestStoreMapping(e, stack));
+    var resonce = await _requestStoreMappingUseCase.execute(request);
+
+    resonce.fold((l) {
+      _onErrorRequestStoreMapping(l.error);
+    },
+        (r) => {
+              _onSuccessRequestStoreMapping(r.data),
+            });
   }
 
   void showMappingRequest(int storeId) {
@@ -82,14 +88,15 @@ class RequestDistributorConnectionCubit
     ));
   }
 
-  void _onErrorRequestStoreMapping(e, stack) {
+  void _onErrorRequestStoreMapping(ErrorInfo e) {
     emit(
-      state.copyWith(mappingRequest: () => MappingRequestFailed()),
+      state.copyWith(
+          mappingRequest: () => MappingRequestFailed(),
+          errorMessage: e.message),
     );
     LogUtil.error(
       'Error fetching non mapped stores: ',
       error: e,
-      stackTrace: stack,
     );
   }
 
@@ -98,7 +105,6 @@ class RequestDistributorConnectionCubit
     LogUtil.error(
       'Error fetching non mapped stores: ',
       error: e,
-      stackTrace: stack,
     );
   }
 

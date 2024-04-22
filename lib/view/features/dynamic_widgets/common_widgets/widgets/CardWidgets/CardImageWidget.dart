@@ -97,7 +97,7 @@ class _CardImageWidgetState extends State<CardImageWidget> {
           ],
         ),
       );
-    } else if (widget.cardWidgetModel.itemsVisibleMobile == '2') {
+    } else if (int.parse(widget.cardWidgetModel.itemsVisibleMobile) > 2) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Container(

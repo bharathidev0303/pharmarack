@@ -24,6 +24,10 @@ class DistributorConnectionAddTabCubit
       emit(state.copyWith(userMessage: InvalidContactNumber()));
       return;
     }
+    if (contactNumber.startsWith(RegExp(r'^[0-4]'))) {
+      emit(state.copyWith(userMessage: InvalidMobileNumberFormat()));
+      return;
+    }
     emit(state.copyWith(isLoading: true));
     _addDistributorUseCase
         .execute(
@@ -41,5 +45,9 @@ class DistributorConnectionAddTabCubit
       stackTrace: stack,
     );
     emit(state.copyWith(userMessage: AddDistributorFailure()));
+  }
+
+  void invalidMobileNumberFormat() {
+    emit(state.copyWith(userMessage: InvalidMobileNumberFormat()));
   }
 }

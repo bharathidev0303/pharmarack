@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:pharmarack/view/features/distributor_connection/data/model/multiple_store_mapping_response_model.dart';
 import 'package:pharmarack/view/features/distributor_connection/domain/model/save_retailer_store_response.dart';
 import 'package:pharmarack/view/features/distributor_connection/stockiest_priority/domain/model/distributor_store_response_model.dart';
+import 'package:retrofit/dio.dart';
 import 'package:retrofit/http.dart';
 
 import '../../distributor_connection_constants.dart';
@@ -21,7 +22,7 @@ abstract class DistributorConnectionApiService {
   });
 
   @POST(DistributorConnectionConstants.pathStoreMappingRequest)
-  Future<MultipleStoreMappingResponseModel> requestStoreMapping(
+  Future<HttpResponse<MultipleStoreMappingResponseModel>> requestStoreMapping(
     @Body() Map<String, dynamic> request,
   );
 

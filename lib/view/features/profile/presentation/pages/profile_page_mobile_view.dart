@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/di/app_provider.dart';
+import 'package:pharmarack/feedback/presentation/pages/FeedbackWidget.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
@@ -16,6 +17,7 @@ import 'package:pharmarack/packages/core_flutter/utils/url_launcher_utils.dart';
 import 'package:pharmarack/packages/utils/retailer_app_constants.dart';
 import 'package:pharmarack/view/dashboard/order_history/presentation/pages/order_history_page.dart';
 import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
+import 'package:pharmarack/view/features/offers_and_rewards/presentation/rewards_page.dart';
 import 'package:pharmarack/view/features/profile/presentation/constants/my_profile_constants.dart';
 import 'package:pharmarack/view/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:pharmarack/view/features/profile/presentation/cubit/profile_state.dart';
@@ -215,8 +217,8 @@ void handleProfileMenuClick(
                 )));
   }
   if (action == drawerRouterPaths.getFeedbackRequestDialogPath()) {
-    Navigator.pushNamed(
-        context, drawerRouterPaths.getFeedbackRequestDialogPath());
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => FeedBackWidget()));
   }
   if (action == MenuActions.cartIcon) {
     /// Open cart action
@@ -258,6 +260,7 @@ void handleProfileMenuClick(
   //   Navigator.pushNamed(context, drawerRouterPaths.getOrderHistoryPath());
   // }
   else if (action == drawerRouterPaths.getRewardsPath()) {
-    // Navigator.pushNamed(context, drawerRouterPaths.getRewardsPath());
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const RewardsPage()));
   }
 }

@@ -88,9 +88,9 @@ class _InputTextFields extends State<LoginScreenInputTextFields> {
             infoColor: AppColors.redErrorColor,
             suffixIcon: null,
             obscureText: false,
-            // inputFormatters: [
-            //   FilteringTextInputFormatter.deny(RegExp(r'[\s@#₹%^&+()/*":;!?]')),
-            // ],
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+            ],
           ),
           const SizedBox(
             height: 15,

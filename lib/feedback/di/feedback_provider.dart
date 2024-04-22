@@ -10,12 +10,12 @@ final saveFeedbackUseCaseProvider =
     feedbackProvider.registerSingleton<SaveFeedbackUseCase>(SaveFeedbackUseCase(
         feedbackRepository: feedbackProvider<FeedbackRepository>()));
 
-void initDependency() {
+void initFeedbackDependency() {
   feedbackProvider.registerFactory<FeedbackScreenCubit>(() =>
       FeedbackScreenCubit(saveFeedbackUseCase: saveFeedbackUseCaseProvider));
 }
 
-void unregisterDI() {
+void unregisterFeedbackDI() {
   if (feedbackProvider.isRegistered<SaveFeedbackUseCase>()) {
     feedbackProvider.unregister<SaveFeedbackUseCase>();
   }

@@ -38,24 +38,29 @@ abstract final class AppThemeData {
 
   /// Light visual properties for the app. Includes colors, typography, shapes etc.
   static final ThemeData lightTheme = ThemeData(
-    splashColor: Colors.transparent,
-    highlightColor: Colors.transparent,
-    hoverColor: Colors.transparent,
-    useMaterial3: true,
-    colorScheme: const ColorScheme.light(),
-    extensions: <ThemeExtension<dynamic>>[
-      _getLightAppThemeColors(),
-      _getHelveticaAppThemeTextStyles(),
-    ],
-    checkboxTheme: _checkboxTheme,
-    inputDecorationTheme: _inputDecorationTheme,
-    textSelectionTheme: TextSelectionThemeData(
-      cursorColor: Colors.grey[900],
-      selectionColor: Colors.black.withOpacity(0.5),
-      selectionHandleColor: Colors.grey[900],
-    ),
-    progressIndicatorTheme: _progressIndicatorTheme,
-  );
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      useMaterial3: true,
+      colorScheme: const ColorScheme.light(),
+      extensions: <ThemeExtension<dynamic>>[
+        _getLightAppThemeColors(),
+        _getHelveticaAppThemeTextStyles(),
+      ],
+      checkboxTheme: _checkboxTheme,
+      inputDecorationTheme: _inputDecorationTheme,
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: Colors.grey[900],
+        selectionColor: Colors.black.withOpacity(0.5),
+        selectionHandleColor: Colors.grey[900],
+      ),
+      progressIndicatorTheme: _progressIndicatorTheme,
+      appBarTheme: const AppBarTheme(
+          elevation: 0.0,
+          backgroundColor: Colors.transparent,
+          scrolledUnderElevation: 0.0),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          elevation: 0.0, backgroundColor: Colors.transparent));
 
   static AppThemeColors _getLightAppThemeColors() {
     return AppThemeColors(

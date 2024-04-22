@@ -195,9 +195,15 @@ class DistributorConnectionRequestTabContent extends StatelessWidget {
                     title: context.localizedString.requestSent,
                   );
                 case const (MappingRequestFailed):
-                  return RequestFailedDialog(
-                    title: context.localizedString.requestFailed,
-                  );
+                  if (state.errorMessage != null || state.errorMessage != "") {
+                    return RequestFailedDialog(
+                      title: state.errorMessage,
+                    );
+                  } else {
+                    return RequestFailedDialog(
+                      title: context.localizedString.requestFailed,
+                    );
+                  }
                 case const (MappingRequestLimitExceeded):
                   return RequestFailedDialog(
                     title: context.localizedString.requestFailed,

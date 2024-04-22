@@ -53,7 +53,7 @@ class _DistributorConnectionApiService
   }
 
   @override
-  Future<MultipleStoreMappingResponseModel> requestStoreMapping(
+  Future<HttpResponse<MultipleStoreMappingResponseModel>> requestStoreMapping(
       Map<String, dynamic> request) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -61,7 +61,7 @@ class _DistributorConnectionApiService
     final _data = <String, dynamic>{};
     _data.addAll(request);
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<MultipleStoreMappingResponseModel>(Options(
+        _setStreamType<HttpResponse<MultipleStoreMappingResponseModel>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -78,7 +78,8 @@ class _DistributorConnectionApiService
               baseUrl,
             ))));
     final value = MultipleStoreMappingResponseModel.fromJson(_result.data!);
-    return value;
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
   }
 
   @override
