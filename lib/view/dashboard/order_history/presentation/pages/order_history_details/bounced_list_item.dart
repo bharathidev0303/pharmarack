@@ -136,35 +136,35 @@ class BouncedListItem extends StatelessWidget {
                 ],
               ),
             ),
-            GestureDetector(
-              onTap: () async {
-                await showDialog(
-                  context: context,
-                  builder: (_) {
-                    return ChangeDistributorDialogCard(
-                      productCode: bouncedItem.productCode ?? "",
-                      storeId: bouncedItem.storeid ?? -1,
-                    );
-                  },
-                );
-                LogUtil.info('Change distributor dialog closed');
-                // getIt<CartScreenCubit>().refreshScreenData();
-              },
-              child: Container(
-                width: 40,
-                height: 40,
-                alignment: Alignment.center,
-                decoration: ShapeDecoration(
-                  color: context.colors.secondary,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                ),
-                child: AppAssets.svg.icRefresh.svg(
-                  width: 16,
-                  height: 16,
-                ),
-              ),
-            )
+            // GestureDetector(
+            //   onTap: () async {
+            //     await showDialog(
+            //       context: context,
+            //       builder: (_) {
+            //         return ChangeDistributorDialogCard(
+            //           productCode: bouncedItem.productCode ?? "",
+            //           storeId: bouncedItem.storeid ?? -1,
+            //         );
+            //       },
+            //     );
+            //     LogUtil.info('Change distributor dialog closed');
+            //     // getIt<CartScreenCubit>().refreshScreenData();
+            //   },
+            //   child: Container(
+            //     width: 40,
+            //     height: 40,
+            //     alignment: Alignment.center,
+            //     decoration: ShapeDecoration(
+            //       color: context.colors.secondary,
+            //       shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(5)),
+            //     ),
+            //     child: AppAssets.svg.icRefresh.svg(
+            //       width: 16,
+            //       height: 16,
+            //     ),
+            //   ),
+            // )
           ],
         ),
         const SizedBox(height: 15),

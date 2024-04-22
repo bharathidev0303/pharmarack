@@ -111,7 +111,7 @@ class InvoicedItems {
   @JsonKey(name: 'MobileNumber')
   String? mobileNumber;
   @JsonKey(name: 'OrderAmount')
-  double? orderAmount;
+  dynamic? orderAmount;
   @JsonKey(name: 'CreatedBy')
   int? createdBy;
   @JsonKey(name: 'CreatedDate')
@@ -349,7 +349,7 @@ class InvoicedItems {
     int? storeId,
     String? storeName,
     String? mobileNumber,
-    double? orderAmount,
+    dynamic? orderAmount,
     int? createdBy,
     String? createdDate,
     int? isUploaded,

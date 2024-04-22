@@ -58,7 +58,7 @@ InvoicedItems _$InvoicedItemsFromJson(Map<String, dynamic> json) =>
       storeId: json['StoreId'] as int?,
       storeName: json['StoreName'] as String?,
       mobileNumber: json['MobileNumber'] as String?,
-      orderAmount: (json['OrderAmount'] as num?)?.toDouble(),
+      orderAmount: json['OrderAmount'],
       createdBy: json['CreatedBy'] as int?,
       createdDate: json['CreatedDate'] as String?,
       isUploaded: json['IsUploaded'] as int?,

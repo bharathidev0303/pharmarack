@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/dashboard/secondary_app_bar.dart';
 import 'package:pharmarack/packages/core_flutter/core/ui/base_view.dart';
@@ -46,8 +47,16 @@ class OrderDetailPageState extends BaseStatefulPage {
   Widget buildView(BuildContext context) {
     return BlocProvider<OrderHistoryDetailCubit>(
       create: (context) => getIt<OrderHistoryDetailCubit>(),
-      child: OrderDetailsMobileView(
-        order: _order,
+      child: AnnotatedRegion(
+        value: const SystemUiOverlayStyle(
+          statusBarColor: AppColors.appBarColor,
+          statusBarIconBrightness: Brightness.dark,
+          systemNavigationBarColor: Colors.black,
+          systemNavigationBarIconBrightness: Brightness.light,
+        ),
+        child: OrderDetailsMobileView(
+          order: _order,
+        ),
       ),
     );
   }
