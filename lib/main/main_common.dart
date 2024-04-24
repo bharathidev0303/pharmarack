@@ -134,8 +134,6 @@ class _RetailerAppState extends State<RetailerApp> {
         //   getIt<ConnectivityCubit>().updateBottomNavigationIndex(1);
         // }
         var network = await const InternetConnectionUtils().checkconnection();
-        print(network);
-        print("sdfjhbsjdsdfjshdgbv");
         if (network) {
           getIt<ConnectivityCubit>().updateBottomNavigationIndex(1);
         } else {
@@ -189,8 +187,6 @@ class _RetailerAppState extends State<RetailerApp> {
     return BlocBuilder<ConnectivityCubit, dynamic>(
         bloc: getIt<ConnectivityCubit>(),
         builder: (BuildContext context, dynamic cubitIndex) {
-          print(cubitIndex);
-          print("dfhgvshdfgbvsvgbd");
           if (cubitIndex == 2) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               retailerAppLevelKey.currentState

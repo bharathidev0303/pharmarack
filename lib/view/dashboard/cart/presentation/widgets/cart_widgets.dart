@@ -178,7 +178,7 @@ class QuantityButtonTextFieldToggleState extends State<QuantityInputField> {
         constraints: const BoxConstraints(minWidth: 40),
         child: TextField(
           inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z]")),
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
           ],
           style: AppTextStyles.blueLinkTextStyle,
           keyboardType: TextInputType.number,

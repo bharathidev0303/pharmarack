@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pharmarack/packages/core_flutter/core/ui/base_view.dart';
 import 'package:pharmarack/packages/core_flutter/core/ui/device_detector_widget.dart';
+import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/common/input_text_cubit.dart';
 import 'package:pharmarack/view/onboarding/presentation/cubit/login_screen_cubit.dart';
@@ -46,6 +48,14 @@ class LoginScreenState extends BaseStatefulPage {
 
   @override
   Widget buildView(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: AppColors.appBarColor,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.black,
+        systemNavigationBarIconBrightness: Brightness.light,
+      ),
+    );
     return DeviceDetectorWidget(
       webSiteView: () =>
           LoginScreenWebView(loginScreenCubit: _loginScreenCubit),

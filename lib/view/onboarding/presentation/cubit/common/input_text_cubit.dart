@@ -42,6 +42,14 @@ class OtpFieldCubit extends Cubit<OtpTextState> {
       return false;
     }
   }
+
+  void otpInvalidState() {
+    emit(OtpInvalidState());
+  }
+
+  void otpValidState() {
+    emit(OtpValidState());
+  }
 }
 
 class MobileNumberFieldCubit extends Cubit<MobileNumberTextState> {
@@ -73,10 +81,30 @@ class ResendButtonCubit extends Cubit<ResendButtonState> {
         _timer!.cancel(); // Stop the timer when timeLeft reaches 0
       }
     });
-    // emit(ResendButtonDisabledState());
-    // _timer = Timer(const Duration(seconds: 30), () {
-    //   emit(ResendButtonEnabledState());
-    // });
+  }
+
+  void morePasswordAttempTimer() {
+    int timeLeftMin = 59;
+    int timeLeftSec = 59;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (timeLeftMin > 0) {
+        emit(ResendButtonDisabledState(
+            timer: timeLeftMin > 9
+                ? "01:${timeLeftMin--}"
+                : "01:0${timeLeftMin--}"));
+      } else if (timeLeftSec > 0) {
+        emit(ResendButtonDisabledState(
+            timer: timeLeftSec > 9
+                ? "${timeLeftSec--}:00"
+                : "0${timeLeftSec--}:00"));
+      } else if (timeLeftSec > 0 && timeLeftMin > 0) {
+        emit(ResendButtonEnabledState());
+        _timer!.cancel(); // Stop the timer when timeLeft reaches 0
+      } else {
+        emit(ResendButtonEnabledState());
+        _timer!.cancel(); // Stop the timer when timeLeft reaches 0
+      }
+    });
   }
 
   void stopTimer() {

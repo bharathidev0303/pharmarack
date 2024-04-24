@@ -93,7 +93,7 @@ class FilterSearchProductUseCase {
           for (var element in filterMappedDistributors) {
             if (element.stock != null &&
                 element.stock! > 0 &&
-                element.rStockVisibility == '0') {
+                element.rStockVisibility == 0) {
               temp.add(element);
             }
           }
@@ -182,16 +182,16 @@ class FilterSearchProductUseCase {
     List<SearchProductListModel> tempList = [];
     tempList.addAll(list.where((element) =>
         element.stock! > 10 &&
-        element.rStockVisibility == '0' &&
+        element.rStockVisibility == 0 &&
         element.isShowNonMappedOrderStock == 0));
     tempList.addAll(list.where((element) =>
         element.stock! < 10 &&
         element.stock! > 1 &&
-        element.rStockVisibility == '0' &&
+        element.rStockVisibility == 0 &&
         element.isShowNonMappedOrderStock == 0));
     tempList.addAll(list.where((element) =>
         element.stock == 0 ||
-        element.rStockVisibility == '1' ||
+        element.rStockVisibility == 1 ||
         element.isShowNonMappedOrderStock == 1));
     return tempList;
   }

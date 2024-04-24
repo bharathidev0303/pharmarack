@@ -94,12 +94,18 @@ class OtpScreenCubit extends Cubit<OtpScreenState> {
               module: "login",
               otp: userOtp,
               oneSignalId: oneSignalId));
-      verifyOtpResponse.fold((l) {
+      verifyOtpResponse.fold((l) async {
         if (l.error.message ==
             'You\'ve exceed the number of attempts for OTP verification. Please try again after 2 mins.') {
           emit(OtpVerificationExceedAttempsState(
-              statusMessage:
-                  "You've exceed the number of attempts for OTP verification. Please try again after 2 mins."));
+              statusMessage: l.error.message));
+          resendButtonCubit.stopTimer();
+          otpFieldCubit.otpInvalidState();
+          resendButtonCubit.morePasswordAttempTimer();
+          await Future.delayed(const Duration(seconds: 119)).then((value) {
+            otpFieldCubit.otpValidState();
+            emit(OtpClearState());
+          });
         } else {
           emit(OtpVerificationFailedState(statusMessage: l.error.message));
         }

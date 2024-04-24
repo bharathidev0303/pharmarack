@@ -65,7 +65,7 @@ class SearchProductRemoteDataSource {
                   netRate: e.netRate != 'NA' ? double.parse(e.netRate) : 0,
                   productLock: e.productLock,
                   stepUpValue: e.stepUpValue,
-                  rStockVisibility: '${e.rStockVisibility}',
+                  rStockVisibility: e.rStockVisibility,
                   allowMaxQty: e.allowMaxQty,
                   allowMinQty: e.allowMinQty,
                   isPartyLocked:
@@ -122,7 +122,7 @@ class SearchProductRemoteDataSource {
                   netRate: e.netRate != 'NA' ? double.parse(e.netRate) : 0,
                   productLock: e.productLock,
                   stepUpValue: e.stepUpValue,
-                  rStockVisibility: '${e.rStockVisibility}',
+                  rStockVisibility: e.rStockVisibility,
                   allowMaxQty: e.allowMaxQty,
                   allowMinQty: e.allowMinQty,
                   isPartyLocked:
@@ -179,7 +179,7 @@ class SearchProductRemoteDataSource {
                   netRate: e.netRate != 'NA' ? double.parse(e.netRate) : 0,
                   productLock: e.productLock,
                   stepUpValue: e.stepUpValue,
-                  rStockVisibility: '${e.rStockVisibility}',
+                  rStockVisibility: e.rStockVisibility,
                   allowMaxQty: e.allowMaxQty,
                   allowMinQty: e.allowMinQty,
                   isPartyLocked:

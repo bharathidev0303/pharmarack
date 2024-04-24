@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
@@ -72,9 +71,9 @@ class OnboardingCommonOtpTextField extends StatelessWidget {
           ),
         if (errorText.isNotEmpty &&
             errorText ==
-                "You've exceed the number of attempts for OTP verification. Please try again after 5 mins.")
+                "You\'ve exceed the number of attempts for OTP verification. Please try again after 2 mins.")
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40.0),
+            padding: const EdgeInsets.only(left: 60.0, right: 30),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,

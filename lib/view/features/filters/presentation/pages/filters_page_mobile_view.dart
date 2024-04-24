@@ -55,9 +55,7 @@ class FiltersPageMobileViewState extends State<FiltersPageMobileView> {
                             widget.callBack!();
                           },
                           child: Center(
-                            child: AppAssets.svg.downBroadArrow.svg(
-                              package: 'core_flutter',
-                            ),
+                            child: AppAssets.svg.downBroadArrow.svg(),
                           ),
                         ),
                         Padding(

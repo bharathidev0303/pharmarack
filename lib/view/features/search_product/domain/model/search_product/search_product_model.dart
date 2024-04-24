@@ -44,7 +44,7 @@ class SearchProductListModel {
   int? allowMaxQty;
   bool? isAlreadyAdded;
   int? existingQty;
-  String? rStockVisibility;
+  int? rStockVisibility;
   int? isPartyLocked;
   int? isPartyLockedSoonByDist;
   int? storePriority;

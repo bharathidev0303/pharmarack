@@ -21,6 +21,7 @@ class OtpScreenMobileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String errorText = "";
     return BlocListener(
       bloc: otpScreenCubit,
       listener: (context, state) {
@@ -93,6 +94,11 @@ class OtpScreenMobileView extends StatelessWidget {
                   barrierDismissible: true);
             }
             break;
+          case const (OtpVerificationExceedAttempsState):
+            {
+              CommonDialogs.closeCommonDialog(context: context);
+            }
+            break;
         }
       },
       child: BlocProvider(
@@ -136,28 +142,39 @@ class OtpScreenMobileView extends StatelessWidget {
                       height: 10,
                     ),
                     BlocBuilder<OtpScreenCubit, OtpScreenState>(
-                      bloc: otpScreenCubit,
-                      builder: (ctx, state) => Center(
-                        child: OnboardingCommonOtpTextField(
-                          key: const Key(OnboardingConstants.otpField),
-                          length: 6,
-                          textFieldController:
-                              otpScreenCubit.otpFieldController,
-                          borderColor: (state is OtpVerificationFailedState)
-                              ? AppColors.redErrorColor
-                              : AppColors.lightGreyTextField,
-                          onChangedCallback: (text) {
-                            otpScreenCubit.validateOtp();
-                          },
-                          errorText: (state is OtpVerificationFailedState)
-                              ? state.statusMessage == 'otp verification failed'
-                                  ? context.localizedString
-                                      .otpVerificationFailedErrorText
-                                  : state.statusMessage ?? ''
-                              : "",
-                        ),
-                      ),
-                    ),
+                        bloc: otpScreenCubit,
+                        builder: (ctx, state) {
+                          if (state is OtpVerificationFailedState) {
+                            if (state.statusMessage ==
+                                "otp verification failed") {
+                              errorText = context.localizedString
+                                  .otpVerificationFailedErrorText;
+                            } else {
+                              errorText = state.statusMessage ?? "";
+                            }
+                          } else if (state
+                              is OtpVerificationExceedAttempsState) {
+                            errorText = state.statusMessage ?? "";
+                          }
+                          return Center(
+                            child: OnboardingCommonOtpTextField(
+                              key: const Key(OnboardingConstants.otpField),
+                              length: 6,
+                              textFieldController:
+                                  otpScreenCubit.otpFieldController,
+                              borderColor: (state is OtpVerificationFailedState)
+                                  ? AppColors.redErrorColor
+                                  : AppColors.lightGreyTextField,
+                              onChangedCallback: (text) {
+                                otpScreenCubit.validateOtp();
+                                if (text.length == 6 && errorText == "") {
+                                  otpScreenCubit.verifyOtp();
+                                }
+                              },
+                              errorText: errorText,
+                            ),
+                          );
+                        }),
                     const SizedBox(
                       height: 60,
                     ),
@@ -196,6 +213,7 @@ class OtpScreenMobileView extends StatelessWidget {
                             ),
                           );
                         } else {
+                          errorText = "";
                           return Center(
                             child: InkWell(
                               highlightColor: Colors.transparent,

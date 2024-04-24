@@ -105,10 +105,8 @@ class OfferItem extends StatelessWidget {
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w400),
                                             '${product.companyName}'),
-                                        AppAssets.svg.blueArrowUpRight.svg(
-                                            package: 'core_flutter',
-                                            height: 12,
-                                            width: 12),
+                                        AppAssets.svg.blueArrowUpRight
+                                            .svg(height: 12, width: 12),
                                       ],
                                     ),
                                   ),

@@ -11,7 +11,7 @@ class PurchaseDetailsRow extends StatelessWidget {
   final int? stockQuantity;
   final String? scheme;
   final int? schemeListCount;
-  final String? rStockVisibility;
+  final int? rStockVisibility;
 
   const PurchaseDetailsRow({
     super.key,
@@ -72,7 +72,7 @@ class PurchaseDetailsRow extends StatelessWidget {
           text: TextSpan(
             text: '${context.localizedString.stock}: ',
             style: AppTextStyles.style12W700Black(
-              color: rStockVisibility != null && rStockVisibility == '1'
+              color: rStockVisibility != null && rStockVisibility == 1
                   ? AppColors.lightGrey
                   : stockQuantity == 0
                       ? AppColors.redErrorColor
@@ -82,11 +82,11 @@ class PurchaseDetailsRow extends StatelessWidget {
             ),
             children: [
               TextSpan(
-                text: rStockVisibility != null && rStockVisibility == '1'
+                text: rStockVisibility != null && rStockVisibility == 1
                     ? 'NA'
                     : stockQuantity?.toString(),
                 style: AppTextStyles.style11W500MedGrey(
-                  color: rStockVisibility != null && rStockVisibility == '1'
+                  color: rStockVisibility != null && rStockVisibility == 1
                       ? AppColors.primaryTextColor
                       : stockQuantity == 0
                           ? AppColors.redErrorColor

@@ -79,7 +79,7 @@ class OrderDetailPageState extends BaseStatefulPage {
         //       ),
         //       const SizedBox(width: 5),
         //       AppAssets.svg.download.svg(
-        //         package: "core_flutter",
+        //
         //         width: 14,
         //         height: 14,
         //       )

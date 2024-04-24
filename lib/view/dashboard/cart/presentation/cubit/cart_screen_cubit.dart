@@ -394,6 +394,20 @@ class CartScreenCubit extends Cubit<CartScreenState> {
       }
     }
 
+    // List<Store> storeData = [];
+    // for (var element in cartDetailsModel.stores) {
+    //   productList = element.cartItemList.where((val) =>
+    //       val.storeId == element.storeId &&
+    //       val.productCode == cartItem.productCode);
+    //   for (var product in productList) {
+    //     //product.mrp=product.mrp! * int.parse(value);
+    //     product.productWiseAmount = product.ptr! * int.parse(value);
+    //   }
+    //   storeData.addAll(element as Iterable<Store>);
+    // }
+
+    // getIt<DraggableCartScreenCubit>().stores.clear();
+    // getIt<DraggableCartScreenCubit>().stores.addAll(storeData);
     emit(CartScreenDataState(cartDetailsModel, cartDetailsModel.isAllExpanded,
         cartDetailsModel.isAllSelected, cartDetailsModel.totalSelectedStores,
         isListUpdate: getListUpdateFlag(), closePreviousPopUp: false));

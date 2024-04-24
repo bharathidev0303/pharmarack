@@ -26,7 +26,7 @@ class ProductListItem extends StatelessWidget {
   final int? index;
   final int? existingQty;
   final String? packing;
-  final String? rStockVisibility;
+  final int? rStockVisibility;
 
   final Function()? plusButtonTapped;
 
