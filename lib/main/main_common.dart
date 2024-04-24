@@ -11,6 +11,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:pharmarack/main/connectivity/conectivity_cubit.dart';
 import 'package:pharmarack/main/connectivity/conectivity_providers.dart';
+import 'package:pharmarack/main/connectivity/connectivity_checker.dart';
 import 'package:pharmarack/packages/core/log_util/log_util.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/theme/app_theme_data.dart';
@@ -43,16 +44,17 @@ void mainCommon(Flavor flavor) async {
     isRetailerInfoResponseAvailable =
         await autoLoginUtils.checkTokenExpiration();
   }
+  var network = await const InternetConnectionUtils().checkconnection();
 
   runApp(RetailerApp(
-    flavor: flavor,
-    isLoggedIn: isUserSessionAvailable && isRetailerInfoResponseAvailable,
-    /*
+      flavor: flavor,
+      isLoggedIn: isUserSessionAvailable && isRetailerInfoResponseAvailable,
+      /*
     isResetPasswordAvailable is used to navigate to reset password screen
     if the app is quit in the process of forgot password feature
     */
-    isResetPasswordAvailable: isResetPasswordAvailable,
-  ));
+      isResetPasswordAvailable: isResetPasswordAvailable,
+      network: network));
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -68,11 +70,14 @@ class RetailerApp extends StatefulWidget {
   final Flavor flavor;
   final bool isLoggedIn;
   final bool isResetPasswordAvailable;
+  final bool network;
+
   const RetailerApp(
       {super.key,
       required this.flavor,
       required this.isLoggedIn,
-      required this.isResetPasswordAvailable});
+      required this.isResetPasswordAvailable,
+      required this.network});
 
   @override
   State<RetailerApp> createState() => _RetailerAppState();
@@ -115,12 +120,27 @@ class _RetailerAppState extends State<RetailerApp> {
     });
     switch (_connectionStatus) {
       case [ConnectivityResult.mobile]:
-        getIt<ConnectivityCubit>().updateBottomNavigationIndex(1);
+        // if (getIt<ConnectivityCubit>().getBottomNavigationIndex() != 1) {}
+        var network = await const InternetConnectionUtils().checkconnection();
+        if (network) {
+          getIt<ConnectivityCubit>().updateBottomNavigationIndex(1);
+        } else {
+          getIt<ConnectivityCubit>().updateBottomNavigationIndex(2);
+        }
 
         break;
       case [ConnectivityResult.wifi]:
-        getIt<ConnectivityCubit>().updateBottomNavigationIndex(1);
-
+        // if (getIt<ConnectivityCubit>().getBottomNavigationIndex() != 1) {
+        //   getIt<ConnectivityCubit>().updateBottomNavigationIndex(1);
+        // }
+        var network = await const InternetConnectionUtils().checkconnection();
+        print(network);
+        print("sdfjhbsjdsdfjshdgbv");
+        if (network) {
+          getIt<ConnectivityCubit>().updateBottomNavigationIndex(1);
+        } else {
+          getIt<ConnectivityCubit>().updateBottomNavigationIndex(2);
+        }
         break;
       case [ConnectivityResult.none]:
         getIt<ConnectivityCubit>().updateBottomNavigationIndex(2);
@@ -169,6 +189,8 @@ class _RetailerAppState extends State<RetailerApp> {
     return BlocBuilder<ConnectivityCubit, dynamic>(
         bloc: getIt<ConnectivityCubit>(),
         builder: (BuildContext context, dynamic cubitIndex) {
+          print(cubitIndex);
+          print("dfhgvshdfgbvsvgbd");
           if (cubitIndex == 2) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               retailerAppLevelKey.currentState
@@ -195,7 +217,7 @@ class _RetailerAppState extends State<RetailerApp> {
             title: widget.flavor.appTitle,
             onGenerateRoute: (_) {
               return AppRouter.generateRoute(_, widget.isLoggedIn,
-                  widget.isResetPasswordAvailable, cubitIndex);
+                  widget.isResetPasswordAvailable, cubitIndex, widget.network);
             },
             initialRoute: RoutePaths.homeScreen,
             theme: AppThemeData.lightTheme,
@@ -218,6 +240,8 @@ class _RetailerAppState extends State<RetailerApp> {
       getIt<BottomNavigationCubit>().updateBottomNavigationIndex(4);
     }
   }
+
+  // Future<void> fetchData() async {}
 }
 
 class NoInternetPage extends StatefulWidget {
@@ -281,48 +305,45 @@ class _NoInternetPageState extends State<NoInternetPage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      message,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w600, fontSize: 16),
+                    const Text(
+                      'No Internet Connection',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                     ),
                     const SizedBox(
                       height: 2,
                     ),
-                    Text(message != 'Connection Established'
-                        ? 'Please connect to the internet and try again'
-                        : 'ready to load page'),
+                    const Text('Please connect to the internet and try again'),
                     const SizedBox(
                       height: 20,
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        if (getIt<ConnectivityCubit>()
-                                .getBottomNavigationIndex() ==
-                            1) {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              });
-
-                          print("sdxcsdsddxc");
+                        var network = await const InternetConnectionUtils()
+                            .checkconnection();
+                        if (network) {
+                          getIt<ConnectivityCubit>()
+                              .updateBottomNavigationIndex(1);
                           final autoLoginUtils = getIt<AutoLoginUtils>();
                           final isUserSessionAvailable =
                               await autoLoginUtils.isUserLoggedIn();
-                          print(isUserSessionAvailable);
-                          print("sdfsdcs");
+
                           if (isUserSessionAvailable != false) {
                             final islogin =
                                 await autoLoginUtils.checkTokenExpiration();
+
+                            // Navigator.pop(context);
                             Navigator.pushReplacementNamed(
                                 context, RoutePaths.homeScreen);
                           } else {
+                            // Navigator.pop(context);
                             Navigator.pushReplacementNamed(
                                 context, RoutePaths.homeScreen);
                           }
+                        } else {
+                          cubitIndex = 2;
+                          // getIt<ConnectivityCubit>()
+                          //     .updateBottomNavigationIndex(2);
                         }
                       },
                       style: ElevatedButton.styleFrom(

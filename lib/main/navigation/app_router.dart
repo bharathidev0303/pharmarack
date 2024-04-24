@@ -40,175 +40,181 @@ import 'package:pharmarack/view/onboarding/presentation/pages/retailer_registrat
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings, bool isLoggedIn,
-      bool isResetPasswordAvailable, int cubitIndex) {
-    switch (settings.name) {
-      case RoutePaths.loginScreen:
-        return MaterialPageRoute(
-            builder: (context) => const LoginScreen(),
-            settings: const RouteSettings(name: RoutePaths.loginScreen));
-      case RoutePaths.landingPage:
-        return MaterialPageRoute(builder: (context) => const LandingPage());
-      case RoutePaths.homeScreen:
-        if (cubitIndex != 2) {
-          if (isLoggedIn) {
-            return MaterialPageRoute(
-                builder: (context) => const LandingPage(),
-                settings:
-                    const RouteSettings(name: RoutePaths.dashBoardScreen));
-          } else if (isResetPasswordAvailable) {
-            return MaterialPageRoute(
-                builder: (context) => const ResetPasswordScreen(),
-                settings:
-                    const RouteSettings(name: RoutePaths.resetPasswordScreen));
+      bool isResetPasswordAvailable, int cubitIndex, bool network) {
+    if (cubitIndex == 2) {
+      return MaterialPageRoute(builder: (context) => const NoInternetPage());
+    } else if ((cubitIndex == 2 || cubitIndex == 0) && !network) {
+      return MaterialPageRoute(builder: (context) => const NoInternetPage());
+    } else {
+      switch (settings.name) {
+        case RoutePaths.loginScreen:
+          return MaterialPageRoute(
+              builder: (context) => const LoginScreen(),
+              settings: const RouteSettings(name: RoutePaths.loginScreen));
+        case RoutePaths.landingPage:
+          return MaterialPageRoute(builder: (context) => const LandingPage());
+        case RoutePaths.homeScreen:
+          if (cubitIndex != 2) {
+            if (isLoggedIn) {
+              return MaterialPageRoute(
+                  builder: (context) => const LandingPage(),
+                  settings:
+                      const RouteSettings(name: RoutePaths.dashBoardScreen));
+            } else if (isResetPasswordAvailable) {
+              return MaterialPageRoute(
+                  builder: (context) => const ResetPasswordScreen(),
+                  settings: const RouteSettings(
+                      name: RoutePaths.resetPasswordScreen));
+            } else {
+              return MaterialPageRoute(
+                  builder: (context) => const LoginScreen(),
+                  settings: const RouteSettings(name: RoutePaths.loginScreen));
+            }
           } else {
             return MaterialPageRoute(
-                builder: (context) => const LoginScreen(),
-                settings: const RouteSettings(name: RoutePaths.loginScreen));
+                builder: (context) => const NoInternetPage());
           }
-        } else {
+        case RoutePaths.dashBoardScreen:
           return MaterialPageRoute(
-              builder: (context) => const NoInternetPage());
-        }
-      case RoutePaths.dashBoardScreen:
-        return MaterialPageRoute(
-          builder: (context) => const LandingPage(),
-          settings: const RouteSettings(name: RoutePaths.dashBoardScreen),
-        );
-      case RoutePaths.noInternet:
-        return MaterialPageRoute(
-          builder: (context) => const NoInternetPage(),
-        );
-      case RoutePaths.profileScreen:
-        return MaterialPageRoute(
-          builder: (context) => const ProfilePage(),
-        );
-      case RoutePaths.distributorConnection:
-        return MaterialPageRoute(
-          builder: (context) => const DistributorConnectionPage(),
-          settings: settings,
-        );
-      // case RoutePaths.fulfilmentPartner:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const FulfilmentPartnerPage("retailer"),
-      //     settings: const RouteSettings(name: RoutePaths.fulfilmentPartner),
-      //   );
-      case RoutePaths.forgotPasswordOtpScreen:
-        return MaterialPageRoute(
-            builder: (context) => const ForgotPasswordOtpScreen(),
-            settings:
-                const RouteSettings(name: RoutePaths.forgotPasswordOtpScreen));
-      case RoutePaths.deleteAccountOtpScreen:
-        return MaterialPageRoute(
-            builder: (context) => const DeleteAccountOtpScreen(),
-            settings:
-                const RouteSettings(name: RoutePaths.deleteAccountOtpScreen));
-      case RoutePaths.onBoardingOtp:
-        return MaterialPageRoute(builder: (context) => const OtpScreen());
-      case RoutePaths.resetPasswordScreen:
-        return MaterialPageRoute(
-            builder: (context) => const ResetPasswordScreen(),
-            settings:
-                const RouteSettings(name: RoutePaths.resetPasswordScreen));
-      case RoutePaths.orderHistory:
-        return MaterialPageRoute(
-            builder: (context) => const OrderHistoryPage());
-      case RoutePaths.forgotPasswordScreen:
-        return MaterialPageRoute(
-            builder: (context) => const ForgotPasswordScreen(),
-            settings:
-                const RouteSettings(name: RoutePaths.forgotPasswordScreen));
-      // case RoutePaths.mapping:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const MappingPage(),
-      //     settings: const RouteSettings(name: RoutePaths.mapping),
-      //   );
-      // case RoutePaths.settings:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const SettingsPage(),
-      //   );
+            builder: (context) => const LandingPage(),
+            settings: const RouteSettings(name: RoutePaths.dashBoardScreen),
+          );
+        case RoutePaths.noInternet:
+          return MaterialPageRoute(
+            builder: (context) => const NoInternetPage(),
+          );
+        case RoutePaths.profileScreen:
+          return MaterialPageRoute(
+            builder: (context) => const ProfilePage(),
+          );
+        case RoutePaths.distributorConnection:
+          return MaterialPageRoute(
+            builder: (context) => const DistributorConnectionPage(),
+            settings: settings,
+          );
+        // case RoutePaths.fulfilmentPartner:
+        //   return MaterialPageRoute(
+        //     builder: (context) => const FulfilmentPartnerPage("retailer"),
+        //     settings: const RouteSettings(name: RoutePaths.fulfilmentPartner),
+        //   );
+        case RoutePaths.forgotPasswordOtpScreen:
+          return MaterialPageRoute(
+              builder: (context) => const ForgotPasswordOtpScreen(),
+              settings: const RouteSettings(
+                  name: RoutePaths.forgotPasswordOtpScreen));
+        case RoutePaths.deleteAccountOtpScreen:
+          return MaterialPageRoute(
+              builder: (context) => const DeleteAccountOtpScreen(),
+              settings:
+                  const RouteSettings(name: RoutePaths.deleteAccountOtpScreen));
+        case RoutePaths.onBoardingOtp:
+          return MaterialPageRoute(builder: (context) => const OtpScreen());
+        case RoutePaths.resetPasswordScreen:
+          return MaterialPageRoute(
+              builder: (context) => const ResetPasswordScreen(),
+              settings:
+                  const RouteSettings(name: RoutePaths.resetPasswordScreen));
+        case RoutePaths.orderHistory:
+          return MaterialPageRoute(
+              builder: (context) => const OrderHistoryPage());
+        case RoutePaths.forgotPasswordScreen:
+          return MaterialPageRoute(
+              builder: (context) => const ForgotPasswordScreen(),
+              settings:
+                  const RouteSettings(name: RoutePaths.forgotPasswordScreen));
+        // case RoutePaths.mapping:
+        //   return MaterialPageRoute(
+        //     builder: (context) => const MappingPage(),
+        //     settings: const RouteSettings(name: RoutePaths.mapping),
+        //   );
+        // case RoutePaths.settings:
+        //   return MaterialPageRoute(
+        //     builder: (context) => const SettingsPage(),
+        //   );
 
-      // case RoutePaths.viewBouncedOrderDetails:
-      //   return MaterialPageRoute(
-      //       builder: (context) => const ViewBouncedOrderDetailsPage("orderId"));
+        // case RoutePaths.viewBouncedOrderDetails:
+        //   return MaterialPageRoute(
+        //       builder: (context) => const ViewBouncedOrderDetailsPage("orderId"));
 
-      case RoutePaths.changePasswordDialogScreen:
-        return MaterialPageRoute(
-            builder: (context) => const ChangePasswordDialogScreen(),
-            settings: const RouteSettings(
-                name: RoutePaths.changePasswordDialogScreen));
-      // case RoutePaths.notifications:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const NotificationsScreen(),
-      //   );
+        case RoutePaths.changePasswordDialogScreen:
+          return MaterialPageRoute(
+              builder: (context) => const ChangePasswordDialogScreen(),
+              settings: const RouteSettings(
+                  name: RoutePaths.changePasswordDialogScreen));
+        // case RoutePaths.notifications:
+        //   return MaterialPageRoute(
+        //     builder: (context) => const NotificationsScreen(),
+        //   );
 
-      case RoutePaths.orderHistoryDetail:
-        return MaterialPageRoute(
-          builder: (context) => const OrderDetailsPage(),
-        );
-      case RoutePaths.retailerRegistration:
-        return MaterialPageRoute(
-          builder: (context) => const RetailerRegistrationLandingScreen(),
-        );
-      case RoutePaths.retailerRegistrationStepOne:
-        return MaterialPageRoute(
-          builder: (context) => const RetailerRegistrationStepOneScreen(),
-        );
-      case RoutePaths.retailerRegistrationStepTwo:
-        return MaterialPageRoute(
-          builder: (context) => const RetailerRegistrationStepTwoScreen(),
-        );
-      case RoutePaths.retailerRegistrationStepThree:
-        return MaterialPageRoute(
-          builder: (context) => const RetailerRegistrationStepThreeScreen(),
-        );
-      case RoutePaths.rewards:
-        return MaterialPageRoute(
-          builder: (context) => const RewardsPage(),
-        );
-      // case RoutePaths.termsAndConditions:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const TermsAndConditionPage(),
-      //   );
-      case RoutePaths.placeOrderSuccessFulPage:
-        return MaterialPageRoute(
-            builder: (context) => const PlaceOrderSuccessfulPage(),
-            settings:
-                const RouteSettings(name: RoutePaths.placeOrderSuccessFulPage));
-      // case RoutePaths.privacyPolicy:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const PrivacyPolicyPage(),
-      //   );
-      case RoutePaths.operationsPage:
-        return MaterialPageRoute(
-          builder: (context) => const OperationsPage(),
-        );
-      case RoutePaths.searchProduct:
-        return MaterialPageRoute(
-          builder: (context) => const SearchProductPage(),
-          settings: const RouteSettings(arguments: 0),
-        );
-      // case RoutePaths.browseCompaniesPage:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const BrowseCompaniesPage(),
-      //   );
-      case RoutePaths.feedbackRequestDialogScreen:
-        return MaterialPageRoute(
-          builder: (context) => const FeedbackRequestDialogScreen(),
-        );
-      case RoutePaths.cart:
-        return MaterialPageRoute(
-          builder: (context) => const CartDetailPage(),
-        );
-      case RoutePaths.editProfilePage:
-        return MaterialPageRoute(
-          builder: (context) => const EditProfileScreen(),
-          settings: const RouteSettings(name: RoutePaths.editProfilePage),
-        );
-      // //Page not found
-      default:
-        return MaterialPageRoute(
-          builder: (context) => Container(),
-        );
+        case RoutePaths.orderHistoryDetail:
+          return MaterialPageRoute(
+            builder: (context) => const OrderDetailsPage(),
+          );
+        case RoutePaths.retailerRegistration:
+          return MaterialPageRoute(
+            builder: (context) => const RetailerRegistrationLandingScreen(),
+          );
+        case RoutePaths.retailerRegistrationStepOne:
+          return MaterialPageRoute(
+            builder: (context) => const RetailerRegistrationStepOneScreen(),
+          );
+        case RoutePaths.retailerRegistrationStepTwo:
+          return MaterialPageRoute(
+            builder: (context) => const RetailerRegistrationStepTwoScreen(),
+          );
+        case RoutePaths.retailerRegistrationStepThree:
+          return MaterialPageRoute(
+            builder: (context) => const RetailerRegistrationStepThreeScreen(),
+          );
+        case RoutePaths.rewards:
+          return MaterialPageRoute(
+            builder: (context) => const RewardsPage(),
+          );
+        // case RoutePaths.termsAndConditions:
+        //   return MaterialPageRoute(
+        //     builder: (context) => const TermsAndConditionPage(),
+        //   );
+        case RoutePaths.placeOrderSuccessFulPage:
+          return MaterialPageRoute(
+              builder: (context) => const PlaceOrderSuccessfulPage(),
+              settings: const RouteSettings(
+                  name: RoutePaths.placeOrderSuccessFulPage));
+        // case RoutePaths.privacyPolicy:
+        //   return MaterialPageRoute(
+        //     builder: (context) => const PrivacyPolicyPage(),
+        //   );
+        case RoutePaths.operationsPage:
+          return MaterialPageRoute(
+            builder: (context) => const OperationsPage(),
+          );
+        case RoutePaths.searchProduct:
+          return MaterialPageRoute(
+            builder: (context) => const SearchProductPage(),
+            settings: const RouteSettings(arguments: 0),
+          );
+        // case RoutePaths.browseCompaniesPage:
+        //   return MaterialPageRoute(
+        //     builder: (context) => const BrowseCompaniesPage(),
+        //   );
+        case RoutePaths.feedbackRequestDialogScreen:
+          return MaterialPageRoute(
+            builder: (context) => const FeedbackRequestDialogScreen(),
+          );
+        case RoutePaths.cart:
+          return MaterialPageRoute(
+            builder: (context) => const CartDetailPage(),
+          );
+        case RoutePaths.editProfilePage:
+          return MaterialPageRoute(
+            builder: (context) => const EditProfileScreen(),
+            settings: const RouteSettings(name: RoutePaths.editProfilePage),
+          );
+        // //Page not found
+        default:
+          return MaterialPageRoute(
+            builder: (context) => Container(),
+          );
+      }
     }
   }
 

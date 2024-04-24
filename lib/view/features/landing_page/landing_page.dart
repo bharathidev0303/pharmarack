@@ -44,49 +44,29 @@ class LandingPageState extends State<LandingPage> {
     return BlocBuilder<BottomNavigationCubit, int>(
       bloc: getIt<BottomNavigationCubit>(),
       builder: (BuildContext context, int cubitIndex) {
-        final GlobalKey<NavigatorState> navigatorKey =
-            GlobalKey<NavigatorState>();
         final rootWidget = getCurrentNavigationWidget(cubitIndex);
         return WillPopScope(
-            onWillPop: () async {
-              final int tabIndex = _getSelectedTabIndex();
-              final isNestedRoutePopped = await navigatorKey.currentState!
-                  .maybePop(); // returns true if popped
-              if (isNestedRoutePopped) {
-                return false; // don't exit the app
-              } else if (tabIndex == _defaultIndex) {
-                return true; // exit the app when we're already on the 'main' tab
-              } else {
-                _goToDashboard();
-                return false;
-              }
-            },
-            child: Scaffold(
-              bottomNavigationBar: SafeArea(
-                child: AppBottomNavigationBar(
-                  defaultIndex: cubitIndex,
-                  onSelectedIndex: (index) {
-                    getIt<BottomNavigationCubit>()
-                        .updateBottomNavigationIndex(index);
-                  },
-                ),
-              ),
-              // ignore: deprecated_member_use
-              body: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    child: _PageRouter(
-                      navigatorKey: navigatorKey,
-                      rootWidget: rootWidget,
-                    ),
-                  ),
-                  rootWidget is CartDetailPage
-                      ? const SizedBox()
-                      : const DraggableCartPage(),
-                ],
-              ),
-            ));
+          onWillPop: () async {
+            final int tabIndex = _getSelectedTabIndex();
+            final isNestedRoutePopped = await _navigatorKeys[tabIndex]
+                .currentState!
+                .maybePop(); // returns true if popped
+            if (isNestedRoutePopped) {
+              return false; // don't exit the app
+            } else if (tabIndex == 0) {
+              return true; // exit the app when we're already on the 'main' tab
+            } else if (tabIndex == _defaultIndex) {
+              return true; // exit the app when we're already on the 'main' tab
+            } else {
+              _goToDashboard();
+              return false;
+            }
+          },
+          child: _PageRouter(
+            navigatorKey: _navigatorKeys[cubitIndex],
+            rootWidget: rootWidget,
+          ),
+        );
       },
     );
   }
@@ -95,12 +75,87 @@ class LandingPageState extends State<LandingPage> {
 
   Widget getCurrentNavigationWidget(int index) {
     List<Widget> navigationWidgets = [
-      const DashboardScreenPage(),
-      const BrowseCompaniesPage(),
-      const OrderHistoryPage(),
-      const ProfilePage(),
-      const CartDetailPage(),
-
+      Scaffold(
+          bottomNavigationBar: SafeArea(
+            child: AppBottomNavigationBar(
+              defaultIndex: index,
+              onSelectedIndex: (index) {
+                getIt<BottomNavigationCubit>()
+                    .updateBottomNavigationIndex(index);
+              },
+            ),
+          ),
+          // ignore: deprecated_member_use
+          body: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(child: DashboardScreenPage()),
+              DraggableCartPage(),
+            ],
+          )),
+      Scaffold(
+          bottomNavigationBar: SafeArea(
+            child: AppBottomNavigationBar(
+              defaultIndex: index,
+              onSelectedIndex: (index) {
+                getIt<BottomNavigationCubit>()
+                    .updateBottomNavigationIndex(index);
+              },
+            ),
+          ),
+          // ignore: deprecated_member_use
+          body: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(child: BrowseCompaniesPage()),
+              DraggableCartPage(),
+            ],
+          )),
+      Scaffold(
+          bottomNavigationBar: SafeArea(
+            child: AppBottomNavigationBar(
+              defaultIndex: index,
+              onSelectedIndex: (index) {
+                getIt<BottomNavigationCubit>()
+                    .updateBottomNavigationIndex(index);
+              },
+            ),
+          ),
+          body: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(child: OrderHistoryPage()),
+              DraggableCartPage(),
+            ],
+          )),
+      Scaffold(
+          bottomNavigationBar: SafeArea(
+            child: AppBottomNavigationBar(
+              defaultIndex: index,
+              onSelectedIndex: (index) {
+                getIt<BottomNavigationCubit>()
+                    .updateBottomNavigationIndex(index);
+              },
+            ),
+          ),
+          body: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(child: ProfilePage()),
+              DraggableCartPage(),
+            ],
+          )),
+      Scaffold(
+          bottomNavigationBar: SafeArea(
+            child: AppBottomNavigationBar(
+              defaultIndex: index,
+              onSelectedIndex: (index) {
+                getIt<BottomNavigationCubit>()
+                    .updateBottomNavigationIndex(index);
+              },
+            ),
+          ),
+          body: const CartDetailPage()),
       // ignore: deprecated_member_use
     ];
     return navigationWidgets[index];
@@ -142,8 +197,7 @@ class _PageRouter extends StatelessWidget {
             } else {
               widget = AppRouter.getWidgetByRoute(settings.name);
             }
-            print(widget);
-            print("sdnbvsbn");
+
             return widget;
           },
         );
