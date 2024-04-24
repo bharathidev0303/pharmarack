@@ -134,17 +134,17 @@ class PlaceOrderSuccessfulPageState extends State<PlaceOrderSuccessfulPage> {
       ),
       child: Column(
         children: [
-          displayStoreOrder.orderId != 0
-              ? Align(
-                  alignment: Alignment.topRight,
-                  child: InkWell(
-                      onTap: () {
-                        shareLink(
-                            "https://pharmretail-modernization-dev-api.pharmarack.com/order/api/v1/downloadInvoice?orderId=${displayStoreOrder.orderId}");
-                      },
-                      child: AppAssets.svg.icShare.svg()),
-                )
-              : const SizedBox.shrink(),
+          // displayStoreOrder.orderId != 0
+          //     ? Align(
+          //         alignment: Alignment.topRight,
+          //         child: InkWell(
+          //             onTap: () {
+          //               shareLink(
+          //                   "https://pharmretail-modernization-dev-api.pharmarack.com/order/api/v1/downloadInvoice?orderId=${displayStoreOrder.orderId}");
+          //             },
+          //             child: AppAssets.svg.icShare.svg()),
+          //       )
+          //     : const SizedBox.shrink(),
           AppAssets.svg.icSuccess.svg(),
           Text(
             context.localizedString.placedOrders.replaceAll('#', ''),

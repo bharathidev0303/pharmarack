@@ -3166,7 +3166,7 @@ abstract class AppLocalizations {
   /// No description provided for @failedToPreviouspasswordChanage.
   ///
   /// In en, this message translates to:
-  /// **'You have already used this password'**
+  /// **'New password should not be same as any of the last 5 passwords'**
   String get failedToPreviouspasswordChanage;
 
   /// No description provided for @applicationNotAvailable.

@@ -1578,7 +1578,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get partyLockedDistributor => 'Dear Retailer, the selected distributor has locked you. We can\'t show any products or deals from this distributor, please select other distributor to continue!';
 
   @override
-  String get failedToPreviouspasswordChanage => 'You have already used this password';
+  String get failedToPreviouspasswordChanage => 'New password should not be same as any of the last 5 passwords';
 
   @override
   String get applicationNotAvailable => 'This application is currently not available in your region. Please download the alternate version of Pharmarack to proceed';
