@@ -6,6 +6,7 @@ import 'package:pharmarack/packages/core_flutter/core/base_usecase/base_usecase.
 import 'package:pharmarack/packages/core_flutter/core/base_usecase/params.dart';
 import 'package:pharmarack/packages/core_flutter/error/base_error.dart';
 import 'package:pharmarack/view/onboarding/data/entities/retailer_Image_upload_entity.dart';
+import 'package:pharmarack/view/onboarding/di/onboarding_provider.dart';
 import 'package:pharmarack/view/onboarding/domain/model/registration_model.dart';
 import 'package:pharmarack/view/onboarding/domain/model/registration_response_model.dart';
 import 'package:pharmarack/view/onboarding/domain/repository/onboarding_repository.dart';
@@ -126,8 +127,9 @@ class RetailerRegistrationUserCase extends BaseUseCase<BaseError,
   Future<Either<BaseError, RegistrationResponseModel>> execute(
       {required params}) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    String oneSignal = pref.get('oneSignalId').toString();
-
+    String oneSignal = pref.get('oneSignalId').toString() == ""
+        ? getOneSignalId()
+        : pref.get('oneSignalId').toString();
     return _onboardingRepository.registerRetailer(
         getRequestString(oneSignal, params.druglicenseEntity));
   }

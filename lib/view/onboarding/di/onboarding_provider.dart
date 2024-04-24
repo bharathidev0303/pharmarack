@@ -419,3 +419,12 @@ Future<void> initOneSignal() async {
 
   await OneSignal.Notifications.requestPermission(true);
 }
+
+getOneSignalId() async {
+  OneSignal.initialize(OnboardingConstants.oneSignalDashboardKey);
+  Future.delayed(const Duration(seconds: 3), () {
+    final id = OneSignal.User.pushSubscription.id;
+    return id;
+  });
+  await OneSignal.Notifications.requestPermission(true);
+}
