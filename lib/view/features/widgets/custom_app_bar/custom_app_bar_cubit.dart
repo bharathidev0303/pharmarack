@@ -21,6 +21,10 @@ class CustomAppBarCubit extends Cubit<CustomAppBarState> {
     emit(StartProductSearch(isStarted: isTapped));
   }
 
+  productTextTyped({required bool isTyped}) {
+    emit(StartProductTyped(isTyped: isTyped));
+  }
+
   queryForDropDown(String query) {
     emit(QueryForDropDownState(query: query));
   }

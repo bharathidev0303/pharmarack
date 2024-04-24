@@ -30,6 +30,8 @@ class SearchProductCubit extends Cubit<SearchProductState> {
   late String selectedCompanyId = '';
   late String selectedCompanyName = '';
   SearchProductListModel? productListModel;
+  List<SearchProductListModel> searchProductList = [];
+  List<LoginResponseStores> distributors = [];
 
   SearchProductCubit(
     SearchProductUseCase searchProductUseCase,
@@ -138,14 +140,10 @@ class SearchProductCubit extends Cubit<SearchProductState> {
         emit(SearchProductErrorMessageState(l.error.message));
       }, (r) {
         if (r.productList?.isNotEmpty ?? false) {
-          _filterSearchProductUseCase.updateProductLists(r.productList ?? []);
-          final filteredList = _filterSearchProductUseCase.filterList();
-          filteredList.fold(
-              (l) =>
-                  emit(SearchProductErrorMessageState(l.getFriendlyMessage())),
-              (r) => emit(SearchProductFilteredDataState(r[0], r[1])));
+          searchProductList = r.productList!;
+          refreshProductList();
         } else {
-          emit(const SearchProductFilteredDataState([], []));
+          emit(SearchProductDataEmptyListState());
         }
       });
     } catch (e) {
@@ -180,15 +178,15 @@ class SearchProductCubit extends Cubit<SearchProductState> {
       response.fold((l) {
         emit(SearchProductErrorMessageState(l.error.message));
       }, (r) {
-        if (r.productList?.isNotEmpty ?? false) {
-          _filterSearchProductUseCase.updateProductLists(r.productList ?? []);
-          final filteredList = _filterSearchProductUseCase.filterList();
-          filteredList.fold(
-              (l) =>
-                  emit(SearchProductErrorMessageState(l.getFriendlyMessage())),
-              (r) => emit(SearchProductFilteredDataState(r[0], r[1])));
+        if (searchQuery.isNotEmpty) {
+          if (r.productList?.isNotEmpty ?? false) {
+            searchProductList = r.productList!;
+            refreshProductList();
+          } else {
+            emit(SearchProductDataEmptyListState());
+          }
         } else {
-          emit(const SearchProductFilteredDataState([], []));
+          emit(SearchProductInitialState());
         }
       });
     } catch (e) {
@@ -224,14 +222,10 @@ class SearchProductCubit extends Cubit<SearchProductState> {
         emit(SearchProductErrorMessageState(l.error.message));
       }, (r) {
         if (r.productList?.isNotEmpty ?? false) {
-          _filterSearchProductUseCase.updateProductLists(r.productList ?? []);
-          final filteredList = _filterSearchProductUseCase.filterList();
-          filteredList.fold(
-              (l) =>
-                  emit(SearchProductErrorMessageState(l.getFriendlyMessage())),
-              (r) => emit(SearchProductFilteredDataState(r[0], r[1])));
+          searchProductList = r.productList!;
+          refreshProductList();
         } else {
-          emit(const SearchProductFilteredDataState([], []));
+          emit(SearchProductDataEmptyListState());
         }
       });
     } catch (e) {
@@ -268,31 +262,31 @@ class SearchProductCubit extends Cubit<SearchProductState> {
     }
   }
 
-  String getStoreIds(String allStoreIds) {
-    if (allStoreIds.isEmpty) {
-      String mapped = _filterSearchProductUseCase.getMappedStoreIds();
-      String nonMapped = _filterSearchProductUseCase.getNonMappedStoreIds();
-      if (nonMapped.isNotEmpty) {
-        mapped = '$mapped,$nonMapped';
-      }
-      return mapped;
-    }
-    if (filtersMapForApiRequest[
-            "${FilterType.distributors.name}#${FilterType.AllDistributors.name}"] ??
-        true) {
-      return allStoreIds;
-    } else if (filtersMapForApiRequest[
-            "${FilterType.distributors.name}#${FilterType.MappedDistributors.name}"] ??
-        false) {
-      return _filterSearchProductUseCase.getMappedStoreIds();
-    } else if (filtersMapForApiRequest[
-            "${FilterType.distributors.name}#${FilterType.NonMappedDistributors.name}"] ??
-        false) {
-      return _filterSearchProductUseCase.getNonMappedStoreIds();
-    } else {
-      return allStoreIds;
-    }
-  }
+  // String getStoreIds(String allStoreIds) {
+  //   if (allStoreIds.isEmpty) {
+  //     String mapped = _filterSearchProductUseCase.getMappedStoreIds();
+  //     String nonMapped = _filterSearchProductUseCase.getNonMappedStoreIds();
+  //     if (nonMapped.isNotEmpty) {
+  //       mapped = '$mapped,$nonMapped';
+  //     }
+  //     return mapped;
+  //   }
+  //   if (filtersMapForApiRequest[
+  //           "${FilterType.distributors.name}#${FilterType.AllDistributors.name}"] ??
+  //       true) {
+  //     return allStoreIds;
+  //   } else if (filtersMapForApiRequest[
+  //           "${FilterType.distributors.name}#${FilterType.MappedDistributors.name}"] ??
+  //       false) {
+  //     return _filterSearchProductUseCase.getMappedStoreIds();
+  //   } else if (filtersMapForApiRequest[
+  //           "${FilterType.distributors.name}#${FilterType.NonMappedDistributors.name}"] ??
+  //       false) {
+  //     return _filterSearchProductUseCase.getNonMappedStoreIds();
+  //   } else {
+  //     return allStoreIds;
+  //   }
+  // }
 
   void addInitialData() {
     if (filtersMap.isEmpty) {
@@ -428,24 +422,6 @@ class SearchProductCubit extends Cubit<SearchProductState> {
     }
   }
 
-  void resetFilters() {
-    filtersMap.clear();
-    filtersMapForApiRequest.clear();
-    addInitialData();
-    if (state is CompanyFiltersDataState) {
-      CompanyFiltersDataState currentState = (state as CompanyFiltersDataState);
-      List<Company> allCompanies =
-          currentState.moleculeAndCompanyModel.company ?? List.empty();
-      for (int i = 0; i < allCompanies.length; i++) {
-        if (allCompanies[i].isChecked = true) {
-          allCompanies[i] = allCompanies[i].copyWith(isChecked: true);
-        }
-      }
-      emit(CompanyFiltersDataState(
-          MoleculeAndCompanyModel().copyWith(company: allCompanies)));
-    }
-  }
-
   void updateDialogProductData(SearchProductListModel data) {
     productListModel = data;
   }
@@ -454,5 +430,21 @@ class SearchProductCubit extends Cubit<SearchProductState> {
     emit(SearchProductLoadingState());
     await Future.delayed(const Duration(milliseconds: 500));
     emit(SearchProductErrorState());
+  }
+
+  void refreshProductList() {
+    _filterSearchProductUseCase.updateProductLists(searchProductList);
+    final filteredList = _filterSearchProductUseCase.filterList(
+        filtersMapForApiRequest, distributors);
+    filteredList.fold(
+        (l) => emit(SearchProductErrorMessageState(l.getFriendlyMessage())),
+        (r) => emit(SearchProductFilteredDataState(r[0], r[1])));
+  }
+
+  void resetFilters() {
+    filtersMap.clear();
+    filtersMapForApiRequest.clear();
+    addInitialData();
+    refreshProductList();
   }
 }

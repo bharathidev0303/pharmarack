@@ -22,6 +22,11 @@ class StartProductSearch extends CustomAppBarState {
   const StartProductSearch({this.isStarted = false});
 }
 
+class StartProductTyped extends CustomAppBarState {
+  final bool isTyped;
+  const StartProductTyped({this.isTyped = false});
+}
+
 class DropDownArrowTapped extends CustomAppBarState {
   final bool isTapped;
   const DropDownArrowTapped({this.isTapped = false});

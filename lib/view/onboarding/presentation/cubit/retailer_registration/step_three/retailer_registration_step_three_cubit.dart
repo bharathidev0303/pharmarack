@@ -99,6 +99,10 @@ class RetailerRegistrationStepThreeCubit
     DioInterceptor.updateHeaders(
         onboardingDI<Dio>(instanceName: AppConstants.legacyBaseUrlDioConstant),
         {"Authorizationdetails": 'Basic $userEncodedInfo'});
+    DioInterceptor.updateHeaders(
+        onboardingDI<Dio>(
+            instanceName: AppConstants.cmsGatewayBaseUrlDioConstant),
+        {"Authorizationdetails": 'Basic $userEncodedInfo'});
     final response = await _storeHeaderUseCase.execute(
         params: StoreHeaderParams(userEncodedInfo));
     response.fold((l) {

@@ -47,6 +47,8 @@ class SearchProductListModel {
   String? rStockVisibility;
   int? isPartyLocked;
   int? isPartyLockedSoonByDist;
+  int? storePriority;
+  int? isShowNonMappedOrderStock;
 
   SearchProductListModel(
       {this.id,
@@ -80,7 +82,9 @@ class SearchProductListModel {
       this.allowMinQty,
       this.isPartyLocked,
       this.isPartyLockedSoonByDist,
-      this.existingQty});
+      this.existingQty,
+      this.storePriority,
+      this.isShowNonMappedOrderStock});
 
   @override
   String toString() {
@@ -102,6 +106,7 @@ class SearchProductListModel {
     rStockVisibility = json['RStockVisibility'];
     isPartyLocked = json['IsPartyLocked'];
     isPartyLockedSoonByDist = json['IsPartyLockedSoonByDist'];
+    storePriority = json['StorePriority'];
   }
 
   Map<String, dynamic> toJson() {
@@ -120,6 +125,7 @@ class SearchProductListModel {
     data['RStockVisibility'] = rStockVisibility;
     data['IsPartyLocked'] = isPartyLocked;
     data['IsPartyLockedSoonByDist'] = isPartyLockedSoonByDist;
+    data['StorePriority'] = storePriority;
     return data;
   }
 }

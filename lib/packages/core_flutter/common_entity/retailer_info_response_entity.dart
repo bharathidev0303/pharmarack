@@ -308,6 +308,7 @@ class LoginResponseStores {
   int? isPartyLocked;
   @JsonKey(name: "IsPartyLockedSoonByDist")
   int? isPartyLockedSoonByDist;
+  bool? isDistributorCheck;
 
   LoginResponseStores({
     this.storeId,

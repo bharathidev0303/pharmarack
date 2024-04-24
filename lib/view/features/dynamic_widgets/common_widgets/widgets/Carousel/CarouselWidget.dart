@@ -56,7 +56,8 @@ class _CarouselWidgetState extends State<CarouselWidget> {
       padding: const EdgeInsets.only(top: 10.0, bottom: 15.0),
       child: Column(
         children: [
-          widget.carouselData.showTitle
+          widget.carouselData.itemsVisibleMobile != "1" &&
+                  widget.carouselData.showTitle
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -162,82 +163,67 @@ class DynamicCarouselSliderState extends State<DynamicCarouselSlider> {
         padding:
             EdgeInsets.only(top: widget.carouselData.title != "" ? 0.0 : 10.0),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             CarouselSlider.builder(
-                options: CarouselOptions(
-                  autoPlay: widget.carouselData.autoStart ?? false,
-                  enlargeCenterPage: false,
-                  height: (widget.carouselData.carousel[0].mobileAssestDimension
-                          .height) *
-                      0.35,
-                  autoPlayInterval: Duration(
-                      milliseconds: widget.carouselData.duration != ""
-                          ? int.parse(widget.carouselData.duration)
-                          : 5000),
-                  autoPlayAnimationDuration: const Duration(milliseconds: 10),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  viewportFraction: kIsWeb ? 0.3 : 1.0,
-                  onPageChanged: (index, _) {
-                    setState(() {
-                      current = index;
-                    });
-                  },
+              options: CarouselOptions(
+                autoPlay: widget.carouselData.autoStart ?? false,
+                enlargeCenterPage: false,
+                height: kIsWeb
+                    ? 250
+                    : (widget.carouselData.carousel[0].mobileAssestDimension
+                            .height) *
+                        0.37,
+                autoPlayInterval: Duration(
+                  milliseconds: widget.carouselData.duration != ""
+                      ? int.parse(widget.carouselData.duration)
+                      : 5000,
                 ),
-                itemCount: widget.carouselData.carousel.length,
-                itemBuilder: (BuildContext context, int index, int realIndex) {
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: SizedBox(
-                            width: double.infinity,
-                            // borderRadius: BorderRadius.circular(10.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: () => {
-                                      AppRouter.cmsWidgetPageNavigator(
-                                          cmsPageNavigatorModel:
-                                              CmsPageNavigatorModel(
-                                        context: context,
-                                        linkType: carouselItem[index].linkType,
-                                        linkTo: carouselItem[index].linkTo,
-                                        linkToExtra:
-                                            carouselItem[index].linkToExtra,
-                                      )),
-                                    },
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      child: CachedNetworkImage(
-                                        imageUrl: carouselItem[index]
-                                                .mobileAssetUrl ??
-                                            "",
-                                        fit: BoxFit.fill,
-                                        fadeInDuration:
-                                            const Duration(microseconds: 100),
-                                        fadeOutDuration:
-                                            const Duration(microseconds: 100),
-                                        errorWidget: (context, url, error) =>
-                                            Container(
-                                          color: AppColors.appBackgroundColor,
-                                          child: const Center(
-                                            child: Icon(Icons.error),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                autoPlayAnimationDuration: const Duration(milliseconds: 10),
+                autoPlayCurve: Curves.fastOutSlowIn,
+                viewportFraction: kIsWeb ? 0.3 : 1.0,
+                onPageChanged: (index, _) {
+                  setState(() {
+                    current = index;
+                  });
+                },
+              ),
+              itemCount: widget.carouselData.carousel.length,
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
+                  child: InkWell(
+                    onTap: () => {
+                      AppRouter.cmsWidgetPageNavigator(
+                        cmsPageNavigatorModel: CmsPageNavigatorModel(
+                          context: context,
+                          linkType: carouselItem[index].linkType,
+                          linkTo: carouselItem[index].linkTo,
+                          linkToExtra: carouselItem[index].linkToExtra,
+                        ),
+                      ),
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: CachedNetworkImage(
+                        imageUrl: carouselItem[index].mobileAssetUrl ?? "",
+                        fit: BoxFit.fill,
+                        // width: double.infinity,
+                        fadeInDuration: const Duration(microseconds: 100),
+                        fadeOutDuration: const Duration(microseconds: 100),
+                        errorWidget: (context, url, error) => Container(
+                          color: AppColors.appBackgroundColor,
+                          child: const Center(
+                            child: Icon(Icons.error),
                           ),
                         ),
                       ),
-                    ],
-                  );
-                }),
+                    ),
+                  ),
+                );
+              },
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children:

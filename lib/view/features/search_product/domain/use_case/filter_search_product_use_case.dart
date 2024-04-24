@@ -5,6 +5,7 @@ import 'package:pharmarack/packages/core_flutter/error/local_error.dart';
 import 'package:pharmarack/view/dashboard/cart/domain/model/cart_details_model.dart';
 import 'package:pharmarack/view/dashboard/cart/presentation/cubit/draggable_cart/cubit/draggable_cart_cubit.dart';
 import 'package:pharmarack/view/features/distributor_connection/stockiest_priority/domain/model/stockiest_priority_model.dart';
+import 'package:pharmarack/view/features/filters/domain/model/filters/filter_type.dart';
 import 'package:pharmarack/view/features/search_product/domain/model/search_product/search_product_model.dart';
 
 class FilterSearchProductUseCase {
@@ -15,23 +16,8 @@ class FilterSearchProductUseCase {
   static List<StockiestPriorityModel> stockiestPriority = [];
 
   void updateProductLists(List<SearchProductListModel> list) {
-    // List<SearchProductListModel> green=[];
-    // List<SearchProductListModel> blue=[];
-    // List<SearchProductListModel> red=[];
-    //
-    // red.addAll(list.where((element) => element.stock==0 || element.rStockVisibility=='1'));
-    // green.addAll(list.where((element) => element.stock! > 10 && element.rStockVisibility=='0'));
-    // blue.addAll(list.where((element) => element.stock! < 10 && element.stock! >1 && element.rStockVisibility=='0'));
-    //
     productList.clear();
-    productList.addAll(list.where(
-        (element) => element.stock! > 10 && element.rStockVisibility == '0'));
-    productList.addAll(list.where((element) =>
-        element.stock! < 10 &&
-        element.stock! > 1 &&
-        element.rStockVisibility == '0'));
-    productList.addAll(list.where(
-        (element) => element.stock == 0 || element.rStockVisibility == '1'));
+    productList.addAll(list);
   }
 
   void updateStockiestPriorityLists(List<StockiestPriorityModel> list) {
@@ -41,10 +27,11 @@ class FilterSearchProductUseCase {
     stockiestPriority.addAll(list);
   }
 
-  Either<LocalError, List<List<SearchProductListModel>>> filterList() {
+  Either<LocalError, List<List<SearchProductListModel>>> filterList(
+      Map<String, bool> filtersMapForApiRequest,
+      List<LoginResponseStores> distributors) {
     if (productList.isNotEmpty) {
       final List<SearchProductListModel> mappedDistributors = [];
-      //final List<SearchProductListModel> preferredDistributors = [];
       final List<SearchProductListModel> unMappedDistributors = [];
       for (SearchProductListModel product in productList) {
         if (product.isMapped != null && product.isMapped == 1) {
@@ -62,33 +49,151 @@ class FilterSearchProductUseCase {
             unMappedDistributors.add(product);
           }
         }
-
-        // if (product.isMapped != null) {
-        //   if (product.isMapped == 1) {
-        //     mappedDistributors.add(product);
-        //   } else {
-        //     unMappedDistributors.add(product);
-        //   }
-        // } else {
-        //   return Left(LocalError(
-        //       message: 'Mapper not found', localError: 2, cause: Exception()));
-        // }
       }
-      // ///TODO:Need to verify this logic
-      // for (StockiestPriorityModel priorityModel in stockiestPriority) {
-      //   for (SearchProductListModel mappedDistributorsModel
-      //       in mappedDistributors) {
-      //     if (priorityModel.storeId == mappedDistributorsModel.storeId) {
-      //       preferredDistributors.add(mappedDistributorsModel);
-      //     }
-      //   }
-      // }
+      if (filtersMapForApiRequest.isNotEmpty) {
+        List<SearchProductListModel> filterMappedDistributors = [];
+        List<SearchProductListModel> filterUnMappedDistributors = [];
+        bool bothStockAndPriority = filtersMapForApiRequest[
+                "${FilterType.searchBy.name}#${FilterType.BothStockAndPriority.name}"] ??
+            false;
 
-      return Right([mappedDistributors, unMappedDistributors]);
+        bool onlyPriority = filtersMapForApiRequest[
+                "${FilterType.searchBy.name}#${FilterType.OnlyPriority.name}"] ??
+            false;
+
+        bool onlyInStock = filtersMapForApiRequest[
+                "${FilterType.stock.name}#${FilterType.OnlyInStock.name}"] ??
+            false;
+
+        bool onlySchemeProduct = filtersMapForApiRequest[
+                "${FilterType.scheme.name}#${FilterType.OnlySchemeProduct.name}"] ??
+            false;
+
+        if (bothStockAndPriority) {
+          mappedDistributors.sort((a, b) => a.stock!.compareTo(b.stock!));
+          unMappedDistributors.sort((a, b) => a.stock!.compareTo(b.stock!));
+          mappedDistributors
+              .sort((a, b) => a.storePriority!.compareTo(b.storePriority!));
+          unMappedDistributors
+              .sort((a, b) => a.storePriority!.compareTo(b.storePriority!));
+          filterMappedDistributors.addAll(mappedDistributors);
+          filterUnMappedDistributors.addAll(unMappedDistributors);
+        }
+        if (onlyPriority) {
+          mappedDistributors
+              .sort((a, b) => a.storePriority!.compareTo(b.storePriority!));
+          unMappedDistributors
+              .sort((a, b) => a.storePriority!.compareTo(b.storePriority!));
+          filterMappedDistributors.addAll(mappedDistributors);
+          filterUnMappedDistributors.addAll(unMappedDistributors);
+        }
+
+        if (onlyInStock) {
+          List<SearchProductListModel> temp = [];
+          for (var element in filterMappedDistributors) {
+            if (element.stock != null &&
+                element.stock! > 0 &&
+                element.rStockVisibility == '0') {
+              temp.add(element);
+            }
+          }
+          filterMappedDistributors.clear();
+          filterMappedDistributors
+              .addAll(temp as Iterable<SearchProductListModel>);
+          temp.clear();
+
+          for (var element in filterUnMappedDistributors) {
+            if (element.stock != null && element.stock! > 0) {
+              temp.add(element);
+            }
+          }
+          filterUnMappedDistributors.clear();
+          filterUnMappedDistributors
+              .addAll(temp as Iterable<SearchProductListModel>);
+          temp.clear();
+        }
+
+        if (onlySchemeProduct) {
+          List<SearchProductListModel> temp = [];
+          for (var element in filterMappedDistributors) {
+            if (element.scheme != null && element.scheme!.isNotEmpty) {
+              temp.add(element);
+            }
+          }
+          filterMappedDistributors.clear();
+          filterMappedDistributors.addAll(temp);
+          temp.clear();
+
+          for (var element in filterUnMappedDistributors) {
+            if (element.scheme != null && element.scheme!.isNotEmpty) {
+              temp.add(element);
+            }
+          }
+          filterUnMappedDistributors.clear();
+          filterUnMappedDistributors.addAll(temp);
+          temp.clear();
+        }
+
+        if (distributors.isNotEmpty) {
+          var tempStore = [];
+          List<SearchProductListModel> temp = [];
+          var data = distributors
+              .where((element) => element.isDistributorCheck == true);
+          if (data.isNotEmpty) {
+            for (var element in data) {
+              tempStore.add(element.storeId);
+            }
+
+            for (var element in filterMappedDistributors) {
+              if (tempStore.contains(element.storeId)) {
+                temp.add(element);
+              }
+            }
+            filterMappedDistributors.clear();
+            filterMappedDistributors.addAll(temp);
+            temp.clear();
+            for (var element in filterUnMappedDistributors) {
+              if (tempStore.contains(element.storeId)) {
+                temp.add(element);
+              }
+            }
+            filterUnMappedDistributors.clear();
+            filterUnMappedDistributors.addAll(temp);
+            temp.clear();
+          }
+        }
+        return Right([
+          sortProductListAsPerStock(filterMappedDistributors),
+          sortProductListAsPerStock(filterUnMappedDistributors)
+        ]);
+      }
+      return Right([
+        sortProductListAsPerStock(mappedDistributors),
+        sortProductListAsPerStock(unMappedDistributors)
+      ]);
     } else {
       return Left(LocalError(
           message: 'List is empty', localError: 2, cause: Exception()));
     }
+  }
+
+  List<SearchProductListModel> sortProductListAsPerStock(
+      List<SearchProductListModel> list) {
+    List<SearchProductListModel> tempList = [];
+    tempList.addAll(list.where((element) =>
+        element.stock! > 10 &&
+        element.rStockVisibility == '0' &&
+        element.isShowNonMappedOrderStock == 0));
+    tempList.addAll(list.where((element) =>
+        element.stock! < 10 &&
+        element.stock! > 1 &&
+        element.rStockVisibility == '0' &&
+        element.isShowNonMappedOrderStock == 0));
+    tempList.addAll(list.where((element) =>
+        element.stock == 0 ||
+        element.rStockVisibility == '1' ||
+        element.isShowNonMappedOrderStock == 1));
+    return tempList;
   }
 
   int? getExistingProductQty(String productCode) {
@@ -113,46 +218,5 @@ class FilterSearchProductUseCase {
       }
     }
     return false;
-  }
-
-  String getStoreIds() {
-    final fullStoresList = getIt<RetailerInfoEntity>().stores ?? [];
-    final stores = fullStoresList.sublist(0, 10);
-    // final stores = getIt<LoginEntity>().stores ?? [];
-
-    if (stores.isNotEmpty) {
-      String idString = stores.map((id) => id.storeId.toString()).join(',');
-      return idString;
-    } else {
-      return '';
-    }
-  }
-
-  String getMappedStoreIds() {
-    final stores = getIt<RetailerInfoEntity>().stores ?? [];
-    if (stores.isNotEmpty) {
-      return stores
-          .filter((t) => t.ismapped == 1)
-          .toList()
-          .map((e) => e.storeId)
-          .toList()
-          .join(",");
-    } else {
-      return '';
-    }
-  }
-
-  String getNonMappedStoreIds() {
-    final stores = getIt<RetailerInfoEntity>().stores ?? [];
-    if (stores.isNotEmpty) {
-      return stores
-          .filter((t) => t.ismapped == 0)
-          .toList()
-          .map((e) => e.storeId)
-          .toList()
-          .join(",");
-    } else {
-      return '';
-    }
   }
 }

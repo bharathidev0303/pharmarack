@@ -14,7 +14,6 @@ import 'package:pharmarack/view/features/search_product/di/search_product_provid
 import 'package:pharmarack/view/features/search_product/domain/model/search_context_model.dart';
 import 'package:pharmarack/view/features/search_product/presentation/cubit/search_product_cubit.dart';
 import 'package:pharmarack/view/features/widgets/custom_app_bar/custom_app_bar_cubit.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import '../dropdown/custom_drop_down.dart';
 import '../dropdown/distributor_drop_down/cubit/distributor_drop_down_cubit.dart';
 import '../dropdown/distributor_drop_down/distributor_drop_down_view.dart';
@@ -217,7 +216,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             child: _buildSearchBar(),
           ));
     } else {
-      return _buildSearchView(false, false, false);
+      return _buildSearchView(false, false, false, false);
     }
   }
 
@@ -261,6 +260,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     bool isDistributorActive = false;
     bool isProductActive = false;
     bool isItemSelected = false;
+    bool isSearchCrossIcon = false;
     return BlocBuilder<CustomAppBarCubit, CustomAppBarState>(
       bloc: appBarCubit,
       buildWhen: (previous, current) {
@@ -269,6 +269,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             (current is DistributorSelectedState) ||
             (current is DropDownArrowTapped) ||
             (current is CloseDistributorDropdownState) ||
+            (current is StartProductTyped) ||
             (current is ResetState);
       },
       builder: (context, state) {
@@ -298,6 +299,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
         if (state is ResetState) {
           productTextController.clear();
           isProductActive = false;
+        }
+
+        if (state is StartProductTyped) {
+          isSearchCrossIcon = state.isTyped;
         }
 
         if (searchText == "" &&
@@ -358,27 +363,27 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       onTap: () {
                         /// Navigate to search screen / merchandise screenews4es4re
                       },
-                      child: _buildSearchView(
-                          isItemSelected, isDistributorActive, false),
+                      child: _buildSearchView(isItemSelected,
+                          isDistributorActive, false, isSearchCrossIcon),
                     ),
                   ),
                 ),
-                // !isDashboard // Add filter icon only if the AppBarType is not Dashboard
-                //     ? Container(
-                //         height: widget.searchContextModel != null &&
-                //                 widget.searchContextModel!.contextType ==
-                //                     "Theropy" &&
-                //                 widget.type == AppBarType.secondaryAppBar
-                //             ? widget.preferredSize.height - 45
-                //             : widget.preferredSize.height,
-                //         color: AppColors.appBarColor,
-                //         child: IconButton(
-                //             onPressed: () {
-                //               widget.onFilterClick?.call();
-                //             },
-                //             icon: AppAssets.svg.icFilterSettings.svg()),
-                //       )
-                //     : Container(),
+                !isDashboard // Add filter icon only if the AppBarType is not Dashboard
+                    ? Container(
+                        height: widget.searchContextModel != null &&
+                                widget.searchContextModel!.contextType ==
+                                    "Theropy" &&
+                                widget.type == AppBarType.secondaryAppBar
+                            ? widget.preferredSize.height - 45
+                            : widget.preferredSize.height,
+                        color: AppColors.appBarColor,
+                        child: IconButton(
+                            onPressed: () {
+                              widget.onFilterClick?.call();
+                            },
+                            icon: AppAssets.svg.icFilterSettings.svg()),
+                      )
+                    : Container(),
               ],
             ),
             Visibility(
@@ -451,8 +456,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
     );
   }
 
-  _buildSearchView(
-      bool isItemSelected, bool isDistributorActive, bool isProductActive) {
+  _buildSearchView(bool isItemSelected, bool isDistributorActive,
+      bool isProductActive, bool isSearchCrossIcon) {
     return Container(
       height: 40,
       margin: EdgeInsets.only(
@@ -480,6 +485,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               focusNode: _productSearchFocusNode,
               type: widget.page,
               hintText: context.localizedString.product,
+              isSearchCrossIcon: isSearchCrossIcon,
               context: context,
               onTap: () {
                 if (_overlayEntry != null) {
@@ -489,6 +495,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 appBarCubit.productTextFieldTapped(isTapped: true);
               },
               onTextTyped: (text) {
+                if (text.length >= 3) {
+                  appBarCubit.productTextTyped(isTyped: true);
+                } else {
+                  appBarCubit.productTextTyped(isTyped: false);
+                  _productSearchFocusNode.unfocus();
+                }
                 searchText = text;
                 widget.productAndDistributorCallBack?.call(
                     text,
@@ -515,6 +527,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               focusNode: _distributorFocusNode,
               imagePath: AppAssets.svg.icSearch,
               isDropDown: isDistributorActive,
+              isSearchCrossIcon: isSearchCrossIcon,
               hintText: context.localizedString.distributor,
               context: context,
               onTap: () async {
@@ -624,6 +637,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       FocusNode? focusNode,
       required SvgGenImage imagePath,
       bool? isDropDown,
+      required bool isSearchCrossIcon,
       required bool isIcon,
       Function()? onTap,
       required BuildContext context,
@@ -707,12 +721,16 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           ? AppAssets.svg.arrowUp.svg(height: 16, width: 16)
                           : AppAssets.svg.arrowDown.svg(height: 8, width: 8),
                     ))
-                : controller.text.isNotEmpty
+                : isSearchCrossIcon && controller.text.isNotEmpty
                     ? GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
                           getIt.get<CustomAppBarCubit>().resetAppBar();
                           getIt.get<SearchProductCubit>().emitInitialState();
+                          searchText = "";
+                          productTextController.clear();
+                          _productSearchFocusNode.unfocus();
+                          appBarCubit.productTextTyped(isTyped: false);
                         },
                         child: Container(
                           padding: const EdgeInsets.all(5.0),

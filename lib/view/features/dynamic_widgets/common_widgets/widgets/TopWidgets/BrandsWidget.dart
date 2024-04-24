@@ -33,7 +33,6 @@ class _BrandsWidgetState extends State<BrandsWidget> {
       builder: (context, AsyncSnapshot<BrandItemsItemList> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           BrandItemsItemList brandsItem = snapshot.requireData;
-          print("shghshshs ${brandsItem.brands.length}");
           if (brandsItem.brands.isNotEmpty) {
             return Padding(
               padding:

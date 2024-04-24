@@ -197,7 +197,7 @@ LoginResponseStores _$LoginResponseStoresFromJson(Map<String, dynamic> json) =>
       orderRemarks: json['OrderRemarks'] as String?,
       isPartyLocked: json['IsPartyLocked'] as int?,
       isPartyLockedSoonByDist: json['IsPartyLockedSoonByDist'] as int?,
-    );
+    )..isDistributorCheck = json['isDistributorCheck'] as bool?;
 
 Map<String, dynamic> _$LoginResponseStoresToJson(
         LoginResponseStores instance) =>
@@ -261,6 +261,7 @@ Map<String, dynamic> _$LoginResponseStoresToJson(
       'OrderRemarks': instance.orderRemarks,
       'IsPartyLocked': instance.isPartyLocked,
       'IsPartyLockedSoonByDist': instance.isPartyLockedSoonByDist,
+      'isDistributorCheck': instance.isDistributorCheck,
     };
 
 DisplayImage _$DisplayImageFromJson(Map<String, dynamic> json) => DisplayImage(

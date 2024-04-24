@@ -91,6 +91,10 @@ class LoginScreenCubit extends Cubit<LoginScreenState> {
     DioInterceptor.updateHeaders(
         onboardingDI<Dio>(instanceName: AppConstants.legacyBaseUrlDioConstant),
         {"Authorizationdetails": 'Basic $userEncodedInfo'});
+    DioInterceptor.updateHeaders(
+        onboardingDI<Dio>(
+            instanceName: AppConstants.cmsGatewayBaseUrlDioConstant),
+        {"Authorization": 'Basic $userEncodedInfo'});
     final response = await _storeHeaderUseCase.execute(
         params: StoreHeaderParams(userEncodedInfo));
     response.fold((l) => emit(const LoginScreenErrorState()), (r) {

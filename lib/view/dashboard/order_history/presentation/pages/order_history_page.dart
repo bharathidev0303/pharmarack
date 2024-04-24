@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
@@ -33,7 +31,6 @@ class OrderHistoryPageState extends State<OrderHistoryPage> {
   late OrderHistoryCubit _orderHistoryCubit;
   late SearchProductCubit searchProductCubit;
   late CustomAppBarCubit customcubit;
-
   @override
   void initState() {
     initStockiestDI();
@@ -58,6 +55,7 @@ class OrderHistoryPageState extends State<OrderHistoryPage> {
       appBar: SecondaryAppBar(
           titleText: context.localizedString.myOrders,
           onPressBackButton: () {
+            customcubit.closeDistributorDropdown();
             if (widget.onPressBackButton != null) {
               widget.onPressBackButton?.call();
             } else {
@@ -68,7 +66,7 @@ class OrderHistoryPageState extends State<OrderHistoryPage> {
           actions: [
             InkWell(
               onTap: () async {
-                customcubit.closeDistributorDropdown();
+                await customcubit.closeDistributorDropdown();
                 await showModalBottomSheet<OrderHistoryFilterParams>(
                   useRootNavigator: false,
                   isScrollControlled: true,
