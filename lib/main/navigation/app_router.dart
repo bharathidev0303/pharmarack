@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flyy_flutter_plugin/flyy_flutter_plugin.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/feedback/presentation/pages/feedback_request_dialog.dart';
+import 'package:pharmarack/main/main_common.dart';
+// import 'package:pharmarack/main/connectivity/no_internet_page.dart';
+// import 'package:pharmarack/main/connectivity/no_internet_page.dart';
+// import 'package:pharmarack/main/main_common.dart';
 import 'package:pharmarack/main/navigation/route_paths.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/retailer_info_response_entity.dart';
 import 'package:pharmarack/view/dashboard/cart/presentation/pages/cart_detail_page.dart';
@@ -35,8 +39,8 @@ import 'package:pharmarack/view/onboarding/presentation/pages/retailer_registrat
 import 'package:pharmarack/view/onboarding/presentation/pages/retailer_registration/step_two_page/registration_step_two_screen.dart';
 
 class AppRouter {
-  static Route<dynamic> generateRoute(
-      RouteSettings settings, bool isLoggedIn, bool isResetPasswordAvailable) {
+  static Route<dynamic> generateRoute(RouteSettings settings, bool isLoggedIn,
+      bool isResetPasswordAvailable, int cubitIndex) {
     switch (settings.name) {
       case RoutePaths.loginScreen:
         return MaterialPageRoute(
@@ -45,24 +49,34 @@ class AppRouter {
       case RoutePaths.landingPage:
         return MaterialPageRoute(builder: (context) => const LandingPage());
       case RoutePaths.homeScreen:
-        if (isLoggedIn) {
-          return MaterialPageRoute(
-              builder: (context) => const LandingPage(),
-              settings: const RouteSettings(name: RoutePaths.dashBoardScreen));
-        } else if (isResetPasswordAvailable) {
-          return MaterialPageRoute(
-              builder: (context) => const ResetPasswordScreen(),
-              settings:
-                  const RouteSettings(name: RoutePaths.resetPasswordScreen));
+        if (cubitIndex != 2) {
+          if (isLoggedIn) {
+            return MaterialPageRoute(
+                builder: (context) => const LandingPage(),
+                settings:
+                    const RouteSettings(name: RoutePaths.dashBoardScreen));
+          } else if (isResetPasswordAvailable) {
+            return MaterialPageRoute(
+                builder: (context) => const ResetPasswordScreen(),
+                settings:
+                    const RouteSettings(name: RoutePaths.resetPasswordScreen));
+          } else {
+            return MaterialPageRoute(
+                builder: (context) => const LoginScreen(),
+                settings: const RouteSettings(name: RoutePaths.loginScreen));
+          }
         } else {
           return MaterialPageRoute(
-              builder: (context) => const LoginScreen(),
-              settings: const RouteSettings(name: RoutePaths.loginScreen));
+              builder: (context) => const NoInternetPage());
         }
       case RoutePaths.dashBoardScreen:
         return MaterialPageRoute(
           builder: (context) => const LandingPage(),
           settings: const RouteSettings(name: RoutePaths.dashBoardScreen),
+        );
+      case RoutePaths.noInternet:
+        return MaterialPageRoute(
+          builder: (context) => const NoInternetPage(),
         );
       case RoutePaths.profileScreen:
         return MaterialPageRoute(

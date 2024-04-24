@@ -19,8 +19,12 @@ class AutoLoginUtils {
   Future<bool> getRetailerInfo() async {
     final response = await splashScreenRepository.getRetailerInfo();
     return response.fold((l) {
-      commonLocalDataSource.clearStorage();
-      return false;
+      if (l?.error.message == 'Something went wrong') {
+        return true;
+      } else {
+        commonLocalDataSource.clearStorage();
+        return false;
+      }
     }, (r) => r);
   }
 

@@ -1,11 +1,16 @@
+import 'dart:async';
 import 'dart:io';
 
 // import 'package:core/log_util/log_util.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:pharmarack/main/connectivity/conectivity_cubit.dart';
+import 'package:pharmarack/main/connectivity/conectivity_providers.dart';
 import 'package:pharmarack/packages/core/log_util/log_util.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/theme/app_theme_data.dart';
@@ -22,6 +27,7 @@ import 'navigation/route_paths.dart';
 
 void mainCommon(Flavor flavor) async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await AppProviders().initFlySDK(flavor);
   HttpOverrides.global = MyHttpOverrides();
   LogUtil.initializeLogger(shouldEnableLogs: !kReleaseMode);
@@ -73,11 +79,55 @@ class RetailerApp extends StatefulWidget {
 
 class _RetailerAppState extends State<RetailerApp> {
   Map<String, dynamic> pushNotiflcationData = {};
+  List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
 
   @override
   void initState() {
     initPlatformState();
+    registerConnectivityCubit();
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     super.initState();
+  }
+
+  Future<void> initConnectivity() async {
+    late List<ConnectivityResult> result;
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      return;
+    }
+
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
+    setState(() {
+      _connectionStatus = result;
+    });
+    switch (_connectionStatus) {
+      case [ConnectivityResult.mobile]:
+        getIt<ConnectivityCubit>().updateBottomNavigationIndex(1);
+
+        break;
+      case [ConnectivityResult.wifi]:
+        getIt<ConnectivityCubit>().updateBottomNavigationIndex(1);
+
+        break;
+      case [ConnectivityResult.none]:
+        getIt<ConnectivityCubit>().updateBottomNavigationIndex(2);
+        break;
+      default:
+        getIt<ConnectivityCubit>().updateBottomNavigationIndex(0);
+        break;
+    }
   }
 
   Future<void> initPlatformState() async {
@@ -115,36 +165,51 @@ class _RetailerAppState extends State<RetailerApp> {
         systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
-    return MaterialApp(
-      navigatorKey: retailerAppLevelKey,
-      builder: (context, child) {
-        return ResponsiveWrapper.builder(child ?? Container(),
-            breakpoints: const [
-              ResponsiveBreakpoint.resize(360, name: MOBILE),
-              ResponsiveBreakpoint.resize(900, name: TABLET, scaleFactor: 1.25),
-              ResponsiveBreakpoint.resize(1440,
-                  name: DESKTOP, scaleFactor: 1.5),
-              ResponsiveBreakpoint.autoScale(2460, name: "4K"),
-            ]);
-      },
-      //home: const AppBottomNavigationBar(),
-      debugShowCheckedModeBanner: false,
-      title: widget.flavor.appTitle,
-      onGenerateRoute: (_) {
-        return AppRouter.generateRoute(
-            _, widget.isLoggedIn, widget.isResetPasswordAvailable);
-      },
-      initialRoute: RoutePaths.homeScreen,
-      theme: AppThemeData.lightTheme,
-      themeMode: ThemeMode.light,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('en')],
-    );
+    return BlocBuilder<ConnectivityCubit, dynamic>(
+        bloc: getIt<ConnectivityCubit>(),
+        builder: (BuildContext context, dynamic cubitIndex) {
+          print(cubitIndex);
+          print("cubidtIndex");
+          if (cubitIndex == 2) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              retailerAppLevelKey.currentState
+                  ?.pushReplacementNamed(RoutePaths.noInternet);
+            });
+            //  Navigator.pushReplacementNamed(
+            //                   context, RoutePaths.homeScreen);
+          }
+          return MaterialApp(
+            navigatorKey: retailerAppLevelKey,
+            builder: (context, child) {
+              return ResponsiveWrapper.builder(child ?? Container(),
+                  breakpoints: const [
+                    ResponsiveBreakpoint.resize(360, name: MOBILE),
+                    ResponsiveBreakpoint.resize(900,
+                        name: TABLET, scaleFactor: 1.25),
+                    ResponsiveBreakpoint.resize(1440,
+                        name: DESKTOP, scaleFactor: 1.5),
+                    ResponsiveBreakpoint.autoScale(2460, name: "4K"),
+                  ]);
+            },
+            //home: const AppBottomNavigationBar(),
+            debugShowCheckedModeBanner: false,
+            title: widget.flavor.appTitle,
+            onGenerateRoute: (_) {
+              return AppRouter.generateRoute(_, widget.isLoggedIn,
+                  widget.isResetPasswordAvailable, cubitIndex);
+            },
+            initialRoute: RoutePaths.homeScreen,
+            theme: AppThemeData.lightTheme,
+            themeMode: ThemeMode.light,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('en')],
+          );
+        });
   }
 
   notificationPageRedirection(Map<String, dynamic> pushNotiflcationData) async {
@@ -153,5 +218,121 @@ class _RetailerAppState extends State<RetailerApp> {
     } else if (pushNotiflcationData["Navigation"] == "Cart") {
       getIt<BottomNavigationCubit>().updateBottomNavigationIndex(4);
     }
+  }
+}
+
+class NoInternetPage extends StatefulWidget {
+  const NoInternetPage({super.key});
+
+  @override
+  State<NoInternetPage> createState() => _NoInternetPageState();
+}
+
+class _NoInternetPageState extends State<NoInternetPage> {
+  final Connectivity _connectivity = Connectivity();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<List<ConnectivityResult>> initConnectivity() async {
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    try {
+      await Future.delayed(const Duration(seconds: 1));
+      return await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      return Future.value(null);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ConnectivityCubit, dynamic>(
+        bloc: getIt<ConnectivityCubit>(),
+        builder: (BuildContext context, dynamic cubitIndex) {
+          var message = 'No Internet Connection';
+          var color = Colors.grey;
+          if (cubitIndex == 1) {
+            message = 'Connection Established';
+            color = Colors.green;
+          }
+          if (cubitIndex == 0) {
+            message = 'Loading ...';
+            color = Colors.red;
+          }
+
+          return Scaffold(
+            body: PopScope(
+              canPop: true,
+              onPopInvoked: (pop) async {
+                if (pop) {
+                  final connectionStatus = await initConnectivity();
+                  if (connectionStatus.contains(ConnectivityResult.none)) {
+                    exit(0);
+                  }
+                }
+              },
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.wifi_off_rounded,
+                        size: 80.0, color: Colors.grey),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      message,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    Text(message != 'Connection Established'
+                        ? 'Please connect to the internet and try again'
+                        : ''),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        print("sdxcsddfdsddxc");
+                        if (getIt<ConnectivityCubit>()
+                                .getBottomNavigationIndex() ==
+                            1) {
+                          print("sdxcsdsddxc");
+                          final autoLoginUtils = getIt<AutoLoginUtils>();
+                          final isUserSessionAvailable =
+                              await autoLoginUtils.isUserLoggedIn();
+                          print(isUserSessionAvailable);
+                          print("sdfsdcs");
+                          if (isUserSessionAvailable != false) {
+                            final islogin =
+                                await autoLoginUtils.checkTokenExpiration();
+                            Navigator.pushReplacementNamed(
+                                context, RoutePaths.homeScreen);
+                          } else {
+                            Navigator.pushReplacementNamed(
+                                context, RoutePaths.homeScreen);
+                          }
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: AppColors.blueButtonColor,
+                      ),
+                      child: const Text('Retry'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }
