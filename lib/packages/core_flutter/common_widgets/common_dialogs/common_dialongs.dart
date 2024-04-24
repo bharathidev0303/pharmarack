@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pharmarack/packages/core_flutter/common_entity/login_entity.dart';
@@ -333,5 +334,23 @@ Future showImagePickerDialog(
         onCloseClick: closeClick,
       );
     },
+  );
+}
+
+void showExitDialog(BuildContext context) async {
+  showBinaryButtonAlertDialog(
+    context,
+    title: context.localizedString.applicationClosedAlertTitle,
+    titleFontWeight: FontWeight.bold,
+    subTitle: context.localizedString.applicationClosedAlertSubTitle,
+    firstButtonTitle: context.localizedString.noText,
+    secondButtonTitle: context.localizedString.yesText,
+    onFirstButtonClick: () {
+      Navigator.of(context, rootNavigator: true).pop();
+    },
+    onSecondButtonClick: () async {
+      exit(0);
+    },
+    isCrossIconHide: false,
   );
 }

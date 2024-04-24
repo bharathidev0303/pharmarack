@@ -120,7 +120,6 @@ class _RetailerAppState extends State<RetailerApp> {
     });
     switch (_connectionStatus) {
       case [ConnectivityResult.mobile]:
-        // if (getIt<ConnectivityCubit>().getBottomNavigationIndex() != 1) {}
         var network = await const InternetConnectionUtils().checkconnection();
         if (network) {
           getIt<ConnectivityCubit>().updateBottomNavigationIndex(1);
@@ -130,9 +129,6 @@ class _RetailerAppState extends State<RetailerApp> {
 
         break;
       case [ConnectivityResult.wifi]:
-        // if (getIt<ConnectivityCubit>().getBottomNavigationIndex() != 1) {
-        //   getIt<ConnectivityCubit>().updateBottomNavigationIndex(1);
-        // }
         var network = await const InternetConnectionUtils().checkconnection();
         if (network) {
           getIt<ConnectivityCubit>().updateBottomNavigationIndex(1);
@@ -192,8 +188,6 @@ class _RetailerAppState extends State<RetailerApp> {
               retailerAppLevelKey.currentState
                   ?.pushReplacementNamed(RoutePaths.noInternet);
             });
-            //  Navigator.pushReplacementNamed(
-            //                   context, RoutePaths.homeScreen);
           }
           return MaterialApp(
             navigatorKey: retailerAppLevelKey,

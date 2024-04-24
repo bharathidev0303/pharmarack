@@ -1585,4 +1585,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get callUsMsg => 'For help, please \ncall on below number';
+
+  @override
+  String get applicationClosedAlertTitle => 'Application will be closed';
+
+  @override
+  String get yesText => 'YES';
+
+  @override
+  String get noText => 'NO';
+
+  @override
+  String get applicationClosedAlertSubTitle => 'Do you really want to exit from application?';
 }

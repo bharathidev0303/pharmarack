@@ -11,15 +11,4 @@ void registerConnectivityCubit() {
   getIt.registerSingleton<ConnectivityCubit>(ConnectivityCubit(0));
 }
 
-class LoadingScreenCubit extends Cubit {
-  LoadingScreenCubit(super.initialState);
 
-  void startLoding() async {
-    print("dsfsd");
-    emit(CartScreenLoadingState());
-  }
-
-  void stopLoding() async {
-    emit(const CartScreenErrorState());
-  }
-}

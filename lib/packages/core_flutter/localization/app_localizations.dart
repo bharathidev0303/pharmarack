@@ -3180,6 +3180,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'For help, please \ncall on below number'**
   String get callUsMsg;
+
+  /// No description provided for @applicationClosedAlertTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Application will be closed'**
+  String get applicationClosedAlertTitle;
+
+  /// No description provided for @yesText.
+  ///
+  /// In en, this message translates to:
+  /// **'YES'**
+  String get yesText;
+
+  /// No description provided for @noText.
+  ///
+  /// In en, this message translates to:
+  /// **'NO'**
+  String get noText;
+
+  /// No description provided for @applicationClosedAlertSubTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you really want to exit from application?'**
+  String get applicationClosedAlertSubTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
