@@ -81,7 +81,9 @@ class LandingPageState extends State<LandingPage> {
                       rootWidget: rootWidget,
                     ),
                   ),
-                  const DraggableCartPage(),
+                  rootWidget is CartDetailPage
+                      ? const SizedBox()
+                      : const DraggableCartPage(),
                 ],
               ),
             ));
