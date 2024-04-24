@@ -19,6 +19,7 @@ import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/main/flavor.dart';
 import 'package:pharmarack/packages/utils/auto_login_utils.dart';
 import 'package:pharmarack/packages/utils/retailer_app_constants.dart';
+import 'package:pharmarack/view/dashboard/cart/presentation/cubit/cart_screen_state.dart';
 import 'package:pharmarack/view/features/common/cubit/bottom_navigation_cubit.dart';
 import 'package:pharmarack/view/onboarding/utils/constants.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -168,8 +169,6 @@ class _RetailerAppState extends State<RetailerApp> {
     return BlocBuilder<ConnectivityCubit, dynamic>(
         bloc: getIt<ConnectivityCubit>(),
         builder: (BuildContext context, dynamic cubitIndex) {
-          print(cubitIndex);
-          print("cubidtIndex");
           if (cubitIndex == 2) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               retailerAppLevelKey.currentState
@@ -269,19 +268,16 @@ class _NoInternetPageState extends State<NoInternetPage> {
             body: PopScope(
               canPop: true,
               onPopInvoked: (pop) async {
-                if (pop) {
-                  final connectionStatus = await initConnectivity();
-                  if (connectionStatus.contains(ConnectivityResult.none)) {
-                    exit(0);
-                  }
-                }
+                exit(0);
               },
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.wifi_off_rounded,
-                        size: 80.0, color: Colors.grey),
+                    cubitIndex == 1
+                        ? Icon(Icons.wifi_2_bar_sharp, size: 80.0, color: color)
+                        : Icon(Icons.wifi_off_rounded,
+                            size: 80.0, color: color),
                     const SizedBox(
                       height: 20,
                     ),
@@ -295,16 +291,23 @@ class _NoInternetPageState extends State<NoInternetPage> {
                     ),
                     Text(message != 'Connection Established'
                         ? 'Please connect to the internet and try again'
-                        : ''),
+                        : 'ready to load page'),
                     const SizedBox(
                       height: 20,
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        print("sdxcsddfdsddxc");
                         if (getIt<ConnectivityCubit>()
                                 .getBottomNavigationIndex() ==
                             1) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              });
+
                           print("sdxcsdsddxc");
                           final autoLoginUtils = getIt<AutoLoginUtils>();
                           final isUserSessionAvailable =
