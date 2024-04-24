@@ -45,13 +45,7 @@ class _OperationsPageState extends State<OperationsPage> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) {
-        // if (didPop) {
-        //   return;
-        // }
-        // showExitDialog(context);
-      },
+      canPop: true,
       child: Scaffold(
         body: SizedBox(
           width: MediaQuery.of(context).size.width,

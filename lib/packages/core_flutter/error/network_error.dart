@@ -2,7 +2,6 @@ import 'package:pharmarack/packages/core_flutter/constants/error_types.dart';
 import 'package:pharmarack/packages/core_flutter/error/app_error.dart';
 import 'package:pharmarack/packages/core_flutter/error/error_info.dart';
 
-
 import 'base_error.dart';
 
 class NetworkError extends BaseError {
@@ -11,6 +10,8 @@ class NetworkError extends BaseError {
     String message = "",
     required super.cause,
   }) : super(error: ErrorInfo(code: httpError, message: message));
+
+  get httpError => null;
 
   @override
   String getFriendlyMessage() {

@@ -541,5 +541,10 @@
   "partyLockedDistributor": "Dear Retailer, the selected distributor has locked you. We can''t show any products or deals from this distributor, please select other distributor to continue!",
   "failedToPreviouspasswordChanage":"You have already used this password",
   "applicationNotAvailable":"This application is currently not available in your region. Please download the alternate version of Pharmarack to proceed",
-  "callUsMsg": "For help, please \ncall on below number"
+  "callUsMsg": "For help, please \ncall on below number",
+  "applicationClosedAlertTitle": "Application will be closed",
+  "yesText": "YES",
+  "noText": "NO",
+    "applicationClosedAlertSubTitle": "Do you really want to exit from application?"
+
 }

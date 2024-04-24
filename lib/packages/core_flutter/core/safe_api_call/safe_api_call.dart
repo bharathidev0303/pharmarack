@@ -1,10 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:pharmarack/di/app_provider.dart';
+import 'package:pharmarack/main/connectivity/conectivity_cubit.dart';
+import 'package:pharmarack/main/connectivity/connectivity_checker.dart';
 import 'package:pharmarack/packages/core_flutter/core/safe_api_call/get_error.dart';
 import 'package:pharmarack/packages/core_flutter/error/network_error.dart';
 import 'package:retrofit/retrofit.dart';
 
 Future<Either<NetworkError, T>> safeApiCall<T>(Future<T> apiCall) async {
+  var network = await const InternetConnectionUtils().checkconnection();
+  print("sdsnzbdvfhsgvd");
+  if (!network) {
+    getIt<ConnectivityCubit>().updateBottomNavigationIndex(2);
+  }
   try {
     final originalResponse = await apiCall;
     final eitherResponse = originalResponse as HttpResponse<dynamic>;
