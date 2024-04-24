@@ -269,7 +269,7 @@ class SearchProductPageState extends BaseStatefulPage {
                 },
               ),
             ),
-            const DraggableCartPage(),
+            // const DraggableCartPage(),
           ],
         ));
   }

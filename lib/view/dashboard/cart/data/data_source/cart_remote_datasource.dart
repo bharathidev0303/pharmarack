@@ -67,7 +67,6 @@ class CartRemoteDataSource {
 
     double totalCartValue =
         double.parse(cartDetailEntity.cartTotal?.totalCartValue as String);
-    print(totalCartValue);
 
     return CartDetailsModel(
       statusCode: cartDetailEntity.statusCode,

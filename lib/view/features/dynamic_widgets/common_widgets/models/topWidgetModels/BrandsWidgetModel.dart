@@ -11,7 +11,6 @@ class BrandItemsItemList {
     final List<BrandListModel> brandsItem = children
         .map((brandsItem) => BrandListModel.fromJson(brandsItem))
         .toList();
-
     return BrandItemsItemList(brands: brandsItem);
   }
 
@@ -50,12 +49,13 @@ class BrandListModel {
 
   factory BrandListModel.fromJson(Map<String, dynamic> json) {
     return BrandListModel(
-      companyId: json['CompanyId'] as int?,
-      companyName: json['CompanyName'] as String?,
-      companyCode: json['CompanyCode'] as String?,
-      companyShortName: json['CompanyShortName'] as String?,
-      companyType: json['CompanyType'] as String?,
-      coId: json['CoId'] as int?,
+      companyId: json['CompanyId'] ?? 0,
+      companyName: json['CompanyName'] ?? "",
+      companyCode: json['CompanyCode'] == null ? "" : json['CompanyCode'],
+      companyShortName:
+          json['CompanyShortName'] == null ? "" : json['CompanyShortName'],
+      companyType: json['CompanyType'] == null ? "" : json['CompanyType'],
+      coId: json['CoId'] ?? 0,
     );
   }
 

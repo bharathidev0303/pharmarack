@@ -31,11 +31,11 @@ class SearchProductMappedUnMappedPageStatePageState
   @override
   void initState() {
     super.initState();
-    // if (widget.mappedList.isEmpty) {
-    //   index = 1;
-    // } else if (widget.unMappedList.isEmpty) {
-    //   index = 0;
-    // }
+    if (widget.mappedList.isEmpty) {
+      index = 1;
+    } else if (widget.unMappedList.isEmpty) {
+      index = 0;
+    }
   }
 
   @override

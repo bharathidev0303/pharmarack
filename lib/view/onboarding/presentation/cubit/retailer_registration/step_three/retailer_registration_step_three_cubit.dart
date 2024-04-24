@@ -52,7 +52,6 @@ class RetailerRegistrationStepThreeCubit
     reqMap[OnboardingConstants.termsAndConditions] =
         state.privacyPolicyCheckbox;
     reqMap[OnboardingConstants.referralCode] = state.referralCode;
-    print("djdkdjdk ${reqMap}");
     _retailerRegistrationUserCase.setStepThreeRegistrationData(reqMap);
   }
 

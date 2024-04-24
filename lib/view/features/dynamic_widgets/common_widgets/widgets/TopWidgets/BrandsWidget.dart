@@ -33,6 +33,7 @@ class _BrandsWidgetState extends State<BrandsWidget> {
       builder: (context, AsyncSnapshot<BrandItemsItemList> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           BrandItemsItemList brandsItem = snapshot.requireData;
+          print("shghshshs ${brandsItem.brands.length}");
           if (brandsItem.brands.isNotEmpty) {
             return Padding(
               padding:
@@ -56,8 +57,6 @@ class _BrandsWidgetState extends State<BrandsWidget> {
                                     item.companyName != ""
                                         ? InkWell(
                                             onTap: () {
-                                              print(
-                                                  "skjdjdkjdkd, ${item.companyName}");
                                               AppRouter.cmsWidgetPageNavigator(
                                                   cmsPageNavigatorModel:
                                                       CmsPageNavigatorModel(
@@ -80,10 +79,7 @@ class _BrandsWidgetState extends State<BrandsWidget> {
                                                   width: MediaQuery.of(context)
                                                           .size
                                                           .width /
-                                                      (int.parse(widget
-                                                              .brandsWidgetModel
-                                                              .itemsVisibleMobile!) +
-                                                          0.8),
+                                                      3.8,
                                                   height: 30,
                                                   child: Center(
                                                       child: Text(
