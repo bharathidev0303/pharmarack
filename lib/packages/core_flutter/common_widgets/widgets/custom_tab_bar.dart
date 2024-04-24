@@ -69,7 +69,7 @@ class _CustomTabWithDividerState extends State<CustomTabWithDivider> {
           ),
           Expanded(
             child: TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
+              // physics: const NeverScrollableScrollPhysics(),
               children: widget.tabBarViews,
             ),
           )

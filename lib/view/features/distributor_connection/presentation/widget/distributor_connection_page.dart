@@ -63,6 +63,12 @@ class DistributorConnectionPageState extends BaseStatefulPage {
         ),
         child: CustomTabWithDivider(
           selectedIndex: index,
+          onSelectedTab: (index) {
+            setState(() {
+              index = index;
+            });
+            print("tab index $index");
+          },
           tabs: [
             CustomTabItem(
               tabName: context.localizedString.mappedTabTitle.toUpperCase(),
