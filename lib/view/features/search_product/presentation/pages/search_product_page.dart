@@ -6,9 +6,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/di/app_provider.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
+import 'package:pharmarack/packages/core_flutter/common_widgets/snackbar_view/context_extensions.dart';
+import 'package:pharmarack/packages/core_flutter/common_widgets/snackbar_view/custom_toast.dart';
 import 'package:pharmarack/packages/core_flutter/core/ui/base_view.dart';
 import 'package:pharmarack/packages/core_flutter/core/ui/device_detector_widget.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
+import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
 import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/dls/widget/no_records_found.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
@@ -80,6 +83,9 @@ class SearchProductPageState extends BaseStatefulPage {
           page: DateTime.now().toString(),
           searchContextModel: searchContextModel,
           searchBarFocusValue: focusFiled,
+          clearSearchState: () {
+            searchProductCubit.emitInitialState();
+          },
           onDropDownOpenCallBackForDistributor: (val) {
             searchProductCubit.handleBlurState(isBlur: val);
           },
@@ -145,14 +151,24 @@ class SearchProductPageState extends BaseStatefulPage {
           },
           onFilterClick: () {
             getIt<CustomAppBarCubit>().closeDistributorDropdown();
-            showModalBottomSheet(
-                isScrollControlled: true,
-                useSafeArea: true,
-                backgroundColor: AppColors.onboardingPageBackgroundColor,
-                context: context,
-                builder: (context) => FiltersPageMobileView(
-                      callBack: () {},
-                    ));
+            if (searchProductCubit.searchProductList.isNotEmpty) {
+              showModalBottomSheet(
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  backgroundColor: AppColors.onboardingPageBackgroundColor,
+                  context: context,
+                  builder: (context) => FiltersPageMobileView(
+                        callBack: () {
+                          searchProductCubit.refreshProductList();
+                        },
+                        searchProductCubit: searchProductCubit,
+                      ));
+            } else {
+              context.showToastySnackbar(
+                  AppTextStyles.selectedTabTextStyle12W500(),
+                  'Please search the product first',
+                  AlertType.success);
+            }
           },
         ),
         body: Column(

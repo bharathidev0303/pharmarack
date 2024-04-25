@@ -174,6 +174,8 @@ class SearchProductListEntity {
   String therapyName;
   @JsonKey(name: "RegionName", defaultValue: '')
   String regionName;
+  @JsonKey(name: "StorePriority", defaultValue: 0)
+  int storePriority;
 
   SearchProductListEntity({
     required this.storeId,
@@ -249,6 +251,7 @@ class SearchProductListEntity {
     required this.uniformProductCode,
     required this.therapyName,
     required this.regionName,
+    required this.storePriority,
   });
 
   factory SearchProductListEntity.fromJson(Map<String, dynamic> json) =>

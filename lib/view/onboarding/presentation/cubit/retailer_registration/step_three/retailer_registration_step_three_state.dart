@@ -27,6 +27,7 @@ class RetailerRegistrationStepThreeState extends Equatable {
   final String whatsappConsentCheckbox;
   final DrugLicenseError drugLicenseError;
   final bool versionOneUser;
+  final bool apiError;
   const RetailerRegistrationStepThreeState({
     required this.gstNumber,
     required this.panNumber,
@@ -49,6 +50,7 @@ class RetailerRegistrationStepThreeState extends Equatable {
     this.drugLicenseError = DrugLicenseError.empty,
     this.privacyPolicyCheckbox = '0',
     this.whatsappConsentCheckbox = '0',
+    this.apiError = false,
     required this.versionOneUser,
   });
 
@@ -75,6 +77,7 @@ class RetailerRegistrationStepThreeState extends Equatable {
     String? privacyPolicyCheckbox,
     String? whatsappConsentCheckbox,
     bool? versionOneUser,
+    bool? apiError,
   }) {
     return RetailerRegistrationStepThreeState(
       gstNumber: gstNumber ?? this.gstNumber,
@@ -101,6 +104,7 @@ class RetailerRegistrationStepThreeState extends Equatable {
           privacyPolicyCheckbox ?? this.privacyPolicyCheckbox,
       whatsappConsentCheckbox:
           whatsappConsentCheckbox ?? this.whatsappConsentCheckbox,
+      apiError: apiError ?? this.apiError,
     );
   }
 
@@ -113,6 +117,7 @@ class RetailerRegistrationStepThreeState extends Equatable {
         drugLicenseNum2: '',
         drugLicenseNum3: '',
         drugLicenseCount: 1,
+        apiError: false,
         versionOneUser: false);
   }
 

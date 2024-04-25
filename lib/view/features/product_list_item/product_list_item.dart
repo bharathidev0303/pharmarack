@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_buttons/plus_button.dart';
-import 'package:pharmarack/packages/core_flutter/common_widgets/product_list_item/product_list_item_cubit.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/widgets/title_and_value_row_item.dart';
 import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/text_utils/app_text_style.dart';
 import 'package:pharmarack/packages/core_flutter/localization/localization_extensions.dart';
 import 'package:pharmarack/packages/core_flutter/utils/extensions.dart';
 import 'package:pharmarack/view/features/change_distributor/presentation/widget/purchase_details_row.dart';
+
+import '../../../packages/core_flutter/common_widgets/product_list_item/product_list_item_cubit.dart';
 
 class ProductListItem extends StatelessWidget {
   final String? productName;
@@ -23,10 +24,10 @@ class ProductListItem extends StatelessWidget {
   final String? expiryDate;
   final String? scheme;
   final String? cashbackMessage;
-  final int? index;
   final int? existingQty;
   final String? packing;
   final int? rStockVisibility;
+  final int? isShowNonMappedOrderStock;
 
   final Function()? plusButtonTapped;
 
@@ -44,11 +45,11 @@ class ProductListItem extends StatelessWidget {
       this.expiryDate,
       this.scheme,
       this.cashbackMessage,
-      this.index,
       this.plusButtonTapped,
       this.existingQty,
       this.packing,
-      this.rStockVisibility});
+      this.rStockVisibility,
+      this.isShowNonMappedOrderStock});
 
   @override
   Widget build(BuildContext context) {
@@ -108,8 +109,10 @@ class ProductListItem extends StatelessWidget {
                                               bottom: 1,
                                               left: 1,
                                               right: 8),
-                                          child: AppAssets.svg.arrowUp
-                                              .svg(height: 19, width: 19),
+                                          child: AppAssets.svg.arrowUp.svg(
+                                              package: 'core_flutter',
+                                              height: 19,
+                                              width: 19),
                                         ),
                                       )
                                     : GestureDetector(
@@ -126,8 +129,10 @@ class ProductListItem extends StatelessWidget {
                                               bottom: 5,
                                               left: 5,
                                               right: 15),
-                                          child: AppAssets.svg.arrowDown
-                                              .svg(height: 10, width: 10),
+                                          child: AppAssets.svg.arrowDown.svg(
+                                              package: 'core_flutter',
+                                              height: 10,
+                                              width: 10),
                                         ),
                                       ),
                               ],
@@ -135,26 +140,27 @@ class ProductListItem extends StatelessWidget {
                           )
                         : const SizedBox.shrink(),
                     _buildScheme(context),
-                    index == 0
-                        ? Padding(
-                            padding: const EdgeInsets.only(bottom: 5, left: 2),
-                            child: Row(
-                              children: [
-                                Text(
-                                  context.localizedString.sponsored,
-                                  overflow: TextOverflow.ellipsis,
-                                  style:
-                                      AppTextStyles.searchFilterTitleStyleW300,
-                                  maxLines: 2,
-                                ),
-                                const SizedBox(
-                                  width: 3,
-                                ),
-                                AppAssets.svg.infoCircle.svg()
-                              ],
-                            ),
-                          )
-                        : const SizedBox.shrink(),
+                    // index == 0
+                    //     ? Padding(
+                    //         padding: const EdgeInsets.only(bottom: 5, left: 2),
+                    //         child: Row(
+                    //           children: [
+                    //             Text(
+                    //               context.localizedString.sponsored,
+                    //               overflow: TextOverflow.ellipsis,
+                    //               style:
+                    //                   AppTextStyles.searchFilterTitleStyleW300,
+                    //               maxLines: 2,
+                    //             ),
+                    //             const SizedBox(
+                    //               width: 3,
+                    //             ),
+                    //             AppAssets.svg.infoCircle
+                    //                 .svg(package: 'core_flutter')
+                    //           ],
+                    //         ),
+                    //       )
+                    //     : const SizedBox.shrink(),
                   ],
                 ),
                 Row(
@@ -170,38 +176,50 @@ class ProductListItem extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 company != null && company != ''
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            constraints: BoxConstraints(
-                                                minWidth: 30,
-                                                maxWidth: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.3),
-                                            padding: const EdgeInsets.only(
-                                              top: 8.0,
+                                    ? InkWell(
+                                        onTap: () {
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(builder: (context) => CompanyScreenPage()),
+                                          // );
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              constraints: BoxConstraints(
+                                                  minWidth: 30,
+                                                  maxWidth:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.3),
+                                              padding: const EdgeInsets.only(
+                                                top: 8.0,
+                                              ),
+                                              child: Text(
+                                                company?.trim() ?? '',
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                style: AppTextStyles
+                                                    .style12W700Black(
+                                                        color: AppColors
+                                                            .dashboardSubTitleColor),
+                                              ),
                                             ),
-                                            child: Text(
-                                              company?.trim() ?? '',
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                              style: AppTextStyles
-                                                  .style12W700Black(
-                                                      color: AppColors
-                                                          .dashboardSubTitleColor),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 8.0),
-                                            child: AppAssets
-                                                .svg.blueArrowUpRight
-                                                .svg(height: 12, width: 12),
-                                          )
-                                        ],
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8.0),
+                                              child: AppAssets
+                                                  .svg.blueArrowUpRight
+                                                  .svg(
+                                                      package: 'core_flutter',
+                                                      height: 12,
+                                                      width: 12),
+                                            )
+                                          ],
+                                        ),
                                       )
                                     : const SizedBox.shrink(),
                                 company != null && company != ''
@@ -239,7 +257,10 @@ class ProductListItem extends StatelessWidget {
                                                 const EdgeInsets.only(top: 8.0),
                                             child: AppAssets
                                                 .svg.blueArrowUpRight
-                                                .svg(height: 12, width: 12),
+                                                .svg(
+                                                    package: 'core_flutter',
+                                                    height: 12,
+                                                    width: 12),
                                           ),
                                         ],
                                       )
@@ -252,6 +273,7 @@ class ProductListItem extends StatelessWidget {
                           mrp: mrp,
                           stockQuantity: stock,
                           rStockVisibility: rStockVisibility,
+                          isShowNonMappedOrderStock: isShowNonMappedOrderStock,
                         ),
                         arrowState
                             ? Padding(
@@ -326,10 +348,8 @@ class ProductListItem extends StatelessWidget {
 
   _buildScheme(BuildContext context) {
     if (scheme != null && scheme != '') {
-      return index != 0
-          ? _buildOfferWidget(
-              inputScheme: scheme!.split(' ')[0], context: context)
-          : Container();
+      return _buildOfferWidget(
+          inputScheme: scheme!.split(',')[0], context: context);
       // if (scheme!.contains(',')) {
       //   return Padding(
       //     padding: const EdgeInsets.only(bottom: 5),
@@ -371,23 +391,23 @@ class ProductListItem extends StatelessWidget {
         : const SizedBox.shrink();
   }
 
-  _buildMultipleOfferWidget(BuildContext context) {
-    final schemeList = scheme!.split(",");
-    final offer = schemeList[0];
-    final multipleOffer = schemeList.length - 1;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildOfferWidget(inputScheme: offer, rightMargin: 5, context: context),
-        multipleOffer != 0
-            ? Text(
-                context.localizedString.plusOffers(multipleOffer),
-                style: AppTextStyles.style10W500Orange(),
-              )
-            : const SizedBox()
-      ],
-    );
-  }
+  // _buildMultipleOfferWidget(BuildContext context) {
+  //   final schemeList = scheme!.split(",");
+  //   final offer = schemeList[0];
+  //   final multipleOffer = schemeList.length - 1;
+  //   return Row(
+  //     mainAxisSize: MainAxisSize.min,
+  //     children: [
+  //       _buildOfferWidget(inputScheme: offer, rightMargin: 5, context: context),
+  //       multipleOffer != 0
+  //           ? Text(
+  //               context.localizedString.plusOffers(multipleOffer),
+  //               style: AppTextStyles.style10W500Orange(),
+  //             )
+  //           : const SizedBox()
+  //     ],
+  //   );
+  // }
 
   _buildCashBack(BuildContext context) {
     return cashbackMessage != null && cashbackMessage != ''

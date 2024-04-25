@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:pharmarack/packages/core_flutter/dls/color/app_colors.dart';
 import 'package:pharmarack/packages/core_flutter/dls/theme/theme_extensions.dart';
 
 class OfferText extends StatelessWidget {
   final String name;
   final String value;
-  final int offersCount;
 
   const OfferText({
     super.key,
     required this.name,
     required this.value,
-    required this.offersCount,
   });
 
   @override
@@ -27,28 +26,20 @@ class OfferText extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(3),
-            color: context.colors.offers,
+            color: value.isNotEmpty ? context.colors.offers : null,
           ),
           height: 18,
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
           child: Center(
             child: Text(
-              value,
+              value.isNotEmpty ? value : '-',
               style: context.textStyles.header12Medium?.copyWith(
-                color: Colors.white,
+                color: value.isNotEmpty ? Colors.white : AppColors.lightGrey,
               ),
               textAlign: TextAlign.center,
             ),
           ),
-        ),
-        offersCount > 1
-            ? Text(
-                " +${offersCount - 1} offers",
-                style: context.textStyles.header12Medium?.copyWith(
-                    color: context.colors.offers,
-                    overflow: TextOverflow.ellipsis),
-              )
-            : Container()
+        )
       ],
     );
   }

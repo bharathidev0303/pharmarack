@@ -187,6 +187,7 @@ class DraggableCartPageState extends State<DraggableCartPage>
               text: context.localizedString.viewCart.toUpperCase(),
               width: MediaQuery.of(context).size.width * 0.31,
               onPressed: () {
+                _collapseCart();
                 getIt<BottomNavigationCubit>().updateBottomNavigationIndex(4);
               },
             ),

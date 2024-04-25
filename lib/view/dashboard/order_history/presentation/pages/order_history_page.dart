@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pharmarack/gen/assets.gen.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/common_dialogs/common_dialongs.dart';
 import 'package:pharmarack/packages/core_flutter/common_widgets/dashboard/secondary_app_bar.dart';
@@ -164,7 +165,7 @@ class OrderHistoryPageState extends State<OrderHistoryPage> {
             bloc: _orderHistoryCubit,
             listener: (BuildContext context, state) {
               if (state is OrderHistoryLoadingState) {
-                showProcessingRequestDialog(context, userRootNavigator: false);
+                // showProcessingRequestDialog(context, userRootNavigator: false);
               } else if (state is OrderHistoryErrorState) {
                 CommonDialogs.closeCommonDialog(context: context);
                 CommonDialogs.showSimpleDialog(
@@ -187,7 +188,15 @@ class OrderHistoryPageState extends State<OrderHistoryPage> {
             },
             builder: (BuildContext context, state) {
               if (state is OrderHistoryLoadingState) {
-                showProcessingRequestDialog(context, userRootNavigator: false);
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 200),
+                  child: Center(
+                    child: SpinKitFadingCircle(
+                      color: AppColors.blueButtonColor,
+                      size: 50.0,
+                    ),
+                  ),
+                );
               } else if (state is OrderHistorySuccessState) {
                 List<DisplayOrder> orders = state.orders;
                 return Expanded(

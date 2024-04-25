@@ -36,6 +36,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String? page;
   final SearchContextModel? searchContextModel;
   final VoidCallback? onFilterClick;
+  final VoidCallback? clearSearchState;
   final int? searchBarFocusValue;
 
   const CustomAppBar(
@@ -50,6 +51,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
       this.page,
       this.searchContextModel,
       this.onFilterClick,
+      this.clearSearchState,
       this.searchBarFocusValue});
 
   static const int maxLength = 15;
@@ -88,6 +90,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   String selectedCompanyName = '';
   String contextType = '';
   String searchText = '';
+  bool isOrderSearchActive = false;
 
   @override
   void initState() {
@@ -135,8 +138,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
           }
         }
         appBarCubit.distributorTextFieldTapped(isTapped: false);
-        widget.onDropDownOpenCallBackForDistributor?.call(false);
+        appBarCubit.productTextFieldTapped(isTapped: false);
+        _productSearchFocusNode.unfocus();
         _distributorFocusNode.unfocus();
+        closeDropdown();
       }
     }
 
@@ -207,6 +212,15 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       selectedCompanyId,
                       selectedCompanyName,
                       contextType);
+                } else if (selectedDistributorId != 0 &&
+                    selectedStoreName.isNotEmpty) {
+                  widget.productAndDistributorCallBack?.call(
+                      "",
+                      selectedDistributorId,
+                      selectedStoreName,
+                      "",
+                      "",
+                      contextType);
                 } else {
                   widget.productAndDistributorCallBack
                       ?.call("", 0, "", "", "", "");
@@ -216,7 +230,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             child: _buildSearchBar(),
           ));
     } else {
-      return _buildSearchView(false, false, false, false);
+      return _buildSearchView(false, false, isOrderSearchActive, false);
     }
   }
 
@@ -299,6 +313,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
         if (state is ResetState) {
           productTextController.clear();
           isProductActive = false;
+          if (widget.clearSearchState != null) {
+            widget.clearSearchState!();
+          }
         }
 
         if (state is StartProductTyped) {
@@ -339,6 +356,15 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                     selectedCompanyId,
                                     selectedCompanyName,
                                     contextType);
+                              } else if (selectedDistributorId != 0 &&
+                                  selectedStoreName.isNotEmpty) {
+                                widget.productAndDistributorCallBack?.call(
+                                    "",
+                                    selectedDistributorId,
+                                    selectedStoreName,
+                                    "",
+                                    "",
+                                    contextType);
                               } else {
                                 widget.productAndDistributorCallBack
                                     ?.call("", 0, "", "", "", "");
@@ -363,8 +389,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       onTap: () {
                         /// Navigate to search screen / merchandise screenews4es4re
                       },
-                      child: _buildSearchView(isItemSelected,
-                          isDistributorActive, false, isSearchCrossIcon),
+                      child: _buildSearchView(
+                          isItemSelected,
+                          isDistributorActive,
+                          isProductActive,
+                          isSearchCrossIcon),
                     ),
                   ),
                 ),
@@ -423,6 +452,15 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                       selectedStoreName,
                                       selectedCompanyId,
                                       selectedCompanyName,
+                                      contextType);
+                                } else if (selectedDistributorId != 0 &&
+                                    selectedStoreName.isNotEmpty) {
+                                  widget.productAndDistributorCallBack?.call(
+                                      "",
+                                      selectedDistributorId,
+                                      selectedStoreName,
+                                      "",
+                                      "",
                                       contextType);
                                 } else {
                                   widget.productAndDistributorCallBack
@@ -492,7 +530,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   widget.onDropDownOpenCallBackForDistributor?.call(false);
                   closeDropdown();
                 }
+                setState(() {
+                  isOrderSearchActive = true;
+                });
                 appBarCubit.productTextFieldTapped(isTapped: true);
+                _productSearchFocusNode.requestFocus();
               },
               onTextTyped: (text) {
                 if (text.length >= 3) {
@@ -721,16 +763,18 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           ? AppAssets.svg.arrowUp.svg(height: 16, width: 16)
                           : AppAssets.svg.arrowDown.svg(height: 8, width: 8),
                     ))
-                : isSearchCrossIcon && controller.text.isNotEmpty
+                : productTextController.text.isNotEmpty
                     ? GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
-                          getIt.get<CustomAppBarCubit>().resetAppBar();
-                          getIt.get<SearchProductCubit>().emitInitialState();
-                          searchText = "";
-                          productTextController.clear();
-                          _productSearchFocusNode.unfocus();
-                          appBarCubit.productTextTyped(isTyped: false);
+                          if (widget.page == 'order_history' &&
+                              productTextController.text.isNotEmpty) {
+                            setState(() {
+                              productTextController.text = '';
+                            });
+                          } else {
+                            appBarCubit.resetAppBar();
+                          }
                         },
                         child: Container(
                           padding: const EdgeInsets.all(5.0),

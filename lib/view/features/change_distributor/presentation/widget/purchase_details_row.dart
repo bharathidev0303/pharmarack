@@ -10,8 +10,8 @@ class PurchaseDetailsRow extends StatelessWidget {
   final double? mrp;
   final int? stockQuantity;
   final String? scheme;
-  final int? schemeListCount;
   final int? rStockVisibility;
+  final int? isShowNonMappedOrderStock;
 
   const PurchaseDetailsRow({
     super.key,
@@ -19,8 +19,8 @@ class PurchaseDetailsRow extends StatelessWidget {
     required this.mrp,
     required this.stockQuantity,
     this.scheme,
-    this.schemeListCount,
     this.rStockVisibility,
+    this.isShowNonMappedOrderStock,
   });
 
   String _getPriceValue(double? value) {
@@ -72,7 +72,9 @@ class PurchaseDetailsRow extends StatelessWidget {
           text: TextSpan(
             text: '${context.localizedString.stock}: ',
             style: AppTextStyles.style12W700Black(
-              color: rStockVisibility != null && rStockVisibility == 1
+              color: (rStockVisibility != null && rStockVisibility == 1) ||
+                      (isShowNonMappedOrderStock != null &&
+                          isShowNonMappedOrderStock == 1)
                   ? AppColors.lightGrey
                   : stockQuantity == 0
                       ? AppColors.redErrorColor
@@ -82,11 +84,15 @@ class PurchaseDetailsRow extends StatelessWidget {
             ),
             children: [
               TextSpan(
-                text: rStockVisibility != null && rStockVisibility == 1
+                text: (rStockVisibility != null && rStockVisibility == 1) ||
+                        (isShowNonMappedOrderStock != null &&
+                            isShowNonMappedOrderStock == 1)
                     ? 'NA'
                     : stockQuantity?.toString(),
                 style: AppTextStyles.style11W500MedGrey(
-                  color: rStockVisibility != null && rStockVisibility == 1
+                  color: (rStockVisibility != null && rStockVisibility == 1) ||
+                          (isShowNonMappedOrderStock != null &&
+                              isShowNonMappedOrderStock == 1)
                       ? AppColors.primaryTextColor
                       : stockQuantity == 0
                           ? AppColors.redErrorColor
@@ -99,13 +105,16 @@ class PurchaseDetailsRow extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 10),
-        scheme != null && scheme!.isNotEmpty
-            ? OfferText(
-                name: '${context.localizedString.scheme}:',
-                value: scheme!,
-                offersCount: schemeListCount ?? 0,
-              )
+        /* scheme != null && scheme!.isNotEmpty
+            ?*/
+        OfferText(
+          name: '${context.localizedString.scheme}:',
+          value:
+              scheme != null && scheme!.isNotEmpty ? scheme!.split(',')[0] : '',
+        )
+/*
             : const SizedBox.shrink(),
+*/
       ],
     );
   }
