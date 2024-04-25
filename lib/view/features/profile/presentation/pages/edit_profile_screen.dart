@@ -400,8 +400,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         enable: false,
                         validator: (value) {
                           return OnboardingValidators()
-                              .validateNotNullOrEmptyOrSpaces(value,
-                                  context.localizedString.mobileNumLengthError);
+                              .validateNotNullOrEmptyOrSpaces(
+                                  value, context.localizedString.emailError);
                         },
                       ),
                       const SizedBox(

@@ -20,7 +20,7 @@ class AutoLoginUtils {
     final response = await splashScreenRepository.getRetailerInfo();
     return response.fold((l) {
       if (l?.error.message == 'Something went wrong') {
-        return true;
+        return false;
       } else {
         commonLocalDataSource.clearStorage();
         return false;
