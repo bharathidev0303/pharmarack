@@ -44,7 +44,7 @@ void mainCommon(Flavor flavor) async {
     isRetailerInfoResponseAvailable =
         await autoLoginUtils.checkTokenExpiration();
   }
-  var network = await const InternetConnectionUtils().checkconnection();
+  // var network = await const InternetConnectionUtils().checkconnection();
 
   runApp(RetailerApp(
       flavor: flavor,
@@ -53,8 +53,7 @@ void mainCommon(Flavor flavor) async {
     isResetPasswordAvailable is used to navigate to reset password screen
     if the app is quit in the process of forgot password feature
     */
-      isResetPasswordAvailable: isResetPasswordAvailable,
-      network: network));
+      isResetPasswordAvailable: isResetPasswordAvailable));
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -70,14 +69,12 @@ class RetailerApp extends StatefulWidget {
   final Flavor flavor;
   final bool isLoggedIn;
   final bool isResetPasswordAvailable;
-  final bool network;
 
   const RetailerApp(
       {super.key,
       required this.flavor,
       required this.isLoggedIn,
-      required this.isResetPasswordAvailable,
-      required this.network});
+      required this.isResetPasswordAvailable});
 
   @override
   State<RetailerApp> createState() => _RetailerAppState();
@@ -207,7 +204,7 @@ class _RetailerAppState extends State<RetailerApp> {
             title: widget.flavor.appTitle,
             onGenerateRoute: (_) {
               return AppRouter.generateRoute(_, widget.isLoggedIn,
-                  widget.isResetPasswordAvailable, cubitIndex, widget.network);
+                  widget.isResetPasswordAvailable, cubitIndex);
             },
             initialRoute: RoutePaths.homeScreen,
             theme: AppThemeData.lightTheme,

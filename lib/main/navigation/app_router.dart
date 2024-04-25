@@ -40,10 +40,8 @@ import 'package:pharmarack/view/onboarding/presentation/pages/retailer_registrat
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings, bool isLoggedIn,
-      bool isResetPasswordAvailable, int cubitIndex, bool network) {
+      bool isResetPasswordAvailable, int cubitIndex) {
     if (cubitIndex == 2) {
-      return MaterialPageRoute(builder: (context) => const NoInternetPage());
-    } else if ((cubitIndex == 2 || cubitIndex == 0) && !network) {
       return MaterialPageRoute(builder: (context) => const NoInternetPage());
     } else {
       switch (settings.name) {

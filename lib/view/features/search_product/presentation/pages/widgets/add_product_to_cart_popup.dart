@@ -247,8 +247,6 @@ class _AddProductToCartPopupState extends State<AddProductToCartPopup> {
                             scheme: schemeList.isNotEmpty
                                 ? schemeList[0]
                                 : widget.productDetails.scheme,
-                            schemeListCount:
-                                schemeList.isNotEmpty ? schemeList.length : 0,
                           ),
                         ),
                       ),

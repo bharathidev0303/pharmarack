@@ -30,10 +30,19 @@ class AddProductToCartUseCase extends BaseUseCase<BaseError,
 
   Either<AppError, bool> validateQuantity(
       String value, SearchProductListModel productData, BuildContext context) {
-    var data = getIt<RetailerInfoEntity>()
+    var retailerStores = getIt<RetailerInfoEntity>()
         .stores
-        ?.where((element) => element.storeId == productData.storeId)
-        .first;
+        ?.where((element) => element.storeId == productData.storeId);
+
+    if (retailerStores!.isEmpty) {
+      return Left(AppError(
+        error: ErrorInfo(
+          message:
+              "Unable to add this product to this Distributor, please try any other Distributor.",
+        ),
+      ));
+    }
+    var data = retailerStores!.first;
     int minMaxItemsLength = getIt<DraggableCartScreenCubit>()
         .stores
         .where((element) => element.storeId == productData.storeId)

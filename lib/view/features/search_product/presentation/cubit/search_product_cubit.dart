@@ -139,11 +139,15 @@ class SearchProductCubit extends Cubit<SearchProductState> {
       response.fold((l) {
         emit(SearchProductErrorMessageState(l.error.message));
       }, (r) {
-        if (r.productList?.isNotEmpty ?? false) {
-          searchProductList = r.productList!;
-          refreshProductList();
+        if (searchQuery.isNotEmpty) {
+          if (r.productList?.isNotEmpty ?? false) {
+            searchProductList = r.productList!;
+            refreshProductList();
+          } else {
+            emit(SearchProductDataEmptyListState());
+          }
         } else {
-          emit(SearchProductDataEmptyListState());
+          emit(SearchProductInitialState());
         }
       });
     } catch (e) {
@@ -221,11 +225,15 @@ class SearchProductCubit extends Cubit<SearchProductState> {
       response.fold((l) {
         emit(SearchProductErrorMessageState(l.error.message));
       }, (r) {
-        if (r.productList?.isNotEmpty ?? false) {
-          searchProductList = r.productList!;
-          refreshProductList();
+        if (searchQuery.isNotEmpty) {
+          if (r.productList?.isNotEmpty ?? false) {
+            searchProductList = r.productList!;
+            refreshProductList();
+          } else {
+            emit(SearchProductDataEmptyListState());
+          }
         } else {
-          emit(SearchProductDataEmptyListState());
+          emit(SearchProductInitialState());
         }
       });
     } catch (e) {
@@ -262,32 +270,6 @@ class SearchProductCubit extends Cubit<SearchProductState> {
     }
   }
 
-  // String getStoreIds(String allStoreIds) {
-  //   if (allStoreIds.isEmpty) {
-  //     String mapped = _filterSearchProductUseCase.getMappedStoreIds();
-  //     String nonMapped = _filterSearchProductUseCase.getNonMappedStoreIds();
-  //     if (nonMapped.isNotEmpty) {
-  //       mapped = '$mapped,$nonMapped';
-  //     }
-  //     return mapped;
-  //   }
-  //   if (filtersMapForApiRequest[
-  //           "${FilterType.distributors.name}#${FilterType.AllDistributors.name}"] ??
-  //       true) {
-  //     return allStoreIds;
-  //   } else if (filtersMapForApiRequest[
-  //           "${FilterType.distributors.name}#${FilterType.MappedDistributors.name}"] ??
-  //       false) {
-  //     return _filterSearchProductUseCase.getMappedStoreIds();
-  //   } else if (filtersMapForApiRequest[
-  //           "${FilterType.distributors.name}#${FilterType.NonMappedDistributors.name}"] ??
-  //       false) {
-  //     return _filterSearchProductUseCase.getNonMappedStoreIds();
-  //   } else {
-  //     return allStoreIds;
-  //   }
-  // }
-
   void addInitialData() {
     if (filtersMap.isEmpty) {
       /*This code adds the default value of the filter which should be always selected
@@ -304,25 +286,40 @@ class SearchProductCubit extends Cubit<SearchProductState> {
       });
 
       filtersMap.addAll({
+        FilterType.stock.name: (!filtersMap.containsKey(FilterType.stock.name)
+            ? SearchByProductFilter(
+                value: 3,
+                requestKey: FilterType.IncludeOutOfStockProducts,
+                groupKey: FilterType.stock,
+                selectedRadioValue: true)
+            : filtersMap[FilterType.stock.name]!)
+      });
+
+      filtersMap.addAll({
         FilterType.scheme.name: (!filtersMap.containsKey(FilterType.scheme.name)
             ? SearchByProductFilter(
-                value: 8,
-                requestKey: FilterType.OnlySchemeProduct,
+                value: 5,
+                requestKey: FilterType.AllScheme,
                 groupKey: FilterType.scheme,
                 selectedRadioValue: true)
             : filtersMap[FilterType.scheme.name]!)
       });
 
       filtersMap.addAll({
-        FilterType.distributors.name:
-            (!filtersMap.containsKey(FilterType.distributors.name)
-                ? SearchByProductFilter(
-                    value: 3,
-                    requestKey: FilterType.AllDistributors,
-                    groupKey: FilterType.distributors,
-                    selectedRadioValue: true)
-                : filtersMap[FilterType.distributors.name]!)
+        FilterType.expiry.name: (!filtersMap.containsKey(FilterType.expiry.name)
+            ? SearchByProductFilter(
+                value: 7,
+                requestKey: FilterType.AllExpiry,
+                groupKey: FilterType.expiry,
+                selectedRadioValue: true)
+            : filtersMap[FilterType.expiry.name]!)
       });
+    }
+    if (getIt<RetailerInfoEntity>().stores != null) {
+      for (var element in getIt<RetailerInfoEntity>().stores!) {
+        element.isDistributorCheck = false;
+        distributors.add(element);
+      }
     }
 
     if (filtersMapForApiRequest.isEmpty) {
@@ -335,6 +332,14 @@ class SearchProductCubit extends Cubit<SearchProductState> {
         "${FilterType.searchBy.name}#${FilterType.OnlyPriority.name}": false
       });
 
+      filtersMapForApiRequest.addAll({
+        "${FilterType.stock.name}#${FilterType.IncludeOutOfStockProducts.name}":
+            true
+      });
+
+      filtersMapForApiRequest.addAll(
+          {"${FilterType.stock.name}#${FilterType.OnlyInStock.name}": false});
+
       filtersMapForApiRequest.addAll(
           {"${FilterType.scheme.name}#${FilterType.AllScheme.name}": true});
 
@@ -342,19 +347,14 @@ class SearchProductCubit extends Cubit<SearchProductState> {
         "${FilterType.scheme.name}#${FilterType.OnlySchemeProduct.name}": false
       });
 
-      filtersMapForApiRequest.addAll({
-        "${FilterType.distributors.name}#${FilterType.AllDistributors.name}":
-            true
-      });
+      filtersMapForApiRequest.addAll(
+          {"${FilterType.expiry.name}#${FilterType.AllExpiry.name}": true});
+
+      filtersMapForApiRequest.addAll(
+          {"${FilterType.expiry.name}#${FilterType.HiddenExpiry.name}": false});
 
       filtersMapForApiRequest.addAll({
-        "${FilterType.distributors.name}#${FilterType.MappedDistributors.name}":
-            false
-      });
-
-      filtersMapForApiRequest.addAll({
-        "${FilterType.distributors.name}#${FilterType.NonMappedDistributors.name}":
-            false
+        "${FilterType.expiry.name}#${FilterType.VisibleExpiry.name}": false
       });
     }
   }
@@ -388,38 +388,12 @@ class SearchProductCubit extends Cubit<SearchProductState> {
     }
   }
 
-  void addCheckBoxFilter(int companyId, bool isChecked) {
-    if (state is CompanyFiltersDataState) {
-      CompanyFiltersDataState currentState = (state as CompanyFiltersDataState);
-      List<Company> allCompanies =
-          currentState.moleculeAndCompanyModel.company ?? List.empty();
-      if (companyId == -101) {
-        // when All is selected check all companies
-        for (int companyIndex = 0;
-            companyIndex < allCompanies.length;
-            companyIndex++) {
-          allCompanies[companyIndex] =
-              allCompanies[companyIndex].copyWith(isChecked: isChecked);
-        }
-        checkedCompaniesList.clear();
-        checkedCompaniesList.addAll(allCompanies);
-        emit(CompanyFiltersDataState(
-            MoleculeAndCompanyModel().copyWith(company: allCompanies)));
-      } else {
-        // Update single checkbox
-        int index = allCompanies
-            .indexWhere((element) => element.companyId == companyId);
-        allCompanies[index] =
-            allCompanies[index].copyWith(isChecked: isChecked);
-        // Remove checkbox of All if one of the value is unchecked
-        allCompanies[0] = allCompanies[0].copyWith(
-            isChecked: allCompanies.skip(1).all((t) => t.isChecked ?? false));
-        checkedCompaniesList.clear();
-        checkedCompaniesList.addAll(allCompanies);
-        emit(CompanyFiltersDataState(
-            MoleculeAndCompanyModel().copyWith(company: allCompanies)));
-      }
-    }
+  void addCheckBoxFilter(int storeId, bool isChecked) {
+    LoginResponseStores storeData =
+        distributors.firstWhere((product) => product.storeId == storeId);
+    storeData.isDistributorCheck = isChecked;
+    distributors[distributors.indexWhere(
+        (element) => element.storeId == storeData.storeId)] = storeData;
   }
 
   void updateDialogProductData(SearchProductListModel data) {
@@ -434,8 +408,10 @@ class SearchProductCubit extends Cubit<SearchProductState> {
 
   void refreshProductList() {
     _filterSearchProductUseCase.updateProductLists(searchProductList);
+
     final filteredList = _filterSearchProductUseCase.filterList(
         filtersMapForApiRequest, distributors);
+
     filteredList.fold(
         (l) => emit(SearchProductErrorMessageState(l.getFriendlyMessage())),
         (r) => emit(SearchProductFilteredDataState(r[0], r[1])));

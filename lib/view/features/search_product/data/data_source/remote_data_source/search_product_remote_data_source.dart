@@ -38,41 +38,46 @@ class SearchProductRemoteDataSource {
           message: r.data.message,
           statusCode: r.data.statusCode,
           productList: r.data.data
-              .map((e) => SearchProductListModel(
-                  companyName: e.companyName ?? '',
-                  slot: e.storeId,
-                  id: e.storeId,
-                  mrp: e.mrp,
-                  cashbackMessage: e.cashbackMessage ?? '',
-                  ptr: e.ptr,
-                  packing: e.packing,
-                  displayProductCode: e.displayProductCode,
-                  productName: e.productName,
-                  qty: e.stock,
-                  company: e.company,
-                  storeName: e.storeName,
-                  stock: e.stock,
-                  isMapped: e.isMapped,
-                  productFullName: e.productFullName ?? '',
-                  expiryDate: e.expiryDate ?? '',
-                  margin: e.margin != 'NA' ? double.parse(e.margin) : 0,
-                  storeProductGST: e.storeProductGst,
-                  prProductName: e.prProductName,
-                  scheme: e.scheme,
-                  productCode: e.productCode,
-                  storeId: e.storeId,
-                  hiddenPtr: e.hiddenPtr,
-                  netRate: e.netRate != 'NA' ? double.parse(e.netRate) : 0,
-                  productLock: e.productLock,
-                  stepUpValue: e.stepUpValue,
-                  rStockVisibility: e.rStockVisibility,
-                  allowMaxQty: e.allowMaxQty,
-                  allowMinQty: e.allowMinQty,
-                  isPartyLocked:
-                      e.isPartyLocked != 'NA' ? int.parse(e.isPartyLocked) : 0,
-                  isPartyLockedSoonByDist: e.isPartyLockedSoonByDist != 'NA'
-                      ? int.parse(e.isPartyLockedSoonByDist)
-                      : 0))
+              .map(
+                (e) => SearchProductListModel(
+                    companyName: e.companyName ?? '',
+                    slot: e.storeId,
+                    id: e.storeId,
+                    mrp: e.mrp,
+                    cashbackMessage: e.cashbackMessage ?? '',
+                    ptr: e.ptr,
+                    packing: e.packing,
+                    displayProductCode: e.displayProductCode,
+                    productName: e.productName,
+                    qty: e.stock,
+                    company: e.company,
+                    storeName: e.storeName,
+                    stock: e.stock,
+                    isMapped: e.isMapped,
+                    productFullName: e.productFullName ?? '',
+                    expiryDate: e.expiryDate ?? '',
+                    margin: e.margin != 'NA' ? double.parse(e.margin) : 0,
+                    storeProductGST: e.storeProductGst,
+                    prProductName: e.prProductName,
+                    scheme: e.scheme,
+                    productCode: e.productCode,
+                    storeId: e.storeId,
+                    hiddenPtr: e.hiddenPtr,
+                    netRate: e.netRate != 'NA' ? double.parse(e.netRate) : 0,
+                    productLock: e.productLock,
+                    stepUpValue: e.stepUpValue,
+                    rStockVisibility: e.rStockVisibility,
+                    allowMaxQty: e.allowMaxQty,
+                    allowMinQty: e.allowMinQty,
+                    storePriority: e.storePriority,
+                    isShowNonMappedOrderStock: e.isShowNonMappedOrderStock,
+                    isPartyLocked: e.isPartyLocked != 'NA'
+                        ? int.parse(e.isPartyLocked)
+                        : 0,
+                    isPartyLockedSoonByDist: e.isPartyLockedSoonByDist != 'NA'
+                        ? int.parse(e.isPartyLockedSoonByDist)
+                        : 0),
+              )
               .toList()));
     });
   }
@@ -125,6 +130,8 @@ class SearchProductRemoteDataSource {
                   rStockVisibility: e.rStockVisibility,
                   allowMaxQty: e.allowMaxQty,
                   allowMinQty: e.allowMinQty,
+                  storePriority: e.storePriority,
+                  isShowNonMappedOrderStock: e.isShowNonMappedOrderStock,
                   isPartyLocked:
                       e.isPartyLocked != 'NA' ? int.parse(e.isPartyLocked) : 0,
                   isPartyLockedSoonByDist: e.isPartyLockedSoonByDist != 'NA'
@@ -182,6 +189,8 @@ class SearchProductRemoteDataSource {
                   rStockVisibility: e.rStockVisibility,
                   allowMaxQty: e.allowMaxQty,
                   allowMinQty: e.allowMinQty,
+                  storePriority: e.storePriority,
+                  isShowNonMappedOrderStock: e.isShowNonMappedOrderStock,
                   isPartyLocked:
                       e.isPartyLocked != 'NA' ? int.parse(e.isPartyLocked) : 0,
                   isPartyLockedSoonByDist: e.isPartyLockedSoonByDist != 'NA'

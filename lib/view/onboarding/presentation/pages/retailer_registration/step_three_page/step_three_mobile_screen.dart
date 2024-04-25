@@ -412,6 +412,13 @@ class _StepThreeMobileScreenState extends State<StepThreeMobileScreen> {
       showProcessingRequestDialog(context);
     } else {
       CommonDialogs.closeCommonDialog(context: context);
+      if (cubit.apiErrorMessage.isNotEmpty && state.apiError == true) {
+        showFailureDialog(context, title: cubit.apiErrorMessage, subtitle: "",
+            closeClick: () {
+          cubit.clearApiErrorMessage();
+          CommonDialogs.closeCommonDialog(context: context);
+        });
+      }
     }
     if (state.registrationStatus) {
       /// Navigate to OTP Screen

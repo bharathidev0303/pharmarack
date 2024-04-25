@@ -116,7 +116,6 @@ class _ChangeDistributorDialogCardState
           OfferText(
             name: state.offerName ?? '',
             value: state.offerValue ?? '',
-            offersCount: 0,
           ),
           const SizedBox(height: 8),
           DistributorsDropdownMenu(

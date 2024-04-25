@@ -31,11 +31,11 @@ class SearchProductListModel {
   int? isMapped;
   double? margin;
   double? storeProductGST;
+  String? displayProductCode;
   String? expiryDate;
   String? scheme;
   int? storeId;
   String? productCode;
-  String? displayProductCode;
   double? hiddenPtr;
   double? netRate;
   bool? productLock;
@@ -43,7 +43,7 @@ class SearchProductListModel {
   int? allowMinQty;
   int? allowMaxQty;
   bool? isAlreadyAdded;
-  int? existingQty;
+  int? existingQty = 0;
   int? rStockVisibility;
   int? isPartyLocked;
   int? isPartyLockedSoonByDist;
@@ -65,6 +65,7 @@ class SearchProductListModel {
       this.stock,
       this.isMapped,
       this.productFullName,
+      this.displayProductCode,
       this.margin,
       this.storeProductGST,
       this.expiryDate,
@@ -72,7 +73,6 @@ class SearchProductListModel {
       this.scheme,
       this.storeId,
       this.productCode,
-      this.displayProductCode,
       this.hiddenPtr,
       this.netRate,
       this.productLock,
@@ -82,7 +82,6 @@ class SearchProductListModel {
       this.allowMinQty,
       this.isPartyLocked,
       this.isPartyLockedSoonByDist,
-      this.existingQty,
       this.storePriority,
       this.isShowNonMappedOrderStock});
 

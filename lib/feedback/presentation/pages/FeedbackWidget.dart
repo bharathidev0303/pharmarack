@@ -48,7 +48,8 @@ class _FeedbackFormState extends State<FeedBackWidget> {
     FeedbackOption('Query/Complaint', ['Pharmarack']),
     FeedbackOption('Stock/Product',
         ['Pharmarack', 'Distributor', 'Both (Pharmarack / Distributor)']),
-    FeedbackOption('Suggestion', ['Pharmarack']),
+    FeedbackOption('Suggestion',
+        ['Pharmarack', 'Distributor', 'Both (Pharmarack / Distributor)']),
   ];
 
   @override
@@ -68,7 +69,7 @@ class _FeedbackFormState extends State<FeedBackWidget> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
-      value: SystemUiOverlayStyle(
+      value: const SystemUiOverlayStyle(
         statusBarColor: AppColors.appBarColor,
         statusBarIconBrightness: Brightness.dark,
         systemNavigationBarColor: Colors.black,
@@ -285,7 +286,7 @@ class _FeedbackFormState extends State<FeedBackWidget> {
                                   ),
                                   fillColor: AppColors.searchBarBackGroundColor,
                                 ),
-                                maxLines: null, // Allow unlimited lines
+                                maxLines: 3, // Allow unlimited lines
                                 onChanged: (String value) {
                                   setState(() {
                                     suggestionNote = value;

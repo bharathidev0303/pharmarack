@@ -55,6 +55,7 @@ class RetailerRegistrationStepThreeCubit
     _retailerRegistrationUserCase.setStepThreeRegistrationData(reqMap);
   }
 
+  String apiErrorMessage = "";
   Future<void> registerUser() async {
     emit(state.copyWith(isLoading: true));
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -73,14 +74,23 @@ class RetailerRegistrationStepThreeCubit
                 r.data!));
 
         response.fold((l) {
-          emit(state.copyWith(
-            isLoading: false,
-          ));
+          apiErrorMessage = "Unable to register contact support";
+          if (l.error.code == 406) {
+            if (l.error.message == "username/mobilenumber already present" ||
+                l.error.message == "DrugLicenseNumber already exist") {
+              apiErrorMessage = l.error.message;
+              emit(state.copyWith(isLoading: false, apiError: true));
+            } else {
+              emit(state.copyWith(isLoading: false, apiError: true));
+            }
+          } else {
+            emit(state.copyWith(isLoading: false, apiError: true));
+          }
         }, (r) {
           if (r.version == 1) {
-            emit(state.copyWith(versionOneUser: true));
+            emit(state.copyWith(versionOneUser: true, apiError: false));
           } else {
-            emit(state.copyWith(moveToHomePage: true));
+            emit(state.copyWith(moveToHomePage: true, apiError: false));
             if (r.mobileNumber!.isNotEmpty) {
               requestLogin();
             }
@@ -303,6 +313,14 @@ class RetailerRegistrationStepThreeCubit
     emit(state.copyWith(
       whatsappConsentCheckbox: value,
     ));
+  }
+
+  clearApiErrorMessage() {
+    if (apiErrorMessage.isNotEmpty) {
+      apiErrorMessage = "";
+      emit(state.copyWith(apiError: false));
+    }
+    print("skjkskjls ${apiErrorMessage}");
   }
 
   String? dlNumberErrorText;

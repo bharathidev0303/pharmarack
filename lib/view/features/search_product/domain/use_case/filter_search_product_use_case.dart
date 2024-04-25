@@ -50,6 +50,7 @@ class FilterSearchProductUseCase {
           }
         }
       }
+
       if (filtersMapForApiRequest.isNotEmpty) {
         List<SearchProductListModel> filterMappedDistributors = [];
         List<SearchProductListModel> filterUnMappedDistributors = [];
@@ -79,11 +80,13 @@ class FilterSearchProductUseCase {
           filterMappedDistributors.addAll(mappedDistributors);
           filterUnMappedDistributors.addAll(unMappedDistributors);
         }
+
         if (onlyPriority) {
           mappedDistributors
               .sort((a, b) => a.storePriority!.compareTo(b.storePriority!));
           unMappedDistributors
               .sort((a, b) => a.storePriority!.compareTo(b.storePriority!));
+
           filterMappedDistributors.addAll(mappedDistributors);
           filterUnMappedDistributors.addAll(unMappedDistributors);
         }
@@ -103,13 +106,14 @@ class FilterSearchProductUseCase {
           temp.clear();
 
           for (var element in filterUnMappedDistributors) {
-            if (element.stock != null && element.stock! > 0) {
+            if (element.stock != null &&
+                element.stock! > 0 &&
+                element.rStockVisibility == 0) {
               temp.add(element);
             }
           }
           filterUnMappedDistributors.clear();
-          filterUnMappedDistributors
-              .addAll(temp as Iterable<SearchProductListModel>);
+          filterUnMappedDistributors.addAll(temp);
           temp.clear();
         }
 

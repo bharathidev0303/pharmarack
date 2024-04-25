@@ -9,7 +9,6 @@ import 'package:retrofit/retrofit.dart';
 
 Future<Either<NetworkError, T>> safeApiCall<T>(Future<T> apiCall) async {
   var network = await const InternetConnectionUtils().checkconnection();
-  print("sdsnzbdvfhsgvd");
   if (!network) {
     getIt<ConnectivityCubit>().updateBottomNavigationIndex(2);
   }

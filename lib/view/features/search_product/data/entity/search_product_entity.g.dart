@@ -102,6 +102,7 @@ SearchProductListEntity _$SearchProductListEntityFromJson(
       uniformProductCode: json['UniformProductCode'] as String? ?? '',
       therapyName: json['TherapyName'] as String? ?? '',
       regionName: json['RegionName'] as String? ?? '',
+      storePriority: json['StorePriority'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$SearchProductListEntityToJson(
@@ -180,4 +181,5 @@ Map<String, dynamic> _$SearchProductListEntityToJson(
       'UniformProductCode': instance.uniformProductCode,
       'TherapyName': instance.therapyName,
       'RegionName': instance.regionName,
+      'StorePriority': instance.storePriority,
     };
